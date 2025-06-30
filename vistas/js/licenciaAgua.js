@@ -94,6 +94,7 @@ class LicenciaAgua {
     localStorage.setItem("idContribuyenteC", id);
     window.location = "index.php?ruta=listapredioagua&id=" + id;
   }
+
   MostrarLicencia() {
     const cuerpoTabla = document.getElementById("listaLicenciasAgua");
     const filas = cuerpoTabla.getElementsByTagName("tr");
@@ -129,9 +130,15 @@ class LicenciaAgua {
         	<td class="text-center">${value. 	Fecha_Expedicion }</td>
         <td class="text-center">
 						<img src="./vistas/img/iconos/deuda.png" class="t-icon-tbl-imprimir_agua btnEstadoCuentaAgua" idLicenciaAgua="${value.Id_Licencia_Agua}"  title="Estado Cuenta Agua">
+           
             <img src="./vistas/img/iconos/pagos_.png" class="t-icon-tbl-imprimir_agua btnEstadoCuentaAgua_pagados" idLicenciaAgua="${value.Id_Licencia_Agua}"  title="Estado Cuenta Agua Pagados">
             <img src="./vistas/img/iconos/editar.png" class="t-icon-tbl-imprimir_agua btnEditarLic" idLicencia="${value.Id_Licencia_Agua}" title="Editar Licencia">
+            
             <img src="./vistas/img/iconos/pdf.png" class="t-icon-tbl-imprimir_agua btnImprimirLic" idLicencia="${value.Id_Licencia_Agua}" title="Imprimir Licencia">
+          
+            <img src="./vistas/img/iconos/mes.png" class="t-icon-tbl-imprimir_agua btnEstadoCuentaAgua_meses" idLicenciaAgua="${value.Id_Licencia_Agua}"  title="Calcular por mes">
+           
+          
             <img src="./vistas/img/iconos/delete.png" class="t-icon-tbl-imprimir_agua btnEliminarLic" idLicencia="${value.Id_Licencia_Agua}" title="Eliminar Licencia">
                
 				</td>`;

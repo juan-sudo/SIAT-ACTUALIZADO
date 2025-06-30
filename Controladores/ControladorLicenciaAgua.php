@@ -40,6 +40,40 @@ class ControladorLicenciaAgua
     return $respuesta;
   }
 
+  //POR MESES
+
+  
+    public static function ctrCacularMeses($valor)
+    {
+     
+      $respuesta = ModeloLicenciAgua::mdlGuardarMeses($valor);
+
+       if ($respuesta == 'ok') {
+            echo json_encode([
+                "status" => "ok",
+                "message" => '<div class="alert success">
+				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+				<span aria-hidden="true" class="letra">×</span>
+				</button><p class="inner"><strong class="letra">Exito!</strong> 
+				<span class="letra">Se calculo los meses de forma Correcta</span></p></div>'
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "error",
+                "message" => '<div class="alert warning">
+				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+				<span aria-hidden="true" class="letra">×</span>
+				</button><p class="inner"><strong class="letra">Exito!</strong> 
+				<span class="letra">Algo salio mal comunicate con el Administrador</span></p></div>'
+            ]);
+        }
+    
+     // return $respuesta;
+
+
+    }
+
+
   
     // BARRA DE PROGRESO AGUA
 

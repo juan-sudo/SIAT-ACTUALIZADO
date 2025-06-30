@@ -1230,6 +1230,34 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 		return  $stmt->fetchall();
 		
 	}
+
+
+    //MESES
+   public static function mdlEstadoCuenta_agua_meses($datos)
+{
+    $id = (int) $datos['idlicenciaagua']; // Asegúrate de que sea un número entero
+    $anio = (int) $datos['anio']; // Asegúrate de que sea un número entero
+
+    $pdo = Conexion::conectar();
+
+    // Preparar la consulta
+    $stmt = $pdo->prepare("SELECT * FROM estado_cuenta_agua   
+                           WHERE Id_Licencia_Agua = :idseleccionado AND Estado = 'D' AND Anio = :anio");
+
+    // Enlazar los parámetros
+    $stmt->bindValue(':idseleccionado', $id, PDO::PARAM_INT);
+    $stmt->bindValue(':anio', $anio, PDO::PARAM_INT);
+
+    // Ejecutar la consulta
+    $stmt->execute();
+
+    // Retornar los resultados
+    return $stmt->fetchAll();
+}
+
+
+    
+    
 	 // Muestra el estado pagados de Agua
 	 public static function mdlEstadoCuenta_agua_pagados($idlicenciaagua)
 	 {

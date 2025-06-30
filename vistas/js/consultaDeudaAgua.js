@@ -11,6 +11,8 @@ class ConsultaDeudaAguaClass {
         this.totalTIM = 0;
         this.totalTotal = 0;
         this.idsSeleccionados = [];
+
+        this.anio=null;
       
     }
     
@@ -71,6 +73,133 @@ class ConsultaDeudaAguaClass {
       },
     });
   }
+
+
+  //MESES
+
+  //   MostrarEstadoCuentaAguaMeses(idlicencia, anio){
+  //   //let self=this;
+
+  //   var self = {}; // Inicializa el objeto que contendrá idsSeleccionados
+  //   self.idsSeleccionados = []; // Inicializa el arreglo de ids seleccionados
+
+  //   self.idguardado=idlicencia;
+  //   self.idAno=anio;
+
+    
+  //   // Función para manejar el clic en las filas
+  //   self.manejarClicFila_agua_meses = function(fila) {
+
+  //       const filaId = fila.attr("id");
+  //       const estadoS = fila.find("td:eq(9)").text(); // Obtiene el estado de la fila
+
+  //       if (estadoS === "1") {
+  //           // Deselecciona la fila
+  //           fila.find("td:eq(9)").text(""); // Vacía el valor de la celda
+  //           fila.css("background-color", ""); // Quita el color de fondo
+
+  //           // Elimina el valor del id de la fila del array de seleccionados
+  //           const index = self.idsSeleccionados.indexOf(filaId);
+  //           if (index > -1) {
+  //               self.idsSeleccionados.splice(index, 1); // Elimina el id
+  //           }
+  //       } else {
+  //           // Selecciona la fila
+  //           fila.find("td:eq(9)").text("1"); // Establece el valor de la celda a "1"
+  //           fila.css("background-color", "rgb(255, 248, 167)"); // Cambia el color de fondo
+
+  //           // Agrega el valor del id de la fila al array si no existe
+  //           if (!self.idsSeleccionados.includes(filaId)) {
+  //               self.idsSeleccionados.push(filaId); // Añade el id al array
+  //           }
+  //       }
+
+  //       // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas o deseleccionadas
+  //       console.log("Ids seleccionados _AGUA:", self.idsSeleccionados);
+
+  //   };
+
+   
+  //   // Evento de clic en el botón "Recalcular meses"
+  //   $('#calcular_agua_meses').on('click', function() {
+  //       var selectedCategory = $('#categoriaLicAdr').val();  // El valor seleccionado del select
+  //       console.log("Categoría seleccionada:", selectedCategory);
+  //       // Acceso correcto al array de idsSeleccionados
+  //       console.log("id seleccionado para guardar", self.idsSeleccionados);
+  //       if (selectedCategory === "") {
+  //           console.log("No se ha seleccionado ninguna categoría.");
+  //       } else {
+  //           console.log("Categoría seleccionada:", selectedCategory);
+  //       }
+
+  //        let datos = new FormData();
+
+  //         datos.append("idCategoria",selectedCategory);
+  //         datos.append("idSelecionado",self.idsSeleccionados);
+  //         datos.append("registrar_meses","registrar_meses");
+        
+  //         console.log(datos);
+  //         $.ajax({
+  //           url: "ajax/licenciaagua.ajax.php",
+  //           method: "POST",
+  //           data: datos,
+  //           cache: false,
+  //           contentType: false,
+  //           processData: false,
+  //          success: function (rutaArchivo) {
+
+  //               console.log("Respuesta recibida:", rutaArchivo); // Ver respuesta completa
+  //             if (rutaArchivo.trim() === "ok") {
+  //                 console.log("Respuesta OK: Recargando la interfaz.");
+  //                self.MostrarEstadoCuentaAguaMeses(self.idguardado, self.idAno);
+
+  //             } else {
+  //                 console.log("La respuesta no es OK. No se recargará la interfaz.");
+  //             }
+  //           },
+  //           error: function() {
+  //               console.log("Error al enviar los datos.");
+  //           }
+  //         });
+        
+
+
+  //   });
+
+  //   let datos = new FormData();
+  //   datos.append("idlicencia",idlicencia);
+  //   datos.append("anio",anio);
+  //    datos.append("idlicenciaagua_estadocuenta_meses","idlicenciaagua_estadocuenta_meses");
+
+
+  //   $.ajax({
+  //     type: "POST",
+  //     url: "ajax/licenciaagua.ajax.php",
+  //     method: "POST",
+  //     data: datos,
+  //     cache: false,
+  //     contentType: false,
+  //     processData: false,
+  //     success: function (respuesta) {
+  //       $("#listaLicenciasAgua_estadocuenta_meses").html(respuesta);
+       
+  //           // Función para manejar el clic en las filas de la tabla y sumar los valores
+  //           $("#primeraTabla_agua_m tbody tr").on("click", function () {
+  //             self.manejarClicFila_agua_meses($(this));
+
+
+  //           });
+           
+  //     },
+  //   });
+
+  // }
+
+
+
+
+
+
   MostrarEstadoCuentaAgua(idlicencia){
     let self=this;
     $.ajax({
@@ -147,6 +276,32 @@ class ConsultaDeudaAguaClass {
   }
  
   
+
+
+
+//SELECIONAR MEESES
+  
+// manejarClicFila_agua_meses(fila) {
+//     const filaId = fila.attr("id");
+//         fila.find("td:eq(9)").text("1"); // Aquí estableces el valor a "1"
+//         fila.css("background-color", "rgb(255, 248, 167)");   
+//         // Agregar el valor del id de la fila al array (si no existe)
+//         if (!this.idsSeleccionados.includes(filaId)) {
+//             this.idsSeleccionados.push(filaId);
+//         }
+
+        
+//     // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas
+//     console.log("Ids seleccionados _AGUA :", this.idsSeleccionados);
+// }
+
+
+
+
+
+
+
+//CAPTURAR EL VALOR SELCIOANDO
 
 manejarClicFila_agua(fila) {
     const estadoS = fila.find("td:eq(9)").text();
@@ -490,6 +645,22 @@ manejarClicFila_agua_pagados(fila) {
     $("#segundaTabla_agua tbody th:eq(4)").text("");
     $("#segundaTabla_agua tbody th:eq(5)").text("");
   }
+
+   reniciar_valor_meses(){
+    this.totalImporte=0;
+    this.totalGasto=0;
+    this.totalSubtotal=0;
+    this.totalTIM=0;
+    this.totalTotal=0;
+   
+    $("#segundaTabla_agua tbody th:eq(1)").text("");
+    $("#segundaTabla_agua tbody th:eq(2)").text("");
+    $("#segundaTabla_agua tbody th:eq(3)").text("");
+    $("#segundaTabla_agua tbody th:eq(4)").text("");
+    $("#segundaTabla_agua tbody th:eq(5)").text("");
+  }
+
+
 }
 
   const consulta_deuda_agua_lista = new ConsultaDeudaAguaClass();
@@ -525,6 +696,8 @@ $(document).on("click", "#tablalistaLicences tbody tr", function() {
 
 });
 
+
+
 $(document).on("click", ".btnEstadoCuentaAgua", function() {
     consulta_deuda_agua_lista.reniciar_valor();
     consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
@@ -533,6 +706,88 @@ $(document).on("click", ".btnEstadoCuentaAgua", function() {
     $('#ModalEstado_cuentaAgua').modal('show');
     //ajustando el total de la columna 
 });
+
+
+//REACULLAR MESES ESPECIFICOS
+
+$(document).on("click", ".btnEstadoCuentaAgua_meses", function() {
+
+  console.log("llego aqui----");
+    consulta_deuda_agua_lista.reniciar_valor_meses();
+    consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
+
+    console.log("iDlicencia agua:"+consulta_deuda_agua_lista.idlicenciaagua)
+
+ 
+    // Asignar el valor de idlicenciaagua al input
+    $('#id_licienciaAgua').val(consulta_deuda_agua_lista.idlicenciaagua);
+  
+    
+    $('#ModalEstado_cuentaAgua_Meses').modal('show');
+    //ajustando el total de la columna 
+});
+
+
+
+// $(document).ready(function(){
+
+//   $('#selectnumRe').change(function(){
+
+//     consulta_deuda_agua_lista.reniciar_valor_meses();
+
+     
+//     var selectedYear = $(this).val();  // Captura el valor seleccionado
+//     console.log("Año seleccionado: " + selectedYear);  // Muestra el valor en la consola o lo usas como necesites
+//    consulta_deuda_agua_lista.anio=selectedYear;
+
+//      var inputValue = $('#id_licienciaAgua').val();  // Captura el valor del input
+//     console.log("Valor del input id_licienciaAgua: " + inputValue);  // Muestra e
+
+//      consulta_deuda_agua_lista.idlicenciaagua=inputValue;
+
+
+//      consulta_deuda_agua_lista.MostrarEstadoCuentaAguaMeses(consulta_deuda_agua_lista.idlicenciaagua, consulta_deuda_agua_lista.anio);
+
+
+ 
+//   });
+// });
+
+
+//MOSTRAR RESOCLUION SELECIONADO
+
+ $(document).ready(function() {
+    // Cuando se cambie el valor en el select
+    $('#descuendoServicioR').change(function() {
+      // Verificar si el valor seleccionado es "2.00"
+      if ($(this).val() == "2.00") {
+        // Mostrar el div con id "pagoServicioExpedinteReMe"
+        $('#pagoServicioExpedinteReMe').show();
+      } else {
+        // Ocultar el div si se selecciona otro valor
+        $('#pagoServicioExpedinteReMe').hide();
+      }
+    });
+  });
+
+  //MOSTRAR CUADNO ES SINDICATO
+  //MOSTRAR RESOCLUION SELECIONADO
+
+ $(document).ready(function() {
+    // Cuando se cambie el valor en el select
+    $('#descuentoSindicatoR').change(function() {
+      // Verificar si el valor seleccionado es "2.00"
+      if ($(this).val() == "0.50") {
+        // Mostrar el div con id "pagoServicioExpedinteReMe"
+        $('#pagoServicioSidiactoReMe').show();
+      } else {
+        // Ocultar el div si se selecciona otro valor
+        $('#pagoServicioSidiactoReMe').hide();
+      }
+    });
+  });
+
+
 $(document).on("click", ".btnEstadoCuentaAgua_pagados", function() {
   consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
   console.log("iDlicencia agua:"+consulta_deuda_agua_lista.idlicenciaagua)
@@ -593,7 +848,183 @@ $(document).on("click", "#popimprimir_agua_pagados", function () {
 
 
 
+$(document).ready(function() {
+
+    $('#selectnumRe').change(function() {
+
+        aguaListaConsulta.reniciar_valor_meses();
+
+        var selectedYear = $(this).val();  // Captura el valor seleccionado
+        console.log("Año seleccionado: " + selectedYear);  // Muestra el valor en la consola o lo usas como necesites
+        aguaListaConsulta.anio = selectedYear;
+
+        var inputValue = $('#id_licienciaAgua').val();  // Captura el valor del input
+        console.log("Valor del input id_licienciaAgua: " + inputValue);  // Muestra el valor
+
+        aguaListaConsulta.idlicenciaagua = inputValue;
+
+        aguaListaConsulta.MostrarEstadoCuentaAguaMeses(aguaListaConsulta.idlicenciaagua, aguaListaConsulta.anio);
+
+    });
+});
 
 
+$(document).ready(function() {
+    // Utilizar delegación de eventos para el botón dentro del modal
+    $(document).on('click', '#calcular_agua_meses', function() {
+        aguaListaConsulta.recalcularMeses();
+    });
+});
 
-  
+
+var aguaListaConsulta = {
+    idsSeleccionados: [],
+    idguardado: null,
+    idAno: null,
+    idlicenciaagua: null,
+    anio: null,
+
+    // Función para manejar el clic en las filas
+    manejarClicFila_agua_meses: function(fila) {
+        const filaId = fila.attr("id");
+        const estadoS = fila.find("td:eq(9)").text(); // Obtiene el estado de la fila
+
+        if (estadoS === "1") {
+            // Deselecciona la fila
+            fila.find("td:eq(9)").text(""); // Vacía el valor de la celda
+            fila.css("background-color", ""); // Quita el color de fondo
+
+            // Elimina el valor del id de la fila del array de seleccionados
+            const index = this.idsSeleccionados.indexOf(filaId);
+            if (index > -1) {
+                this.idsSeleccionados.splice(index, 1); // Elimina el id
+            }
+        } else {
+            // Selecciona la fila
+            fila.find("td:eq(9)").text("1"); // Establece el valor de la celda a "1"
+            fila.css("background-color", "rgb(255, 248, 167)"); // Cambia el color de fondo
+
+            // Agrega el valor del id de la fila al array si no existe
+            if (!this.idsSeleccionados.includes(filaId)) {
+                this.idsSeleccionados.push(filaId); // Añade el id al array
+            }
+        }
+
+        // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas o deseleccionadas
+        console.log("Ids seleccionados _AGUA:", this.idsSeleccionados);
+    },
+
+    // MostrarEstadoCuentaAguaMeses para mostrar la cuenta de agua
+    MostrarEstadoCuentaAguaMeses: function(idlicencia, anio) {
+        this.idguardado = idlicencia;
+        this.idAno = anio;
+
+        let datos = new FormData();
+        datos.append("idlicencia", idlicencia);
+        datos.append("anio", anio);
+        datos.append("idlicenciaagua_estadocuenta_meses", "idlicenciaagua_estadocuenta_meses");
+
+        $.ajax({
+            type: "POST",
+            url: "ajax/licenciaagua.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(respuesta) {
+                $("#listaLicenciasAgua_estadocuenta_meses").html(respuesta);
+
+                // Función para manejar el clic en las filas de la tabla y sumar los valores
+                $("#primeraTabla_agua_m tbody tr").on("click", function() {
+                    aguaListaConsulta.manejarClicFila_agua_meses($(this));
+                });
+
+            },
+        });
+    },
+
+    // Función para reiniciar valores
+    reniciar_valor_meses: function() {
+        // Aquí puedes reiniciar los valores que necesites, por ejemplo:
+        this.idsSeleccionados = [];  // Limpiar el array de ids seleccionados
+        console.log("Valores reiniciados.");
+    },
+
+
+    // Evento de clic en el botón "Recalcular meses"
+    recalcularMeses: function() {
+        var selectedCategory = $('#categoriaLicAdr').val();  // El valor seleccionado del select
+        console.log("Categoría seleccionada:", selectedCategory);
+
+        console.log("id seleccionado para guardar", this.idsSeleccionados);
+
+        if (selectedCategory === "") {
+            console.log("No se ha seleccionado ninguna categoría.");
+        } else {
+            console.log("Categoría seleccionada:", selectedCategory);
+        }
+
+        let datos = new FormData();
+        datos.append("idCategoria", selectedCategory);
+        datos.append("idSelecionado", this.idsSeleccionados);
+        datos.append("registrar_meses", "registrar_meses");
+
+        console.log(datos);
+        $.ajax({
+            url: "ajax/licenciaagua.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(respuesta) {
+
+                console.log("Respuesta recibida:", respuesta); // Ver respuesta completa
+
+                 // Si la respuesta es una cadena con múltiples JSON concatenados
+                var respuestas = respuesta.split('}{'); // Divide la cadena en partes. Esto debería funcionar si las respuestas son concatenadas correctamente.
+
+                // Si el primer objeto está entre corchetes, lo unimos de nuevo
+                if (respuestas.length > 1) {
+                    respuestas[0] += '}'; // Cierra el primer objeto JSON
+                    respuestas[1] = '{' + respuestas[1]; // Abre el segundo objeto JSON
+                }
+
+                // Intentamos convertir cada respuesta a objeto JSON
+                var respuesta1 = JSON.parse(respuestas[0]);
+
+
+                if (respuesta1.status === "ok") {
+
+                    console.log("Respuesta OK: Recargando la interfaz.");
+
+
+                    aguaListaConsulta.MostrarEstadoCuentaAguaMeses(aguaListaConsulta.idguardado, aguaListaConsulta.idAno);
+               
+                      $("#respuestaAjax_srm").html(respuesta1.message);
+                        $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                            // Obtener los parámetros actuales de la URL
+                        setTimeout(function () {
+                                  $("#respuestaAjax_srm").hide(); //
+                        }, 5000); // 3 segundos
+
+               
+               
+                  } else {
+                     $("#respuestaAjax_srm").html(respuesta1.message);
+                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                  // Obtener los parámetros actuales de la URL
+                            setTimeout(function () {
+                        $("#respuestaAjax_srm").hide(); //
+                            }, 5000); // 3 segundos
+                }
+            },
+            error: function() {
+                console.log("Error al enviar los datos.");
+            }
+        });
+    }
+};

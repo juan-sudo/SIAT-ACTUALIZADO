@@ -93,7 +93,7 @@ $idArray = array_filter($idArray);
           <div id="respuestaAjax_correcto"></div> <!-- eliminar predios -->
 
           <table class="miTabla_propietarios">
-            <caption>Propietarios s</caption>
+            <caption>Propietarios sa</caption>
 
 
             <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 0.3rem; margin-top: 0.3rem;">
@@ -314,6 +314,8 @@ $idArray = array_filter($idArray);
                       <option> 1"</option>
                     </select>
                   </div>
+
+
                   <div class="col-lg-5 col-md-6"><!-- Categoria Licencia-->
                     <label class="cajalabel2">Categoria: </label>
                     <select name="categoriaLicAd" class="form2" id="categoriaLicAd">
@@ -323,6 +325,9 @@ $idArray = array_filter($idArray);
                       <option value="3">C - 4.00</option>
                     </select>
                   </div>
+
+
+
                   <div class="col-lg-5 col-md-6"><!-- Tamaño suministro-->
                     <label class="cajalabel2">Ext. Suministro: </label>
                     <select name="extSuministriAd" class="form2" id="extSuministriAd">
@@ -1007,6 +1012,153 @@ $idArray = array_filter($idArray);
 </div>
 
 <!--  Fin del modal de mostrar el estado de cuenta de agua -->
+
+
+<!-- modal CALCULAR POR MESES-->
+
+<div class="modal in" id="ModalEstado_cuentaAgua_Meses" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <label class="modal-title"> Estado de Cuenta calcular por meses</label>
+      </div>
+
+      <div class="modal-body estado_cuentaAgua_mostrar">
+
+       <div class="row " style="margin-bottom: 10px;">
+
+       <span class="caption_">Selecionar el año</span>
+
+         <input type="text" id="id_licienciaAgua" name="id_licienciaAgua" class="hidden">
+          
+          <select class="busqueda_filtros" id="selectnumRe" name="selectnumRe">
+                  <option value="" selected>Seleccionar</option> <!-- Opción predeterminada -->
+                  <?php
+                  $anio = ControladorPredio::ctrMostrarDataAnio();
+                  foreach ($anio as $data_anio) {
+                    $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                    echo "<option value='" . $data_anio['NomAnio'] . "' $selected>" . $data_anio['NomAnio'] . '</option>';
+                  }
+                  ?>
+          </select>
+
+       </div>
+
+        <div class="row divDetallePredio">
+
+         
+
+
+                  
+          <table class="table-container miprimeratabla_agua_m" id="primeraTabla_agua_m">
+            <thead>
+              <tr>
+                <th class="text-center" style="width:30px;">Cod.</th>
+                <th class="text-center" style="width:50px;">Servicio</th>
+                <th class="text-center" style="width:50px;">Año</th>
+                <th class="text-center" style="width:50px;">Periodo</th>
+                <th class="text-center" style="width:50px;">Importe</th>
+                <th class="text-center" style="width:50px;">Gastos</th>
+                <th class="text-center" style="width:50px;">Subtotal</th>
+                <th class="text-center" style="width:50px;">Desc.</th>
+                <th class="text-center" style="width:50px;">Total</th>
+                <th class="seleccionado text-center" style="width:20px;">S</th>
+              </tr>
+            </thead>
+            <tbody id="listaLicenciasAgua_estadocuenta_meses">
+              <!-- Aqui Aparecen el estado de cuenta Agua-->
+            </tbody>
+          </table>
+        </div>
+
+
+
+        <div class="row">
+        <span class="caption_">Categoria de servicio</span>
+        
+       <div class="row">
+        <div class="col-lg-5 col-md-6">
+          <!-- Categoria Licencia-->
+          <label class="cajalabel2">Categoria: </label>
+          <select name="categoriaLicAdr" class="form2" id="categoriaLicAdr">
+            <option value="" disabled selected>Seleccione</option> <!-- Opción predeterminada sin valor -->
+            <option value="8.00">A - 8.00</option>
+            <option value="6.00">B - 6.00</option>
+            <option value="4.00">C - 4.00</option>
+          </select>
+        </div>
+      </div>
+
+
+
+        </div>
+
+        <div class="row">
+
+        
+
+
+   <div class="row" id="divDescuentoPagoServicioNuevo"  style="display: none;"> <!-- Detalle Licencia-->
+            <span class="caption_">Descuento por sindicato o pago servicio (Opcional)</span>
+            <div class="row">
+
+             <div class="col-lg-3 col-md-3"><!-- Categoria Licencia-->
+                    <label class="cajalabel2">Desc. sindicato: </label>
+                    <select name="descuentoSindicatoR" class="form2" id="descuentoSindicatoR">
+                      <option selected>Seleccione</option>
+                      <option value="0.50">50%</option>
+                      
+                    </select>
+                </div>
+
+                
+                <div class="col-lg-3 col-md-3" id="pagoServicioSidiactoReMe" style="display:none;">
+                    <label class="cajalabel2">Resol. sindicato / otro: </label>
+                    <input  type="text" name="resoSinLicAdR" id="resoSinLicAdR">
+                </div>
+
+
+                <div class="col-lg-3 col-md-3"><!-- Categoria Licencia-->
+                    <label class="cajalabel2">Desc. pago servicio: </label>
+                    <select name="descuendoServicioR" class="form2" id="descuendoServicioR">
+                      <option selected>Seleccione</option>
+                      <option value="2.00">2.00</option>
+                      
+                    </select>
+
+                  </div>
+
+
+              <div class="col-lg-3 col-md-3" id="pagoServicioExpedinteReMe" style="display:none;">
+                <label class="cajalabel2">Numero de expediente: </label>
+                <input type="text" name="resoPagoLicAdR" id="resoPagoLicAdR" >
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <!-- segunda tabla donde muestra el boton imprimir y el total del estado de cuenta-->
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-primary" id="calcular_agua_meses" >Recalcular meses</button>
+     
+     
+     
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Fin CALCULAR POR MESES -->
 
 <!-- modal de estado de cuenta agua pagados-->
 

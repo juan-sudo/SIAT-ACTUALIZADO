@@ -57,6 +57,59 @@ class AjaxLicenciaAgua
       echo json_encode($respuesta);
    
   }
+
+  //REGISTRAR MESES
+
+
+  public function ajaxGuardar_meses_agua()
+{
+    $respuesta = null;
+    
+    // Obtener los datos del POST
+    $idCategoria = $_POST['idCategoria'];
+    $idSelecionado = $_POST['idSelecionado'];
+
+    // Dividir la cadena de idSelecionado en un array de IDs usando explode
+    $ids = explode(",", $idSelecionado);
+
+    // Recorrer cada ID y concatenar con idCategoria
+    foreach ($ids as $id) {
+        // Concatenar idCategoria con el ID actual
+        $resultado = $idCategoria . ', ' . $id;
+
+        // Crear el arreglo con los datos que se enviarán
+        $datos = array(
+            'montoCategoria' => $resultado
+        );
+
+        // Imprimir el resultado de la concatenación para ver si es correcto
+       // var_dump($datos);
+
+        // Llamar al modelo para guardar los datos para cada ID
+        $respuesta = ControladorLicenciaAgua::ctrCacularMeses($datos);
+    }
+
+    // Retornar la respuesta como JSON
+    return $respuesta;
+}
+
+
+  //  public function ajaxGuardar_meses_agua()
+  // {
+  
+  //     $datos = array(
+  //       //'montoCategoria' => $_POST['idCategoria']
+  //        'idSelecionado' => $_POST['idSelecionado']
+
+  //     );
+
+  //     var_dump($datos);
+
+  //   $respuesta = ModeloLicenciAgua::mdlGuardarMeses($datos);
+  //    echo json_encode($respuesta);
+   
+  // }
+  
   //muestra la licencia de agua por predio para el estado de cuenta
   public function ajaxMostrarLicenciaAgua_deuda()
   {   $idcatastro=$_POST['idCatastroAgua_deuda'];
@@ -71,6 +124,24 @@ class AjaxLicenciaAgua
       echo $respuesta;
    
   }
+
+   // CALCULO POR MESES
+  public function ajaxMostrarLicenciaAgua_estado_cuenta_meses()
+  {   
+     $datos = array(
+            'idlicenciaagua'=>$_POST['idlicencia'],
+            'anio'=>$_POST['anio'],
+      );
+  
+      $respuesta = ControladorEstadoCuenta::ctrMostrar_licencia_estadocuenta_meses($datos);
+      echo $respuesta;
+   
+  }
+
+
+
+
+
   //muestra el estado de cuenta pagados de agua por licencia
   public function ajaxMostrarLicenciaAgua_estado_cuenta_pagados()
   {   $idlicenciaagua=$_POST['idlicenciaagua_estadocuenta_pagados'];
@@ -304,6 +375,16 @@ if (isset($_POST["idlicenciaagua_estadocuenta"])) {
   $pisoEdit = new AjaxLicenciaAgua();
   $pisoEdit->ajaxMostrarLicenciaAgua_estado_cuenta();
 }
+
+
+//MESES
+if (isset($_POST["idlicenciaagua_estadocuenta_meses"])) {
+  $pisoEdit = new AjaxLicenciaAgua();
+  $pisoEdit->ajaxMostrarLicenciaAgua_estado_cuenta_meses();
+}
+
+
+
 if (isset($_POST["idlicenciaagua_estadocuenta_pagados"])) {
   $pisoEdit = new AjaxLicenciaAgua();
   $pisoEdit->ajaxMostrarLicenciaAgua_estado_cuenta_pagados();
@@ -321,3 +402,10 @@ if (isset($_POST['guardar_estado_progreso_agua'])) {
   $editar = new AjaxLicenciaAgua();
   $editar->ajaxGuardar_editar_progreso_agua();
 }
+
+// GUARDAR EDITAR BARRA DE PROGRESO AGUA
+if (isset($_POST['registrar_meses'])) {
+  $editar = new AjaxLicenciaAgua();
+  $editar->ajaxGuardar_meses_agua();
+}
+

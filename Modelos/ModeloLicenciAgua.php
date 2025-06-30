@@ -140,6 +140,46 @@ class ModeloLicenciAgua
     }
   }
 
+  //ACTUALIZAR GUARDAR MESES
+
+
+  public static function mdlGuardarMeses($datos)
+  {
+
+     
+      // Conexión a la base de datos
+      $conexion = Conexion::conectar();
+
+      $montoCategoria = $datos['montoCategoria']; // Obtener el valor de montoCategoria
+    $separado = explode(", ", $montoCategoria); // Separar la cadena en un array
+
+    // Ver el resultado de la separación
+    //var_dump($separado);
+
+    // Si quieres asignar las partes a variables individuales, puedes hacerlo
+    $idCategoria = $separado[0];  // La primera parte, que es "8.00"
+    $idSeleccionado = $separado[1];  // La segunda parte, que es "47112"
+  
+      // Preparar la consulta UPDATE para modificar Estado_progreso según Concatenado_id
+      $stmtUpdate = $conexion->prepare("UPDATE estado_cuenta_agua SET Importe = :montoCategoria,Saldo=:Saldo, Total=:Total,Total_Aplicar=:Total_Aplicar  WHERE Id_Estado_Cuenta_Agua = :idSelecionado");
+  
+      // Enlazar los parámetros
+      $stmtUpdate->bindParam(":montoCategoria", $idCategoria);
+      $stmtUpdate->bindParam(":Total", $idCategoria);
+      $stmtUpdate->bindParam(":Total_Aplicar", $idCategoria);
+      $stmtUpdate->bindParam(":Saldo", $idCategoria);
+      $stmtUpdate->bindParam(":idSelecionado", $idSeleccionado);
+  
+      // Ejecutar la consulta
+      if ($stmtUpdate->execute()) {
+          return 'ok';
+      } else {
+          return 'error';
+      }
+  
+      $stmtUpdate = null;
+  }
+
   //EDITAR BARRA DE PROGRESO DE AGUA
   public static function mdlEditarCarpetaProgresoAgua($tabla, $datos)
   {
@@ -176,6 +216,8 @@ class ModeloLicenciAgua
       $stmt = null;
       
     }
+
+
   public static function mdlMostrarLicencias($datos)
   {
         $stmt = Conexion::conectar()->prepare("SELECT l.*,t.Codigo as tipo_via,

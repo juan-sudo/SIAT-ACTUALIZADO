@@ -500,13 +500,13 @@ $(document).ready(function() {
 
                  listarNegocioN(nuevoNegocio.idPredio);  // Aquí puedes pasar el idPredio adecuado para que actualice la tabla
 
-                   $("#respuestaAjax_srm").html(respuesta.message);
-                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+               $("#respuestaAjax_srm").html(respuesta.message);
+               $("#respuestaAjax_srm").show(); // Muestra el mensaje
 
                   // Obtener los parámetros actuales de la URL
-                  setTimeout(function () {
-              $("#respuestaAjax_srm").hide(); //
-                   }, 5000); // 3 segundos
+               setTimeout(function () {
+                         $("#respuestaAjax_srm").hide(); //
+               }, 5000); // 3 segundos
 
                 // Restablecer los campos a cero o vacíos
          

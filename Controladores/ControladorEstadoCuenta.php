@@ -129,6 +129,33 @@ class ControladorEstadoCuenta
 		$respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_Pagado($valor,$condicion);
 		echo $respuesta;
 	}
+
+	//MESES
+
+		public  static function ctrMostrar_licencia_estadocuenta_meses($datos)
+	{
+		$respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_agua_meses($datos);
+            if(count($respuesta)>0){
+                foreach ($respuesta as $fila) {
+                            echo '<tr id='.$fila['Id_Estado_Cuenta_Agua'].'>
+                            <td class="text-center" style="width:30px;">'.$fila['Tipo_Tributo'].'</td>
+                            <td class="text-center" style="width:50px;">Agua</td>
+                            <td class="text-center" style="width:50px;">'.$fila['Anio'].'</td>
+							<td class="text-center" style="width:50px;">'.$fila['Periodo'].'</td>
+							<td class="text-center" style="width:50px;">'.$fila['Importe'].'</td>
+							<td class="text-center" style="width:50px;">'.$fila['Gasto_Emision'].'</td>
+							<td class="text-center" style="width:50px;">'.$fila['Total'].'</td>
+							<td class="text-center" style="width:50px;">'.$fila['Descuento'].'</td>
+							<td class="text-center" style="width:50px;">'.$fila['Total_Aplicar'].'</td>
+							<td class="text-center" style="width:20px;"></td>
+                            </tr>';
+                         }
+                       }
+                   else{
+                         echo '<tr><td class="text-center" colspan="10">No registra Deuda de Agua</td></tr>';		  
+                        }
+	       
+	}
 	public  static function ctrMostrar_licencia_estadocuenta($idlicenciaagua)
 	{
 		$respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_agua($idlicenciaagua);
