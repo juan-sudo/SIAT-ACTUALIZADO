@@ -1251,7 +1251,7 @@ $idArray = array_filter($idArray);
                       </div>
                   </div>
                       
-                         <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
                         
                               <div class="row">
                                   <label for="npersonas_e" class="cajalabel2">¿Cuantas personas viven?</label>
@@ -1265,7 +1265,7 @@ $idArray = array_filter($idArray);
                         </div>
 
 
-                         <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                         <div class="col-12 col-md-5"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
                         
                             
                             <!-- TIENE AGUA DEL MISMO PREDIO -->
@@ -1280,6 +1280,12 @@ $idArray = array_filter($idArray);
 
                                 <input type="radio" id="agua_no" name="tieneAgua" value="no" />
                                 <label for="agua_no" class="cajalabet">No</label>
+
+                                 <input type="radio" id="agua_cla" name="tieneAgua" value="cl" />
+                                <label for="agua_cla" class="cajalabet">Clandestino</label>
+
+
+
                               </div>
                                <div class="row"  id="paga_otro_nombre_row">
                                       <label for="paga_otro_nombre_e" class="cajalabel22">¿Paga a otro nombre?(opcional)</label>

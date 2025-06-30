@@ -1230,7 +1230,13 @@ error: function (xhr, status, error) {
           if (valor ===  "si") {
             $('#paga_otro_nombre_row').show();
 
-          } else {
+          } 
+            else if (valor ===  "cl") {
+            $('#paga_otro_nombre_row').show();
+
+          } 
+        
+          else {
             $('#paga_otro_nombre_row').hide();
             $('#paga_otro_nombre_e').val(''); // <- corrección aquí
 
