@@ -41,7 +41,14 @@ $idlicencia=$_POST['idlicencia'];
 $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 //$propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 $estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia,$id_cuenta);
+
 $fila = ModeloEstadoCuenta::mdlPropietario_licencia_pdf_n($idlicencia);
+
+$notificacion = ModeloEstadoCuenta::mdlGenerar_notificacion_n();
+
+
+
+
 $configuracion = ControladorConfiguracion::ctrConfiguracion();
 // Inicio de la tabla HTML
 $html="<style>
@@ -96,7 +103,7 @@ $html_head='<table align="left" style="padding-left: 20px;" >
                        
                     </tr>
                     <tr>
-                       <th width="320" align="center"><H2> N°  </H2></th>
+                       <th width="320" align="center"><H2> N° '.$notificacion['Numero_Notificacion'].'- '.$notificacion['anio_Actual'].'  </H2></th>
                        <th style="font-size:7px;" align="center">GERENCIA DE DESARROLLO ECONOMICO Y SOCIAL</th> 
                   
                        </tr>
@@ -112,6 +119,12 @@ $html_head='<table align="left" style="padding-left: 20px;" >
                         <th  align="center"> NOTIFICACION N° </th> 
                         
                     </tr>
+                     <tr>
+                        <th width="320" align="center"></th>
+                        <th  align="center"> Fecha de emision '.$notificacion['Fecha_Registro'].' </th> 
+                        
+                    </tr>
+                   
                    
                     
                     
@@ -119,7 +132,7 @@ $html_head='<table align="left" style="padding-left: 20px;" >
 $pdf->writeHTML($html_head);
 
 
-$pdf->Ln(5);
+$pdf->Ln(1);
 
 
 
@@ -250,6 +263,13 @@ $pdf->MultiCell(0, 10, 'EL PAGO SOLO DEBE REALIZARSE EN LA CAJA DE LA MUNICIPALI
 
 $pdf->SetFont('helvetica', '', 10);  // Cambiar el tamaño de letra a 12
 $pdf->MultiCell(0, 10, '!AHORREMOS EL AGUA! REVISA TUS INSTALACIONES SANITARIAS PARA EVITAR FUGAS', 0, 'C');  // Aumentar el valor de 'h' a 10
+
+$pdf->SetFont('helvetica', 'B', 35);  // Cambiar el tamaño de la letra a 40
+$pdf->SetTextColor(255, 0, 0);  // Establecer el color del texto a rojo (RGB: 255, 0, 0)
+$pdf->MultiCell(0, 10, '!FECHA DE CORTE!  '.$notificacion['fecha_corte'].' ', 0, 'C');  // Escribir el texto centrado
+
+
+
 
 // Generar el PDF en memoria
 $pdfData = $pdf->Output('', 'S'); // 'S' para obtener los datos en una variable

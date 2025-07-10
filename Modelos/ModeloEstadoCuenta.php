@@ -1191,43 +1191,68 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 
 
 	public static function mdlPropietario_licencia_pdf_n($idlicencia)
-	{
-		
-		
-			$stmt = Conexion::conectar()->prepare("SELECT  la.*,c.Id_Contribuyente as id_contribuyente,
-			                                               c.Documento as documento,
-														   c.Nombre_Completo as nombre_completo,
-														   la.Numero_Licencia as numero_licencia,
-														   t.Codigo as tipo_via,
-														   c.Direccion_Completo as direccion_completo,
-															nv.Nombre_Via as nombre_calle,
-															m.NumeroManzana as numManzana,
-															cu.Numero_Cuadra as cuadra,
-															z.Nombre_Zona as zona,
-															h.Habilitacion_Urbana as habilitacion,
-                                                            ca.Categoria,
-                                                            ca.Monto,
-                                                             CONCAT(t.Codigo, ' ', nv.Nombre_Via, ' N°', la.Numero_Ubicacion, ' Mz.', m.NumeroManzana, ' Lt.', la.Lote, ' Nlz.', la.Numero_Ubicacion, ' Cdr.', cu.Numero_Cuadra, '-', z.Nombre_Zona, '-', h.Habilitacion_Urbana) AS direccion_predio
-														    from licencia_agua la 
-													inner join contribuyente c on la.Id_Contribuyente=c.Id_Contribuyente
-			    INNER JOIN ubica_via_urbano u ON u.Id_Ubica_Vias_Urbano = la.Id_Ubica_Vias_Urbano  
-                INNER JOIN direccion d ON u.Id_Direccion = d.Id_Direccion 
-                INNER JOIN tipo_via t ON t.Id_Tipo_Via = d.Id_Tipo_Via 
-                INNER JOIN zona z ON u.Id_Zona = z.Id_Zona
-                INNER JOIN manzana m ON u.Id_Manzana = m.Id_Manzana 
-                INNER JOIN cuadra cu ON cu.Id_cuadra = u.Id_Cuadra 
-                INNER JOIN habilitaciones_urbanas h ON h.Id_Habilitacion_Urbana = z.Id_Habilitacion_Urbana 
-                INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via
-                INNER JOIN categoria_agua ca ON ca.Id_Categoria_Agua = la.Id_Categoria_Agua
+{
+    $pdo = Conexion::conectar();
+    
+    // Preparar el SELECT para obtener los detalles de la licencia
+    $stmt = $pdo->prepare("SELECT la.*, c.Id_Contribuyente as id_contribuyente,
+                                               c.Documento as documento,
+                                               c.Nombre_Completo as nombre_completo,
+                                               la.Numero_Licencia as numero_licencia,
+                                               t.Codigo as tipo_via,
+                                               c.Direccion_Completo as direccion_completo,
+                                               nv.Nombre_Via as nombre_calle,
+                                               m.NumeroManzana as numManzana,
+                                               cu.Numero_Cuadra as cuadra,
+                                               z.Nombre_Zona as zona,
+                                               h.Habilitacion_Urbana as habilitacion,
+                                               ca.Categoria,
+                                               ca.Monto,
+                                               CONCAT(t.Codigo, ' ', nv.Nombre_Via, ' N°', la.Numero_Ubicacion, ' Mz.', m.NumeroManzana, ' Lt.', la.Lote, ' Nlz.', la.Numero_Ubicacion, ' Cdr.', cu.Numero_Cuadra, '-', z.Nombre_Zona, '-', h.Habilitacion_Urbana) AS direccion_predio
+                                          FROM licencia_agua la 
+                                          INNER JOIN contribuyente c ON la.Id_Contribuyente = c.Id_Contribuyente
+                                          INNER JOIN ubica_via_urbano u ON u.Id_Ubica_Vias_Urbano = la.Id_Ubica_Vias_Urbano  
+                                          INNER JOIN direccion d ON u.Id_Direccion = d.Id_Direccion 
+                                          INNER JOIN tipo_via t ON t.Id_Tipo_Via = d.Id_Tipo_Via 
+                                          INNER JOIN zona z ON u.Id_Zona = z.Id_Zona
+                                          INNER JOIN manzana m ON u.Id_Manzana = m.Id_Manzana 
+                                          INNER JOIN cuadra cu ON cu.Id_cuadra = u.Id_Cuadra 
+                                          INNER JOIN habilitaciones_urbanas h ON h.Id_Habilitacion_Urbana = z.Id_Habilitacion_Urbana 
+                                          INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via
+                                          INNER JOIN categoria_agua ca ON ca.Id_Categoria_Agua = la.Id_Categoria_Agua
+                                          WHERE la.Id_Licencia_Agua = :idlicencia
+                                          LIMIT 1");
 
-													where la.Id_Licencia_Agua =$idlicencia limit 1");
-			//$stmt->bindParam(":Id_Licencia", $idlicencia);
-			$stmt->execute();
-			// Obtener los resultados y agregarlos al array de resultados
-			return $stmt->fetch();
-		    $stmt = null;
-	}
+    // Ejecutar el SELECT
+    $stmt->bindParam(':idlicencia', $idlicencia, PDO::PARAM_INT);
+    $stmt->execute();
 
+    // Obtener los resultados de la licencia
+    $licencia = $stmt->fetch();
+    
+    // Obtener el último número de notificación
+    $stmt = $pdo->prepare("SELECT MAX(CAST(Numero_Notificacion AS UNSIGNED)) AS ultimo_numero
+                           FROM notificacion_agua");
+    $stmt->execute();
+    $ultimoNumero = $stmt->fetchColumn();
+
+    // Incrementar el número de notificación
+    $nuevoNumero = str_pad($ultimoNumero + 1, 4, '0', STR_PAD_LEFT);
+    $estado='P';
+
+    // Insertar el nuevo registro en la tabla notificacion_agua
+    $stmt = $pdo->prepare("INSERT INTO notificacion_agua (Id_Licencia_Agua, Fecha_Registro, Numero_Notificacion, anio_Actual,fecha_corte,estado)
+                           VALUES (:idlicencia, NOW(), :numero_notificacion,YEAR(NOW()),DATE_ADD(NOW(), INTERVAL 7 DAY) ,:estado )" );
+
+    // Ejecutar la inserción
+    $stmt->bindParam(':idlicencia', $idlicencia, PDO::PARAM_INT);
+    $stmt->bindParam(':numero_notificacion', $nuevoNumero, PDO::PARAM_STR);
+    $stmt->bindParam(':estado', $estado, PDO::PARAM_STR);
+    $stmt->execute();
+
+    // Retornar los detalles de la licencia
+    return $licencia;
+}
 
 
 	public static function mdlPropietario_licencia_pdf($idlicencia)
@@ -1307,6 +1332,21 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
     return $stmt->fetchAll();
 }
 
+public static function mdlGenerar_notificacion_n()
+{
+    $pdo = Conexion::conectar();
+    // Preparar la consulta para obtener el último registro basado en el ID
+    $stmt = $pdo->prepare("SELECT Id_Notificacion_Agua,Id_Licencia_Agua,DATE_FORMAT(Fecha_Registro, '%d-%m-%Y') AS Fecha_Registro,Numero_Notificacion,anio_Actual, DATE_FORMAT(fecha_corte, '%d-%m-%Y') AS fecha_corte FROM notificacion_agua ORDER BY Id_Notificacion_Agua DESC LIMIT 1");
+    
+    // Ejecutar la consulta
+    $stmt->execute();
+
+    // Retornar el último registro
+    return $stmt->fetch();
+}
+
+
+
 
     
     
@@ -1345,38 +1385,34 @@ public static function mdlEstadoCuenta_agua_pdf_consulta($idlicencia, $id_cuenta
 
 	public static function mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia, $id_cuenta)
 	{
-       // var_dump($idlicencia, $id_cuenta); // Para depuración, puedes eliminarlo después
-
-		//$valoresSeparadosPorComa = explode(',', $propietarios);
-		//sort($valoresSeparadosPorComa);
-		//$ids = implode("-", $valoresSeparadosPorComa); //CONVIERTE EN UN STRING 
+   
 		$pdo =  Conexion::conectar();
 		$stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua,Tipo_Tributo,Numero_Recibo,
-    Anio,Id_Contribuyente,
-    SUM(Importe) AS Total_Importe,
-    SUM(Gasto_Emision) AS Total_Gasto_Emision,
-    SUM(Saldo) AS Total_Saldo,
-    SUM(Total) AS Total_Total,
-     SUM(Total_Aplicar) AS Total_Aplicar,
-     DNI,
-     Nombres,
-     Id_Licencia_Agua
-FROM 
-    estado_cuenta_agua
-WHERE 
-   Id_Licencia_Agua =$idlicencia
-    AND Estado = 'D' 
-    AND Id_Estado_Cuenta_Agua IN ($id_cuenta) 
-GROUP BY 
-    Anio
-ORDER BY 
-    Anio");
+            Anio,Id_Contribuyente,
+            SUM(Importe) AS Total_Importe, 
+            SUM(Gasto_Emision) AS Total_Gasto_Emision,
+            SUM(Saldo) AS Total_Saldo,
+            SUM(Total) AS Total_Total,
+            SUM(Total_Aplicar) AS Total_Aplicar,
+            DNI,
+            Nombres,
+            Id_Licencia_Agua
+        FROM 
+            estado_cuenta_agua
+        WHERE 
+        Id_Licencia_Agua =$idlicencia
+            AND Estado = 'D' 
+            AND Id_Estado_Cuenta_Agua IN ($id_cuenta) 
+        GROUP BY 
+            Anio
+        ORDER BY 
+            Anio");
 
-        
-        
-        $stmt->execute();
-		return  $stmt->fetchall();
+                $stmt->execute();
+                return  $stmt->fetchall();
 	}
+
+
 
 
 

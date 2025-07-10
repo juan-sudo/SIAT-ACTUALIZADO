@@ -725,6 +725,45 @@ $idArray = array_filter($idArray);
 </div>
 
 
+<!-- MODAL ELIMINAR NEGOCIO -->
+<div class="modal fade" id="modal_generar_notificacion" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="row">
+
+           <input type="text" id="inputNegocio" class="hidden" >
+          <input type="text" id="inputPredio" class="hidden"  >
+
+
+          <div class="col-xs-12 text-center">
+            <i class="bi bi-exclamation-circle" style="color: red; font-size: 48px;"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <h3>¿Estás seguro de generar notificacion ?</h3>
+              <p><small>Una vez generada la notificación de agua, deberá ser notificada, ya que la fecha de corte es de 7 días.</small></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary" id="confirmarGenerarNotificacion">Sí, Generar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MODAL ELIMINAR NEGOCIO IND -->
+
 
 <!--====== MODAL TRANSFERIR ===========-->
 <div class="modal" id="modalTranferirLicence">
