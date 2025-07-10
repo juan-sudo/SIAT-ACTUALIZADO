@@ -1,5 +1,4 @@
-//PASAR EL VALOR DE CONTRIBUYENTE BUSCADO A PREDIOS POR GET - VALIDADO
-class carpetaEditar {
+class compensacion {
   
     constructor() {
        this.idContribuyente=null;
@@ -95,8 +94,6 @@ class carpetaEditar {
       });
     }
   
-   
-  
     guardar_editar_progreso(datosFormulario){
      
     console.log(datosFormulario);
@@ -128,106 +125,33 @@ class carpetaEditar {
         }
       });
      }
+
   }
   
-  
-  const editarCarpeta_ = new carpetaEditar();
-  
-  
-  // MODAL ABRIL MODAL DE PROGRESO
-  $(document).on("click", "#editar_progreso_Predio", function () {
-  
-    const carpetaContribuyente = document.querySelector('#carpeta_contribuyente').textContent.trim();
-  
-    console.log("valor actual",carpetaContribuyente);
-  
-  
-      // Asignarlo al input
-      $('#codigo_carpeta').val(carpetaContribuyente);
-  
-  
-  
-    editarCarpeta_.editarCarpetaProgreso(carpetaContribuyente); // Llamar al método para cargar los datos del contribuyente y actualizar el modal
-  
-    
-    // Asignar el valor al input oculto dentro del modal
-    //$("#codigo_carpeta").val(codigoCarpeta);
-  
-    // Mostrar el modal
-    $("#modal_editar_barra_progreso").show();
-  });
+  const compensacion_ = new compensacion();
 
+
+  // Cuando se hace clic en una fila de #compensacion_origen
+$(document).on("click", "#compensacion_origen tr", function () {
+  // Quitar selección anterior
+  $("#compensacion_origen tr").removeClass("selected");
   
-  
+  // Agregar clase "selected" a la fila clickeada
+  $(this).addClass("selected");
+
+  console.log("Fila seleccionada:", $(this).attr("id")); // Esto es para verificar
+});
 
 
 
   
-  // Cerrar el modal de progreso
-  $(document).on("click", "#salir_modal_progreso", function () {
-    $("#modal_editar_barra_progreso").hide();
-  });
-  
-  // Actualizar la barra de progreso dinámicamente
-  function actualizarBarraDeProgreso(estado_progreso) {
-    var progreso = 0;
-    var colorBarra = ""; // Inicializar la variable para el color de la barra
-  
-    // Cambiar el valor del progreso y el color de la barra según el estado recibido
-    if (estado_progreso === 'P') {
-      progreso = 30; // Pendiente
-      colorBarra = "#ffc107"; // Amarillo para pendiente
-      $("#campo_observacion").hide();
-      $("#campletado_desde_Campo").hide();
-      $("#campletado_desde_oficina").hide();
-       $("#campo_observacion_p").show();
+$(document).on("click", "#btn-agregar", function () {
+  console.log("Botón Agregar presionado");
 
-    } else if (estado_progreso === 'E') {
-      progreso = 60; // En Progreso
-      colorBarra = "#17a2b8"; // Naranja para en progreso
-      $("#campo_observacion").show();
-      $("#campletado_desde_Campo").hide();
-      $("#campletado_desde_oficina").hide();
-       $("#campo_observacion_p").hide();
-    } else if (estado_progreso === 'C') {
-      progreso = 100; // Completado
-      colorBarra = "#28a745"; // Verde para completado
-
-      $("#campo_observacion").hide();
-     $("#campletado_desde_Campo").show();
-     $("#campletado_desde_oficina").show();
-      $("#campo_observacion_p").hide();
-    }
-  
-    // Actualiza la barra de progreso con el porcentaje y el color
-    $("#progress-bar").css("width", progreso + "%");
-    $("#progress-bar").css("background-color", colorBarra); // Cambiar el color de fondo
-    $("#progress-bar").attr("aria-valuenow", progreso); // Para accesibilidad
-    $("#progress-bar").text(progreso + "%"); // Muestra el porcentaje dentro de la barra
+  const fila = $("#compensacion_origen tr.selected");
+  if (fila.length > 0) {
+    fila.removeClass("selected").appendTo("#compensacion_destino");
+  } else {
+    alert("Selecciona una fila del ORIGEN.");
   }
-  
-  // GUARDAR PROGRESSO EDITADO
-  $('#formCarpetaProgress').on('submit', function(event) {
-    event.preventDefault();
-      // Serializa los datos del formulario
-      var datosFormulario = $(this).serialize(); 
-
-      const isoValue = document.getElementById("mySpan").getAttribute("iso");
-      datosFormulario += '&id_usuario=' + encodeURIComponent(isoValue);
-  
-      console.log(datosFormulario); 
-   
-      datosFormulario += '&guardar_estado_progreso=guardar_estado_progreso'; 
-      editarCarpeta_.guardar_editar_progreso(datosFormulario);
-  
- 
-  })
-  
-  
-  // Cuando el usuario cambia el valor del select, se actualiza la barra
-  $('#estado_progreso').on('change', function () {
-    const nuevoEstado = $(this).val(); // Obtener valor seleccionado
-    actualizarBarraDeProgreso(nuevoEstado); // Actualizar barra
-  });
-  
-  
+});

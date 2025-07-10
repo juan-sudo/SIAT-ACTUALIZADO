@@ -40,8 +40,8 @@ $pdf->AddPage();
 $idlicencia=$_POST['idlicencia'];
 $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 //$propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
-$estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_agua_pdf_consulta($idlicencia,$id_cuenta);
-$fila = ModeloEstadoCuenta::mdlPropietario_licencia_pdf($idlicencia);
+$estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia,$id_cuenta);
+$fila = ModeloEstadoCuenta::mdlPropietario_licencia_pdf_n($idlicencia);
 $configuracion = ControladorConfiguracion::ctrConfiguracion();
 // Inicio de la tabla HTML
 $html="<style>
@@ -74,50 +74,75 @@ div{
 
 
 </style>";
+
+
+
+$html_propietario='<br> ';
+$pdf->Ln(5);
+
+
 $fechaActual = date('d/m/Y');
+$anio_impresion = date('Y');
 $numeroPagina = $pdf->PageNo();
+
 $pdf->SetFont('helvetica', '', 8);
-$html_head ='<table><tr>
-                       <th colspan="4">'.$configuracion['Nombre_Sistema'].'</th>
-                       <th colspan="4">Versión '.$configuracion['Version'].'</th>
-                        <th colspan="2">pagina: '.$numeroPagina.'</th>
+$pdf->SetX(40); 
+$pdf->Image('logo.jpg', 15, 12, 28, 34, 'JPG', 'https://perudigitales.com/', '', true, 150, '', false, false, 0, false, false, false);
+
+
+$html_head='<table align="left" style="padding-left: 20px;" >
+                    <tr>
+                       <th width="430" align="center" ><H1>'.$configuracion['Nombre_Empresa'].'</H1></th>
+                       
                     </tr>
                     <tr>
-                       <th colspan="8">'.$configuracion['Nombre_Empresa'].'</th>
-                        <th colspan="2">Fecha: '.$fechaActual.'</th>
-                    </tr>
+                       <th width="320" align="center"><H2> N°  </H2></th>
+                       <th style="font-size:7px;" align="center">GERENCIA DE DESARROLLO ECONOMICO Y SOCIAL</th> 
+                  
+                       </tr>
+
                     <tr>
-                       <th colspan="8">Subgerencia de Servicios Municipales</th>
-                       <th colspan="2">Usuario: Hancco</th>
+                    <th width="320" align="center"><H3>EVITE CORTE DE SERVICIO DE SUMINISTRO DE AGUA MANTENIMIENTO DE ALCANTARILLADO</H3></th>
+                     <th  align="center" border="0.1"></th> 
+                      
                     </tr>
+
+                    <tr>
+                        <th width="320" align="center"></th>
+                        <th  align="center"> NOTIFICACION N° </th> 
+                        
+                    </tr>
+                   
+                    
+                    
              </table>';
 $pdf->writeHTML($html_head);
-$pdf->MultiCell(0, 5, '', 0, 'L');
-$pdf->SetX(45); 
-$pdf->SetFont('helvetica', '', 10);  // Establecer el tamaño de letra a 8
-$pdf->Cell(120, 0, 'CONSULTA ESTADO DE CUENTA AGUA AL '.$fechaActual, 0, 1, 'C', 0, '', 8);
-$pdf->Ln(3);
-$pdf->SetFont('helvetica', '', 8);
-$html_propietario='<br>';
+
+
+$pdf->Ln(5);
+
+
+
 
 $width = $pdf->getPageWidth();
 $tableWidth = 390; // Ancho de la tabla
 $x = ($width - $tableWidth) / 2;
 $pdf->setX($x);
 $pdf->SetFont('helvetica', '', 7); 
+
 $html_propietario .='<table align="center" >
                      <tr  font-size: 8px;>
                        <td border="0.1" width="40">Codigo</td>
                        <td border="0.1" width="50">Dni</td>
                        <td border="0.1" width="150">Titular de la Licencia</td>
-                       <td border="0.1" width="250">Direccion Licencia</td>
-                       <td border="0.1" width="50">N° Licencia</td>
+                       <td border="0.1" width="300">Direccion Licencia</td>
+                       
                      </tr>';     
 $html_propietario .='<tr>';
 $html_propietario .='<td border="0.2" width="40">'.$fila['id_contribuyente'].'</td>';
 $html_propietario .='<td border="0.1" width="50">'.$fila['documento'].'</td>';
 $html_propietario .='<td border="0.1" width="150">'.$fila['nombre_completo'].'</td>';
-$html_propietario .='<td border="0.1" width="250">'.
+$html_propietario .='<td border="0.1" width="300">'.
     $fila['tipo_via'].
     $fila['nombre_calle'].
     $fila['Numero_Ubicacion'].
@@ -127,12 +152,39 @@ $html_propietario .='<td border="0.1" width="250">'.
     " Cdr " .$fila['cuadra'].
     " " .$fila['habilitacion'].
     "-" .$fila['zona']. '</td>';
-$html_propietario .='<td border="0.1" width="50">'.$fila['numero_licencia'].'</td>';
+
 $html_propietario .='</tr>';
                     
                 
 $html_propietario .='</table>';
+
+$html_propietario .= '<br><br>';  // Dos saltos de línea para una mayor separación
+$html_propietario .='<table align="center" >
+                     <tr  font-size: 8px;>  
+                       <td border="0.1" width= "150">Categoria</td>
+                
+                         <td border="0.1" width="150">Importe mensual</td>
+                         <td border="0.1" width="240">N° Licencia</td>
+                   
+                     </tr>';     
+$html_propietario .='<tr>';
+$html_propietario .='<td border="0.2" width="150">'.$fila['Categoria'].'</td>';
+$html_propietario .='<td border="0.1" width="150">'.$fila['Monto'].'</td>';
+$html_propietario .='<td border="0.1" width="240">'.$fila['numero_licencia'].'</td>';
+
+$html_propietario .='</tr>';
+                    
+                
+$html_propietario .='</table>';
+
+
+
              $pdf->writeHTML($html_propietario, true, false, false, false, '');
+
+
+             
+             
+
              $pdf->Line(15, $pdf->getY(),200, $pdf->getY());
              $pdf->SetFont('helvetica', '', 7.5);  
 $html_estado= '<table align="center">
@@ -141,7 +193,6 @@ $html_estado= '<table align="center">
                 <th><b>Cod.</b></th>
                 <th><b>Tributo</b></th>
                 <th><b>Año</b></th>
-                <th><b>Periodo</b></th>
                 <th><b>Importe</b></th>
                 <th><b>Gasto</b></th>
                 <th><b>Subtotal</b></th>
@@ -159,18 +210,18 @@ $html_estado= '<table align="center">
                 $html .= "<th>Agua</th>";
                 }
                 $html .= "<th>".$row['Anio']."</th>";
-                $html .= "<th>".$row['Periodo']."</th>";
-                $html .= "<th>".$row['Importe']."</th>";
-                $html .= "<th>".$row['Gasto_Emision']."</th>";
-                $html .= "<th>".$row['Saldo']."</th>";
-                $html .= "<th>".$row['Total']."</th>";
+                $html .= "<th>".$row['Total_Importe']."</th>";
+                $html .= "<th>".$row['Total_Gasto_Emision']."</th>";
+                $html .= "<th>".$row['Total_Saldo']."</th>";
+                $html .= "<th>".$row['Total_Total']."</th>";
                 $html .= "</tr>";
             }
-            $html .= "<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>";                    
+            $html .= "<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>";                    
             $html .= "<tr><th></th><th></th><th></th><th></th>";
             $html .= "<th><b>".$_POST['totalImporte']."</b></th>";
             $html .= "<th><b>".$_POST['totalGasto']."</b></th>";
             $html .= "<th><b>".$_POST['totalSubtotal']."</b></th>";
+            
            
             $pdf->writeHTML($html, true, false, false, false, '');
             $pdf->Line(175, $pdf->getY(),100, $pdf->getY());
@@ -178,14 +229,28 @@ $html_estado= '<table align="center">
             $pdf->SetFont('helvetica', 'B', 8);  // Establecer el tamaño de letra a 8
             $pdf->MultiCell(0, 1, '', 0, 'L');
             $pdf->Cell(305, 0, 'T O T A L   D E U D A      S/.   =               '.$_POST['totalTotal'], 0, 1, 'C', 0, '', 0);
-           // $pdf->MultiCell(0, 0, '', 0, 'L');
+           
+            // $pdf->MultiCell(0, 0, '', 0, 'L');
             $pdf->Line(10, $pdf->getY(),200, $pdf->getY());
             $pdf->MultiCell(0, 10, '', 0, 'L');
           
          
-$pdf->SetX(45); 
-$pdf->SetFont('helvetica', '', 8);  // Establecer el tamaño de letra a 8
-$pdf->Cell(120, 0, 'INFORMACION VALIDA SOLO COMO CONSULTA', 0, 1, 'C', 0, '', 8);
+
+
+$pdf->SetFont('helvetica', 'B', 12);  // Cambiar el tamaño de letra a 12
+$pdf->MultiCell(0, 10, '!IMPORTANTE!.', 0, 'C');  // Aumentar el valor de 'h' a 10
+
+
+///holaaaaaaaaaaaaaaa
+
+
+$pdf->SetFont('helvetica', '', 10);  // Cambiar el tamaño de letra a 12
+$pdf->MultiCell(0, 10, 'EL PAGO SOLO DEBE REALIZARSE EN LA CAJA DE LA MUNICIPALIDAD. EN NINGUN CASO AL MENSAJERO.', 0, 'C');  // Aumentar el valor de 'h' a 10
+
+
+$pdf->SetFont('helvetica', '', 10);  // Cambiar el tamaño de letra a 12
+$pdf->MultiCell(0, 10, '!AHORREMOS EL AGUA! REVISA TUS INSTALACIONES SANITARIAS PARA EVITAR FUGAS', 0, 'C');  // Aumentar el valor de 'h' a 10
+
 // Generar el PDF en memoria
 $pdfData = $pdf->Output('', 'S'); // 'S' para obtener los datos en una variable
 //$ids = implode("-", $_POST['propietarios']);//CONVIERTE EN UN STRING

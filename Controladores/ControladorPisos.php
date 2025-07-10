@@ -31,6 +31,33 @@ class ControladorPisos
 			return $respuesta;
 		}
 	}
+
+	//CREAR PISO DE CONSTRUCCION
+
+		public static function ctrCrearPisoCons($datos)
+	{
+		$tabla = 'pisos';
+		$respuesta = ModeloPisos::mdlNuevoPisoCons($tabla, $datos);
+		if ($respuesta == 'ok') {
+			$respuesta = array(
+				"tipo" => "correcto",
+				"mensaje" => '<div class="alert success">
+			    <input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+		        <span aria-hidden="true" class="letra">×</span>
+	            </button><p class="inner"><strong class="letra">Exito!</strong> <span class="letra">Se registro el piso de forma correcta</span></p></div>'
+			);
+			return $respuesta;
+		} else {
+			$respuesta = array(
+				'tipo' => 'advertencia',
+				'mensaje' => '<div class="alert error">
+			    <input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+		        <span aria-hidden="true" class="letra_error">×</span>
+	            </button><p class="inner"><strong class="letra_error">Error!</strong> <span class="letra_error">Algo salio mal comunicate con el Administrador</span></p></div>'
+			);
+			return $respuesta;
+		}
+	}
 	public static function ctrModificarPiso($datos)
 	{
   $respuesta = ModeloPisos::mdlModificarPiso($datos);
@@ -82,9 +109,24 @@ class ControladorPisos
 		$respuesta = ModeloPisos::mdlMostrarTasaDepreciacion($tabla, $datos);
 		return $respuesta;
 	}
+
+	public static function ctrMostrarConstruccion($datos)
+	{
+		
+		$respuesta = ModeloPisos::mdlMostrarConstruccion($datos);
+
+		
+		return $respuesta;
+	}
+
+
+
 	public static function ctrMostrarPisosDelPredio($datos)
 	{
 		$respuesta = ModeloPisos::mdlMostrarPisosDelPredio($datos);
+
+		
+
 		return $respuesta;
 	}
 	public static function ctrTraerpiso($datos)

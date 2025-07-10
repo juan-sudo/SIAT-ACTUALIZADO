@@ -32,6 +32,8 @@ class ControladorPredio
 	public  static function ctrListarPredio($valor,$anio)
 	{
 		$respuesta = ModeloPredio::mdlListarPredio($valor,$anio);
+		
+	
 		echo $respuesta;
 	}
 	public  static function ctrListarPredioAgua($valor, $year)
@@ -44,11 +46,21 @@ class ControladorPredio
 		$respuesta = ModeloPredio::mdlListarPredioAgua_caja($valor, $year);
 		echo $respuesta;
 	}
+
+
 	public static function ctrMostrarData($tabla)
 	{
 		$respuesta = ModeloContribuyente::mdlMostrarData($tabla);
 		return $respuesta;
 	}
+
+
+	public static function ctrMostrarDataGiro()
+	{
+		$respuesta = ModeloContribuyente::mdlMostrarDataGiro();
+		return $respuesta;
+	}
+
 	public static function ctrMostrarDataAnio()
 	{
 		$respuesta = ModeloContribuyente::mdlMostrarDataAnio();

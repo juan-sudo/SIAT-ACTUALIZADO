@@ -2,29 +2,30 @@
 
 namespace Controladores;
 
-use Modelos\ModeloCarpeta;
+use Modelos\ModeloContribuyente;
+use Modelos\ModeloPredioLitigio;
 use Conect\Conexion;
+use Exception;
 use PDO;
 
-class ControladorCarpeta
+class ControladorPredioLitigio
 {
-  // REGISTRO DE CONTRIBUYENTE
 
 
-
-  // MOSTRAR USUARIOS|
-  public static function ctrMostrarCarpeta($item, $valor)
+	 public static function ctrEditarPredioLitigio($valor)
   {
-   
-    $tabla = 'carpeta';
-    $respuesta = ModeloCarpeta::mdlMostrarCarpeta($tabla, $item, $valor);
+    $respuesta = ModeloPredioLitigio::mdlEditarPredioLitigio( $valor);
+
+	
     return $respuesta;
   }
-  // EDITAR USUARIOS|
-  public static function ctrEditarCarpetaProgreso($tabla,$datos)
+
+	  public static function ctrGuardarPredioLitigio($datos)
   {   
-  
-        $respuesta = ModeloCarpeta::mdlEditarCarpetaProgreso($tabla, $datos);
+	
+	
+ 
+        $respuesta = ModeloPredioLitigio::mdlGuardarPredioLitigio($datos);
         
         if ($respuesta == "ok") {
           $respuesta = array(
@@ -46,5 +47,20 @@ class ControladorCarpeta
        return $respuesta;
     
   }
+
+
+
+
+
+	public  static function ctrListarPredioLitigio($valor,$anio)
+	{
+		$respuesta = ModeloPredioLitigio::mdlListarPredioLitigio($valor,$anio);
+		echo $respuesta;
+	}
+
+
+
+	
+	
 
 }

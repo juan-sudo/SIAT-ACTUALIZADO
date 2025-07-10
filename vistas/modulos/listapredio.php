@@ -1,6 +1,7 @@
 <?php
 
 use Controladores\ControladorPredio;
+use Controladores\ControladorPredioLitigio;
 use Controladores\ControladorContribuyente;
 use Controladores\ControladorEstadoCuenta;
 
@@ -86,6 +87,14 @@ $idArray = array_filter($idArray);
         <caption>Propietarios</caption>
     </table>
 
+    
+    <input  id="id_array_php" class="hidden" value="<?php echo implode(',', $idArray); ?>">
+
+   <button class="bi bi-bar-chart btn btn-sm" id="mostrar_litigio" style="background-color: red; color: white;">
+    Predio litigio
+    </button>
+
+
     <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_Predio" >
         Editar progreso
     </button>
@@ -110,8 +119,8 @@ $idArray = array_filter($idArray);
                   //BACKGROUN PARA FALLECIDO
                   $backgroundColor = $fila['Fallecida'] == 1 ? 'background-color: #333b40; color:rgb(224, 232, 236);' : ''; 
 
-                  echo '<tr id="fila" id_contribuyente="' . $fila['Id_Contribuyente'] . '">
-                      <td class="text-center" style="' . $backgroundColor . '" >' . $fila['Id_Contribuyente'] . '</td>
+                  echo '<tr id="fila" id_contribuyente="' . $fila['Id_Contribuyente'] . '" >
+                      <td class="text-center id-contribuyente"  style="' . $backgroundColor . '" >' . $fila['Id_Contribuyente'] . '</td>
                       <td class="text-center" style="' . $backgroundColor . '" >' . $fila['Documento'] . '</td>
                       <td class="text-center" style="' . $backgroundColor . '" >' . $fila['Nombre_Completo'] . '</td>
                       <td class="text-center" style="' . $backgroundColor . '" >' . $fila['Direccion_completo'] . '</td>
@@ -194,7 +203,7 @@ $idArray = array_filter($idArray);
                   </select>
                 </div>
               </div>
-              <br>
+              <br>    
               <table class="table-container" id="tablalistapredios">
                 <thead>
                   <tr>
@@ -304,9 +313,17 @@ $idArray = array_filter($idArray);
             </div>
 
           </div>
+
+
+
           <!--DETALLE PREDIOS - PISOS-->
-          <div class="col-md-5 table-responsive">
-            <div class="row divDetallePredio">
+          <div class="col-md-5 table-responsive" style=" max-height: 70vh; overflow-y: auto;">
+
+          <div class="row" style="border-bottom: 1px solid #b5b3b3";>
+
+                <caption>Construccion base</caption>
+            <!-- <div class="row divDetallePredio"> -->
+            <div class="row divDetalleCostruccion">
               <table class="table-container" id="listaDePisosContainer">
                 <caption>Lista de Pisos</caption>
                 <thead>
@@ -320,15 +337,19 @@ $idArray = array_filter($idArray);
                 </thead>
                 <tbody id="listaPisos">
                 </tbody>
+
                 <!-- Aqui Aparecen los Pisos del Predio-->
               </table>
             </div>
+
             <div class="row">
               <br>
+
               <!-- Boton Casita Registrar Piso-->
               <div class="col-md-1">
                 <img src="./vistas/img/iconos/nuevo_piso.png" class="t-icon-tbl-imprimir" id="btnAbrirRegistrarPiso" data-target="#modalAgregarPiso" title="Nuevo Piso"></img>
               </div>
+
               <!-- Boton Tarjeta Editar-->
               <div class="col-md-1">
                 <img src="./vistas/img/iconos/editar.png" class="t-icon-tbl-imprimir" id="btnAbrirEditarPiso" data-target="#modalEditarPiso" title="Editar Piso"></img>
@@ -338,9 +359,43 @@ $idArray = array_filter($idArray);
                 <img src="./vistas/img/iconos/delete.png" class="t-icon-tbl-imprimir" id="btnEliminarPiso" title="Eliminar Piso"></img> <!-- data-toggle="modal" -->
               </div>
 
+              
+              
             </div>
 
           </div>
+
+          
+          <div class="construccionesid" >
+
+
+           
+
+          </div>
+
+
+
+
+         <div class="col-md-12" style="display: flex; justify-content: center;">
+          <button id="agregarConstruccion" class="btn btn-primary" 
+                  style="display: flex; align-items: center; gap: 10px;">
+            <img src="./vistas/img/iconos/doscasas.png" title="Agregar construcción" width="30" height="30">
+            <span>Agregar Construcción</span>
+          </button>
+        </div>
+
+
+
+          
+
+          </div>
+
+          
+
+
+
+
+
         </div>
       </div>
     </div>
@@ -612,8 +667,27 @@ $idArray = array_filter($idArray);
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="salir_modal_progreso" data-dismiss="modal">Salir</button>
+
+      <div class="row">
+
+        <div class="col-12 col-md-4 text-start" style="text-align: left;">
+           <p> <i class="bi bi-person-check-fill"></i> Ultima modificacion: <span id="usuario_progreso"></span></p>
+
+          
+        </div>
+
+         <div class="col-12 col-md-">
+           <button type="button" class="btn btn-secondary" id="salir_modal_progreso" data-dismiss="modal">Salir</button>
         <button style='float:right;' type="sudmit" class="btn btn-primary ">Guardar cambio</button>
+    
+    
+          
+        </div>
+
+      </div>
+
+     
+       
       </div>
 
       </form>
@@ -623,6 +697,102 @@ $idArray = array_filter($idArray);
 </div>
 
 <!--====== FIN DEL MODAL BARRA PROGRESO =======-->
+
+
+
+<!--====== MODAL EDITAR LITIGIO =======-->
+<div class="modal" id="modal_litigio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <form role="form" id="formPredioLitigio" method="post" enctype="multipart/form-data">
+      
+      <div class="modal-header">
+        <label class="modal-title">PREDIO EN LITIGIO</label>
+      </div>
+      <div class="modal-body">
+
+       <p> Selecione un predio en litigio </p>
+     
+        <section class="container-fluid panel-medio" id="campo_observacion_p" style="width: 100%; ">
+
+
+        <table class="table-container" id="tablalistaprediosL">
+                <thead>
+                  <tr>
+                    <!-- <th class="text-center">N°</th> -->
+                    <th class="text-center" style="width: 3rem;"> </th>
+                    <th class="text-center" style="width: 3rem;">Tipo</th>
+                    <th class="text-center">Ubicacion del Predio</th>
+                    <th class="text-center" style="display:none;">Id.Catastro</th>
+                    <th class="text-center">A.Terreno</th>
+                    <th class="text-center">A.Const.</th>
+                    <th class="text-center">Val.Predio</th>
+             
+                  </tr>
+                </thead>
+                <tbody class='body-predio-j'>
+                  <?php
+                  $listaPredio = ControladorPredioLitigio::ctrListarPredioLitigio($idArray, $anio_propietario);
+                  ?>
+                </tbody>
+              </table>
+     
+        </section>
+
+        <section class="container-fluid panel-medio" id="campo_observacion_p" style="width: 100%; ">
+
+        <div class="row">
+          
+            <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+
+                <p> Observacion </p>
+                <!-- Área de texto que ocupa el 100% del ancho -->
+              
+            </div>
+
+            <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+
+                <!-- Área de texto que ocupa el 100% del ancho -->
+                <textarea style="width: 100%;" id="observacion_predio" name="observacion_predio"></textarea>
+            </div>
+            
+        </div>
+        </section>
+
+
+      </div>
+
+      <div class="modal-footer">
+
+      <div class="row">
+
+        <div class="col-12 col-md-4 text-start" style="text-align: left;">
+           <p> <i class="bi bi-person-check-fill"></i> Ultima modificacion: <span id="usuario_progreso"></span></p>
+
+          
+        </div>
+
+         <div class="col-12 col-md-">
+           <button type="button" class="btn btn-secondary" id="salir_modal_litigio" data-dismiss="modal">Salir</button>
+        <button style='float:right;' type="sudmit" class="btn btn-primary ">Guardar cambio</button>
+    
+    
+          
+        </div>
+
+      </div>
+
+     
+       
+      </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!--====== FIN DEL MODAL LITIGIO =======-->
 
 
 <!--====== MODAL REGISTRAR CONTRIBUYENTE A PREDIO EXISTENTE =======-->
@@ -681,6 +851,7 @@ $idArray = array_filter($idArray);
                 <tbody class='body-predio' id='predios_contribuyente'>
                   <?php
                   $listaPredio = ControladorPredio::ctrListarPredio($idArray, $anio_propietario);
+
                   ?>
                 </tbody>
               </table>
@@ -1270,28 +1441,28 @@ $idArray = array_filter($idArray);
                             
                             <!-- TIENE AGUA DEL MISMO PREDIO -->
                                 <div class="row align-items-center">
-                                  <div class="d-flex align-items-center">
-                                  <span class="cajalabet">¿Tiene agua el predio?</span>
+                                      <div class="d-flex align-items-center">
+                                      <span class="cajalabet">¿Tiene agua el predio?</span>
+                                      </div>
+
+                                    <div class="col-auto d-flex align-items-center">
+                                    <input type="radio" id="agua_si" name="tieneAgua" value="si" />
+                                    <label for="agua_si" class="cajalabet">Sí</label>
+d
+                                    <input type="radio" id="agua_no" name="tieneAgua" value="no" />
+                                    <label for="agua_no" class="cajalabet">No</label>
+
+                                    <input type="radio" id="agua_cla" name="tieneAgua" value="cl" />
+                                    <label for="agua_cla" class="cajalabet">Clandestino</label>
+
+
+
                                   </div>
-
-                                <div class="col-auto d-flex align-items-center">
-                                <input type="radio" id="agua_si" name="tieneAgua" value="si" />
-                                <label for="agua_si" class="cajalabet">Sí</label>
-
-                                <input type="radio" id="agua_no" name="tieneAgua" value="no" />
-                                <label for="agua_no" class="cajalabet">No</label>
-
-                                 <input type="radio" id="agua_cla" name="tieneAgua" value="cl" />
-                                <label for="agua_cla" class="cajalabet">Clandestino</label>
-
-
-
-                              </div>
-                               <div class="row"  id="paga_otro_nombre_row">
-                                      <label for="paga_otro_nombre_e" class="cajalabel22">¿Paga a otro nombre?(opcional)</label>
-                                        <input type="text" title="Solo se permiten números" class="form33" name="paga_otro_nombre_e" id="paga_otro_nombre_e" maxlength="150" required="">
-                                  
-                                 </div>
+                                  <div class="row"  id="paga_otro_nombre_row">
+                                          <label for="paga_otro_nombre_e" class="cajalabel22">¿Paga a otro nombre?(opcional)</label>
+                                            <input type="text" title="Solo se permiten números" class="form33" name="paga_otro_nombre_e" id="paga_otro_nombre_e" maxlength="150" required="">
+                                      
+                                    </div>
 
 
                                 </div>
@@ -2136,8 +2307,8 @@ $idArray = array_filter($idArray);
                                   <select id="giroNegocio_e" class="form33" name="giroNegocio_e" required >
                                         <option value=""></option> <!-- Para placeholder -->
                                         <?php
-                                        $tabla = 'giro_establecimiento';
-                                        $registros = ControladorPredio::ctrMostrarData($tabla);
+                                       // $tabla = 'giro_establecimiento';
+                                        $registros = ControladorPredio::ctrMostrarDataGiro();
                                         foreach ($registros as $data_d) {
                                           echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
                                         }
@@ -2378,6 +2549,252 @@ $idArray = array_filter($idArray);
   </div>
 </div>
 <!--====== FIN DEL MODAL ELIMINAR PREDIO =========-->
+
+
+<!--====== MODAL AGREGAR PISO CONSTRUCCION =============-->
+<div class="modal" id="modalAgregarPisoC">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <label class="modal-title"> NUEVO PISO CONS</label>
+      </div>
+
+      <div class="modal-body">
+        <form role="form" method="POST" enctype="multipart/form-data" class="formRegistrarPiso" id="formRegistrarPiso">
+
+        <div class="row" style="margin-bottom: 10px;">
+             Nombre construccion:  <span   id="nombreConstruccionC" name='nombreConstruccionC'></span>
+        </div>
+          <div class="row2"> <!--Datos del Predio-->
+            <label class="cajalabel" for=""> Codigo Predio: </label>
+            <input type="text" class="form2" name="idCatastroRowC" id="idCatastroRowC" disabled="true">
+            <label class="cajalabel" for=""> Año Fiscal: </label>
+            <input type="text" class="form2" name="anioFiscalC" id="anioFiscalC" disabled="true">
+            
+            <input type="text" class="form2" name="idConstruccionC" id="idConstruccionC">
+          </div>
+
+          <div class="row"> <!--Datos del Piso-->
+            <fieldset style="border: 1px dotted #000;">
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Estado Conservacion:</label>
+                <select name="estadoConservaImpC" class="form2" id="estadoConservaImpC">
+                  <option selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'estado_conservacion';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Estado_Conservacion'] . "'>" . $data_d['Nombre'] . '</option>';
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Clasificacion Piso: </label>
+                <select name="clasificaPisoImpC" class="form2" id="clasificaPisoImpC">
+                  <option selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'clasificacion_piso';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Clasificacion_Piso'] . "'>" . $data_d['Nombre'] . '</option>';
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Numero Piso: </label>
+                <input type="text" name="numeroPisoC" id="numeroPisoC" class="form2" disabled="true">
+              </div>
+              <!--<div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Incrememto: </label>
+                <input type="text" class="form2" value="1" disabled="true">
+              </div>-->
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Años Antiguedad: </label>
+                <input id="aniosAntiguedadImpC" name="aniosAntiguedadImpC" type="text" class="form2" disabled>
+              </div>
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Material Predominante: </label>
+                <select name="materialConsImpC" class="form2" id="materialConsImpC">
+                  <option selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'material_piso';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Material_Piso'] . "'>" . $data_d['Nombre'] . '</option>';
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Fecha Construccion: </label>
+                <input id="fechaAntiguedadC" name="fechaAntiguedadC" type="date" class="form2">
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Valores de Edificacion del Piso -->
+          <div class="row2 col-md-6">
+            <fieldset style="border: 1px dotted #000; padding: 5px;">
+              <legend>Valores Unitarios de Edificacion</legend>
+              <div>
+                <label for="" class="cajalabel2">Muros y Columnas</label>
+                <select name="murosColumnasC" id="murosColumnasC">
+                  <option selected="" disabled="true">Seleccione</option>
+                  <?php
+                  $tabla = 'categoria';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Categoria'] . "'>" . $data_d['Categoria'] . '</option>';
+                  }
+                  ?>
+                </select>
+                <input type="text" id="valorMurosC" class="form3" disabled="true">
+              </div>
+
+              <div>
+                <label for="techos" class="cajalabel2">Techos</label>
+                <select name="techosC" id="techosC">
+                  <option selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'categoria';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Categoria'] . "'>" . $data_d['Categoria'] . '</option>';
+                  }
+                  ?>
+                </select>
+                <input type="text" id="valorTechosC" class="form3" disabled="true">
+              </div>
+
+              <div>
+                <label for="" class="cajalabel2">Pisos</label>
+                <select name="pisosC" id="pisosC">
+                  <option selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'categoria';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Categoria'] . "'>" . $data_d['Categoria'] . '</option>';
+                  }
+                  ?>
+                </select>
+                <input type="text" id="valorPisosC" class="form3">
+              </div>
+
+              <div>
+                <label for="" class="cajalabel2">Puertas y Ventanas</label>
+                <select name="puertasVentanasC" id="puertasVentanasC">
+                  <option selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'categoria';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Categoria'] . "'>" . $data_d['Categoria'] . '</option>';
+                  }
+                  ?>
+                </select>
+                <input type="text" id="valorPuertasyVentanasC" class="form3" disabled="true">
+              </div>
+
+              <div>
+                <label for="" class="cajalabel2">Revestimientos</label>
+                <select name="revestimientoC" id="revestimientoC">
+                  <option value="" selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'categoria';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Categoria'] . "'>" . $data_d['Categoria'] . '</option>';
+                  }
+                  ?>
+                </select>
+                <input type="text" id="valorRevestimientosC" class="form3">
+              </div>
+
+              <div>
+                <label for="" class="cajalabel2">Baños</label>
+                <select name="baniosC" id="baniosC">
+                  <option value="" selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'categoria';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Categoria'] . "'>" . $data_d['Categoria'] . '</option>';
+                  }
+                  ?>
+                </select>
+                <input type="text" id="valorBañosC" class="form3">
+              </div>
+
+              <div>
+                <label for="" class="cajalabel2">Instalaciones</label>
+                <select name="OtrasInstaC" id="OtrasInstaC">
+                  <option value="" selected="" disabled="">Seleccione</option>
+                  <?php
+                  $tabla = 'categoria';
+                  $registros = ControladorPredio::ctrMostrarData($tabla);
+                  foreach ($registros as $data_d) {
+                    echo "<option value='" . $data_d['Id_Categoria'] . "'>" . $data_d['Categoria'] . '</option>';
+                  }
+                  ?>
+                </select>
+                <input type="text" id="valorOtrasInstaC" class="form3">
+              </div>
+
+            </fieldset>
+          </div>
+
+          <!-- Categorias del Piso -->
+          <div class="row2 col-md-6">
+            <div> <label for="" class="cajalabel2">Valor Unitario</label><input type="text" value="S/." class="form4" disabled><input type="text" name="valUnitariosCalC" id="valUnitariosCalC"></div>
+            <!--<div> <label for="" class="cajalabel2">Incrementos</label><input type="text" value="S/." class="form4" disabled><input type="text" name="" id="" disabled="true"></div>-->
+            <div> <label for="" class="cajalabel2">Tasa de Depreciacion</label>
+                <input type="text" name="tasaDepreCalC" id="tasaDepreCalC" class="form4" disabled="true">
+                <input type="text" name="depresiacionInpC" id="depresiacionInpC">
+                <input type="button" value="DepreciarC" id="btnDepreciarC" class="btn btn-info">
+          </div>
+
+            <div> <label for="" class="cajalabel2">Valor Unit. Depreciado</label><input type="text" value="S/." class="form4" disabled><input type="text" name="valUniDepreciadoImpC" id="valUniDepreciadoImpC"></div>
+            <div> 
+              <label for="" class="cajalabel2">Area Construida</label>
+              <input type="text" value="m2" class="form4" disabled>
+              <input type="text" class="input_import" name="areaConstruidaImpC" id="areaConstruidaImpC">
+            </div>
+            <div> 
+              <label for="" class="cajalabel2">Valor Area Construida </label>
+              <input type="text" value="S/." class="form4" disabled>
+              <input type="text" name="valorAreaConstruImpC" id="valorAreaConstruImpC">
+            </div>
+
+            <div> <label for="" class="cajalabel2">Areas Comunes</label><input type="text" value="m2" class="form4" disabled><input type="text" name="areaComunesImp" id="areaComunesImp"></div>
+            <div> <label for="" class="cajalabel2">Valores Areas Comunes</label><input type="text" value="S/." class="form4" disabled><input type="text" name="valorAreComunImp" id="valorAreComunImp"></div>
+            <div> 
+              <label for="" class="cajalabel2">Valor de Construcion </label>
+              <input type="text" value="S/." class="form4" disabled>
+              <input type="text" name="valorConstrucionCalC" id="valorConstrucionCalC">
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" id="salirRegistroModalC" class="btn btn-secondary btn-cancelar">Salir</button>
+            <button type="button" class="btn btn-primary" id="btnRegistrarPisoC">Registrar r</button>
+          </div>
+          <div class="row2 col-md-12" id="errorPiso">
+            <!--CONTENIDO DINAMICO DE MENSAJE POR NO COMPLETAR CAMPOS -->
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
 <!--====== MODAL AGREGAR PISO =============-->
 <div class="modal" id="modalAgregarPiso">
   <div class="modal-dialog modal-lg">
@@ -2575,7 +2992,12 @@ $idArray = array_filter($idArray);
             <!--<div> <label for="" class="cajalabel2">Incrementos</label><input type="text" value="S/." class="form4" disabled><input type="text" name="" id="" disabled="true"></div>-->
             <div> <label for="" class="cajalabel2">Tasa de Depreciacion</label><input type="text" name="tasaDepreCal" id="tasaDepreCal" class="form4" disabled="true"><input type="text" name="depresiacionInp" id="depresiacionInp"><input type="button" value="Depreciar" id="btnDepreciar" class="btn btn-info"></div>
             <div> <label for="" class="cajalabel2">Valor Unit. Depreciado</label><input type="text" value="S/." class="form4" disabled><input type="text" name="valUniDepreciadoImp" id="valUniDepreciadoImp"></div>
-            <div> <label for="" class="cajalabel2">Area Construida</label><input type="text" value="m2" class="form4" disabled><input type="text" class="input_import" name="areaConstruidaImp" id="areaConstruidaImp"></div>
+            <div> 
+              <label for="" class="cajalabel2">Area Construida</label>
+              <input type="text" value="m2" class="form4" disabled>
+              <input type="text" class="input_import" name="areaConstruidaImp" id="areaConstruidaImp">
+
+            </div>
             <div> <label for="" class="cajalabel2">Valor Area Construida </label><input type="text" value="S/." class="form4" disabled><input type="text" name="valorAreaConstruImp" id="valorAreaConstruImp"></div>
             <div> <label for="" class="cajalabel2">Areas Comunes</label><input type="text" value="m2" class="form4" disabled><input type="text" name="areaComunesImp" id="areaComunesImp"></div>
             <div> <label for="" class="cajalabel2">Valores Areas Comunes</label><input type="text" value="S/." class="form4" disabled><input type="text" name="valorAreComunImp" id="valorAreComunImp"></div>
@@ -2595,6 +3017,8 @@ $idArray = array_filter($idArray);
     </div>
   </div>
 </div>
+
+
 </div>
 <!--====== FIN DEL MODAL AGREGAR PISO ============-->
 <!--====== MODAL EDITAR PISO =============-->
@@ -3258,6 +3682,48 @@ $idArray = array_filter($idArray);
 </div>
 <!-- fin de editar direccion de contribuyente -->
 
+
+<!-- MODAL REGISTRAR CONTRUCCION -->
+
+<div class="modal" id="modal_registrar_construccion">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <label class="modal-title"> AGREGAR CONSTRUCCION</label>
+      </div>
+
+      <input type="text" id="idPredioCons" name="idPredioCons" class="hidden">
+      
+
+      <div class="modal-body">
+        <form role="form" method="POST" enctype="multipart/form-data" class="formRegistrarCostruccion" id="formRegistrarCostruccion">
+
+         <div class="form-group">
+          <label for="descripcion">Descripcion construccion</label>
+          <textarea class="form-control" name="descripcion" id="descripcion" rows="2" placeholder="Ingrese el código del predio"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="observacion">Observacion</label>
+          <textarea class="form-control" name="observacion" id="observacion" rows="2" placeholder="Ingrese el año fiscal"></textarea>
+        </div>
+
+          <div class="modal-footer">
+            <button type="button" id="salirRegistroConstruccion" class="btn btn-secondary btn-cancelar">Salir</button>
+            <button type="button" class="btn btn-primary" id="btnRegistrarConst">Registrar</button>
+          </div>
+          <div class="row2 col-md-12" id="errorPiso">
+            <!--CONTENIDO DINAMICO DE MENSAJE POR NO COMPLETAR CAMPOS -->
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--end  MODAL REGISTRAR CONSTRUCCION -->
 
 
 

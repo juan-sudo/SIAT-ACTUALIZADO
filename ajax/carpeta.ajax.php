@@ -45,25 +45,7 @@ class AjaxCarpeta
             
         }
   
-      // public function ajaxGuardar_editar_progreso()
-      // {
-
-     
-      //      // if (preg_match('/^[azAZ09ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["e_apellPaterno"])) {
-      //         $tabla = "carpeta";
-      //         $datos = array(
-      //           "Codigo_Carpeta" => $_POST["codigo_carpeta"],
-      //           "Estado_progreso" => $_POST["estado_progreso"],
-                
-      //         );
-      //         $respuesta = ControladorCarpeta::ctrEditarCarpetaProgreso($tabla, $datos);
-      //         $respuesta_json = json_encode($respuesta);
-      //         header('Content-Type: application/json');
-      //         echo $respuesta_json;
-             
-      //      // }
-          
-      // }
+      
 
 }
 

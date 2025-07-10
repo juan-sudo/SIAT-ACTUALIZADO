@@ -37,6 +37,7 @@ $tiem = time();
 	<link href="vistas/pack/bower_components/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"> 
 	<!-- Theme  PRINCIPAL style -->
 	<link rel="stylesheet" href="vistas/pack/dist/css/AdminLTE.css">
+	
 	<!-- AQUI ES DONDE ESTA LOS ICONOS Y DEBO MODIFICAR-->
 	<link rel="stylesheet" href="vistas/pack/bower_components/fontawesome-free/css/all.css">
 
@@ -122,6 +123,7 @@ $tiem = time();
 				"reimprimir" => "reimprimir.php",
 				"multa-administrativa" => "multa-administrativa.php",
 				"Prescripcion" => "prescripcion.php",
+				"compensacion" => "compensacion.php",
 				"salir" => "salir.php"
 
 			);
@@ -196,6 +198,9 @@ $tiem = time();
 	<script src="vistas/js/prescripcion.js"></script>
 	<script src="vistas/js/reporteGeneral.js"></script>
 	<script src="vistas/js/negocio.js"></script> 
+	<script src="vistas/js/compensacion.js"></script> 
+	<script src="vistas/js/construccion.js"></script>
+	<script src="vistas/js/litigio.js"></script>
 
 	<!-- <script>
   	$.fn.modal.Constructor.prototype.enforceFocus = function() {};

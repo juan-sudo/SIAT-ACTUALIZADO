@@ -808,6 +808,8 @@ $idArray = array_filter($idArray);
   <div class="resultados"></div>
 </div>
 
+
+
 <!--====== MODAL CALCULAR ESTADO DE CUENTA ===========-->
 <div class="modal" id="modalEstadoCuentaAgua">
   <div class="modal-dialog modal-lg">
@@ -958,7 +960,7 @@ $idArray = array_filter($idArray);
   <div class="modal-dialog modal-lg modal-dialog-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-        <label class="modal-title"> Estado de Cuenta Agua</label>
+        <label class="modal-title"> Estado de Cuenta Agua j</label>
       </div>
 
       <div class="modal-body estado_cuentaAgua_mostrar">
@@ -1006,6 +1008,9 @@ $idArray = array_filter($idArray);
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
         <button type="button" class="btn btn-primary" id="popimprimir_agua" data-target="#Modalimprimir_cuentaagua">Imprimir Deuda</button>
+      <button type="button" class="btn btn-primary" id="popimprimir_agua_n" data-target="#Modalimprimir_cuentaagua_n">Imprimir notificacion</button>
+     
+     
       </div>
     </div>
   </div>
@@ -1238,6 +1243,29 @@ $idArray = array_filter($idArray);
   </div>
 </div>
 <!-- fin de imprimir estado de cuenta agua-->
+
+
+
+<!-- modal de imprimir estado cuenta agua-->
+<div class="container-fluid">
+  <div class="modal in" id="Modalimprimir_cuentaagua_n" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body printerhereagua">
+          <iframe id="iframe_agua_n" class="iframe-full-height"></iframe>
+          <!-- Muestra el estado de cuenta de Agua-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin de imprimir estado de cuenta agua-->
+
 
 
 <!-- ubicacion del predio-->

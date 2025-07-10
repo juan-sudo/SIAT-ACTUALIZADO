@@ -1187,6 +1187,49 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 
     return $resultados;
 }
+
+
+
+	public static function mdlPropietario_licencia_pdf_n($idlicencia)
+	{
+		
+		
+			$stmt = Conexion::conectar()->prepare("SELECT  la.*,c.Id_Contribuyente as id_contribuyente,
+			                                               c.Documento as documento,
+														   c.Nombre_Completo as nombre_completo,
+														   la.Numero_Licencia as numero_licencia,
+														   t.Codigo as tipo_via,
+														   c.Direccion_Completo as direccion_completo,
+															nv.Nombre_Via as nombre_calle,
+															m.NumeroManzana as numManzana,
+															cu.Numero_Cuadra as cuadra,
+															z.Nombre_Zona as zona,
+															h.Habilitacion_Urbana as habilitacion,
+                                                            ca.Categoria,
+                                                            ca.Monto,
+                                                             CONCAT(t.Codigo, ' ', nv.Nombre_Via, ' N°', la.Numero_Ubicacion, ' Mz.', m.NumeroManzana, ' Lt.', la.Lote, ' Nlz.', la.Numero_Ubicacion, ' Cdr.', cu.Numero_Cuadra, '-', z.Nombre_Zona, '-', h.Habilitacion_Urbana) AS direccion_predio
+														    from licencia_agua la 
+													inner join contribuyente c on la.Id_Contribuyente=c.Id_Contribuyente
+			    INNER JOIN ubica_via_urbano u ON u.Id_Ubica_Vias_Urbano = la.Id_Ubica_Vias_Urbano  
+                INNER JOIN direccion d ON u.Id_Direccion = d.Id_Direccion 
+                INNER JOIN tipo_via t ON t.Id_Tipo_Via = d.Id_Tipo_Via 
+                INNER JOIN zona z ON u.Id_Zona = z.Id_Zona
+                INNER JOIN manzana m ON u.Id_Manzana = m.Id_Manzana 
+                INNER JOIN cuadra cu ON cu.Id_cuadra = u.Id_Cuadra 
+                INNER JOIN habilitaciones_urbanas h ON h.Id_Habilitacion_Urbana = z.Id_Habilitacion_Urbana 
+                INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via
+                INNER JOIN categoria_agua ca ON ca.Id_Categoria_Agua = la.Id_Categoria_Agua
+
+													where la.Id_Licencia_Agua =$idlicencia limit 1");
+			//$stmt->bindParam(":Id_Licencia", $idlicencia);
+			$stmt->execute();
+			// Obtener los resultados y agregarlos al array de resultados
+			return $stmt->fetch();
+		    $stmt = null;
+	}
+
+
+
 	public static function mdlPropietario_licencia_pdf($idlicencia)
 	{
 		
@@ -1202,6 +1245,7 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 															cu.Numero_Cuadra as cuadra,
 															z.Nombre_Zona as zona,
 															h.Habilitacion_Urbana as habilitacion,
+                                                         
                                                              CONCAT(t.Codigo, ' ', nv.Nombre_Via, ' N°', la.Numero_Ubicacion, ' Mz.', m.NumeroManzana, ' Lt.', la.Lote, ' Nlz.', la.Numero_Ubicacion, ' Cdr.', cu.Numero_Cuadra, '-', z.Nombre_Zona, '-', h.Habilitacion_Urbana) AS direccion_predio
 														    from licencia_agua la 
 													inner join contribuyente c on la.Id_Contribuyente=c.Id_Contribuyente
@@ -1212,7 +1256,8 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
                 INNER JOIN manzana m ON u.Id_Manzana = m.Id_Manzana 
                 INNER JOIN cuadra cu ON cu.Id_cuadra = u.Id_Cuadra 
                 INNER JOIN habilitaciones_urbanas h ON h.Id_Habilitacion_Urbana = z.Id_Habilitacion_Urbana 
-                INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via  
+                INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via
+             
 													where la.Id_Licencia_Agua =$idlicencia limit 1");
 			//$stmt->bindParam(":Id_Licencia", $idlicencia);
 			$stmt->execute();
@@ -1220,6 +1265,13 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 			return $stmt->fetch();
 		    $stmt = null;
 	}
+
+
+
+
+
+
+
     // Muestra el estado de Agua
 	public static function mdlEstadoCuenta_agua($idlicenciaagua)
 	{
@@ -1276,7 +1328,9 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 		$stmt->execute();
 		return  $stmt->fetchall();
 	}
-	public static function mdlEstadoCuenta_agua_pdf_consulta($idlicencia, $id_cuenta)
+
+
+public static function mdlEstadoCuenta_agua_pdf_consulta($idlicencia, $id_cuenta)
 	{
 		//$valoresSeparadosPorComa = explode(',', $propietarios);
 		//sort($valoresSeparadosPorComa);
@@ -1287,6 +1341,47 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 		$stmt->execute();
 		return  $stmt->fetchall();
 	}
+
+
+	public static function mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia, $id_cuenta)
+	{
+       // var_dump($idlicencia, $id_cuenta); // Para depuración, puedes eliminarlo después
+
+		//$valoresSeparadosPorComa = explode(',', $propietarios);
+		//sort($valoresSeparadosPorComa);
+		//$ids = implode("-", $valoresSeparadosPorComa); //CONVIERTE EN UN STRING 
+		$pdo =  Conexion::conectar();
+		$stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua,Tipo_Tributo,Numero_Recibo,
+    Anio,Id_Contribuyente,
+    SUM(Importe) AS Total_Importe,
+    SUM(Gasto_Emision) AS Total_Gasto_Emision,
+    SUM(Saldo) AS Total_Saldo,
+    SUM(Total) AS Total_Total,
+     SUM(Total_Aplicar) AS Total_Aplicar,
+     DNI,
+     Nombres,
+     Id_Licencia_Agua
+FROM 
+    estado_cuenta_agua
+WHERE 
+   Id_Licencia_Agua =$idlicencia
+    AND Estado = 'D' 
+    AND Id_Estado_Cuenta_Agua IN ($id_cuenta) 
+GROUP BY 
+    Anio
+ORDER BY 
+    Anio");
+
+        
+        
+        $stmt->execute();
+		return  $stmt->fetchall();
+	}
+
+
+
+
+
 	public static function mdlEstadoCuenta_agua_pdf_consulta_pagados($idlicencia, $id_cuenta)
 	{
 		//$valoresSeparadosPorComa = explode(',', $propietarios);

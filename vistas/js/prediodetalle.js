@@ -375,6 +375,7 @@ $(document).ready(function () {
 
   const predioEdit = new PredioClass();
 
+  
   $(document).on("click", "#tablalistapredios tbody tr", function () {
     predioSelect = true;
     predioEdit.idPredioC = $(this).attr("id_predio");
@@ -516,7 +517,32 @@ $(document).ready(function () {
     }
   });
 
-  function asignarvaloreurbanos() {
+$(document).on("click", "#agregarConstruccion", function () {
+
+  console.log("has hecho click aqui--", predioEdit.idPredioC);
+
+
+  
+    $("#idPredioCons").val(predioEdit.idPredioC);
+
+      if (predioSelect) {
+  // Mostrar el modal
+  $("#modal_registrar_construccion").modal("show");
+
+      }
+       else {
+      alert("Debe Seleccionar un Predio para agregar consturccion");
+    }
+
+
+});
+
+
+
+
+  function asignarvaloreurbanos() { 
+
+
     $("#idPredio").val(predioEdit.idPredioC);
     $("#nroUbicacion_e").val(predioEdit.numUbicacionC);
     $("#nroLote_e").val(predioEdit.numLoteC);

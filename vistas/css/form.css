@@ -262,6 +262,11 @@ tr.seleccionada {
   height: 62vh !important;
   overflow: auto;
 }
+
+.divDetalleCostruccion {
+  height: 25vh !important;
+  overflow: auto;
+}
 .div_fotos {
   height: 50vh !important;
   overflow: auto;
@@ -2625,3 +2630,10 @@ color: white;
   text-transform: uppercase;
   background-color: rgb(238, 239, 239);
 }
+
+/* SELECCIONADO PARA COMPENSACION */
+
+ tr.selected {
+    background-color: red !important;
+    font-weight: red;
+  }

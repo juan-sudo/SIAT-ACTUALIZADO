@@ -69,10 +69,26 @@ class ModeloContribuyente
           return "error: " . $e->getMessage();
       }
   }
+
+
+
   // MOSTRAR DATA
   public static function mdlMostrarData($tabla)
   {
     $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+    //$stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);    
+    $stmt->execute();
+    return $stmt->fetchall();
+    $stmt = null;
+  }
+
+  
+
+
+
+   public static function   mdlMostrarDataGiro()
+  {
+    $stmt = Conexion::conectar()->prepare("SELECT * FROM giro_establecimiento ORDER BY Nombre Asc");
     //$stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);    
     $stmt->execute();
     return $stmt->fetchall();

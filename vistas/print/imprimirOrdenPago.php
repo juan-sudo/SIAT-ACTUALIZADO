@@ -93,6 +93,9 @@ $html_head='<table align="center" >
   $html_head.='</tr> </table>';
 $pdf->writeHTML($html_head);
 
+
+
+
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', '', 6.5);  // Establecer el tamaño de letra a 8
 $pdf->Cell(10, 2, '1. IDENTIFICACION DE DEUDOR TRIBUTARIO ', 0, 1, 'L');

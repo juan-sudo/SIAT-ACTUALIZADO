@@ -15,10 +15,7 @@
             <input type="password" class="form-control" style="text-transform: none;height: 30px; border: 1px solid #ccc; font-size: 16px;" placeholder="Contraseña" name="ingPassword" id="ingPassword">
         </div>
 
-           <!-- <div class="g-recaptcha-container" id="recaptcha-container">
-                 <div class="g-recaptcha" data-sitekey="6Lct-mIrAAAAAL5BXazGUSwmFNn7i8M46UwDvJ9Z"></div>
-             </div> -->
-
+        
 
 
         <div class="form-group text-center" style="margin-top: 20px;">

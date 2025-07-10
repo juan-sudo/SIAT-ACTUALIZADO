@@ -555,6 +555,46 @@ manejarClicFila_agua_pagados(fila) {
   } 
 
 
+  //NOTIFICACION
+  
+  imprimirhere_agua_n() {
+    const Propietarios_ = []; // Declarar un arreglo vacío
+    $("#id_propietarios tr").each(function (index){
+      // Accede al valor del atributo 'id' de cada fila
+      var idFila = $(this).attr("id_contribuyente");
+      Propietarios_[index] = idFila; // Agregar el valor al arreglo
+    });
+    const Propietarios = Propietarios_.map(function(valor) {
+      return parseInt(valor, 10); // El segundo argumento 10 especifica la base numérica (decimal).
+    });
+    console.log(Propietarios);
+    const idsSeleccionados_ = this.idsSeleccionados.map(function(valor) {
+      return parseInt(valor, 10); // El segundo argumento 10 especifica la base numérica (decimal).
+    });
+    let datos = new FormData();
+    datos.append("idlicencia",this.idlicenciaagua);
+    datos.append("id_cuenta",idsSeleccionados_);
+    datos.append("propietarios",Propietarios);
+    datos.append("totalImporte",this.totalImporte.toFixed(2));
+    datos.append("totalGasto",this.totalGasto.toFixed(2));
+    datos.append("totalSubtotal",this.totalSubtotal.toFixed(2));
+    datos.append("totalTIM",this.totalTIM.toFixed(2));
+    datos.append("totalTotal",this.totalTotal.toFixed(2));
+    console.log(datos);
+    $.ajax({
+      url: "./vistas/print/imprimirEstadoCuentaAguaN.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (rutaArchivo) {
+        // Establecer el src del iframe con la ruta relativa del PDF
+        document.getElementById("iframe_agua_n").src = 'vistas/print/' + rutaArchivo;
+      }
+    });
+  }
+
 
 
   imprimirhere_agua() {
@@ -818,6 +858,31 @@ $(document).on("click", "#popimprimir_agua", function () {
     
   }
 });
+
+//NOTIFICACION
+$(document).on("click", "#popimprimir_agua_n", function () {
+  if(consulta_deuda_agua_lista.idsSeleccionados.length === 0)
+  {
+    $("#respuestaAjax_srm").show();
+    $("#respuestaAjax_srm").html('<div class="col-sm-30">' +
+    '<div class="alert alert-warning">' +
+      '<button type="button" class="close font__size-18" data-dismiss="alert">' +
+      '</button>' +
+      '<i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>' +
+      '<strong class="font__weight-semibold">Alerta!</strong> Seleccione un fila para poder imprimir.' +
+    '</div>' +
+    '</div>');
+    setTimeout(function () {
+      $("#respuestaAjax_srm").hide();
+    }, 4000);
+  }
+  else{
+    consulta_deuda_agua_lista.imprimirhere_agua_n();
+    $("#Modalimprimir_cuentaagua_n").modal("show");
+    
+  }
+});
+
 
 
 $(document).on("click", "#popimprimir_agua_pagados", function () {

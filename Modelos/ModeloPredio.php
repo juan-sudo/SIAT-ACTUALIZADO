@@ -761,13 +761,16 @@ class ModeloPredio
 						p.Id_Predio as id_predio,
 						p.Area_Terreno as a_terreno,
 						p.Area_Construccion as a_construccion,
-						p.Valor_Predio_Aplicar as v_predio_aplicar
+						p.Valor_Predio_Aplicar as v_predio_aplicar,
+						 pl.Id_predio_litigio,
+                        pl.Observaciones
 					FROM 
 						predio p 
 						LEFT JOIN catastro ca ON p.predio_UR = 'U' AND ca.Id_Catastro = p.Id_Catastro 
 						LEFT JOIN catastro_rural car ON p.predio_UR = 'R' AND car.Id_Catastro_Rural = p.Id_Catastro_Rural 
 						INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
 						INNER JOIN anio an ON an.Id_Anio = p.Id_Anio 
+						LEFT JOIN predio_litigio pl ON pl.Id_Predio=p.Id_Predio
 					WHERE 
 						pro.Id_Contribuyente = :id AND an.NomAnio =:anio
 						AND p.ID_Predio NOT IN (
@@ -788,15 +791,21 @@ class ModeloPredio
 						p.Id_Predio as id_predio,
 						p.Area_Terreno as a_terreno,
 						p.Area_Construccion as a_construccion,
-						p.Valor_Predio_Aplicar as v_predio_aplicar
+						p.Valor_Predio_Aplicar as v_predio_aplicar,
+						 pl.Id_predio_litigio,
+                        pl.Observaciones
 		  FROM 
 			predio p 
 			LEFT JOIN catastro ca ON p.predio_UR = 'U' AND ca.Id_Catastro = p.Id_Catastro 
             LEFT JOIN catastro_rural car ON p.predio_UR = 'R' AND car.Id_Catastro_Rural = p.Id_Catastro_Rural 
 			INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
 			INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+			LEFT JOIN predio_litigio pl ON pl.Id_Predio=p.Id_Predio
 			WHERE pro.Id_Contribuyente IN ($ids) and an.NomAnio=:anio  AND pro.Baja='1' 
-			GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor) . " ORDER BY p.predio_UR";
+			GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor) . " ORDER BY p.predio_UR"
+			
+			
+			;
 			$stmt = $pdo->prepare($query);
 			$stmt->bindParam(":anio", $anio_actual);
 		}
@@ -831,39 +840,84 @@ class ModeloPredio
 		return $content;
 	}
 
-	private static function generateRowHTML($value, $key,$anio_actual)
-	{
+	private static function generateRowHTML($value, $key, $anio_actual)
+{
+	$estilo = isset($value['Id_predio_litigio']) && $value['Id_predio_litigio'] !== null
+		? 'style="background-color:#ffcccc;"'  // Fondo rojo claro si hay litigio
+		: '';
 
-		return sprintf(
-			'<tr id_predio="%s" id_catastro="%s" id_tipo="%s" id="fila">
+	return sprintf(
+		'<tr id_predio="%s" id_catastro="%s" id_tipo="%s" id="fila" %s>
 			<td class="text-center">
 				<input type="checkbox" class="checkbox-predio" data-id_predio="%s" data-onstyle="success" data-offstyle="danger" data-size="mini" data-width="110">
 			</td>
-                <td class="text-center" style="display:none;" >%d</td>
-                <td class="text-center">%s</td>
-                <td>%s</td>
-                <td class="text-center" style="display:none;">%s</td>
-                <td class="text-center">%s</td>
-                <td class="text-center">%s</td>
-                <td class="text-center">%s</td>
-				<td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
-				  <td class="text-center"style="display:none;">%s</td> 
-            </tr>',
-			$value['id_predio'],
-			$value['catastro'],
-			$value['tipo_ru'],
-			$value['id_predio'],
-			$key,
-			$value['tipo_ru'],
-			$value['direccion_completo'],
-			$value['catastro'],
-			$value['a_terreno'],
-			$value['a_construccion'],
-			$value['v_predio_aplicar'],
-			$value['id_predio'],
-			$anio_actual
-		);
-	}
+			<td class="text-center" style="display:none;">%d</td>
+			<td class="text-center">%s</td>
+			<td>%s</td>
+			<td class="text-center" style="display:none;">%s</td>
+			<td class="text-center">%s</td>
+			<td class="text-center">%s</td>
+			<td class="text-center">%s</td>
+			<td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
+			<td class="text-center" style="display:none;">%s</td> 
+			
+		</tr>',
+		$value['id_predio'],
+		$value['catastro'],
+		$value['tipo_ru'],
+		$estilo, // ← Aquí se aplica el estilo condicional
+		$value['id_predio'],
+		$key,
+		$value['tipo_ru'],
+		$value['direccion_completo'],
+		$value['catastro'],
+		$value['a_terreno'],
+		$value['a_construccion'],
+		$value['v_predio_aplicar'],
+		$value['id_predio'],
+		$anio_actual
+	);
+}
+
+
+	// private static function generateRowHTML($value, $key,$anio_actual)
+	// {
+
+	// 	$estilo = isset($value['Id_predio_litigio']) && $value['Id_predio_litigio'] !== null
+	// 	? 'style="background-color:#ffcccc;"'  // Fondo rojo claro (puedes cambiarlo)
+	// 	: '';
+
+	// 	return sprintf(
+	// 		'<tr id_predio="%s" id_catastro="%s" id_tipo="%s" id="fila">
+	// 		<td class="text-center">
+	// 			<input type="checkbox" class="checkbox-predio" data-id_predio="%s" data-onstyle="success" data-offstyle="danger" data-size="mini" data-width="110">
+	// 		</td>
+    //             <td class="text-center" style="display:none;" >%d</td>
+    //             <td class="text-center">%s</td>
+    //             <td>%s</td>
+    //             <td class="text-center" style="display:none;">%s</td>
+    //             <td class="text-center">%s</td>
+    //             <td class="text-center">%s</td>
+    //             <td class="text-center">%s</td>
+	// 			<td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
+	// 			  <td class="text-center"style="display:none;">%s</td> 
+    //         </tr>',
+	// 		$value['id_predio'],
+	// 		$value['catastro'],
+	// 		$value['tipo_ru'],
+			
+	// 		$value['id_predio'],
+	// 		$key,
+	// 		$value['tipo_ru'],
+	// 		$value['direccion_completo'],
+	// 		$value['catastro'],
+	// 		$value['a_terreno'],
+	// 		$value['a_construccion'],
+	// 		$value['v_predio_aplicar'],
+	// 		$value['id_predio'],
+	// 		$anio_actual
+	// 	);
+	// }
 
 
 	
