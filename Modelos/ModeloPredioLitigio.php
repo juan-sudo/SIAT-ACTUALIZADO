@@ -46,6 +46,39 @@ class ModeloPredioLitigio
 }
 
 
+public static function mdlEliminarPredioLitigio($datos)
+{ 
+	
+    try {
+        $conexion = Conexion::conectar();
+
+        // 1. Obtener el string "423,424"
+        $idLitigio = $datos['id_predio_litigio'];
+
+            // Eliminar el registro de predio_litigio usando Id_predio_litigio
+            $stmtDelete = $conexion->prepare("DELETE FROM predio_litigio WHERE Id_predio_litigio = :id_predio_litigio");
+            $stmtDelete->bindParam(":id_predio_litigio", $idLitigio, PDO::PARAM_INT);
+            $stmtDelete->execute();
+
+          
+
+                // Verificar si la inserción fue exitosa
+                if ($stmtDelete->rowCount() > 0) {
+                    return 'ok'; // Todo salió bien
+                } else {
+                    return 'error'; // Error al insertar
+                }
+           
+       
+
+    } catch (PDOException $e) {
+        // Capturar y devolver el mensaje de error si ocurre una excepción
+        return 'error: ' . $e->getMessage(); // Mostrar el mensaje de error completo
+    }
+}
+
+
+
 public static function mdlGuardarPredioLitigio($datos)
 { 
 	

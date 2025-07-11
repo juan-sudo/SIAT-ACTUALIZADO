@@ -90,6 +90,8 @@ class Litigio {
       console.log(xhr.responseText);
     }
   });
+
+
 }
 
    
@@ -245,13 +247,67 @@ $('#formPredioLitigio').on('submit', function(event) {
 });
 
 
- $(document).on("click", ".icono-eliminar-litigio", function () {
-
+// CONSULTA QU SI VA ELIMINAR PREDIO EN LITIGIO
+$(document).on("click", ".icono-eliminar-litigio", function () {
     const id_predio_litigio = $(this).data('id_prediol_eliminar');
-     
-    console.log("Click en icono eliminar predio litigio:", id_predio_litigio);
+   
+    if(id_predio_litigio ){
+
+        $("#id_predio_litigio_eliminar_m").val(id_predio_litigio);
+
+       $("#modal_pregita_elimar_litigio").modal("show");
+
+    }
 
 });
+
+//ELIMINAR PREDIO LITIGIO CONFIRMADO
+
+//NOTIFICACION
+$(document).on("click", "#confirmarEliminarPredioL", function () {
+    const idPredioLitigio = $("#id_predio_litigio_eliminar_m").val();
+ console.log("ID del predio litigio a eliminar:", idPredioLitigio);
+
+formData = new FormData();
+formData.append("id_predio_litigio_eliminar", idPredioLitigio);
+formData.append("eliminar_predio_litigio", "eliminar_predio_litigio");
+
+  $.ajax({
+    type: 'POST',
+    url: 'ajax/predioLitigio.ajax.php',
+    data: formData,
+    contentType: false,
+    processData: false,
+    dataType: 'json',
+    success: function(respuesta) {
+      if (respuesta.tipo === "correcto") {
+        $("#modalEditarcontribuyente").modal("hide");
+        $("#respuestaAjax_srm").show().html(respuesta.mensaje);
+        setTimeout(() => {
+          $("#respuestaAjax_srm").hide();
+        window.location.href = window.location.href;
+        }, 1000);
+      } else {
+        $("#modalEditarcontribuyente").modal("hide");
+        $("#respuestaAjax_srm").show().html(respuesta.mensaje);
+        setTimeout(() => {
+          $("#respuestaAjax_srm").hide();
+        }, 3000);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error("ERROR AJAX:", status, error);
+      console.log(xhr.responseText);
+    }
+  });
+  
+
+    // $("#modal_pregita_elimar_litigio").modal("hide");
+
+    
+});
+
+
 
 
 // $('#formPredioLitigio').on('submit', function(event) {

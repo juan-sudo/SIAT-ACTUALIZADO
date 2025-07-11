@@ -25,6 +25,24 @@ class AjaxLitigioPredio
             
         }
 
+         public function ajaxElimnar_litigio()
+        {
+            
+                $datos = array(
+                   "id_predio_litigio" => isset($_POST["id_predio_litigio_eliminar"]) ? $_POST["id_predio_litigio_eliminar"] : null
+                  
+                 );
+                $respuesta = ControladorPredioLitigio::ctrEliminarPredioLitigio($datos);
+                $respuesta_json = json_encode($respuesta);
+                header('Content-Type: application/json');
+                echo $respuesta_json;
+               
+             // }
+            
+        }
+
+        
+
    public function ajaxEditarPredioLitigio()
    {
           $datos = array(
@@ -51,5 +69,11 @@ if (isset($_POST['mostrar_predio_litigio'])) {
 if (isset($_POST['guardar_predio_litigio'])) {
    $editarL = new AjaxLitigioPredio();
    $editarL->ajaxGuardar_predio_litigio();
+}
+
+// guardar editar contribuyente
+if (isset($_POST['eliminar_predio_litigio'])) {
+   $editarL = new AjaxLitigioPredio();
+   $editarL->ajaxElimnar_litigio();
 }
 

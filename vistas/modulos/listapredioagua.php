@@ -760,8 +760,6 @@ $idArray = array_filter($idArray);
   </div>
 </div>
 
-
-
 <!-- MODAL ELIMINAR NEGOCIO IND -->
 
 
