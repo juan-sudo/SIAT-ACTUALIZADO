@@ -151,6 +151,8 @@ use Controladores\ControladorPredio;
   </div>
 </div>
 
+
+
 <div id="modalEditarUsuario" class="modal fade modal-forms fullscreen-modal" role="dialog">
 
   <div class="modal-dialog">

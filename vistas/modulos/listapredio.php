@@ -767,12 +767,17 @@ $idArray = array_filter($idArray);
                     <th class="text-center">A.Const.</th>
                     <th class="text-center">Val.Predio</th>
              
-                  </tr>
+                  </tr> 
                 </thead>
                 <tbody class='body-predio-j'>
                   <?php
+
+                  
                   $listaPredio = ControladorPredioLitigio::ctrListarPredioLitigio($idArray, $anio_propietario);
-                  ?>
+                 
+                  
+                 
+                 ?>
                 </tbody>
               </table>
      
@@ -3732,7 +3737,7 @@ d
         <label class="modal-title"> AGREGAR CONSTRUCCION</label>
       </div>
 
-      <input type="text" id="idPredioCons" name="idPredioCons" class="hidden">
+      <input type="text" id="idPredioCons" name="idPredioCons" >
       
 
       <div class="modal-body">

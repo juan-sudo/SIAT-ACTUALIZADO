@@ -19,7 +19,7 @@ class Litigio {
   
       $.ajax({
         url: "ajax/predioLitigio.ajax.php",
-        method: "POST",
+        method: "POST",  
         data: datos,
         cache: false,
         contentType: false,

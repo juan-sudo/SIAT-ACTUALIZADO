@@ -191,6 +191,7 @@ class ControladorPredio
 			}
 			else {
 						$respuesta = ModeloPredio::mdlEditarTransferirPredio($datos);
+				
 				if ($respuesta == "ok") {
 						$respuesta = array(
 							"tipo" => 'correcto',
@@ -244,6 +245,7 @@ class ControladorPredio
 	public static function ctrEliminarPredio($datos)
 	{
 		$respuesta = ModeloPredio::mdlEliminarPredio($datos);
+		
 		if ($respuesta == "ok") {
 			$respuesta = array(
 				"tipo" => "correcto",

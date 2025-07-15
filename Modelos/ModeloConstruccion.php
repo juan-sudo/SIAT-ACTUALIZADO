@@ -10,6 +10,11 @@ class ModeloConstruccion
 {
  public static function mdlNuevoContruccion($datos)
 {
+   var_dump($datos);
+
+   
+   
+   // Conectar a la base de datos
    $pdo1 = Conexion::conectar();
    
    try {
@@ -20,6 +25,8 @@ class ModeloConstruccion
     $stmt1->bindParam(":idPredio", $datos['idPredio']);
     $stmt1->execute();
     $resultado = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+   
 
     if ($resultado && $resultado['max_construccion'] !== null) {
        

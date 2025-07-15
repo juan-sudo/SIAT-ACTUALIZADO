@@ -226,6 +226,7 @@ class ModeloUsuarios {
         return $stmt->fetch();
         $stmt = null;
     }
+
      // Mostrar el perfil del usuario
      public static function mdlPerfil_Usuario($idusuario){
         $stmt = Conexion::conectar()->prepare("SELECT 
@@ -234,4 +235,6 @@ class ModeloUsuarios {
         return $stmt->fetch();
         $stmt = null;
     }
+
+    
 }

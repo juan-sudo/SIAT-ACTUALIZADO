@@ -113,6 +113,7 @@ class ControladorPisos
 	public static function ctrMostrarConstruccion($datos)
 	{
 		
+		
 		$respuesta = ModeloPisos::mdlMostrarConstruccion($datos);
 
 		

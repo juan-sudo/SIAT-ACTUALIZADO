@@ -86,7 +86,11 @@ class ControladorPredioLitigio
 	public  static function ctrListarPredioLitigio($valor,$anio)
 	{
 		$respuesta = ModeloPredioLitigio::mdlListarPredioLitigio($valor,$anio);
-		echo $respuesta;
+      
+	echo $respuesta;
+
+  
+
 	}
 
 

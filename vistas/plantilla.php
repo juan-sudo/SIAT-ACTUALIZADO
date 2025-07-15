@@ -78,6 +78,7 @@ $tiem = time();
 			$rutasValidas = array(
 				"inicio" => "inicio.php",
 				"usuarios" => "usuarios.php",
+				"notificacion-agua" => "notificacionAgua.php",
 				"clasificadorMef" => "clasificadorMef.php",
 				"viascalles" => "viascalles.php",
 				"crear-guia" => "crear-guia.php",
@@ -122,6 +123,7 @@ $tiem = time();
 				"extorno" => "extorno.php",
 				"reimprimir" => "reimprimir.php",
 				"multa-administrativa" => "multa-administrativa.php",
+				
 				"Prescripcion" => "prescripcion.php",
 				"compensacion" => "compensacion.php",
 				"salir" => "salir.php"
@@ -201,6 +203,7 @@ $tiem = time();
 	<script src="vistas/js/compensacion.js"></script> 
 	<script src="vistas/js/construccion.js"></script>
 	<script src="vistas/js/litigio.js"></script>
+	<script src="vistas/js/notificacionagua.js"></script>
 
 	<!-- <script>
   	$.fn.modal.Constructor.prototype.enforceFocus = function() {};

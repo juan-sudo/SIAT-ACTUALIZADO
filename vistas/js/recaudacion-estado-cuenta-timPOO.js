@@ -793,10 +793,6 @@ imprimirherecoactivo() {
     console.log("Ids seleccionados:", this.idsSeleccionados);
   }
 
- 
-
-  
-  
 
   imprimirhere() {
     const Propietarios_ = []; // Declarar un arreglo vacío
@@ -842,6 +838,9 @@ imprimirherecoactivo() {
       }
     });
   }
+
+
+  
   eliminarArchivosPDF() {
     // Realiza una solicitud al servidor para eliminar archivos PDF
     fetch('ajax/controlPDF.ajax.php', {
@@ -1028,6 +1027,9 @@ $(document).on("click", "#popimprimir", function () {
     recaudacion.imprimirhere();
     $("#Modalimprimir_cuenta").modal("show");
 });
+
+
+
 
 $("#abrirEstadoCuenta").click(function () {
   $("#modalEstadoCuenta").modal("show");

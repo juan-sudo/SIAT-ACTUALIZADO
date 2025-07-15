@@ -179,6 +179,9 @@ public static function mdlGuardarPredioLitigio($datos)
 		$pdo = Conexion::conectar();
 		//$anio_actual = implode(',', $anio);
 
+		var_dump($valor);
+		var_dump($anio_actual);
+
 		// Preparar la consulta SQL
 		if (count($valor) === 1) {
 			$id = $valor[0];

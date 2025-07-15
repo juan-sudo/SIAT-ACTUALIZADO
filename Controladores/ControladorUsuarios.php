@@ -400,6 +400,7 @@ class ControladorUsuarios
                 <div class="btn-group">
 
               <button class="btn btn-warning btnEditarUsuario" idUsuario="'.$value['id'].'" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fas fa-user-edit"></i></button>';
+             
               if($value['perfil'] == 'Administrador'){
             
             echo '<button class="btn btn-danger btnEliminarUsuario" idUsuario="'.$value['id'].'" fotoUsuario="'.$value['foto'].'" usuario="'.$value['usuario'].'"><i class="fas fa-trash-alt"></i></button>';

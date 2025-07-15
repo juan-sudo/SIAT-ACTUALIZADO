@@ -8,11 +8,12 @@ class AjaxConstruccion
 	public function ajaxRegistrarContruccion()
 	{
 			$datos = array(
+				
 				'Nombre_Construccion' => $_POST["nombreConstruccion"], //2
 				'Observaciones' => $_POST["observacion"],//3	
 				'idPredio' => $_POST["idPredio"]//3	
 
-				
+
 				
 			);
 

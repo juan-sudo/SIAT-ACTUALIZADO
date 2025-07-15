@@ -11,6 +11,10 @@ class ControladorConstruccion
 	{
 		
 		$respuesta = ModeloConstruccion::mdlNuevoContruccion( $datos);
+
+		
+
+
 		if ($respuesta == 'ok') {
 			$respuesta = array(
 				"tipo" => "correcto",

@@ -296,6 +296,8 @@ class Usuario {
   constructor() {
     this.idusuario_sesion=0;
   }
+
+  
   lista_usuarios(){
     let datos = new FormData();
     datos.append("id_usuario",usuario.idusuario_sesion);
@@ -312,6 +314,8 @@ class Usuario {
       }
     })
   }
+
+
   guardar_usuario_editado(){
          
         let datos = $(this).serialize();
@@ -389,10 +393,13 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Valor del atributo iso:', usuario.idusuario_sesion);
 
 })
+
 $(".form-inserta-editar").submit(function (e) {
     e.preventDefault();
     usuario.guardar_usuario_editado();
 });
+
+
 
 // Agregar USUARIO
 $(".form-inserta").submit(function (e) {
