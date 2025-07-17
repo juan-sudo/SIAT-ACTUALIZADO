@@ -102,6 +102,7 @@ $pdf->Cell(10, 2, '1. IDENTIFICACION DE DEUDOR TRIBUTARIO ', 0, 1, 'L');
 $pdf->Ln(1);
 $pdf->SetFont('helvetica', '', 6.5);
 $pdf->SetX(10); 
+
 $html_propietario='<table align="center">
                      <tr style="background-color:#e3eff3;">
                        <td border="0.1" width="40"><h4>Codigo</h4></td>

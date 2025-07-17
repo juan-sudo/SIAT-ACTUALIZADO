@@ -661,6 +661,7 @@ class ModeloCaja
 		try {
 			$ids_cuenta = $datos['id_cuenta'];
 			$idlicencia=$datos['idlicencia'];
+			$estadoNotificacion = 'P';
 			//obteniedo el numero de caja
 			$pdo  = Conexion::conectar();
 			$pdo->beginTransaction();
@@ -721,13 +722,25 @@ class ModeloCaja
 			$stmt->bindValue(':estado','P');
 			$stmt->bindValue(':cierre','0');
 			$stmt->execute();
+
 			$stmt = $pdo->prepare("UPDATE configuracion set Numero_Recibo=$numeracion; ");
 		    $stmt->execute();
+
+			  $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado WHERE Id_Licencia_Agua = :idLicencia");
+				$stmt->bindParam(":idLicencia", $idlicencia);
+
+					$stmt->bindParam(":estado", $estadoNotificacion);
+
+				$stmt->execute();
+
 			//actulizar estado de cuenta como pagado y poner el numero de recibo
 			$stmt = $pdo->prepare("UPDATE estado_cuenta_agua 
 			SET Numero_Recibo = $numeracion, Estado = 'H', Fecha_pago = '$fecha_actual'
 			WHERE Id_Estado_Cuenta_Agua IN ($ids_cuenta) ");
 		    $stmt->execute();
+
+
+
 			$pdo->commit();
 
 			return "ok";

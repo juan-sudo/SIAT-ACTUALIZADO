@@ -1238,7 +1238,7 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 
     // Incrementar el número de notificación
     $nuevoNumero = str_pad($ultimoNumero + 1, 4, '0', STR_PAD_LEFT);
-    $estado='P';
+    $estado='N';
 
     // Insertar el nuevo registro en la tabla notificacion_agua
     $stmt = $pdo->prepare("INSERT INTO notificacion_agua (Id_Licencia_Agua, Fecha_Registro, Numero_Notificacion, anio_Actual,fecha_corte,estado)

@@ -11,6 +11,9 @@ imprimirAgua() {
     
     // Crear un array para almacenar los datos capturados
     let datosCapturados = [];
+    let filtroFecha=null;
+      let filtroEstado=null;
+
 
     // Recorrer todas las filas
     filas.forEach(fila => {
@@ -29,15 +32,25 @@ imprimirAgua() {
         datosCapturados.push(filaDatos);
     });
 
+      filtroFecha = document.getElementById('fecha_notificacion').value;
+        // Capturar el valor del estado seleccionado
+        filtroEstado = document.getElementById('filtrar_estado').value;
+
+        // Mostrar los filtros capturados
+        console.log("Fecha de notificación seleccionada: " + filtroFecha);
+        console.log("Estado seleccionado: " + filtroEstado);
+
     // Ver los datos capturados en la consola
-    console.log(datosCapturados);
+    console.log("aqui..-----",datosCapturados);
 
     // Enviar los datos al servidor a través de AJAX
     $.ajax({
       url: "./vistas/print/imprimirNotificacionAgua.php", // Asegúrate de que esta sea la URL correcta
       method: "POST",
       data: { 
-        tabla_datos: JSON.stringify(datosCapturados)  // Convertimos el array a una cadena JSON
+        tabla_datos: JSON.stringify(datosCapturados) , // Convertimos el array a una cadena JSON
+         fecha_notificacion: filtroFecha,  // Enviar filtroFecha al servidor
+         estado: filtroEstado  // Enviar filtroEstado al servidor
       },
       success: function (rutaArchivo) {
         // Establecer el src del iframe con la ruta relativa del PDF
@@ -81,7 +94,7 @@ lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos
               return;
           }
 
-          document.getElementById('lista_de_notificacion').innerHTML = data.data; // Asignar contenido de la tabla
+          document.getElementById('lista_de_notificacion').innerHTML = data.data;
           document.getElementById('pagination').innerHTML = data.pagination;  
           
           }

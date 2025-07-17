@@ -17,14 +17,14 @@ class AjaxNotificacion
     $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
     
     // Paginación: resultados por página
-    $resultados_por_pagina = 10; // Establecer el número de resultados por página
+    $resultados_por_pagina = 15; // Establecer el número de resultados por página
 
     // Llamamos al controlador para obtener las notificaciones con filtros y paginación
     $respuesta = ControladorNotificacion::ctrMostrarNotificaciones($filtroNombre, $filtroFecha, $filtroEstado, $pagina, $resultados_por_pagina);
   
   
     echo $respuesta;
-
+  
     
 }
 
