@@ -1382,35 +1382,85 @@ public static function mdlEstadoCuenta_agua_pdf_consulta($idlicencia, $id_cuenta
 		return  $stmt->fetchall();
 	}
 
+    public static function mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia, $id_cuenta)
+{
+    $pdo = Conexion::conectar();
 
-	public static function mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia, $id_cuenta)
-	{
+    $idCuentaArray = explode(",", $id_cuenta); // Asegúrate de sanitizar si viene como string
+    $placeholders = implode(",", array_fill(0, count($idCuentaArray), "?"));
+
+    $stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua, Tipo_Tributo, Numero_Recibo,
+                Anio, Id_Contribuyente,
+                SUM(Importe) AS Total_Importe, 
+                SUM(Gasto_Emision) AS Total_Gasto_Emision,
+                SUM(Saldo) AS Total_Saldo,
+                SUM(Total) AS Total_Total,
+                SUM(Total_Aplicar) AS Total_Aplicar,
+                DNI,
+                Nombres,
+                Id_Licencia_Agua
+            FROM estado_cuenta_agua
+            WHERE Id_Licencia_Agua = ?
+                AND Estado = 'D' 
+                AND Id_Estado_Cuenta_Agua IN ($placeholders)
+            GROUP BY Anio
+            ORDER BY Anio");
+
+    $params = array_merge([$idlicencia], $idCuentaArray);
+    $stmt->execute($params);
+
+    // UPDATE seguro
+    $sqlUpdate = "UPDATE estado_cuenta_agua SET Estado_notificacion='N'
+                  WHERE Id_Licencia_Agua = ?
+                  AND Estado = 'D'
+                  AND Id_Estado_Cuenta_Agua IN ($placeholders)";
+    $stmta = $pdo->prepare($sqlUpdate);
+    $stmta->execute($params);
+
+    return $stmt->fetchAll();
+}
+
+
+	// public static function mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia, $id_cuenta)
+	// {
    
-		$pdo =  Conexion::conectar();
-		$stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua,Tipo_Tributo,Numero_Recibo,
-            Anio,Id_Contribuyente,
-            SUM(Importe) AS Total_Importe, 
-            SUM(Gasto_Emision) AS Total_Gasto_Emision,
-            SUM(Saldo) AS Total_Saldo,
-            SUM(Total) AS Total_Total,
-            SUM(Total_Aplicar) AS Total_Aplicar,
-            DNI,
-            Nombres,
-            Id_Licencia_Agua
-        FROM 
-            estado_cuenta_agua
-        WHERE 
-        Id_Licencia_Agua =$idlicencia
-            AND Estado = 'D' 
-            AND Id_Estado_Cuenta_Agua IN ($id_cuenta) 
-        GROUP BY 
-            Anio
-        ORDER BY 
-            Anio");
+	// 	$pdo =  Conexion::conectar();
+	// 	$stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua,Tipo_Tributo,Numero_Recibo,
+    //         Anio,Id_Contribuyente,
+    //         SUM(Importe) AS Total_Importe, 
+    //         SUM(Gasto_Emision) AS Total_Gasto_Emision,
+    //         SUM(Saldo) AS Total_Saldo,
+    //         SUM(Total) AS Total_Total,
+    //         SUM(Total_Aplicar) AS Total_Aplicar,
+    //         DNI,
+    //         Nombres,
+    //         Id_Licencia_Agua
+    //     FROM 
+    //         estado_cuenta_agua
+    //     WHERE 
+    //     Id_Licencia_Agua =$idlicencia
+    //         AND Estado = 'D' 
+    //         AND Id_Estado_Cuenta_Agua IN ($id_cuenta) 
+    //     GROUP BY 
+    //         Anio
+    //     ORDER BY 
+    //         Anio");
 
-                $stmt->execute();
-                return  $stmt->fetchall();
-	}
+    //          $stmt->execute();
+
+    //          $stmta = $pdo->prepare("UPDATE estado_cuenta_agua SET Estado_notificacion='N'
+    //            Id_Licencia_Agua =$idlicencia
+    //                AND Estado = 'D' 
+    //                  AND Id_Estado_Cuenta_Agua IN ($id_cuenta) ");
+
+    //          $stmta->execute();
+
+
+
+
+
+    //             return  $stmt->fetchall();
+	// }
 
 
 

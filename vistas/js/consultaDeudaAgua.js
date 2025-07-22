@@ -4,14 +4,12 @@ class ConsultaDeudaAguaClass {
         this.ubiLicenciaC_consulta_agua = null;
         this.codCatastroC_consulta_agua=null;
         this.idlicenciaagua=null; 
-     
         this.totalImporte = 0;
         this.totalGasto = 0;
         this.totalSubtotal = 0;
         this.totalTIM = 0;
         this.totalTotal = 0;
         this.idsSeleccionados = [];
-
         this.anio=null;
       
     }
@@ -250,6 +248,7 @@ class ConsultaDeudaAguaClass {
     });
 
   }
+
   manejarClicS(thS) {
     const filas = $("#primeraTabla_agua tbody tr");
     const todasSeleccionadas = $("td:eq(9):contains('1')", filas).length === filas.length;
@@ -740,9 +739,12 @@ $(document).on("click", "#tablalistaLicences tbody tr", function() {
 
 $(document).on("click", ".btnEstadoCuentaAgua", function() {
     consulta_deuda_agua_lista.reniciar_valor();
+    
     consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
     console.log("iDlicencia agua:"+consulta_deuda_agua_lista.idlicenciaagua)
+    
     consulta_deuda_agua_lista.MostrarEstadoCuentaAgua(consulta_deuda_agua_lista.idlicenciaagua);
+
     $('#ModalEstado_cuentaAgua').modal('show');
     //ajustando el total de la columna 
 });
@@ -1046,6 +1048,7 @@ var aguaListaConsulta = {
             },
         });
     },
+
 
     // Función para reiniciar valores
     reniciar_valor_meses: function() {

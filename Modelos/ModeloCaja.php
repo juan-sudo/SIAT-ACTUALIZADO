@@ -666,10 +666,12 @@ class ModeloCaja
 			$pdo  = Conexion::conectar();
 			$pdo->beginTransaction();
 			$fecha_actual = date("Y-m-d H:i:s"); 
+
 			$stmt = $pdo->prepare("SELECT Numero_Recibo FROM configuracion; ");
 		    $stmt->execute();
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
 			$numeracion = $row['Numero_Recibo']+1;	
+
 			$stmt = $pdo->prepare("INSERT INTO ingresos_agua
 			     (Id_Contribuyente,
 				  Numeracion_Caja,
@@ -726,12 +728,25 @@ class ModeloCaja
 			$stmt = $pdo->prepare("UPDATE configuracion set Numero_Recibo=$numeracion; ");
 		    $stmt->execute();
 
-			  $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado WHERE Id_Licencia_Agua = :idLicencia");
+			// Consultar el estado actual de la notificación
+			$stmt = $pdo->prepare("SELECT estado FROM notificacion_agua WHERE Id_Licencia_Agua = :idLicencia");
+			$stmt->bindParam(":idLicencia", $idlicencia);
+			$stmt->execute();
+
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			$estado = $row['estado']; 
+
+
+			// Verifica si el estado no es 'S' ni 'R1' 
+			if($estado != 'S' && $estado != 'R1') {
+				// Si el estado es diferente, se actualiza el estado
+				$stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado WHERE Id_Licencia_Agua = :idLicencia");
 				$stmt->bindParam(":idLicencia", $idlicencia);
-
-					$stmt->bindParam(":estado", $estadoNotificacion);
-
+				$stmt->bindParam(":estado", $estadoNotificacion);
 				$stmt->execute();
+			}
+
+			
 
 			//actulizar estado de cuenta como pagado y poner el numero de recibo
 			$stmt = $pdo->prepare("UPDATE estado_cuenta_agua 

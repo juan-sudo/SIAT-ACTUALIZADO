@@ -263,6 +263,11 @@ tr.seleccionada {
   overflow: auto;
 }
 
+.divDetallePredioR {
+  height: 43vh !important;
+  overflow: auto;
+}
+
 .divDetalleCostruccion {
   height: 25vh !important;
   overflow: auto;
@@ -2637,3 +2642,15 @@ color: white;
     background-color: red !important;
     font-weight: red;
   }
+
+/* ESTADO DE CUENTA PARA NOTIFICACION*/
+  .red-background {
+    background-color: red !important; /* Asegura que el color de fondo sea rojo */
+    color: white; /* Opcional: cambia el color del texto a blanco para mejor visibilidad */
+}
+
+/* ESTADO DE CUENTA PARA NOTIFICACION*/
+.green-background {
+    background-color: green !important; /* Color verde para el fondo */
+    color: white; /* Opcional: cambia el color del texto a blanco para mejor visibilidad */
+}

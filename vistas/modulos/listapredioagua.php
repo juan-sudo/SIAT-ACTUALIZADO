@@ -1000,6 +1000,8 @@ $idArray = array_filter($idArray);
         <label class="modal-title"> Estado de Cuenta Agua j</label>
       </div>
 
+      
+
       <div class="modal-body estado_cuentaAgua_mostrar">
         <div class="row divDetallePredio">
           <table class="table-container miprimeratabla_agua" id="primeraTabla_agua">
@@ -1023,8 +1025,8 @@ $idArray = array_filter($idArray);
           </table>
         </div>
 
-
         <table class="table-container" id="segundaTabla_agua">
+          
           <tbody>
             <th class="text-right td-round total_c" style="width:180px;">Total Deuda =</th>
             <th class="text-center td-round" style="width:50px;"></th>
@@ -1033,8 +1035,11 @@ $idArray = array_filter($idArray);
             <th class="text-center" style="width:50px;"></th>
             <th class="text-center" style="width:50px;"></th>
             <th class="text-center" style="width:20px;"></th>
-          </tbody>
+          </tbody>  
+                
+          
         </table>
+
 
 
         <!-- segunda tabla donde muestra el boton imprimir y el total del estado de cuenta-->

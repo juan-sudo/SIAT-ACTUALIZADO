@@ -29,6 +29,93 @@ public static function mdlEliminarNotificacion($datos)
 }
 
 
+
+ public static function mdlMostrarTipoPago()
+  {
+    $stmt = Conexion::conectar()->prepare("SELECT * FROM notificacion_t_pago ");
+    //$stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);    
+    $stmt->execute();
+    return $stmt->fetchall();
+    $stmt = null;
+  }
+
+   public static function mdlMostrarCuotas()
+  {
+    $stmt = Conexion::conectar()->prepare("SELECT * FROM cuota_pago ");
+    //$stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);    
+    $stmt->execute();
+    return $stmt->fetchall();
+    $stmt = null;
+  }
+
+
+  //estado de cuenta para notificacion
+  
+    // Muestra el estado de Agua
+	public static function mdlEstadoCuenta_agua($idlicenciaagua)
+	{
+		$pdo =  Conexion::conectar();
+		$stmt = $pdo->prepare("SELECT * from estado_cuenta_agua   
+		where Id_Licencia_Agua =$idlicenciaagua AND Estado_notificacion='N'");
+		$stmt->execute();
+		return  $stmt->fetchall();
+		
+	}
+
+    //MOSTRAR SEGUDO CUOTA
+    public static function mdlMostrar_segunda_cuota($idNotificionAgua)
+	{
+		$pdo =  Conexion::conectar();
+		$stmt = $pdo->prepare("SELECT * from notificacion_pago   
+		where Id_Notificacion_Agua =$idNotificionAgua ");
+		$stmt->execute();
+		return  $stmt->fetchall();
+		
+	}
+
+
+    
+
+  
+
+
+
+//MOSTRAR DOS PAGOS DE CUOTA
+
+
+public static function mdlPagoPorCuotas($datos)
+{
+    try {
+        $pdo = Conexion::conectar();
+        
+        // Consulta para calcular la suma total de las cuotas
+        $stmt = $pdo->prepare("SELECT SUM(Total_Aplicar) / :cuotas AS Suma_Cuotas 
+                               FROM estado_cuenta_agua 
+                               WHERE Id_Licencia_Agua = :idLicencia AND Estado_notificacion='N'");
+
+        // Vinculamos los parámetros con los valores pasados en $datos
+        $stmt->bindParam(":idLicencia", $datos['idLicencia']);
+        $stmt->bindParam(":cuotas", $datos['cuotas']);
+
+        // Ejecutamos la consulta
+        $stmt->execute();
+
+        // Obtenemos el resultado
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Cerramos la conexión
+        $pdo = null;
+
+        // Verificamos si el resultado es válido y lo retornamos
+        return isset($resultado['Suma_Cuotas']) ? $resultado['Suma_Cuotas'] : null;
+
+    } catch (Exception $e) {
+        // En caso de error, lanzamos una excepción
+        throw new Exception("Error en la base de datos: " . $e->getMessage());
+    }
+}
+
+
 public static function mdlMostrarGuardarIdNotificacion($datos)
 {
    
@@ -49,6 +136,288 @@ public static function mdlMostrarGuardarIdNotificacion($datos)
    }
 
 }
+
+
+//GUARDAR PAGO ´POR PARTICION.
+
+public static function mdlGuardarIdNotificacionParticion($datos)
+{
+  
+    try {
+        // Establecer la conexión
+        $pdo = Conexion::conectar();
+
+        // Obtener la fecha actual (solo fecha)
+        $fechaRegistro = date('Y-m-d');  // Para la fecha sin hora, solo la fecha actual
+
+      
+
+        // Consultar el Id_Notificacion_Agua
+        $query = "SELECT Id_Notificacion_Agua FROM notificacion_agua WHERE Id_Licencia_Agua = :idLicencia";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":idLicencia", $datos['idLicencia'], PDO::PARAM_INT);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verificar si se obtuvo el Id_Notificacion_Agua
+        if ($resultado) {
+            $idNotificacion = $resultado['Id_Notificacion_Agua'];
+            
+            // Realizar el UPDATE con el idNotificacion obtenido
+            $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estadoReconectarParticion, 	fecha_corte=:fechaVencimiento WHERE Id_Notificacion_Agua = :idNotificacion");
+            $stmt->bindParam(":idNotificacion", $idNotificacion);
+            $stmt->bindParam(":estadoReconectarParticion", $datos['estadoReconectarParticion']);
+             $stmt->bindParam(":fechaVencimiento", $datos['fechaVencimiento2']);
+            // Ejecutar el UPDATE
+            $stmt->execute();
+
+            // INSERT PARA PRIMERA CUOTA
+            $queryInsert = "INSERT INTO notificacion_pago (monto, Fecha_Registro, numero_proveido, Id_Notificacion_Agua, Id_Notificacion_t_Pago, Fecha_Vencimiento) 
+                            VALUES (:monto, :Fecha_Registro, :numero_proveido, :Id_Notificacion_Agua, :idtipoPago, :fechaVencimiento)";
+           
+            $stmtInsert = $pdo->prepare($queryInsert);
+            $stmtInsert->bindParam(":monto", $datos['particionAplicar']);
+            $stmtInsert->bindParam(":Fecha_Registro", $fechaRegistro);
+            $stmtInsert->bindParam(":numero_proveido", $datos['numeroProveido']);
+            $stmtInsert->bindParam(":Id_Notificacion_Agua", $idNotificacion);
+            $stmtInsert->bindParam(":idtipoPago", $datos['idtipoPago']);
+            $stmtInsert->bindParam(":fechaVencimiento", $datos['fechaVencimiento']);
+
+            // Ejecutar el primer INSERT
+            if ($stmtInsert->execute()) {
+
+                // INSERT PARA SEGUNDA CUOTA CON FECHA DIFERENTE
+                $queryInserts = "INSERT INTO notificacion_pago (monto, Fecha_Registro, Id_Notificacion_Agua, Id_Notificacion_t_Pago, Fecha_Vencimiento) 
+                                VALUES (:monto, :Fecha_Registro, :Id_Notificacion_Agua, :idtipoPago, :fechaVencimiento)";
+                
+                $stmtInserts = $pdo->prepare($queryInserts);
+                $stmtInserts->bindParam(":monto", $datos['totalAplicar2']);
+                $stmtInserts->bindParam(":Fecha_Registro", $fechaRegistro);
+                $stmtInserts->bindParam(":Id_Notificacion_Agua", $idNotificacion);
+                $stmtInserts->bindParam(":idtipoPago", $datos['idtipoPago']);
+                $stmtInserts->bindParam(":fechaVencimiento", $datos['fechaVencimiento2']);
+                
+                // Ejecutar el segundo INSERT
+                if ($stmtInserts->execute()) {
+                    return "ok"; // Si ambos INSERTS se ejecutan correctamente, retorna "ok"
+                } else {
+                    throw new Exception("Error al insertar el segundo registro en notificacion_pago.");
+                }
+            } else {
+                throw new Exception("Error al insertar el primer registro en notificacion_pago.");
+            }
+        } else {
+            throw new Exception("No se encontró el Id_Notificacion_Agua para la licencia proporcionada.");
+        }
+    } catch (Exception $e) {
+        // Manejo de errores
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+
+
+// public static function mdlGuardarIdNotificacionParticion($datos)
+// {
+//     try {
+//         // Establecer la conexión
+//         $pdo = Conexion::conectar();
+
+//         // Obtener la fecha actual (solo fecha)
+//         $fechaRegistro = date('Y-m-d');  // Para la fecha sin hora, solo la fecha actual
+
+//         // Consultar el Id_Notificacion_Agua
+//         $query = "SELECT Id_Notificacion_Agua FROM notificacion_agua WHERE Id_Licencia_Agua = :idLicencia";
+//         $stmt = $pdo->prepare($query);
+//         $stmt->bindParam(":idLicencia", $datos['idLicencia'], PDO::PARAM_INT);
+
+//         // Ejecutar la consulta
+//         $stmt->execute();
+
+//         // Obtener el resultado
+//         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+//         // Verificar si se obtuvo el Id_Notificacion_Agua
+//         if ($resultado) {
+//             $idNotificacion = $resultado['Id_Notificacion_Agua'];
+            
+//             // Realizar el UPDATE con el idNotificacion obtenido
+//             $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estadoReconectarParticion WHERE Id_Notificacion_Agua = :idNotificacion");
+//             $stmt->bindParam(":idNotificacion", $idNotificacion);
+//             $stmt->bindParam(":estadoReconectarParticion", $datos['estadoReconectarParticion']);
+//             // Ejecutar el UPDATE
+//             $stmt->execute();
+
+
+
+
+
+
+
+
+
+
+//             // INSERT PARA PRIMERA CUOTA
+//             $queryInsert = "INSERT INTO notificacion_pago (monto, Fecha_Registro, numero_proveido, Id_Notificacion_Agua,Id_Notificacion_t_Pago, Fecha_Vencimiento) 
+//                             VALUES (:monto, :Fecha_Registro, :numero_proveido, :Id_Notificacion_Agua, :idtipoPago, :fechaVencimiento )";
+           
+//             $stmtInsert = $pdo->prepare($queryInsert);
+//             $stmtInsert->bindParam(":monto", $datos['particionAplicar']);
+//             $stmtInsert->bindParam(":Fecha_Registro", $fechaRegistro);
+//             $stmtInsert->bindParam(":numero_proveido", $datos['numeroProveido']);
+//             $stmtInsert->bindParam(":Id_Notificacion_Agua", $idNotificacion);
+//             $stmtInsert->bindParam(":idtipoPago", $datos['idtipoPago']);
+//              $stmtInsert->bindParam(":fechaVencimiento", $datos['fechaVencimiento']);
+
+             
+//             // INSERT PARA PRIMERA CUOTA
+//             $queryInserts = "INSERT INTO notificacion_pago (monto, Fecha_Registro,  Id_Notificacion_Agua,Id_Notificacion_t_Pago,Fecha_Vencimiento ) 
+//                             VALUES (:monto, :Fecha_Registro,  :Id_Notificacion_Agua, :idtipoPago,:fechaVencimiento  )";
+           
+//             $stmtInserts = $pdo->prepare($queryInserts);
+//             $stmtInserts->bindParam(":monto", $datos['totalAplicar2']);
+//             $stmtInserts->bindParam(":Fecha_Registro", $fechaRegistro);
+//             $stmtInserts->bindParam(":Id_Notificacion_Agua", $idNotificacion);
+//             $stmtInserts->bindParam(":idtipoPago", $datos['idtipoPago']);
+//             $stmtInsert->bindParam(":fechaVencimiento", $datos['fechaVencimiento2']);
+//             $stmtInserts->execute();
+
+
+
+
+            
+//             // Ejecutar el INSERT y verificar si se ejecutó correctamente
+//             if ($stmtInsert->execute()) {
+//                 // Si la ejecución fue exitosa, devolver "ok"
+//                 return "ok";
+//             } else {
+//                 // Si la ejecución falló, devolver un mensaje de error
+//                 throw new Exception("Error al insertar el registro en notificacion_pago.");
+//             }
+//         } else {
+//             throw new Exception("No se encontró el Id_Notificacion_Agua para la licencia proporcionada.");
+//         }
+//     } catch (Exception $e) {
+//         // Manejo de errores
+//         echo "Error: " . $e->getMessage();
+//     }
+// }
+
+
+
+//GUARDAR SEGUNDA RECAUDACION
+public static function mdlSegundaGuardarIdNotificacion($datos)
+{
+    try {
+        // Establecer la conexión
+        $pdo = Conexion::conectar();
+
+        // Obtener la fecha actual (solo fecha)
+        $fechaRegistro = date('Y-m-d');  // Para la fecha sin hora, solo la fecha actual
+
+           $idNotificacion = $datos['idNotificaionAgua'];
+           $estadoReconectaSegundo= $datos['estadoReconectarSeg'];
+
+            
+            // Realizar el UPDATE con el idNotificacion obtenido
+            $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estadoReconectarSegundo WHERE Id_Notificacion_Agua = :idNotificacion");
+            $stmt->bindParam(":idNotificacion", $idNotificacion);
+            $stmt->bindParam(":estadoReconectarSegundo",$estadoReconectaSegundo );
+            // Ejecutar el UPDATE
+            $stmt->execute();
+
+            $numeroProveido= $datos['numeroProveido'];
+
+            $stmtInsert = $pdo->prepare("UPDATE notificacion_pago SET numero_proveido = :numeroProveido WHERE Id_Notificacion_Agua = :idNotificacion AND numero_proveido IS NULL");
+            $stmtInsert->bindParam(":idNotificacion", $idNotificacion, PDO::PARAM_INT);
+            $stmtInsert->bindParam(":numeroProveido",$numeroProveido , PDO::PARAM_INT);
+
+            
+            // Ejecutar el INSERT y verificar si se ejecutó correctamente
+            if ($stmtInsert->execute()) {
+                // Si la ejecución fue exitosa, devolver "ok"
+                return "ok";
+            } else {
+                // Si la ejecución falló, devolver un mensaje de error
+                throw new Exception("Error al insertar el registro en notificacion_pago.");
+            }
+       
+    } catch (Exception $e) {
+        // Manejo de errores
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+
+//GUARDAR TOTAL RECAUDACION
+public static function mdlTotalGuardarIdNotificacion($datos)
+{
+    try {
+        // Establecer la conexión
+        $pdo = Conexion::conectar();
+
+        // Obtener la fecha actual (solo fecha)
+        $fechaRegistro = date('Y-m-d');  // Para la fecha sin hora, solo la fecha actual
+
+        // Consultar el Id_Notificacion_Agua
+        $query = "SELECT Id_Notificacion_Agua FROM notificacion_agua WHERE Id_Licencia_Agua = :idLicencia";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":idLicencia", $datos['idLicencia'], PDO::PARAM_INT);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verificar si se obtuvo el Id_Notificacion_Agua
+        if ($resultado) {
+            $idNotificacion = $resultado['Id_Notificacion_Agua'];
+            
+            // Realizar el UPDATE con el idNotificacion obtenido
+            $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estadoReconectarTotal WHERE Id_Notificacion_Agua = :idNotificacion");
+            $stmt->bindParam(":idNotificacion", $idNotificacion);
+            $stmt->bindParam(":estadoReconectarTotal", $datos['estadoReconectarTotal']);
+            // Ejecutar el UPDATE
+            $stmt->execute();
+
+            // Realizar el INSERT en la tabla notificacion_pago
+            $queryInsert = "INSERT INTO notificacion_pago (monto, Fecha_Registro, numero_proveido, Id_Notificacion_Agua,Id_Notificacion_t_Pago ) 
+                            VALUES (:monto, :Fecha_Registro, :numero_proveido, :Id_Notificacion_Agua, :idtipoPago )";
+            $stmtInsert = $pdo->prepare($queryInsert);
+            $stmtInsert->bindParam(":monto", $datos['totalAplicar']);
+            $stmtInsert->bindParam(":Fecha_Registro", $fechaRegistro);
+            $stmtInsert->bindParam(":numero_proveido", $datos['numeroProveido']);
+            $stmtInsert->bindParam(":Id_Notificacion_Agua", $idNotificacion);
+             $stmtInsert->bindParam(":idtipoPago", $datos['idtipoPago']);
+
+            
+            // Ejecutar el INSERT y verificar si se ejecutó correctamente
+            if ($stmtInsert->execute()) {
+                // Si la ejecución fue exitosa, devolver "ok"
+                return "ok";
+            } else {
+                // Si la ejecución falló, devolver un mensaje de error
+                throw new Exception("Error al insertar el registro en notificacion_pago.");
+            }
+        } else {
+            throw new Exception("No se encontró el Id_Notificacion_Agua para la licencia proporcionada.");
+        }
+    } catch (Exception $e) {
+        // Manejo de errores
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+
+
 
    
 
@@ -82,7 +451,7 @@ public static function mdlMostrarGuardarIdNotificacion($datos)
 
 public static function mdlMostrarNotificacion($filtro_nombre = '', $filtro_fecha = '', $filtro_estado = '', $inicio = 0, $resultados_por_pagina = 10) {
     try {
-        $query = "SELECT l.Id_Licencia_Agua, l.Lote, l.Luz, l.Nombres_Licencia, l.Id_Ubica_Vias_Urbano, na.Numero_Notificacion, t.Codigo as tipo_via,
+        $query = "SELECT l.Id_Licencia_Agua, l.Id_Contribuyente , l.Lote, l.Luz, l.Nombres_Licencia, l.Id_Ubica_Vias_Urbano, na.Numero_Notificacion, t.Codigo as tipo_via,
                 nv.Nombre_Via as nombre_calle, m.NumeroManzana as numManzana, cu.Numero_Cuadra as cuadra,
                 z.Nombre_Zona as zona, h.Habilitacion_Urbana as habilitacion, u.Id_Ubica_Vias_Urbano as id,
                 na.Fecha_Registro, na.fecha_corte, na.estado, na.Id_Notificacion_Agua

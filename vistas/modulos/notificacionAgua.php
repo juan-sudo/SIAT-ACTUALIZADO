@@ -2,6 +2,7 @@
 
 use Controladores\ControladorUsuarios;
 use Controladores\ControladorPredio;
+use Controladores\ControladorNotificacion;
 
 ?>
 <div class="content-wrapper panel-medio-principal">
@@ -29,8 +30,6 @@ use Controladores\ControladorPredio;
         <div class="box-header ">
           <h3 class="box-title">Notificacion agua</h3>
 
-        
-         
 
         </div>
 
@@ -53,6 +52,9 @@ use Controladores\ControladorPredio;
             <option value="C">Afecto a corte</option>
             <option value="S">Sin servicio</option>
              <option value="P">Pagado</option>
+               <option value="R">Reconectado</option>
+               <option value="R1">Primera cuota</option>
+
         </select>
     </div>
 
@@ -223,7 +225,7 @@ use Controladores\ControladorPredio;
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="modalEditarNotificacionLabel"> Editar Notificación</h4>
+                    <h4 class="modal-title" > Editar Notificación</h4>
                 </div>
 
                 <!-- Modal Body -->
@@ -262,7 +264,7 @@ use Controladores\ControladorPredio;
                                     <option value="N">Notificado</option>
                                     <option value="C">Afecto Corte</option>
                                     <option value="S">Sin Servicio</option>
-                                    <option value="P">Pagado</option>
+                                    <!-- <option value="P">Pagado</option> -->
                                 </select>
                             </div>
                         </div>
@@ -300,6 +302,401 @@ use Controladores\ControladorPredio;
 <!-- MODAL DE NOTIFICACION FIN -->
 
 
+<!-- MODAL DE RECONEXION 2 CUOTA -->
+<div id="modalReconectarAguasdacuota" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+           
+                <!-- Modal Header -->
+                <div class="modal-header" style="background-color: #3c8dbc; color: white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                    <h4 class="modal-title" > Pago segunda cuota Reconexión agua</h4>
+                </div>
+
+               <input type="text" id="inputLicenciaSe"  >
+                <input type="text" id="totalPagadoSe"   >
+                <input type="text" id="inputNotificacionSe"   >
+
+                
+
+
+                <!-- Modal Body -->
+                <div class="modal-body estado_cuentaAgua_mostrar">
+                    <div class="row divDetallePredioR">
+                      <table class="table-container miprimeratabla_agua_rs" id="primeratabla_agua_rs">
+                        <thead>
+                          <tr>
+                            <th class="text-center" style="width:30px;">Cod.</th>
+                            <th class="text-center" style="width:50px;">Servicio</th>
+                            <th class="text-center" style="width:50px;">Año</th>
+                            <th class="text-center" style="width:50px;">Periodo</th>
+                            <th class="text-center" style="width:50px;">Importe</th>
+                            <th class="text-center" style="width:50px;">Gastos</th>
+                            <th class="text-center" style="width:50px;">Subtotal</th>
+                            <th class="text-center" style="width:50px;">Desc.</th>
+                            <th class="text-center" style="width:50px;">Total</th>
+                            <th class="seleccionado text-center" style="width:20px;">S</th>
+                          </tr>
+                        </thead>
+
+                        <tbody id="listaLicenciasAgua_estadocuenta_rs">
+                          <!-- Aqui Aparecen el estado de cuenta Agua-->
+                        </tbody>
+                        
+                      </table>
+                    </div>
+
+                  <table class="table-container" id="segundaTabla_agua_rs">
+                    
+                    <tbody>
+                      <th class="text-right td-round total_c" style="width:180px;">Total Deuda =</th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center" style="width:50px;"></th>
+                      <th class="text-center" style="width:50px;"></th>
+                      <th class="text-center" style="width:20px;" id="va" ></th>
+                    </tbody>  
+                          
+                    
+                  </table>
+
+
+                  
+                   <div class="form-group row" style=" padding: 10px; border: 1px dotted #999793;" >
+
+                    <div class="form-group row " >
+
+
+                         <div class="col-md-12" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Cuotas de pago y Fechas de vencimiento</span>
+                                <button type="button" class="btn btn-primary  btn-sm" id="popimprimir_aguas" data-target="#Modalimprimir_cuentaaguas">Imprimir notificacion s</button>
+                            </div>
+
+                         <div class="col-md-12" id="mostrar_segunda_cuota">
+
+                         
+
+
+                         </div>
+
+                    </div>
+
+
+                    
+
+
+
+
+                 
+
+
+                        </div>
+
+
+
+
+                       
+
+    
+                      </div>
+
+                
+                      <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="far fa-times-circle"></i> Cancelar
+                    </button>
+
+                  <button type="button" class="btn btn-primary" id='btnGuardarReconexionSegunda'>
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+
+                    
+                </div>
+
+          
+
+        </div>
+    </div>
+</div>
+<!-- MODAL DE RECONEXION FIN -->
+
+
+
+
+<!-- MODAL DE RECONEXION -->
+<div id="modalReconectarAgua" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+           
+                <!-- Modal Header -->  
+                <div class="modal-header" style="background-color: #3c8dbc; color: white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                    <h4 class="modal-title" > Reconexión agua</h4>
+                </div>
+
+               <input type="text" id="inputLicencia"  >
+                <input type="text" id="totalPagado"  >
+
+
+                <!-- Modal Body -->
+                <div class="modal-body estado_cuentaAgua_mostrar">
+                    <div class="row divDetallePredioR">
+                      <table class="table-container miprimeratabla_agua_r" id="primeratabla_agua_r">
+                        <thead>
+                          <tr>
+                            <th class="text-center" style="width:30px;">Cod.</th>
+                            <th class="text-center" style="width:50px;">Servicio</th>
+                            <th class="text-center" style="width:50px;">Año</th>
+                            <th class="text-center" style="width:50px;">Periodo</th>
+                            <th class="text-center" style="width:50px;">Importe</th>
+                            <th class="text-center" style="width:50px;">Gastos</th>
+                            <th class="text-center" style="width:50px;">Subtotal</th>
+                            <th class="text-center" style="width:50px;">Desc.</th>
+                            <th class="text-center" style="width:50px;">Total</th>
+                            <th class="seleccionado text-center" style="width:20px;">S</th>
+                          </tr>
+                        </thead>
+
+                        <tbody id="listaLicenciasAgua_estadocuenta_r">
+                          <!-- Aqui Aparecen el estado de cuenta Agua-->
+                        </tbody>
+                        
+                      </table>
+                    </div>
+
+                  <table class="table-container" id="segundaTabla_agua_r">
+                    
+                    <tbody>
+                      <th class="text-right td-round total_c" style="width:180px;">Total Deuda =</th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center" style="width:50px;"></th>
+                      <th class="text-center" style="width:50px;"></th>
+                      <th class="text-center" style="width:20px;" id="va" ></th>
+                    </tbody>  
+                          
+                    
+                  </table>
+
+
+                 
+                   <div class="form-group row" style=" padding: 10px; border: 1px dotted #999793;" >
+
+                    <div class="form-group row" >
+                            <div class="col-md-12" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Cuotas de pago y Fechas de vencimiento</span>
+                                <button type="button" class="btn btn-primary  btn-sm" id="popimprimir_aguan" data-target="#Modalimprimir_cuentaaguan">Imprimir notificacion</button>
+                            </div>
+
+
+                            </div>
+                    
+                        <div class="col-md-4">
+                        <label for="estadoNo" class="col-md-6 col-form-label">¿Cómo lo pagó?</label>
+                        <div class="col-md-6">
+
+
+                          <select class="form-control" id="estadoNo" name="estadoNo">
+                            <option value="" selected>Seleccionar</option> <!-- Opción predeterminada -->
+
+                            <?php
+                            // Obtener los tipos de pago
+                            $tipoPago = ControladorNotificacion::ctrMostrarTipoPagoNo();
+
+                            // Iterar sobre los tipos de pago y mostrar las opciones
+                            foreach ($tipoPago as $tipo_pago) {
+                                // Obtener el nombre de pago
+                                $nombrePago = $tipo_pago['Nombre_Pago'];
+
+                                // Mostrar las opciones basadas en el nombre del pago
+                                if ($nombrePago === 'Todo') {
+                                    // Si es 'Todo', no debe ser seleccionado por defecto
+                                    echo "<option value='" . $tipo_pago['Id_Notificacion_t_Pago'] . "'>" . $nombrePago . "</option>";
+                                } elseif ($nombrePago === 'Particionado') {
+                                    // Si es 'Particionado', no debe ser seleccionado por defecto
+                                    echo "<option value='" . $tipo_pago['Id_Notificacion_t_Pago'] . "'>" . $nombrePago . "</option>";
+                                } else {
+                                    // Para otros valores, se agregan sin seleccionarse por defecto
+                                    echo "<option value='" . $tipo_pago['Id_Notificacion_t_Pago'] . "'>" . $nombrePago . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+
+
+
+
+                        </div>
+                    </div>
+
+                      <div class="col-md-3 pagoTodo" style="display: none;">
+                        <label for="estadoN" class="col-md-7 col-form-label">Nro proveido: </label>
+                       <div class="col-md-5">
+                                <input type="text" style="width: 60px;" id="numeroProveido" name="numeroProveido">
+                            </div>
+                    </div>
+
+                     <div class="col-md-5 pagoTodo" style="display: none;">
+                        <label for="ReconectarTotal" class="col-md-6 col-form-label">Reconexión de agua: </label>
+                        <div class="col-md-6">
+                            <select class="form-control" id="ReconectarTotal" name="ReconectarTotal">
+                                <option value=" ">Seleccionar</option>
+                                <option value="R">Reconectar</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                 
+
+
+                        </div>
+
+
+
+
+
+
+                        <div class="pagaParticion" style="padding: 10px; border: 1px dotted #999793; display: none; " >
+                            <div class="form-group row" >
+                              <div class="col-md-12">
+                              <p>Cuotas de pago y Fechas de vencimiento</p>
+                                </div>
+                            </div>
+
+                              <div class="form-group row" style="margin-bottom: 4px;">
+                    
+                                 <div class="col-md-3">
+                                  <label for="estadoN" class="col-md-12 col-form-label">Cantidad cuotas</label>
+
+                                  </div>
+
+                                  <div class="col-md-3">
+                                   
+                                           <select class="form-control" id="estadoC" name="estadoC">
+                                              <option value="">Seleccionar</option> <!-- Sin "selected", no se selecciona automáticamente -->
+                                              <?php
+                                              $tipoPago = ControladorNotificacion::ctrMostrarCuotas();
+                                              foreach ($tipoPago as $tipo_pago) {
+                                                  // Verifica si el nombre del pago es "Todo" o "Particionado"
+                                                  $nombrePago = $tipo_pago['Nombre_cuota'];
+                                                  $ncantidadCuota = $tipo_pago['cantidad'];
+                                                  if ($nombrePago === 'Todo') {
+                                                      echo "<option value='" . $tipo_pago['cantidad'] . "'>" . $ncantidadCuota . '</option>';
+                                                  } elseif ($nombrePago === 'Particionado') {
+                                                      echo "<option value='" . $tipo_pago['cantidad'] . "'>" . $ncantidadCuota . " " . $nombrePago . '</option>';
+                                                  } else {
+                                                      echo "<option value='" . $tipo_pago['cantidad'] . "'>" . $ncantidadCuota . " "  .  $nombrePago . '</option>';
+                                                  }
+                                              }
+                                              ?>
+                                            </select>
+
+                              </div>
+
+                 
+
+                             
+                             </div>
+
+                            
+
+                          <div class="form-group row cuotas" id="cuotasPago"  >
+
+                           
+                                    
+                              </div>
+
+
+                          
+
+
+                       
+
+
+                               
+
+
+
+
+
+                        </div>
+
+                       
+
+    
+                      </div>
+
+                
+                      <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="far fa-times-circle"></i> Cancelar
+                    </button>
+
+                  <button type="button" class="btn btn-primary" id='btnGuardarReconexion'>
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+
+                    
+                </div>
+
+          
+
+        </div>
+    </div>
+</div>
+<!-- MODAL DE RECONEXION FIN -->
+
+
+
+<!-- modal de imprimir DEUDA NOTIFICADA-->
+<div class="container-fluid">
+  <div class="modal in" id="Modalimprimir_cuentaaguan" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body printerhereagua">
+          <iframe id="iframe_aguano" class="iframe-full-height"></iframe>
+          <!-- Muestra el estado de cuenta de Agua-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin de imprimir estado de cuenta agua-->
+
+
+<!-- modal de imprimir DEUDA NOTIFICADA-->
+<div class="container-fluid">
+  <div class="modal in" id="Modalimprimir_cuentaaguas" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body printerhereagua">
+          <iframe id="iframe_aguas" class="iframe-full-height"></iframe>
+          <!-- Muestra el estado de cuenta de Agua-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin de imprimir estado de cuenta agua-->
 <!-- MODAL ELIMINAR NOTIFICACIÓN -->
 <div class="modal fade" id="modalEliminarNotificacion" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
   <div class="modal-dialog modal-sm">
@@ -333,6 +730,81 @@ use Controladores\ControladorPredio;
 </div>
 
 <!-- MODAL ELIMINAR NEGOCIO IND -->
+
+
+
+<!-- MODAL PAGAR TODO -->
+<div class="modal fade" id="modalPagarTodo" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <i class="bi bi-exclamation-circle" style="color: red; font-size: 48px;"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            
+             <h3>Pagar toda la deuda</h3>
+            <p>Se eligió la opción pago único</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <!-- Botón de confirmación de eliminación -->
+    
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PAGAR TODO -->
+
+
+
+
+<!-- MODAL PAGAR POR PARTICIONES -->
+
+<div class="modal fade" id="modalPagarParticiones" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <i class="bi bi-exclamation-circle" style="color: red; font-size: 48px;"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            
+             <h3>Debe selecionar estado de cuenta pagados </h3>
+            <p>Se eligió la opción pago por particion</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <!-- Botón de confirmación de eliminación -->
+    
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PAGAR POR PARCIONES -->
+
 
 
 <!-- Modal Permisos -->

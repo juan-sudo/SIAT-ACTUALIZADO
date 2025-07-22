@@ -1,10 +1,342 @@
 class NotificaionUsuario {
   constructor() {
-    this.idusuario_sesion = 0;
+    
+        this.idCatastroC_consulta_agua = null;
+        this.ubiLicenciaC_consulta_agua = null;
+        this.codCatastroC_consulta_agua=null;
+        this.idlicenciaagua=null; 
+        this.totalImporte = 0;
+        this.totalGasto = 0;
+        this.totalSubtotal = 0;
+        this.totalTIM = 0;
+        this.totalTotal = 0;
+        this.idsSeleccionados = [];
+        this.anio=null;
+        this.totalCuotas=null;
+        this.idlicenciaaguap=null;
+        this.idcontribuyentep=null;
+
+
+  }
+
+    reniciar_valor(){
+    this.totalImporte=0;
+    this.totalGasto=0;
+    this.totalSubtotal=0;
+    this.totalTIM=0;
+    this.totalTotal=0;
+   
+    $("#segundaTabla_agua_r tbody th:eq(1)").text("");
+    $("#segundaTabla_agua_r tbody th:eq(2)").text("");
+    $("#segundaTabla_agua_r tbody th:eq(3)").text("");
+    $("#segundaTabla_agua_r tbody th:eq(4)").text("");
+    $("#segundaTabla_agua_r tbody th:eq(5)").text("");
   }
 
 
+  
+  manejarClicFilaR(fila) {
+    const estadoS = fila.find("td:eq(9)").text();
+    const gastoText = fila.find("td:eq(5)").text();
+    const subtotalText = fila.find("td:eq(6)").text();
+    const desText = fila.find("td:eq(7)").text();
+    const totalText = fila.find("td:eq(8)").text();
+    const importeText = fila.find("td:eq(4)").text();
+    
+    const gasto = parseFloat(gastoText);
+    const subtotal = parseFloat(subtotalText);
+    const des = parseFloat(desText);
+    const total = parseFloat(totalText);
+    const importe = parseFloat(importeText);
+    
+    // Capturar el valor del atributo "id" de la fila y agregarlo al array si está seleccionada
+    const filaId = fila.attr("id");
+    
+    if (estadoS === "1") {
+        this.totalGasto -= gasto;
+        this.totalSubtotal -= subtotal;
+        this.totalDes -= des;
+        this.totalTotal -= total;
+        this.totalImporte -= importe;
+        
+        fila.find("td:eq(9)").text("");
+        fila.css("background-color", "");
+        
+        // Eliminar el valor del id de la fila del array (si existe)
+        const index = this.idsSeleccionados.indexOf(filaId);
+        if (index > -1) {
+            this.idsSeleccionados.splice(index, 1);
+        }
+    } else {
+        this.totalGasto += gasto;
+        this.totalSubtotal += subtotal;
+        this.totalDes += des;
+        this.totalTotal += total;
+        this.totalImporte += importe;
+        fila.find("td:eq(9)").text("1");
+        fila.css("background-color", "rgb(255, 248, 167)");   
+        // Agregar el valor del id de la fila al array (si no existe)
+        if (!this.idsSeleccionados.includes(filaId)) {
+            this.idsSeleccionados.push(filaId);
+        }
+    }
+    $("#segundaTabla_agua_r tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(4)").text(this.totalDes.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+        
+    // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas
+    console.log("Ids seleccionados:", this.idsSeleccionados);
+  } 
+
+  
+  
+
+  
+manejarClicFila_agua_r(fila) {
+    const estadoS = fila.find("td:eq(9)").text();
+    const gastoText = fila.find("td:eq(5)").text();
+    const subtotalText = fila.find("td:eq(6)").text();
+    const timText = fila.find("td:eq(7)").text();
+    const totalText = fila.find("td:eq(8)").text();
+    const importeText = fila.find("td:eq(4)").text();
+    
+    const gasto = parseFloat(gastoText);
+    const subtotal = parseFloat(subtotalText);
+    const tim = parseFloat(timText);
+    const total = parseFloat(totalText);
+    const importe = parseFloat(importeText);
+    
+    // Capturar el valor del atributo "id" de la fila y agregarlo al array si está seleccionada
+    const filaId = fila.attr("id");
+    
+    if (estadoS === "1") {
+        this.totalGasto -= gasto;
+        this.totalSubtotal -= subtotal;
+        this.totalTIM -= tim;
+        this.totalTotal -= total;
+        this.totalImporte -= importe;
+        
+        fila.find("td:eq(9)").text(""); // Aquí debería establecerse el valor a ""
+        fila.css("background-color", "");
+        
+        // Eliminar el valor del id de la fila del array (si existe)
+        const index = this.idsSeleccionados.indexOf(filaId);
+        if (index > -1) {
+            this.idsSeleccionados.splice(index, 1);
+        }
+    } else {
+        this.totalGasto += gasto;
+        this.totalSubtotal += subtotal;
+        this.totalTIM += tim;
+        this.totalTotal += total;
+        this.totalImporte += importe;
+        fila.find("td:eq(9)").text("1"); // Aquí estableces el valor a "1"
+        fila.css("background-color", "rgb(255, 248, 167)");   
+        // Agregar el valor del id de la fila al array (si no existe)
+        if (!this.idsSeleccionados.includes(filaId)) {
+            this.idsSeleccionados.push(filaId);
+        }
+        //TOTAL GROBAL
+        
+     //   this.totalCuotas = this.totalTotal.toFixed(2); 
+
+           // Captura el valor de totalCuotas
+        notificacionUsuario.totalCuotas = notificacionUsuario.totalTotal.toFixed(2); 
+    }
+    // Actualización de las celdas de la segunda tabla
+    $("#segundaTabla_agua_r tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(4)").text(this.totalTIM.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+        
+    // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas
+    console.log("Ids seleccionados _AGUA :", this.idsSeleccionados);
+}
+  
+  
+  manejarClicSR(thS) {
+    const filas = $("#primeratabla_agua_r tbody tr");
+    const todasSeleccionadas = $("td:eq(9):contains('1')", filas).length === filas.length;
+    if (todasSeleccionadas) {
+      // Todas las filas están seleccionadas, deseleccionar todas
+      filas.each((index, fila) => {
+        this.manejarClicFilaR($(fila));
+      });
+    } else {
+      // Al menos una fila ya está seleccionada, completar las faltantes
+      filas.each((index, fila) => {
+        if ($("td:eq(9)", fila).text() !== "1") {
+          this.manejarClicFilaR($(fila));
+        }
+      });
+    }
+    thS.text(todasSeleccionadas ? "S" : "S");
+    // Actualizar los totales en la segunda tabla
+    $("#segundaTabla_agua_r tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(4)").text(this.totalTIM.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+  }
   //editar notificacion
+
+
+  //PATRA SEGUNDA CUOTA
+  
+  
+  manejarClicFilaRS(fila) {
+    const estadoS = fila.find("td:eq(9)").text();
+    const gastoText = fila.find("td:eq(5)").text();
+    const subtotalText = fila.find("td:eq(6)").text();
+    const desText = fila.find("td:eq(7)").text();
+    const totalText = fila.find("td:eq(8)").text();
+    const importeText = fila.find("td:eq(4)").text();
+    
+    const gasto = parseFloat(gastoText);
+    const subtotal = parseFloat(subtotalText);
+    const des = parseFloat(desText);
+    const total = parseFloat(totalText);
+    const importe = parseFloat(importeText);
+    
+    // Capturar el valor del atributo "id" de la fila y agregarlo al array si está seleccionada
+    const filaId = fila.attr("id");
+    
+    if (estadoS === "1") {
+        this.totalGasto -= gasto;
+        this.totalSubtotal -= subtotal;
+        this.totalDes -= des;
+        this.totalTotal -= total;
+        this.totalImporte -= importe;
+        
+        fila.find("td:eq(9)").text("");
+        fila.css("background-color", "");
+        
+        // Eliminar el valor del id de la fila del array (si existe)
+        const index = this.idsSeleccionados.indexOf(filaId);
+        if (index > -1) {
+            this.idsSeleccionados.splice(index, 1);
+        }
+    } else {
+        this.totalGasto += gasto;
+        this.totalSubtotal += subtotal;
+        this.totalDes += des;
+        this.totalTotal += total;
+        this.totalImporte += importe;
+        fila.find("td:eq(9)").text("1");
+        fila.css("background-color", "rgb(255, 248, 167)");   
+        // Agregar el valor del id de la fila al array (si no existe)
+        if (!this.idsSeleccionados.includes(filaId)) {
+            this.idsSeleccionados.push(filaId);
+        }
+    }
+    $("#segundaTabla_agua_rs tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(4)").text(this.totalDes.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+        
+    // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas
+    console.log("Ids seleccionados:", this.idsSeleccionados);
+  } 
+
+  
+
+  // PARA LA SEGUNDA CUOTA
+manejarClicFila_agua_rs(fila) {
+    const estadoS = fila.find("td:eq(9)").text();
+    const gastoText = fila.find("td:eq(5)").text();
+    const subtotalText = fila.find("td:eq(6)").text();
+    const timText = fila.find("td:eq(7)").text();
+    const totalText = fila.find("td:eq(8)").text();
+    const importeText = fila.find("td:eq(4)").text();
+    
+    const gasto = parseFloat(gastoText);
+    const subtotal = parseFloat(subtotalText);
+    const tim = parseFloat(timText);
+    const total = parseFloat(totalText);
+    const importe = parseFloat(importeText);
+    
+    // Capturar el valor del atributo "id" de la fila y agregarlo al array si está seleccionada
+    const filaId = fila.attr("id");
+    
+    if (estadoS === "1") {
+        this.totalGasto -= gasto;
+        this.totalSubtotal -= subtotal;
+        this.totalTIM -= tim;
+        this.totalTotal -= total;
+        this.totalImporte -= importe;
+        
+        fila.find("td:eq(9)").text(""); // Aquí debería establecerse el valor a ""
+        fila.css("background-color", "");
+        
+        // Eliminar el valor del id de la fila del array (si existe)
+        const index = this.idsSeleccionados.indexOf(filaId);
+        if (index > -1) {
+            this.idsSeleccionados.splice(index, 1);
+        }
+    } else {
+        this.totalGasto += gasto;
+        this.totalSubtotal += subtotal;
+        this.totalTIM += tim;
+        this.totalTotal += total;
+        this.totalImporte += importe;
+        fila.find("td:eq(9)").text("1"); // Aquí estableces el valor a "1"
+        fila.css("background-color", "rgb(255, 248, 167)");   
+        // Agregar el valor del id de la fila al array (si no existe)
+        if (!this.idsSeleccionados.includes(filaId)) {
+            this.idsSeleccionados.push(filaId);
+        }
+        //TOTAL GROBAL
+        
+     //   this.totalCuotas = this.totalTotal.toFixed(2); 
+
+           // Captura el valor de totalCuotas
+        notificacionUsuario.totalCuotas = notificacionUsuario.totalTotal.toFixed(2); 
+    }
+    // Actualización de las celdas de la segunda tabla
+    $("#segundaTabla_agua_rs tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(4)").text(this.totalTIM.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+        
+    // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas
+    console.log("Ids seleccionados _AGUA OTRO :", this.idsSeleccionados);
+}
+  
+  // PARA LA SEGUNDA CUOTA
+  manejarClicSRS(thS) {
+    const filas = $("#primeratabla_agua_rs tbody tr");
+    const todasSeleccionadas = $("td:eq(9):contains('1')", filas).length === filas.length;
+    if (todasSeleccionadas) {
+      // Todas las filas están seleccionadas, deseleccionar todas
+      filas.each((index, fila) => {
+        this.manejarClicFilaRS($(fila));
+      });
+    } else {
+      // Al menos una fila ya está seleccionada, completar las faltantes
+      filas.each((index, fila) => {
+        if ($("td:eq(9)", fila).text() !== "1") {
+          this.manejarClicFilaRS($(fila));
+        }
+      });
+    }
+    thS.text(todasSeleccionadas ? "S" : "S");
+    // Actualizar los totales en la segunda tabla
+    $("#segundaTabla_agua_rs tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(4)").text(this.totalTIM.toFixed(2));
+    $("#segundaTabla_agua_rs tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+  }
+
+
+
+
+
 imprimirAgua() {
     // Obtener todas las filas de la tabla
     let filas = document.querySelectorAll('#lista_de_notificacion tr');
@@ -60,12 +392,11 @@ imprimirAgua() {
         console.log('Error en la llamada AJAX:', error);
       }
     });
+
+
+
   }
 
-
-  
-
-  // Función para listar notificaciones
   // Función para listar notificaciones
 lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos', pagina = 1) {
     let datos = new FormData();
@@ -84,8 +415,7 @@ lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos
         processData: false,
         success: function (respuesta) {
 
-          console.log("Respuesta del servidor para listar notificaciones:", respuesta); // Verifica la respuesta del servidor
-           
+         
           let data;
           try {
               data = JSON.parse(respuesta);
@@ -99,6 +429,9 @@ lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos
           
           }
     });
+
+
+
 }
 
   //    lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos') {
@@ -173,6 +506,433 @@ lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos
           }
           },
         });
+  }
+
+  
+
+  MostrarEstadoCuentaAguaReconexcion(idlicencia){
+    let self=this;
+
+    console.log("ID de licencia para mostrar estado de cuenta:", self); // Verifica que el ID se está capturando correctamente
+  
+
+
+    $.ajax({
+      type: "POST",
+      url: "ajax/notificacionagua.ajax.php",
+      data: {
+        idlicenciaagua_estadocuenta: idlicencia,
+      },
+      success: function (respuesta) {
+
+       console.log("Respuesta del servidor para mostrar estado de cuenta:", respuesta); // Verifica la respuesta del servidor
+
+        $("#listaLicenciasAgua_estadocuenta_r").html(respuesta);
+
+
+              
+          // Variable para almacenar la suma total
+          var totalAplicarr = 0;
+
+           $("tr").each(function() {
+                var $fila = $(this);
+
+                // Asegurarse de que la fila tiene al menos 9 <td> (para tener un penúltimo td)
+                if ($("td", $fila).length >= 9) {
+                    // Obtener el valor del penúltimo <td> (columna 9, índice -2)
+                    var valorPenultimoTd = $("td:eq(-2)", $fila).text().trim();
+
+                    // Verificar si el penúltimo <td> no está vacío
+                    if (valorPenultimoTd !== "" && valorPenultimoTd !== "0.00") {  // Asegurar que no sea 0.00
+                        // Limpiar caracteres no deseados (espacios, comas, etc.) y convertir a número
+                        valorPenultimoTd = parseFloat(valorPenultimoTd.replace(/[^\d.-]/g, ''));
+
+                        // Verificar si el valor es numérico y sumarlo
+                        if (!isNaN(valorPenultimoTd)) {
+                            totalAplicarr += valorPenultimoTd; // Sumar el valor de la penúltima columna
+                        } else {
+                            // Si no es un número válido, imprimir mensaje de error o depuración
+                            console.log("Valor no válido en la fila:", $fila);
+                        }
+                    }
+                }
+            });
+
+            $("#totalPagado").val('');
+            $("#totalPagado").val(totalAplicarr); // Mostrar solo la fecha en el span
+        
+           // Función para manejar el clic en las filas de la tabla y sumar los valores
+            $("#primeratabla_agua_r tbody tr").on("click", function () {
+              self.manejarClicFila_agua_r($(this));
+            });
+            // Función para manejar el clic en el encabezado "S"
+            $("#primeratabla_agua_r thead th:eq(9)").on("click", function () {
+              self.manejarClicSR($(this));
+            });
+
+      },
+    });
+
+  }
+
+
+   //LISTA PARA RECONEXION DE AGUA SEGUNDA CUOTA
+  MostrarEstadoCuentaAguaReconexcions(idlicencia){
+
+     let self=this;
+
+    console.log("ID de licencia para mostrar estado de cuenta:", self); // Verifica que el ID se está capturando correctamente
+  console.log("llego aqui", idlicencia);
+
+    $.ajax({
+      type: "POST",
+      url: "ajax/notificacionagua.ajax.php",
+      data: {
+        idlicenciaagua_estadocuenta: idlicencia,
+      },
+      success: function (respuesta) {
+
+       console.log("Respuesta del servidor para mostrar estado de cuenta:", respuesta); // Verifica la respuesta del servidor
+
+        $("#listaLicenciasAgua_estadocuenta_rs").html(respuesta);
+
+      //  console.log(respuesta);
+
+        // Variable para almacenar la suma total
+            var totalAplicar = 0;
+
+            // Seleccionar todas las filas de la tabla y sumar los valores del penúltimo <td>
+            // $("tr").each(function() {
+            //     var $fila = $(this);
+
+            //     // Asegurarse de que la fila tiene al menos 9 <td> (para tener un penúltimo td)
+            //     if ($("td", $fila).length >= 9) {
+            //         // Obtener el valor del penúltimo <td> (columna 9, índice -2)
+            //         var valorPenultimoTd = $("td:eq(-2)", $fila).text().trim();
+
+            //         // Verificar si el penúltimo <td> no está vacío
+            //         if (valorPenultimoTd !== "" && valorPenultimoTd !== "0.00") {  // Asegurar que no sea 0.00
+            //             // Limpiar caracteres no deseados (espacios, comas, etc.) y convertir a número
+            //             valorPenultimoTd = parseFloat(valorPenultimoTd.replace(/[^\d.-]/g, ''));
+
+            //             // Verificar si el valor es numérico y sumarlo
+            //             if (!isNaN(valorPenultimoTd)) {
+            //                 totalAplicar += valorPenultimoTd; // Sumar el valor de la penúltima columna
+            //             } else {
+            //                 // Si no es un número válido, imprimir mensaje de error o depuración
+            //                 console.log("Valor no válido en la fila:", $fila);
+            //             }
+            //         }
+            //     }
+            // });
+
+
+                          
+            
+            // Usamos setTimeout para asegurarnos de que el DOM se haya actualizado antes de calcular el total
+            setTimeout(function () {
+                // Variable para almacenar la suma total
+                var totalAplicar = 0;
+
+                // Sumar los valores de los <span> con id="montoCuot"
+                $("span#montoCuot").each(function() {
+                    var valorCuota = $(this).text().trim();  // Obtener el texto dentro del span
+
+                    // Asegurarse de que el valor no esté vacío o sea "0.00"
+                    if (valorCuota !== "" && valorCuota !== "0.00") {
+                        // Limpiar caracteres no deseados y convertir a número
+                        valorCuota = parseFloat(valorCuota.replace(/[^\d.-]/g, ''));
+
+                        // Verificar si el valor es numérico y sumarlo
+                        if (!isNaN(valorCuota)) {
+                            totalAplicar += valorCuota;  // Sumar el valor
+                        } else {
+                            console.log("Valor no válido en el span:", $(this));  // Si no es un número válido
+                        }
+                    }
+                });
+
+                // Mostrar el total con 2 decimales
+                $("#totalPagadoSe").val(totalAplicar.toFixed(2));
+            }, 500);  // El tiempo en milisegundos (ajustable si es necesario)
+            
+           // $("#totalPagadoSe").val(totalAplicar); // Mostrar la suma total
+
+
+                    // Función para manejar el clic en las filas de la tabla y sumar los valores
+            $("#primeratabla_agua_rs tbody tr").on("click", function () {
+              self.manejarClicFila_agua_rs($(this));
+            });
+            // Función para manejar el clic en el encabezado "S"
+            $("#primeratabla_agua_rs thead th:eq(9)").on("click", function () {
+              self.manejarClicSRS($(this));
+            });
+
+      },
+    });
+
+  }
+
+
+
+
+  //MOSTRRA CUOTAS V2
+  
+
+   // Método para mostrar las cuotas a pagar
+  MostrarCuotasPagarV(cuotas) {
+
+    var valorPrimeraCuota = notificacionUsuario.totalCuotas;  // Acceder al valor totalCuotas
+    
+    let valorTotal=parseFloat($('#totalPagado').val());
+    var valorSegundaCuota=valorTotal-valorPrimeraCuota;
+
+    var estadoPrimeraReconexion='R1';
+    var estadoSegundaReconexion='R';
+
+
+    let cuotasHTML = '';
+
+
+   // let fechaVencimiento = '2025-07-20';  // Fecha de vencimiento inicial (ajustar según necesidad)
+
+  let now = new Date();
+  let localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000); // Ajusta la fecha a la zona horaria local
+  let fechaVencimiento = localDate.toISOString().split('T')[0];  // Devulve la fecha actual en formato 'YYYY-MM-DD'
+
+
+    for (let i = 1; i <= cuotas; i++) {
+         let valorCuota = i === 2 ? valorSegundaCuota : valorPrimeraCuota;  // Si es la segunda cuota, usamos valorSegundaCuota
+        let valorReconecion = i === 2 ? estadoSegundaReconexion : estadoPrimeraReconexion;  // Si es la segunda cuota, usamos valorSegundaCuota
+
+
+        cuotasHTML += `
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="estadoN" class="col-form-label" >Cuota ${i}: </label>
+                  S/. <span id="montoCuota${i}" name="montoCuota${i}">${this.number_format(valorCuota, 2)}</span>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="estadoN" class="col-form-label">Fecha ven.: </label>
+                    <span id="fechaVenCuota${i}" name="fechaVenCuota${i}" >${this.formatDate(fechaVencimiento)}</span>
+                </div>
+
+                <div class="col-md-3 cuotas" style="display: none;">
+                    <label for="numeroProveidoP" class="col-form-label">Nro proveído: </label>
+                    <input type="text" style="width: 60px;" id="numeroProveidoCuota${i}" name="numeroProveidoCuota${i}">
+                </div>
+                
+                <div class="col-md-4 cuotas" style="display: none;">
+                    <label for="estadoNP" class="col-md-7 col-form-label">Reconexión de agua</label>
+                    <div class="col-md-5">
+                        <select class="form-control" id="estadoNP${i}" name="estadoNP${i}" >
+                            <option value=" ">Seleccionar</option>
+                           ${valorReconecion === "R" ? 
+                            `<option value="R" selected>Reconectar</option>` : 
+                            `<option value="R1" selected>Reconectar</option>`}
+                      
+                           </select>
+                    </div>
+                </div>
+            </div>
+        `;
+        fechaVencimiento = this.dateAddMonth(fechaVencimiento, 2); // Sumamos un mes
+    }
+
+    // Insertamos el HTML generado en el div adecuado
+    $('#cuotasPago').html(cuotasHTML);
+
+    // Mostrar el div con id="cuotasPago" y asegurarnos de que las cuotas también estén visibles
+   // $('#cuotasPago').show();
+    $('.cuotas').show(); // Muestra las cuotas (si están ocultas)
+  }
+
+  // Función para formatear número como moneda
+  number_format(number, decimals) {
+    return number.toLocaleString('es-PE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  }
+
+  // Función para formatear fecha
+ // Función para formatear la fecha
+formatDate(dateStr) {
+  let date = new Date(dateStr + "T00:00:00"); // Fuerza que la fecha tenga la hora en 00:00:00 para evitar problemas con UTC
+  return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
+
+
+  // Función para sumar un mes a una fecha
+  dateAddMonth(dateStr, months) {
+    let date = new Date(dateStr);
+    date.setMonth(date.getMonth() + months);
+    return date.toISOString().split('T')[0];  // Devuelve la fecha en formato YYYY-MM-DD
+  }
+
+
+  
+  MostrarCuotasPagar(cuotas,idLicencia){
+
+    let self=this;
+
+      if (cuotas === 0) {
+        return; // No hacer la consulta ni mostrar cuotas
+    } 
+
+    console.log("ID de licencia para mostrar estado de cuenta:", self); // Verifica que el ID se está capturando correctamente
+  
+     let formd = new FormData();
+    
+    // Agregar el campo adicional al FormData
+    formd.append("idLicencia", idLicencia);
+    formd.append("cuotas", cuotas);
+    formd.append("mostrar_cuotas", "mostrar_cuotas");
+
+
+
+
+    $.ajax({
+      type: "POST",
+      url: "ajax/notificacionagua.ajax.php",
+      data: formd,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (respuesta) {
+       // console.log("Respuesta del servidor para mostrar estado de cuenta:", respuesta); // Verifica la respuesta del servidor
+
+       console.log(respuesta);
+      // Verifica si la respuesta es correcta
+        if (respuesta.tipo == "correcto") {
+            // Reemplazamos el contenido de #cuotasPago con el HTML de las cuotas
+            $("#cuotasPago").html(respuesta.cuotasHTML);  
+            
+            // Opcional: Mostrar la sección de cuotas si es necesario
+            $('.cuotas').show();  
+        } 
+
+      },
+    });
+
+  }
+
+  //notificacionUsuario.MostrarCuotasPagarSegundaCuota(idLicencia,idNotificionAgua); // Llamar a la función para mostrar el estado de cuenta
+
+   
+  MostrarCuotasPagarSegundaCuota(idLicencia,idNotificionAgua){
+
+   
+   
+     let formd = new FormData();
+    
+    // Agregar el campo adicional al FormData
+    formd.append("idLicencia", idLicencia);
+    formd.append("idNotificionAgua", idNotificionAgua);
+    formd.append("mostrar_cuotas_segundo", "mostrar_cuotas_segundo");
+
+   
+
+    $.ajax({
+      type: "POST",
+      url: "ajax/notificacionagua.ajax.php",
+      data: formd,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (respuesta) {
+       // console.log("Respuesta del servidor para mostrar estado de cuenta:", respuesta); // Verifica la respuesta del servidor
+
+       console.log(respuesta);
+    
+      $("#mostrar_segunda_cuota").html(respuesta);  
+           
+            
+        
+        
+
+      },
+    });
+
+  }
+
+  //IMPRIMIR NOTIFICADO
+  
+
+  imprimirhere_aguar() {
+    console.log("llego hasta aqui");
+
+    const idsSeleccionados_ = this.idsSeleccionados.map(function(valor) {
+      return parseInt(valor, 10); // El segundo argumento 10 especifica la base numérica (decimal).
+    });
+
+   
+
+    let datos = new FormData();
+    datos.append("idlicencia",this.idlicenciaagua);
+     datos.append("propietarios",this.idcontribuyente);
+    datos.append("id_cuenta",idsSeleccionados_);
+    datos.append("totalImporte",this.totalImporte.toFixed(2));
+    datos.append("totalGasto",this.totalGasto.toFixed(2));
+    datos.append("totalSubtotal",this.totalSubtotal.toFixed(2));
+    datos.append("totalTIM",this.totalTIM.toFixed(2));
+    datos.append("totalTotal",this.totalTotal.toFixed(2));
+
+    // Imprimir todos los datos de FormData
+    for (let pair of datos.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    $.ajax({
+      url: "./vistas/print/imprimirEstadoCuentaAgua.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (rutaArchivo) {
+        // Establecer el src del iframe con la ruta relativa del PDF
+        document.getElementById("iframe_aguano").src = 'vistas/print/' + rutaArchivo;
+      }
+    });
+  }
+
+
+
+  //PARA SEGUND CUOTA
+  
+  imprimirhere_aguas() {
+    console.log("llego hasta aqui");
+
+    const idsSeleccionados_ = this.idsSeleccionados.map(function(valor) {
+      return parseInt(valor, 10); // El segundo argumento 10 especifica la base numérica (decimal).
+    });
+
+    let datos = new FormData();
+    datos.append("idlicencia",this.idlicenciaaguap);
+     datos.append("propietarios",this.idcontribuyentep);
+    datos.append("id_cuenta",idsSeleccionados_);
+    datos.append("totalImporte",this.totalImporte.toFixed(2));
+    datos.append("totalGasto",this.totalGasto.toFixed(2));
+    datos.append("totalSubtotal",this.totalSubtotal.toFixed(2));
+    datos.append("totalTIM",this.totalTIM.toFixed(2));
+    datos.append("totalTotal",this.totalTotal.toFixed(2));
+
+    // Imprimir todos los datos de FormData
+    for (let pair of datos.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    $.ajax({
+      url: "./vistas/print/imprimirEstadoCuentaAgua.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (rutaArchivo) {
+        // Establecer el src del iframe con la ruta relativa del PDF
+        document.getElementById("iframe_aguas").src = 'vistas/print/' + rutaArchivo;
+      }
+    });
   }
 
 
@@ -356,89 +1116,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// document.addEventListener('DOMContentLoaded', function () {
-//   // Llamar a la función lista_notificacion() para cargar todas las notificaciones
-//   notificacionUsuario.lista_notificacion('');
-//   console.log('Valor del atributo iso:', notificacionUsuario.idusuario_sesion);
-  
-//   // Detectar cambios en el campo de texto para filtrar por nombre
-//   const nombreField = document.querySelector('#filtrar_nombre');
-//    const fechaField = document.querySelector('#fecha_notificacion');
-//    const estadoField = document.querySelector('#filtrar_estado'); // Campo de estado
-  
-//   // Detectar cambios en el campo de texto para filtrar por nombre
-//   nombreField.addEventListener('input', function () {
-//     // Capturar el valor ingresado en el campo de texto
-//     const nombre = nombreField.value;
-//     const fecha = fechaField.value; // Capturar la fecha seleccionada
-//     const estado = estadoField.value; // Capturar el estado seleccionado
-    
-//     // Llamar a la función lista_notificacion() con los filtros aplicados (nombre, fecha y estado)
-//     notificacionUsuario.lista_notificacion(nombre, fecha, estado);
-    
-//     console.log('Filtrar por nombre:', nombre); // Ver el valor filtrado
-//     console.log('Filtrar por fecha:', fecha); // Ver el valor de la fecha filtrada
-//     console.log('Filtrar por estado:', estado); // Ver el valor del estado filtrado
-//   });
-
-
-//    // Detectar cambios en el campo de fecha para filtrar por fecha
-//   fechaField.addEventListener('change', function () {
-//     // Capturar el valor seleccionado en el campo de fecha
-//     const fecha = fechaField.value;
-//     const nombre = nombreField.value; // Capturar el nombre ingresado
-//     const estado = estadoField.value; // Capturar el estado seleccionado
-    
-//     // Llamar a la función lista_notificacion() con los filtros aplicados (nombre, fecha y estado)
-//     notificacionUsuario.lista_notificacion(nombre, fecha, estado);
-    
-//     console.log('Filtrar por nombre:', nombre); // Ver el valor filtrado
-//     console.log('Filtrar por fecha:', fecha); // Ver el valor de la fecha filtrada
-//     console.log('Filtrar por estado:', estado); // Ver el valor del estado filtrado
-//   });
-
-//     // Detectar cambios en el campo de estado para filtrar por estado
-//   estadoField.addEventListener('change', function () {
-//     // Capturar el valor seleccionado en el campo de estado
-//     const estado = estadoField.value;
-//     const nombre = nombreField.value; // Capturar el nombre ingresado
-//     const fecha = fechaField.value;  // Capturar la fecha seleccionada
-    
-//     // Llamar a la función lista_notificacion() con los filtros aplicados (nombre, fecha y estado)
-//     notificacionUsuario.lista_notificacion(nombre, fecha, estado);
-    
-//     console.log('Filtrar por nombre:', nombre); // Ver el valor filtrado
-//     console.log('Filtrar por fecha:', fecha); // Ver el valor de la fecha filtrada
-//     console.log('Filtrar por estado:', estado); // Ver el valor del estado filtrado
-//   });
-
-
-// });
-
-
-
-
 $(".form-inserta-editar_n").submit(function (e) {
     e.preventDefault();
     notificacionUsuario.guardar_notificacion_editado_n();
 });
 
-
-    
-// CONFIRMAR ELIMIANR NOTIFICACION
-// Confirmar eliminación de la notificación
-// $(".btnEliminarNotificacion").on("click", function () {
-//     // Capturar el ID de la notificación desde el atributo data-idnotificacion del botón
-//     var idNotificacion = $(this).data("idnotificacion");
-//     console.log("ID de notificación a eliminar:", idNotificacion);  // Verifica que el ID sea correcto
-
-//     // Almacenamos el ID en el botón de confirmación dentro del modal, para usarlo al confirmar la eliminación
-//     $("#btnEliminarNotificacion").data("idnotificacion", idNotificacion);
-// });
-
-
-// Confirmar eliminación de la notificación (cuando se hace clic en el botón de eliminación)
-// Confirmar eliminación de la notificación cuando se hace clic en el botón de eliminación
 
 
 
@@ -452,6 +1134,469 @@ $(document).on("click", ".btnAbrirNotificacion", function () {
     // Asignar el valor del ID de la notificación al input oculto
     $("#idNotificacionEliminar").val(idNotificacion);
 });
+
+
+//RECONOCECTAT AGUA
+
+$(document).on("click", ".btnReconectarAgua", function () {
+
+     notificacionUsuario.reniciar_valor();
+
+       notificacionUsuario.idlicenciaagua=$(this).data("idlicenciar");
+      notificacionUsuario.idcontribuyente=$(this).data("idcontribuyenter");
+
+     
+    // Obtener el ID de la notificación desde el atributo data-idnotificacion
+    var idNotificionAgua = $(this).data("idnotificacionr");  // Usar .data() en lugar de .attr()
+    console.log(idNotificionAgua); // Verifica que el ID se está capturando correctamente
+
+     var idLicencia  = $(this).data("idlicenciar");  // Usar .data() en lugar de .attr()
+    console.log(idLicencia); // Verifica que el ID se está capturando correctamente
+
+     $("#inputLicencia").val(idLicencia);  // Mostrar el valor en el input
+
+
+    notificacionUsuario.MostrarEstadoCuentaAguaReconexcion(idLicencia); // Llamar a la función para mostrar el estado de cuenta
+
+
+    // Asignar el valor del ID de la notificación al input oculto
+   // $("#idNotificacionEliminar").val(idNotificacion);
+
+
+});
+
+//PAGO DE SEGUNDO CUOTA
+$(document).on("click", ".btnReconectarAguaseCuota", function () {
+
+  
+
+     notificacionUsuario.reniciar_valor();
+
+      notificacionUsuario.idlicenciaaguap=$(this).data("idlicenciarp");
+      notificacionUsuario.idcontribuyentep=$(this).data("idcontribuyentep");
+
+    // Obtener el ID de la notificación desde el atributo data-idnotificacion
+    var idNotificionAgua = $(this).data("idnotificacionrp");  // Usar .data() en lugar de .attr()
+    console.log(idNotificionAgua); // Verifica que el ID se está capturando correctamente
+
+    $("#inputNotificacionSe").val(idNotificionAgua);  // Mostrar el valor en el input
+
+
+     var idLicencia  = $(this).data("idlicenciarp");  // Usar .data() en lugar de .attr()
+    console.log(idLicencia); // Verifica que el ID se está capturando correctamente
+
+     $("#inputLicenciaSe").val(idLicencia);  // Mostrar el valor en el input
+
+   
+   notificacionUsuario.MostrarEstadoCuentaAguaReconexcions(idLicencia); // Llamar a la función para mostrar el estado de cuenta
+
+   notificacionUsuario.MostrarCuotasPagarSegundaCuota(idLicencia,idNotificionAgua); // Llamar a la función para mostrar el estado de cuenta
+
+
+    // Asignar el valor del ID de la notificación al input oculto
+   // $("#idNotificacionEliminar").val(idNotificacion);
+
+
+});
+
+
+//BOTON GUARDAR RECONOEXION SEGUNDA CUOTA
+$("#btnGuardarReconexionSegunda").on("click", function () {
+   
+      var todoPago = parseFloat($("#totalPagadoSe").val());  // Aseguramos que todoPago sea numérico
+       var idLicencia = $("#inputLicenciaSe").val();
+       var idNotificaionAgua = $("#inputNotificacionSe").val();
+
+        // Seleccionar las filas de la tabla
+        const filas = $("#primeratabla_agua_rs tbody tr");
+
+        // Inicializar la variable para el total a aplicar
+        var totalAplicar = 0;
+        
+        // Iterar sobre las filas de la tabla
+        filas.each(function() {
+            var $fila = $(this);
+
+            // Verificar si la fila tiene la clase 'green-background' (indicando estado 'H')
+            if ($fila.hasClass('green-background')) {
+                console.log("Fila con fondo verde: ", $fila);
+                
+                // Obtener el valor de la columna Total_Aplicar (columna 9)
+                var totalAplicarValor = parseFloat($("td:eq(8)", $fila).text().trim().replace(/[^\d.-]/g, '')); // Eliminar caracteres no deseados
+
+                if (!isNaN(totalAplicarValor)) {
+                    totalAplicar += totalAplicarValor; // Sumar el valor de Total_Aplicar
+                } else {
+                    console.log("Valor no válido en la fila:", $fila);
+                }
+            }
+        });
+
+       
+
+        // Verificar si el total a aplicar coincide con el valor esperado
+        if (totalAplicar !== todoPago) {
+           // alert("Pagar todo");
+            $('#modalPagarTodo').modal('show');
+        }
+        else{
+
+        var numeroProveidoSegundo = $("#numeroProveidoCuotaSegundo").val();
+        var estadoReconectarSeg = $("#estadoNS").val();
+
+         // Aquí puedes hacer la solicitud AJAX para eliminar la notificación, usando el valor del input
+         var datos = new FormData();
+        datos.append("numeroProveidoSegundo", numeroProveidoSegundo);  // Añadir el ID de la notificación a los datos
+        datos.append("estadoReconectarSeg", estadoReconectarSeg);  // Añadir el ID de la notificación a los datos
+        datos.append("idNotificaionAgua", idNotificaionAgua);  // Añadir el ID de la notificación a los datos
+        datos.append("idLicencia", idLicencia);  // Añadir el ID de la notificación a los datos
+        datos.append("registrar_notificacion_segundo", "registrar_notificacion_segundo");  // Añadir el ID de la notificación a los datos
+
+          for (var pair of datos.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+          $.ajax({
+              url: "ajax/notificacionagua.ajax.php",  // Ajusta la URL según tu lógica
+              method: "POST",
+              data: datos,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function (respuesta) {
+              
+                if (respuesta.tipo === "correcto") { // Si la respuesta es exitosa
+                  $("#modalEditarUsuario").modal("hide");  // Cierra el modal de edición
+                  $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
+                  $("#respuestaAjax_srm").html(respuesta.mensaje);  // Muestra el mensaje de éxito en el área de respuesta
+                
+                  notificacionUsuario.lista_notificacion('');
+                  setTimeout(function () {
+                    $("#respuestaAjax_srm").hide();  // Esconde el mensaje de respuesta después de 5 segundos
+                  }, 5000);
+
+                    $("#modalReconectarAguasdacuota").modal("hide");
+
+
+
+                }
+                else {
+                  $("#respuestaAjax_srm").show();  // Si hay error, muestra el mensaje de error
+                  $("#respuestaAjax_srm").html(respuesta.mensaje);
+                  setTimeout(function () {
+                    $("#respuestaAjax_srm").hide();  // Esconde el mensaje de error después de 4 segundos
+                  }, 4000);
+                }
+              },
+              error: function (error) {
+                  console.log("Error al eliminar la notificación:", error);
+                  // Maneja los errores en caso de fallo en la solicitud
+              }
+          });
+
+         
+         
+
+        }
+    
+    
+   
+
+});
+
+
+//BOTON GUARDAR RECONOEXION
+$("#btnGuardarReconexion").on("click", function () {
+    var tipoPago = $("#estadoNo").val();
+      var todoPago = parseFloat($("#totalPagado").val());  // Aseguramos que todoPago sea numérico
+       var idLicencia = $("#inputLicencia").val();
+
+       // Aquí capturamos el valor totalCuotas
+
+    //CUANDO EL PAGO ES DE TIPO TODO
+    if (tipoPago == 1) {
+        
+        // Seleccionar las filas de la tabla
+        const filas = $("#primeratabla_agua_r tbody tr");
+
+        // Inicializar la variable para el total a aplicar
+        var totalAplicar = 0;
+        
+        // Iterar sobre las filas de la tabla
+        filas.each(function() {
+            var $fila = $(this);
+
+            // Verificar si la fila tiene la clase 'green-background' (indicando estado 'H')
+            if ($fila.hasClass('green-background')) {
+                console.log("Fila con fondo verde: ", $fila);
+                
+                // Obtener el valor de la columna Total_Aplicar (columna 9)
+                var totalAplicarValor = parseFloat($("td:eq(8)", $fila).text().trim().replace(/[^\d.-]/g, '')); // Eliminar caracteres no deseados
+
+                if (!isNaN(totalAplicarValor)) {
+                    totalAplicar += totalAplicarValor; // Sumar el valor de Total_Aplicar
+                } else {
+                    console.log("Valor no válido en la fila:", $fila);
+                }
+            }
+        });
+
+       
+
+        // Verificar si el total a aplicar coincide con el valor esperado
+        if (totalAplicar !== todoPago) {
+            alert("Pagar todo");
+        }
+        else{
+
+        var numeroProveido = $("#numeroProveido").val();
+        var reconectarTotal = $("#ReconectarTotal").val();
+        
+         // Aquí puedes hacer la solicitud AJAX para eliminar la notificación, usando el valor del input
+         var datos = new FormData();
+        datos.append("numeroProveido", numeroProveido);  // Añadir el ID de la notificación a los datos
+        datos.append("estadoReconectarTotal", reconectarTotal);  // Añadir el ID de la notificación a los datos
+        datos.append("totalAplicar", totalAplicar);  // Añadir el ID de la notificación a los datos
+        datos.append("idLicencia", idLicencia);  // Añadir el ID de la notificación a los datos
+        datos.append("idtipoPago", tipoPago);  // Añadir el ID de la notificación a los datos
+        datos.append("registrar_notificacion_total", "registrar_notificacion_total");  // Añadir el ID de la notificación a los datos
+
+
+          $.ajax({
+              url: "ajax/notificacionagua.ajax.php",  // Ajusta la URL según tu lógica
+              method: "POST",
+              data: datos,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function (respuesta) {
+              
+                if (respuesta.tipo === "correcto") { // Si la respuesta es exitosa
+                  $("#modalEditarUsuario").modal("hide");  // Cierra el modal de edición
+                  $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
+                  $("#respuestaAjax_srm").html(respuesta.mensaje);  // Muestra el mensaje de éxito en el área de respuesta
+                
+                  // Limpia los campos cuando se cierra el modal
+                    $("#estadoNo").val('');  // Limpia el campo de tipo de pago
+                    $("#totalPagado").val('');  // Limpia el campo del total pagado
+                    $("#inputLicencia").val('');  // Limpia el campo de licencia
+
+
+                  notificacionUsuario.lista_notificacion('');
+                  setTimeout(function () {
+                    $("#respuestaAjax_srm").hide();  // Esconde el mensaje de respuesta después de 5 segundos
+                  }, 5000);
+
+                    $("#modalReconectarAgua").modal("hide");
+
+
+                }
+                else {
+                  $("#respuestaAjax_srm").show();  // Si hay error, muestra el mensaje de error
+                  $("#respuestaAjax_srm").html(respuesta.mensaje);
+                  setTimeout(function () {
+                    $("#respuestaAjax_srm").hide();  // Esconde el mensaje de error después de 4 segundos
+                  }, 4000);
+                }
+              },
+              error: function (error) {
+                  console.log("Error al eliminar la notificación:", error);
+                  // Maneja los errores en caso de fallo en la solicitud
+              }
+          });
+
+         
+         
+
+        }
+    }
+    
+    
+    //CUANDO EL PAGO ES POR PARTICION
+
+    else{
+
+      var fecha=$("#fechaVenCuota1").text();
+
+      // Obtener la fecha actual
+      var now = new Date();
+
+      // Convertir la fecha del DOM a un objeto Date para poder compararla
+      var fechaParts = fecha.split('/'); // Separar la fecha en partes (día, mes, año)
+      var fechaObjeto = new Date(fechaParts[2], fechaParts[1] - 1, fechaParts[0]); // Crear el objeto Date con formato (año, mes, día)
+
+
+      // ES DE LA PRIMERA CUOTA......
+      // Comparar la fecha
+      if (fechaObjeto.toDateString() === now.toDateString()) {
+
+       
+        // DEL PRIMERA CUOTA
+        var monto = $("#montoCuota1").text();  // S/. 56.00 (para cuota 2)
+        var montoValor = parseFloat(monto.replace(/[^\d.-]/g, '').trim());
+
+        var fechaVencimiento = $("#fechaVenCuota1").text(); // 19/08/2025
+        var partesFecha = fechaVencimiento.split("/");  // Separa la fecha en [día, mes, año]
+        var fechaFormateada = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]);  // Año, mes, día (recuerda que el mes empieza desde 0)        // Formatear la fecha a yyyy-mm-dd
+        var fechaFinalVenCuotauno = fechaFormateada.getFullYear() + '-' + (fechaFormateada.getMonth() + 1).toString().padStart(2, '0') + '-' + fechaFormateada.getDate().toString().padStart(2, '0');
+
+
+
+
+        var numeroProveidoP = $("#numeroProveidoCuota1").val(); // Nro proveído
+        var estadoReconexion = $("#estadoNP1").val(); // Reconexión de agua
+
+         // DEL SEGUNDA CUOTA
+        var monto2 = $("#montoCuota2").text();  // S/. 56.00 (para cuota 2)
+        var montoValor2 = parseFloat(monto2.replace(/[^\d.-]/g, '').trim());
+
+        var fechaVencimiento2 = $("#fechaVenCuota2").text(); // 19/08/2025
+        var partesFecha2 = fechaVencimiento2.split("/");  // Separa la fecha en [día, mes, año]
+        var fechaFormateada2 = new Date(partesFecha2[2], partesFecha2[1] - 1, partesFecha2[0]);  // Año, mes, día (recuerda que el mes empieza desde 0)        // Formatear la fecha a yyyy-mm-dd
+        var fechaFinalVenCuotados = fechaFormateada2.getFullYear() + '-' + (fechaFormateada2.getMonth() + 1).toString().padStart(2, '0') + '-' + fechaFormateada2.getDate().toString().padStart(2, '0');
+
+
+          //  COMPARAR CON LO PAGADO
+        const filas = $("#primeratabla_agua_r tbody tr");
+
+        // Inicializar la variable para el total a aplicar
+        var totalAplicar = 0;
+        
+        // Iterar sobre las filas de la tabla
+        filas.each(function() {
+            var $fila = $(this);
+
+            // Verificar si la fila tiene la clase 'green-background' (indicando estado 'H')
+            if ($fila.hasClass('green-background')) {
+               // console.log("Fila con fondo verde: ", $fila);
+                
+                // Obtener el valor de la columna Total_Aplicar (columna 9)
+                var totalAplicarValor = parseFloat($("td:eq(8)", $fila).text().trim().replace(/[^\d.-]/g, '')); // Eliminar caracteres no deseados
+
+                if (!isNaN(totalAplicarValor)) {
+                    totalAplicar += totalAplicarValor; // Sumar el valor de Total_Aplicar
+                } else {
+                  //  console.log("Valor no válido en la fila:", $fila);
+                }
+            }
+        });
+
+        let valorSelecioando=totalAplicar;  
+        
+
+   
+         //VALIDAD CUANTO PAGO EN LA PRIMERA CUOTA
+
+        if ( valorSelecioando !== montoValor) {
+
+          $('#modalPagarParticiones').modal('show');
+
+
+
+
+        }
+
+        //VALIDAR EL PRIMER PAGO SI COENCIDE....
+        else{
+
+        //COMPARAR CON LO PAGADO END
+
+         // Aquí puedes hacer la solicitud AJAX para eliminar la notificación, usando el valor del input
+        var datos = new FormData();
+        datos.append("idLicencia", idLicencia);  // Añadir el ID de la notificación a los datos
+        datos.append("idtipoPago", tipoPago);  // Añadir el ID de la notificación a los datos
+
+        //PRIMER CUOTA
+        datos.append("numeroProveido", numeroProveidoP);  // Añadir el ID de la notificación a los datos
+        datos.append("estadoReconectarParticion", estadoReconexion);  // Añadir el ID de la notificación a los datos
+        datos.append("particionAplicar", montoValor);  // Añadir el ID de la notificación a los datos
+        datos.append("fechaVencimiento", fechaFinalVenCuotauno);  // Añadir el ID de la notificación a los datos
+       
+        //SEGUNDA CUOTA
+        datos.append("totalAplicar2", montoValor2);  // Añadir el ID de la notificación a los datos
+        datos.append("fechaVencimiento2", fechaFinalVenCuotados);  // Añadir el ID de la notificación a los datos
+       
+       
+       
+        datos.append("registrar_notificacion_particion", "registrar_notificacion_particion");  // Añadir el ID de la notificación a los datos
+
+        // Imprimir los valores de FormData en la consola
+        for (let pair of datos.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+          $.ajax({
+              url: "ajax/notificacionagua.ajax.php",  // Ajusta la URL según tu lógica
+              method: "POST",
+              data: datos,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function (respuesta) {
+
+              
+                if (respuesta.tipo === "correcto") { // Si la respuesta es exitosa
+                  $("#modalEditarUsuario").modal("hide");  // Cierra el modal de edición
+                  $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
+                  $("#respuestaAjax_srm").html(respuesta.mensaje);  // Muestra el mensaje de éxito en el área de respuesta
+                
+                  notificacionUsuario.lista_notificacion('');
+                  setTimeout(function () {
+                    $("#respuestaAjax_srm").hide();  // Esconde el mensaje de respuesta después de 5 segundos
+                  }, 5000);
+
+
+
+                    $("#modalReconectarAgua").modal("hide");
+
+
+                }
+                else {
+                  $("#respuestaAjax_srm").show();  // Si hay error, muestra el mensaje de error
+                  $("#respuestaAjax_srm").html(respuesta.mensaje);
+                  setTimeout(function () {
+                    $("#respuestaAjax_srm").hide();  // Esconde el mensaje de error después de 4 segundos
+                  }, 4000);
+                }
+              },
+              error: function (error) {
+                  console.log("Error al eliminar la notificación:", error);
+                  // Maneja los errores en caso de fallo en la solicitud
+              }
+          });
+
+         
+
+
+
+
+        }
+
+
+
+
+
+      } 
+      
+      // ES DE LA SEGUNDA CUOTA......
+      else {
+
+        var monto = $("#montoCuota2").text();  // S/. 56.00 (para cuota 2)
+          var fechaVencimiento = $("#fechaVenCuota2").text(); // 19/08/2025
+          var numeroProveidoP = $("#numeroProveidoCuota2").val(); // Nro proveído
+          var estadoReconexion = $("#estadoNP2").val(); // Reconexión de agua
+
+          console.log("monto---", monto); // S/. 56.00
+          console.log("fecha---", fechaVencimiento); // 19/08/2025
+          console.log("numero proveido particion", numeroProveidoP); // Valor de "Nro proveído"
+          console.log("estado reconexion", estadoReconexion); // Valor de "Reconectar"
+
+      }
+
+    }
+
+});
+
 
 
 // Cuando el usuario hace clic en "Sí, Eliminar"
@@ -474,8 +1619,7 @@ $("#btnEliminarNotificacion").on("click", function () {
         contentType: false,
         processData: false,
         success: function (respuesta) {
-            console.log("Respuesta del servidor:", respuesta);
-
+         
           if (respuesta.tipo === "correcto") { // Si la respuesta es exitosa
             $("#modalEditarUsuario").modal("hide");  // Cierra el modal de edición
             $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
@@ -503,6 +1647,11 @@ $("#btnEliminarNotificacion").on("click", function () {
             // Maneja los errores en caso de fallo en la solicitud
         }
     });
+
+
+
+
+
 });
 
 
@@ -513,3 +1662,122 @@ $(document).on("click", "#popimprimirExportarPDF", function () {
 
    $("#ModalImprimirNotificacionAgua").modal("show");
 });
+
+
+
+
+
+$(document).ready(function() {
+    // Muestra u oculta el div 'pagoTodo' basado en el cambio en #estadoNo
+    $('#estadoNo').change(function() {
+        var estadoSeleccionado = $(this).val(); // Captura el valor del select
+        
+        if (estadoSeleccionado === '1') {
+            $('.pagoTodo').show();  // Muestra el div con clase 'pagoTodo'
+            $('.pagaParticion').hide(); // Oculta el div con clase 'pagaParticion'
+             $('#estadoN2').val(' ');  // Establece el valor del select 'estadoN2' a 'Seleccionar'
+              $('#estadoC').val(' ');  // Establece el valor del select 'estadoN2' a 'Seleccionar'
+               $('#estadoNP').val(' '); 
+
+               notificacionUsuario.MostrarCuotasPagar(0, 0);
+               
+
+
+        } else if (estadoSeleccionado === '2') {
+            $('.pagaParticion').show();  // Muestra el div con clase 'pagaParticion'
+            $('.pagoTodo').hide(); // Oculta el div con clase 'pagoTodo'
+             $('#estadoN2').val(' ');  // Establece el valor del select 'estadoN2' a 'Seleccionar'
+
+             $('#estadoC').val(' ');  // Establece el valor del select 'estadoN2' a 'Seleccionar'
+            $('#estadoNP').val(' '); 
+
+            
+
+        } else {
+            $('.pagoTodo').hide();  // Oculta el div con clase 'pagoTodo'
+            $('.pagaParticion').hide(); // Oculta el div con clase 'pagaParticion'
+              $('#estadoN2').val(' ');
+              $('#estadoC').val(' ');  // Establece el valor del select 'estadoN2' a 'Seleccionar'
+                $('#estadoNP').val(' '); 
+
+             notificacionUsuario.MostrarCuotasPagar(0, 0);
+        }
+    });
+
+    // Manejo de la selección de cuotas
+    $('#estadoC').change(function() {
+        var cuotas = $(this).val(); // Captura directamente el valor del select (2C o 3C)
+        var idLicencia = $('#inputLicencia').val();  // Captura el valor del input con id 'inputLicencia'
+
+        if (cuotas === '2' || cuotas === '3') {
+            console.log("Valor de idLicencia:", idLicencia); // Muestra el valor capturado del input
+            console.log("Valor seleccionado para cuotas:", cuotas); // Muestra el valor de las cuotas
+
+            // Llama a la función para mostrar las cuotas
+            notificacionUsuario.MostrarCuotasPagarV(cuotas);
+
+            // Muestra el div con la clase 'cuotas'
+            $('.cuotas').show();  
+        } else {
+            // Oculta el div con la clase 'cuotas' si no se selecciona '2C' o '3C'
+            $('.cuotas').hide();  
+        }
+    });
+});
+
+
+//REEMPRIMIR NOTIFICACION
+$(document).on("click", "#popimprimir_aguan", function () {
+
+  
+
+  if(notificacionUsuario.idsSeleccionados.length === 0)
+  {
+    $("#respuestaAjax_srm").show();
+    $("#respuestaAjax_srm").html('<div class="col-sm-30">' +
+    '<div class="alert alert-warning">' +
+      '<button type="button" class="close font__size-18" data-dismiss="alert">' +
+      '</button>' +
+      '<i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>' +
+      '<strong class="font__weight-semibold">Alerta!</strong> Seleccione un fila para poder imprimir.' +
+    '</div>' +
+    '</div>');
+    setTimeout(function () {
+      $("#respuestaAjax_srm").hide();
+    }, 4000);
+  }
+  else{
+    notificacionUsuario.imprimirhere_aguar();
+    $("#Modalimprimir_cuentaaguan").modal("show");
+    
+  }
+});
+
+
+
+//REEMPRIMIR NOTIFICACION
+$(document).on("click", "#popimprimir_aguas", function () {
+
+  if(notificacionUsuario.idsSeleccionados.length === 0)
+  {
+    $("#respuestaAjax_srm").show();
+    $("#respuestaAjax_srm").html('<div class="col-sm-30">' +
+    '<div class="alert alert-warning">' +
+      '<button type="button" class="close font__size-18" data-dismiss="alert">' +
+      '</button>' +
+      '<i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>' +
+      '<strong class="font__weight-semibold">Alerta!</strong> Seleccione un fila para poder imprimir.' +
+    '</div>' +
+    '</div>');
+    setTimeout(function () {
+      $("#respuestaAjax_srm").hide();
+    }, 4000);
+  }
+  else{
+    notificacionUsuario.imprimirhere_aguas();
+    $("#Modalimprimir_cuentaaguas").modal("show");
+    
+  }
+
+});
+

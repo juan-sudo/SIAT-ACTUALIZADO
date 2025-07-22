@@ -40,6 +40,16 @@ class CoactivoClass {
 
 
 
+
+        
+
+
+
+
+
+
+
+
   }
 
   //ARBITRIOSAdd commentMore actions
