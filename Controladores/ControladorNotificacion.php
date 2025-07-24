@@ -425,7 +425,7 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
 
                         if ($row['estado'] == 'R1') {
                             // Si el estado es R1, mostrar el botón de "Reconexion agua segunda cuota" y ocultar el otro
-                            $botonReconectarAguasdacuota = '<button class="btn btn-danger btnReconectarAguaseCuota" 
+                            $botonReconectarAguasdacuota = '<button class="btn btn-danger btnReconectarAguaseCuota" style="padding: 6px 15px;"
                                                                 data-idnotificacionrp="' . $row['Id_Notificacion_Agua'] . '" 
                                                                 data-idlicenciarp="' . $row['Id_Licencia_Agua'] . '" 
                                                                 data-idcontribuyentep="' . $row['Id_Contribuyente'] . '" 
@@ -435,7 +435,7 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
                                                             </button>';
                         } elseif ($row['estado'] == 'S') {
                             // Si el estado es R, mostrar el botón de "Reconexion agua" y ocultar el otro
-                            $botonReconectarAgua = '<button class="btn btn-info btnReconectarAgua" 
+                            $botonReconectarAgua = '<button class="btn btn-info btnReconectarAgua" style="padding: 6px 15px;"
                                                         data-idnotificacionr="' . $row['Id_Notificacion_Agua'] . '" 
                                                         data-idlicenciar="' . $row['Id_Licencia_Agua'] . '" 
                                                         data-idcontribuyenter="' . $row['Id_Contribuyente'] . '" 
@@ -464,8 +464,18 @@ if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
                         <td style="text-align: center;">' . $row['Fecha_Registro'] . '</td>
                         <td style="text-align: center;">' . $row['fecha_corte'] . '</td>
                          <td style="text-align: center;">' . $estado . '</td>
-                             <td>
-                            <div class="btn-group"  style="float: right;">
+                             <td style="text-align: center;">
+
+                            <div class="btn-group"  >
+                           <button class="btn btn-danger btnVerNotificacion" 
+                                data-idnotificacionver="' . $row['Id_Notificacion_Agua'] . '" 
+                                data-idlicenciaver="' . $row['Id_Licencia_Agua'] . '" 
+                                data-idcontribuyentever="' . $row['Id_Contribuyente'] . '" 
+                                data-toggle="modal" data-target="#modalVerAgua"
+                                title="Ver Notificación">
+                            <i class="fas fa-eye"></i>
+                        </button>
+
                             
                              ' . $botonReconectarAgua . '
                              ' . $botonReconectarAguasdacuota . '

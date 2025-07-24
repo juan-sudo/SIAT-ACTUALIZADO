@@ -425,6 +425,105 @@ use Controladores\ControladorNotificacion;
 <!-- MODAL DE RECONEXION FIN -->
 
 
+<!-- MODAL DE RECONEXION -->
+<div id="modalVerAgua" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+           
+                <!-- Modal Header -->  
+                <div class="modal-header" style="background-color: #3c8dbc; color: white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                    <h4 class="modal-title" > Ver estado de cuenta agua</h4>
+                </div>
+
+               <input type="text" id="inputLicenciaa" hidden  >
+                <input type="text" id="totalPagadoo" hidden >
+
+
+                <!-- Modal Body -->
+                <div class="modal-body estado_cuentaAgua_mostrar">
+                    <div class="row divDetallePredioR">
+                      <table class="table-container miprimeratabla_agua_rn" id="primeratabla_agua_rn">
+                        <thead>
+                          <tr>
+                            <th class="text-center" style="width:30px;">Cod.</th>
+                            <th class="text-center" style="width:50px;">Servicio</th>
+                            <th class="text-center" style="width:50px;">Año</th>
+                            <th class="text-center" style="width:50px;">Periodo</th>
+                            <th class="text-center" style="width:50px;">Importe</th>
+                            <th class="text-center" style="width:50px;">Gastos</th>
+                            <th class="text-center" style="width:50px;">Subtotal</th>
+                            <th class="text-center" style="width:50px;">Desc.</th>
+                            <th class="text-center" style="width:50px;">Total</th>
+                            <th class="seleccionado text-center" style="width:20px;">S</th>
+                          </tr>
+                        </thead>
+
+                        <tbody id="listaLicenciasAgua_estadocuenta_rn">
+                          <!-- Aqui Aparecen el estado de cuenta Agua-->
+                        </tbody>
+                        
+                      </table>
+                    </div>
+
+                  <table class="table-container" id="segundaTabla_agua_rn">
+                    
+                    <tbody>
+                      <th class="text-right td-round total_c" style="width:180px;">Total Deuda =</th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center td-round" style="width:50px;"></th>
+                      <th class="text-center" style="width:50px;"></th>
+                      <th class="text-center" style="width:50px;"></th>
+                      <th class="text-center" style="width:20px;" id="va" ></th>
+                    </tbody>  
+                          
+                    
+                  </table>
+
+
+                  <div class="form-group row" >
+                            <div class="col-md-12" style="display: flex; justify-content: space-end; align-items: center;">
+                               
+                                <button type="button" class="btn btn-primary  btn-sm" id="popimprimir_aguan" data-target="#Modalimprimir_cuentaaguan">Imprimir notificacion</button>
+                            </div>
+
+
+                            </div>
+
+                
+
+
+
+
+                       
+
+    
+                      </div>
+
+                
+                      <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="far fa-times-circle"></i> Cancelar
+                    </button>
+
+              
+
+                    
+                </div>
+
+          
+
+        </div>
+    </div>
+</div>
+<!-- MODAL DE RECONEXION FIN -->
+
+
+
 
 
 <!-- MODAL DE RECONEXION -->
@@ -467,10 +566,12 @@ use Controladores\ControladorNotificacion;
                         <tbody id="listaLicenciasAgua_estadocuenta_r">
                           <!-- Aqui Aparecen el estado de cuenta Agua-->
                         </tbody>
-                        
+
+                     
                       </table>
                     </div>
 
+                     
                   <table class="table-container" id="segundaTabla_agua_r">
                     
                     <tbody>

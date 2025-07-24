@@ -15,6 +15,7 @@ class NotificaionUsuario {
         this.totalCuotas=null;
         this.idlicenciaaguap=null;
         this.idcontribuyentep=null;
+        this.valorTotalMo=null;
 
 
   }
@@ -31,6 +32,36 @@ class NotificaionUsuario {
     $("#segundaTabla_agua_r tbody th:eq(3)").text("");
     $("#segundaTabla_agua_r tbody th:eq(4)").text("");
     $("#segundaTabla_agua_r tbody th:eq(5)").text("");
+  }
+
+  
+
+    reniciar_valors(){
+    this.totalImporte=0;
+    this.totalGasto=0;
+    this.totalSubtotal=0;
+    this.totalTIM=0;
+    this.totalTotal=0;
+   
+    $("#segundaTabla_agua_rs tbody th:eq(1)").text("");
+    $("#segundaTabla_agua_rs tbody th:eq(2)").text("");
+    $("#segundaTabla_agua_rs tbody th:eq(3)").text("");
+    $("#segundaTabla_agua_rs tbody th:eq(4)").text("");
+    $("#segundaTabla_agua_rs tbody th:eq(5)").text("");
+  }
+
+   reniciar_valor_ver(){
+    this.totalImporte=0;
+    this.totalGasto=0;
+    this.totalSubtotal=0;
+    this.totalTIM=0;
+    this.totalTotal=0;
+   
+    $("#segundaTabla_agua_rn tbody th:eq(1)").text("");
+    $("#segundaTabla_agua_rn tbody th:eq(2)").text("");
+    $("#segundaTabla_agua_rn tbody th:eq(3)").text("");
+    $("#segundaTabla_agua_rn tbody th:eq(4)").text("");
+    $("#segundaTabla_agua_rn tbody th:eq(5)").text("");
   }
 
 
@@ -91,7 +122,163 @@ class NotificaionUsuario {
   } 
 
   
+  //VER AGUA
+    
+manejarClicFila_agua_rn(fila) {
+    const estadoS = fila.find("td:eq(9)").text();
+    const gastoText = fila.find("td:eq(5)").text();
+    const subtotalText = fila.find("td:eq(6)").text();
+    const timText = fila.find("td:eq(7)").text();
+    const totalText = fila.find("td:eq(8)").text();
+    const importeText = fila.find("td:eq(4)").text();
+    
+    const gasto = parseFloat(gastoText);
+    const subtotal = parseFloat(subtotalText);
+    const tim = parseFloat(timText);
+    const total = parseFloat(totalText);
+    const importe = parseFloat(importeText);
+    
+    // Capturar el valor del atributo "id" de la fila y agregarlo al array si está seleccionada
+    const filaId = fila.attr("id");
+    
+    if (estadoS === "1") {
+        this.totalGasto -= gasto;
+        this.totalSubtotal -= subtotal;
+        this.totalTIM -= tim;
+        this.totalTotal -= total;
+        this.totalImporte -= importe;
+        
+        fila.find("td:eq(9)").text(""); // Aquí debería establecerse el valor a ""
+        fila.css("background-color", "");
+        
+        // Eliminar el valor del id de la fila del array (si existe)
+        const index = this.idsSeleccionados.indexOf(filaId);
+        if (index > -1) {
+            this.idsSeleccionados.splice(index, 1);
+        }
+    } else {
+        this.totalGasto += gasto;
+        this.totalSubtotal += subtotal;
+        this.totalTIM += tim;
+        this.totalTotal += total;
+        this.totalImporte += importe;
+        fila.find("td:eq(9)").text("1"); // Aquí estableces el valor a "1"
+        fila.css("background-color", "rgb(255, 248, 167)");   
+        // Agregar el valor del id de la fila al array (si no existe)
+        if (!this.idsSeleccionados.includes(filaId)) {
+            this.idsSeleccionados.push(filaId);
+        }
+        //TOTAL GROBAL
+        
+     //   this.totalCuotas = this.totalTotal.toFixed(2); 
+
+           // Captura el valor de totalCuotas
+        notificacionUsuario.totalCuotas = notificacionUsuario.totalTotal.toFixed(2); 
+    }
+    // Actualización de las celdas de la segunda tabla
+    $("#segundaTabla_agua_r tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(4)").text(this.totalTIM.toFixed(2));
+    $("#segundaTabla_agua_r tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+        
+    // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas
+    console.log("Ids seleccionados _AGUA :", this.idsSeleccionados);
+}
   
+  
+//VER AGUA
+
+manejarClicFila_agua_rn(fila) {
+    const estadoS = fila.find("td:eq(9)").text();
+    const gastoText = fila.find("td:eq(5)").text();
+    const subtotalText = fila.find("td:eq(6)").text();
+    const timText = fila.find("td:eq(7)").text();
+    const totalText = fila.find("td:eq(8)").text();
+    const importeText = fila.find("td:eq(4)").text();
+    
+    const gasto = parseFloat(gastoText);
+    const subtotal = parseFloat(subtotalText);
+    const tim = parseFloat(timText);
+    const total = parseFloat(totalText);
+    const importe = parseFloat(importeText);
+    
+    // Capturar el valor del atributo "id" de la fila y agregarlo al array si está seleccionada
+    const filaId = fila.attr("id");
+    
+    if (estadoS === "1") {
+        this.totalGasto -= gasto;
+        this.totalSubtotal -= subtotal;
+        this.totalTIM -= tim;
+        this.totalTotal -= total;
+        this.totalImporte -= importe;
+        
+        fila.find("td:eq(9)").text(""); // Aquí debería establecerse el valor a ""
+        fila.css("background-color", "");
+        
+        // Eliminar el valor del id de la fila del array (si existe)
+        const index = this.idsSeleccionados.indexOf(filaId);
+        if (index > -1) {
+            this.idsSeleccionados.splice(index, 1);
+        }
+    } else {
+        this.totalGasto += gasto;
+        this.totalSubtotal += subtotal;
+        this.totalTIM += tim;
+        this.totalTotal += total;
+        this.totalImporte += importe;
+        fila.find("td:eq(9)").text("1"); // Aquí estableces el valor a "1"
+        fila.css("background-color", "rgb(255, 248, 167)");   
+        // Agregar el valor del id de la fila al array (si no existe)
+        if (!this.idsSeleccionados.includes(filaId)) {
+            this.idsSeleccionados.push(filaId);
+        }
+        //TOTAL GROBAL
+        
+     //   this.totalCuotas = this.totalTotal.toFixed(2); 
+
+           // Captura el valor de totalCuotas
+        notificacionUsuario.totalCuotas = notificacionUsuario.totalTotal.toFixed(2); 
+    }
+    // Actualización de las celdas de la segunda tabla
+    $("#segundaTabla_agua_rn tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(4)").text(this.totalTIM.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+        
+    // El array idsSeleccionados ahora contendrá los ids de las filas seleccionadas
+    console.log("Ids seleccionados _AGUA :", this.idsSeleccionados);
+}
+  
+  //VER AGUA
+  manejarClicSRN(thS) {
+    const filas = $("#primeratabla_agua_rn tbody tr");
+    const todasSeleccionadas = $("td:eq(9):contains('1')", filas).length === filas.length;
+    if (todasSeleccionadas) {
+      // Todas las filas están seleccionadas, deseleccionar todas
+      filas.each((index, fila) => {
+        this.manejarClicFilaR($(fila));
+      });
+    } else {
+      // Al menos una fila ya está seleccionada, completar las faltantes
+      filas.each((index, fila) => {
+        if ($("td:eq(9)", fila).text() !== "1") {
+          this.manejarClicFilaR($(fila));
+        }
+      });
+    }
+    thS.text(todasSeleccionadas ? "S" : "S");
+    // Actualizar los totales en la segunda tabla
+    $("#segundaTabla_agua_rn tbody th:eq(1)").text(this.totalImporte.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(2)").text(this.totalGasto.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(3)").text(this.totalSubtotal.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(4)").text(this.totalTIM.toFixed(2));
+    $("#segundaTabla_agua_rn tbody th:eq(5)").text(this.totalTotal.toFixed(2));
+  }
+  //editar notificacion
+
+
 
   
 manejarClicFila_agua_r(fila) {
@@ -509,13 +696,11 @@ lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos
   }
 
   
-
-  MostrarEstadoCuentaAguaReconexcion(idlicencia){
+  //VERA AGUA
+  MostrarEstadoCuentaAguaReconexcionn(idlicencia){
     let self=this;
 
-    console.log("ID de licencia para mostrar estado de cuenta:", self); // Verifica que el ID se está capturando correctamente
-  
-
+ 
 
     $.ajax({
       type: "POST",
@@ -527,51 +712,140 @@ lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos
 
        console.log("Respuesta del servidor para mostrar estado de cuenta:", respuesta); // Verifica la respuesta del servidor
 
-        $("#listaLicenciasAgua_estadocuenta_r").html(respuesta);
+        $("#listaLicenciasAgua_estadocuenta_rn").html(respuesta);
 
 
-              
-          // Variable para almacenar la suma total
-          var totalAplicarr = 0;
-
-           $("tr").each(function() {
-                var $fila = $(this);
-
-                // Asegurarse de que la fila tiene al menos 9 <td> (para tener un penúltimo td)
-                if ($("td", $fila).length >= 9) {
-                    // Obtener el valor del penúltimo <td> (columna 9, índice -2)
-                    var valorPenultimoTd = $("td:eq(-2)", $fila).text().trim();
-
-                    // Verificar si el penúltimo <td> no está vacío
-                    if (valorPenultimoTd !== "" && valorPenultimoTd !== "0.00") {  // Asegurar que no sea 0.00
-                        // Limpiar caracteres no deseados (espacios, comas, etc.) y convertir a número
-                        valorPenultimoTd = parseFloat(valorPenultimoTd.replace(/[^\d.-]/g, ''));
-
-                        // Verificar si el valor es numérico y sumarlo
-                        if (!isNaN(valorPenultimoTd)) {
-                            totalAplicarr += valorPenultimoTd; // Sumar el valor de la penúltima columna
-                        } else {
-                            // Si no es un número válido, imprimir mensaje de error o depuración
-                            console.log("Valor no válido en la fila:", $fila);
-                        }
-                    }
-                }
-            });
-
-            $("#totalPagado").val('');
-            $("#totalPagado").val(totalAplicarr); // Mostrar solo la fecha en el span
         
            // Función para manejar el clic en las filas de la tabla y sumar los valores
-            $("#primeratabla_agua_r tbody tr").on("click", function () {
-              self.manejarClicFila_agua_r($(this));
+            $("#primeratabla_agua_rn tbody tr").on("click", function () {
+              self.manejarClicFila_agua_rn($(this));
             });
             // Función para manejar el clic en el encabezado "S"
-            $("#primeratabla_agua_r thead th:eq(9)").on("click", function () {
-              self.manejarClicSR($(this));
+            $("#primeratabla_agua_rn thead th:eq(9)").on("click", function () {
+              self.manejarClicSRN($(this));
             });
 
       },
     });
+
+  }
+
+  MostrarEstadoCuentaAguaReconexcion(idlicencia){
+    let self=this;
+
+    console.log("ID de licencia para mostrar estado de cuenta:", self); // Verifica que el ID se está capturando correctamente
+  
+
+    $.ajax({
+    type: "POST",
+    url: "ajax/notificacionagua.ajax.php",
+    data: {
+        idlicenciaagua_estadocuenta: idlicencia,
+    },
+    success: function (respuesta) {
+
+        console.log("Respuesta del servidor para mostrar estado de cuenta:", respuesta);
+
+        $("#listaLicenciasAgua_estadocuenta_r").html(respuesta);
+
+        // Usamos 'reduce' para acumular los valores de la columna Total_Aplicar
+              var totalAplicar = $("#primeratabla_agua_r tbody tr").toArray().reduce(function(total, tr) {
+              var $fila = $(tr);
+              if ($("td", $fila).length >= 9) {
+                  var valorPenultimoTd = $("td:eq(-2)", $fila).text().trim();
+                  if (valorPenultimoTd !== "" && valorPenultimoTd !== "0.00") {
+                      valorPenultimoTd = parseFloat(valorPenultimoTd.replace(/[^\d.-]/g, ''));
+                      if (!isNaN(valorPenultimoTd)) {
+                          return total + valorPenultimoTd;
+                      }
+                  }
+              }
+              return total;
+          }, 0);
+
+        // Actualizar el campo #totalPagado con la suma total de los valores
+        $("#totalPagado").val('');
+        $("#totalPagado").val(totalAplicar.toFixed(2));  // Muestra el valor con dos decimales
+
+        console.log("valor de total a aplicar-------", totalAplicar);
+
+        // Función para manejar el clic en las filas de la tabla y sumar los valores
+        $("#primeratabla_agua_r tbody tr").on("click", function () {
+            self.manejarClicFila_agua_r($(this));
+        });
+
+        // Función para manejar el clic en el encabezado "S"
+        $("#primeratabla_agua_r thead th:eq(9)").on("click", function () {
+            self.manejarClicSR($(this));
+        });
+
+    },
+});
+
+
+   
+
+
+    // $.ajax({
+    //   type: "POST",
+    //   url: "ajax/notificacionagua.ajax.php",
+    //   data: {
+    //     idlicenciaagua_estadocuenta: idlicencia,
+    //   },
+    //   success: function (respuesta) {
+
+    //    console.log("Respuesta del servidor para mostrar estado de cuenta:", respuesta); // Verifica la respuesta del servidor
+
+    //     $("#listaLicenciasAgua_estadocuenta_r").html(respuesta);
+
+
+              
+    //       // Variable para almacenar la suma total
+    //       var totalAplicarr = 0;
+          
+
+    //        $("tr").each(function() {
+    //             var $fila = $(this);
+
+    //             // Asegurarse de que la fila tiene al menos 9 <td> (para tener un penúltimo td)
+    //             if ($("td", $fila).length >= 9) {
+    //                 // Obtener el valor del penúltimo <td> (columna 9, índice -2)
+    //                 var valorPenultimoTd = $("td:eq(-2)", $fila).text().trim();
+
+    //                 // Verificar si el penúltimo <td> no está vacío
+    //                 if (valorPenultimoTd !== "" && valorPenultimoTd !== "0.00") {  // Asegurar que no sea 0.00
+    //                     // Limpiar caracteres no deseados (espacios, comas, etc.) y convertir a número
+    //                     valorPenultimoTd = parseFloat(valorPenultimoTd.replace(/[^\d.-]/g, ''));
+
+    //                     // Verificar si el valor es numérico y sumarlo
+    //                     if (!isNaN(valorPenultimoTd)) {
+    //                         totalAplicarr += valorPenultimoTd; // Sumar el valor de la penúltima columna
+    //                     } else {
+    //                         // Si no es un número válido, imprimir mensaje de error o depuración
+    //                         console.log("Valor no válido en la fila:", $fila);
+    //                     }
+    //                 }
+    //             }
+    //         });
+
+    //         $("#totalPagado").val('');
+    //         $("#totalPagado").val(totalAplicarr); // Mostrar solo la fecha en el span
+
+
+
+    //         console.log("valor de total a aplicar-------", totalAplicarr);
+        
+    //        // Función para manejar el clic en las filas de la tabla y sumar los valores
+    //         $("#primeratabla_agua_r tbody tr").on("click", function () {
+    //           self.manejarClicFila_agua_r($(this));
+    //         });
+    //         // Función para manejar el clic en el encabezado "S"
+    //         $("#primeratabla_agua_r thead th:eq(9)").on("click", function () {
+    //           self.manejarClicSR($(this));
+    //         });
+
+    //   },
+    // });
 
   }
 
@@ -1136,14 +1410,18 @@ $(document).on("click", ".btnAbrirNotificacion", function () {
 });
 
 
+
+
+
+
 //RECONOCECTAT AGUA
 
 $(document).on("click", ".btnReconectarAgua", function () {
 
-     notificacionUsuario.reniciar_valor();
+    notificacionUsuario.reniciar_valor();
 
-       notificacionUsuario.idlicenciaagua=$(this).data("idlicenciar");
-      notificacionUsuario.idcontribuyente=$(this).data("idcontribuyenter");
+    notificacionUsuario.idlicenciaagua=$(this).data("idlicenciar");
+    notificacionUsuario.idcontribuyente=$(this).data("idcontribuyenter");
 
      
     // Obtener el ID de la notificación desde el atributo data-idnotificacion
@@ -1165,12 +1443,42 @@ $(document).on("click", ".btnReconectarAgua", function () {
 
 });
 
+
+//VER NOTIFICACION AGUA
+
+$(document).on("click", ".btnVerNotificacion", function () {
+
+     notificacionUsuario.reniciar_valor_ver();
+
+      notificacionUsuario.idlicenciaagua=$(this).data("idlicenciaver");
+      notificacionUsuario.idcontribuyente=$(this).data("idcontribuyentever");
+
+     
+    // Obtener el ID de la notificación desde el atributo data-idnotificacion
+    var idNotificionAgua = $(this).data("idnotificacionver");  // Usar .data() en lugar de .attr()
+    console.log(idNotificionAgua); // Verifica que el ID se está capturando correctamente
+
+     var idLicencia  = $(this).data("idlicenciaver");  // Usar .data() en lugar de .attr()
+    console.log(idLicencia); // Verifica que el ID se está capturando correctamente
+
+     $("#inputLicencia").val(idLicencia);  // Mostrar el valor en el input
+
+
+    notificacionUsuario.MostrarEstadoCuentaAguaReconexcionn(idLicencia); // Llamar a la función para mostrar el estado de cuenta
+
+
+    // Asignar el valor del ID de la notificación al input oculto
+   // $("#idNotificacionEliminar").val(idNotificacion);
+
+
+});
+
 //PAGO DE SEGUNDO CUOTA
 $(document).on("click", ".btnReconectarAguaseCuota", function () {
 
   
 
-     notificacionUsuario.reniciar_valor();
+     notificacionUsuario.reniciar_valors();
 
       notificacionUsuario.idlicenciaaguap=$(this).data("idlicenciarp");
       notificacionUsuario.idcontribuyentep=$(this).data("idcontribuyentep");
@@ -1307,6 +1615,8 @@ $("#btnGuardarReconexionSegunda").on("click", function () {
 
 //BOTON GUARDAR RECONOEXION
 $("#btnGuardarReconexion").on("click", function () {
+
+  console.log("llego aqui");
     var tipoPago = $("#estadoNo").val();
       var todoPago = parseFloat($("#totalPagado").val());  // Aseguramos que todoPago sea numérico
        var idLicencia = $("#inputLicencia").val();
@@ -1341,6 +1651,8 @@ $("#btnGuardarReconexion").on("click", function () {
             }
         });
 
+        console.log(totalAplicar);
+        console.log(todoPago);
        
 
         // Verificar si el total a aplicar coincide con el valor esperado
@@ -1781,3 +2093,15 @@ $(document).on("click", "#popimprimir_aguas", function () {
 
 });
 
+
+$(document).ready(function() {
+    // ...otros códigos de inicialización...
+
+    // Limpia los inputs al abrir los modales de reconexión
+    $('#modalReconectarAgua').on('show.bs.modal', function () {
+        $('#totalPagado').val('');
+    });
+    $('#modalReconectarAguasdacuota').on('show.bs.modal', function () {
+        $('#totalPagadoSe').val('');
+    });
+});
