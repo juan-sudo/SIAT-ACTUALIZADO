@@ -77,8 +77,9 @@ use Controladores\ControladorNotificacion;
             <thead>
               <tr>
                 <th style="width:10px;">#</th>
+                 <th>Cod.</th>
                 <th>Nombres y apellidos</th>
-                <th>Nro notificacion</th>
+                <th>Nro notif.</th>
                 <th>Direccion</th>
                 <th>Fecha notificacion</th>
                 <th>Fecha corte</th>
@@ -425,6 +426,49 @@ use Controladores\ControladorNotificacion;
 <!-- MODAL DE RECONEXION FIN -->
 
 
+
+
+
+<!-- MODAL ELIMINAR NEGOCIO VOLVER IMPRMIR NOTIFICACION -->
+<div class="modal fade" id="modal_generar_notificacion_volver" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="row">
+
+           <input type="text" id="inputNegocio"  >
+          <input type="text" id="inputPredio"  >
+
+
+          <div class="col-xs-12 text-center">
+            <i class="bi bi-exclamation-circle" style="color: red; font-size: 48px;"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <h3>¿Estás seguro de generar notificacion ?</h3>
+              <p><small> Volver generar la notificación.</small></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary" id="confirmarGenerarNotificacionVolver">Sí, Generar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ELIMINAR NEGOCIO IND -->
+
+
+
+
 <!-- MODAL DE RECONEXION -->
 <div id="modalVerAgua" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -441,8 +485,10 @@ use Controladores\ControladorNotificacion;
 
                <input type="text" id="inputLicenciaa" hidden  >
                 <input type="text" id="totalPagadoo" hidden >
+                <input type="text" id="inputidcontribuyente"  >
 
 
+                
                 <!-- Modal Body -->
                 <div class="modal-body estado_cuentaAgua_mostrar">
                     <div class="row divDetallePredioR">
@@ -488,7 +534,7 @@ use Controladores\ControladorNotificacion;
                   <div class="form-group row" >
                             <div class="col-md-12" style="display: flex; justify-content: space-end; align-items: center;">
                                
-                                <button type="button" class="btn btn-primary  btn-sm" id="popimprimir_aguan" data-target="#Modalimprimir_cuentaaguan">Imprimir notificacion</button>
+                                <button type="button" class="btn btn-primary  btn-sm" id="popimprimir_agua_volver" data-target="#modal_generar_notificacion_volver">Imprimir notificacion J</button>
                             </div>
 
 
@@ -523,6 +569,25 @@ use Controladores\ControladorNotificacion;
 <!-- MODAL DE RECONEXION FIN -->
 
 
+<!-- modal de imprimir estado cuenta agua-->
+<div class="container-fluid">
+  <div class="modal in" id="Modalimprimir_cuentaagua_n_volver" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body printerhereagua">
+          <iframe id="iframe_agua_volver" class="iframe-full-height"></iframe>
+          <!-- Muestra el estado de cuenta de Agua-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin de imprimir estado de cuenta agua-->
 
 
 

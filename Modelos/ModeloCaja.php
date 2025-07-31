@@ -729,22 +729,48 @@ class ModeloCaja
 		    $stmt->execute();
 
 			// Consultar el estado actual de la notificación
+			// $stmt = $pdo->prepare("SELECT estado FROM notificacion_agua WHERE Id_Licencia_Agua = :idLicencia");
+			// $stmt->bindParam(":idLicencia", $idlicencia);
+			// $stmt->execute();
+
+			// $row = $stmt->fetch(PDO::FETCH_ASSOC);
+			// $estado = $row['estado']; 
+
+
+			// // Verifica si el estado no es 'S' ni 'R1' 
+			// if($estado != 'S' && $estado != 'R1') {
+			// 	// Si el estado es diferente, se actualiza el estado
+			// 	$stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado WHERE Id_Licencia_Agua = :idLicencia");
+			// 	$stmt->bindParam(":idLicencia", $idlicencia);
+			// 	$stmt->bindParam(":estado", $estadoNotificacion);
+			// 	$stmt->execute();
+			// }
+
+			// Consultar el estado actual de la notificación
 			$stmt = $pdo->prepare("SELECT estado FROM notificacion_agua WHERE Id_Licencia_Agua = :idLicencia");
 			$stmt->bindParam(":idLicencia", $idlicencia);
 			$stmt->execute();
 
+			// Verificar si se obtuvo un resultado
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
-			$estado = $row['estado']; 
 
+			if ($row !== false) {
+				// Si se obtuvo una fila, acceder al valor de 'estado'
+				$estado = $row['estado']; 
 
-			// Verifica si el estado no es 'S' ni 'R1' 
-			if($estado != 'S' && $estado != 'R1') {
-				// Si el estado es diferente, se actualiza el estado
-				$stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado WHERE Id_Licencia_Agua = :idLicencia");
-				$stmt->bindParam(":idLicencia", $idlicencia);
-				$stmt->bindParam(":estado", $estadoNotificacion);
-				$stmt->execute();
+				// Verificar si el estado no es 'S' ni 'R1'
+				if ($estado !== 'S' && $estado !== 'R1') {
+					// Si el estado es diferente, se actualiza el estado
+					$stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado WHERE Id_Licencia_Agua = :idLicencia");
+					$stmt->bindParam(":idLicencia", $idlicencia);
+					$stmt->bindParam(":estado", $estadoNotificacion);  // 'P' o el estado que corresponda
+					$stmt->execute();
+				}
+				
 			}
+			// No hacer nada si no se encuentra el registro (sin else)
+
+
 
 			
 

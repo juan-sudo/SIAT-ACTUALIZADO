@@ -141,6 +141,7 @@ $idArray = array_filter($idArray);
                   <th class="text-center">Ubicación del Predio</th>
                   <th class="text-center">N° Licencia</th>
                   <th class="text-center">Fecha Licencia</th>
+                     <th class="text-center">Estado</th>
                   <th class="text-center">Accion</th>
                 </tr>
               </thead>
@@ -1050,7 +1051,7 @@ $idArray = array_filter($idArray);
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
         <button type="button" class="btn btn-primary" id="popimprimir_agua" data-target="#Modalimprimir_cuentaagua">Imprimir Deuda</button>
-      <button type="button" class="btn btn-primary" id="popimprimir_agua_n" data-target="#Modalimprimir_cuentaagua_n">Imprimir notificacion</button>
+      <button type="button" class="btn btn-primary" id="popimprimir_agua_n" data-target="#Modalimprimir_cuentaagua_n">Imprimir notificacion j</button>
      
      
       </div>

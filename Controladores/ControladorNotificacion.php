@@ -458,6 +458,9 @@ if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
 
             $tabla .= '<tr id="' . $row['Id_Licencia_Agua'] . '" >
                          <td style="text-align: center;">' . $contador++ . '</td>  
+                        <td style="text-align: center;" class="id-contribuyente" data-id="' . $row['Id_Contribuyente'] . '">
+                                <button class="btn-enlace">' . $row['Id_Contribuyente'] . '</button>
+                            </td>
                         <td style="text-align: center;">' . $row['Nombres_Licencia'] . '</td>
                         <td style="text-align: center;">' . $row['Numero_Notificacion'] . '</td>
                         <td style="text-align: center;">' . $row['tipo_via'] . ' ' . $row['nombre_calle'] . ' Mz. ' . $row['numManzana'] . ' Lt. ' . $row['Lote'] . ' Nro Luz. ' . $row['Luz'] . ' Cdra.' . $row['cuadra'] . ' ' . $row['zona'] . ' ' . $row['habilitacion'] . '</td>

@@ -5,6 +5,7 @@ namespace Modelos;
 use Conect\Conexion;
 use Exception;
 use PDO;
+use PDOException;
 
 
 class ModeloEstadoCuenta
@@ -1190,6 +1191,7 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 
 
 
+//REGISTRAR NOTIFICACION
 	public static function mdlPropietario_licencia_pdf_n($idlicencia)
 {
     $pdo = Conexion::conectar();
@@ -1253,6 +1255,58 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
     // Retornar los detalles de la licencia
     return $licencia;
 }
+
+
+
+
+//REGISTRAR NOTIFICACION
+	public static function mdlPropietario_licencia_pdf_v($idlicencia)
+{
+    $pdo = Conexion::conectar();
+    
+    // Preparar el SELECT para obtener los detalles de la licencia
+    $stmt = $pdo->prepare("SELECT la.*, c.Id_Contribuyente as id_contribuyente,
+                                               c.Documento as documento,
+                                               c.Nombre_Completo as nombre_completo,
+                                               la.Numero_Licencia as numero_licencia,
+                                               t.Codigo as tipo_via,
+                                               c.Direccion_Completo as direccion_completo,
+                                               nv.Nombre_Via as nombre_calle,
+                                               m.NumeroManzana as numManzana,
+                                               cu.Numero_Cuadra as cuadra,
+                                               z.Nombre_Zona as zona,
+                                               h.Habilitacion_Urbana as habilitacion,
+                                               ca.Categoria,
+                                               ca.Monto,
+                                               CONCAT(t.Codigo, ' ', nv.Nombre_Via, ' N°', la.Numero_Ubicacion, ' Mz.', m.NumeroManzana, ' Lt.', la.Lote, ' Nlz.', la.Numero_Ubicacion, ' Cdr.', cu.Numero_Cuadra, '-', z.Nombre_Zona, '-', h.Habilitacion_Urbana) AS direccion_predio
+                                          FROM licencia_agua la 
+                                          INNER JOIN contribuyente c ON la.Id_Contribuyente = c.Id_Contribuyente
+                                          INNER JOIN ubica_via_urbano u ON u.Id_Ubica_Vias_Urbano = la.Id_Ubica_Vias_Urbano  
+                                          INNER JOIN direccion d ON u.Id_Direccion = d.Id_Direccion 
+                                          INNER JOIN tipo_via t ON t.Id_Tipo_Via = d.Id_Tipo_Via 
+                                          INNER JOIN zona z ON u.Id_Zona = z.Id_Zona
+                                          INNER JOIN manzana m ON u.Id_Manzana = m.Id_Manzana 
+                                          INNER JOIN cuadra cu ON cu.Id_cuadra = u.Id_Cuadra 
+                                          INNER JOIN habilitaciones_urbanas h ON h.Id_Habilitacion_Urbana = z.Id_Habilitacion_Urbana 
+                                          INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via
+                                          INNER JOIN categoria_agua ca ON ca.Id_Categoria_Agua = la.Id_Categoria_Agua
+                                          WHERE la.Id_Licencia_Agua = :idlicencia
+                                          LIMIT 1");
+
+    // Ejecutar el SELECT
+    $stmt->bindParam(':idlicencia', $idlicencia, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Obtener los resultados de la licencia
+    $licencia = $stmt->fetch();
+    
+  
+
+    // Retornar los detalles de la licencia
+    return $licencia;
+}
+
+
 
 
 	public static function mdlPropietario_licencia_pdf($idlicencia)
@@ -1332,23 +1386,53 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
     return $stmt->fetchAll();
 }
 
-public static function mdlGenerar_notificacion_n()
-{
-    $pdo = Conexion::conectar();
-    // Preparar la consulta para obtener el último registro basado en el ID
-    $stmt = $pdo->prepare("SELECT Id_Notificacion_Agua,Id_Licencia_Agua,DATE_FORMAT(Fecha_Registro, '%d-%m-%Y') AS Fecha_Registro,Numero_Notificacion,anio_Actual, DATE_FORMAT(fecha_corte, '%d-%m-%Y') AS fecha_corte FROM notificacion_agua ORDER BY Id_Notificacion_Agua DESC LIMIT 1");
-    
-    // Ejecutar la consulta
-    $stmt->execute();
+    public static function mdlGenerar_notificacion_n()
+    {
+        $pdo = Conexion::conectar();
+        // Preparar la consulta para obtener el último registro basado en el ID
+        $stmt = $pdo->prepare("SELECT Id_Notificacion_Agua,Id_Licencia_Agua,DATE_FORMAT(Fecha_Registro, '%d-%m-%Y') AS Fecha_Registro,Numero_Notificacion,anio_Actual, DATE_FORMAT(fecha_corte, '%d-%m-%Y') AS fecha_corte FROM notificacion_agua ORDER BY Id_Notificacion_Agua DESC LIMIT 1");
+        
+        // Ejecutar la consulta
+        $stmt->execute();
 
-    // Retornar el último registro
-    return $stmt->fetch();
+        // Retornar el último registro
+        return $stmt->fetch();
+    }
+
+    public static function mdlGenerar_notificacion_v($idlicencia)
+{
+    try {
+        $pdo = Conexion::conectar();
+        
+        // Preparar la consulta para obtener el último registro basado en el ID
+        $stmt = $pdo->prepare("SELECT Id_Notificacion_Agua, Id_Licencia_Agua, 
+                                      DATE_FORMAT(Fecha_Registro, '%d-%m-%Y') AS Fecha_Registro,
+                                      Numero_Notificacion, anio_Actual, 
+                                      DATE_FORMAT(fecha_corte, '%d-%m-%Y') AS fecha_corte 
+                               FROM notificacion_agua 
+                               WHERE Id_Licencia_Agua = :idlicencia");
+        
+        $stmt->bindValue(':idlicencia', $idlicencia, PDO::PARAM_INT);
+        
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el primer resultado
+        $resultado = $stmt->fetch();
+        
+        if ($resultado) {
+            return $resultado;
+        } else {
+            // No se encontró el registro
+            return false;
+        }
+    } catch (PDOException $e) {
+        // Manejo de errores
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
 }
 
-
-
-
-    
     
 	 // Muestra el estado pagados de Agua
 	 public static function mdlEstadoCuenta_agua_pagados($idlicenciaagua)
@@ -1383,42 +1467,42 @@ public static function mdlEstadoCuenta_agua_pdf_consulta($idlicencia, $id_cuenta
 	}
 
     public static function mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia, $id_cuenta)
-{
-    $pdo = Conexion::conectar();
+    {
+        $pdo = Conexion::conectar();
 
-    $idCuentaArray = explode(",", $id_cuenta); // Asegúrate de sanitizar si viene como string
-    $placeholders = implode(",", array_fill(0, count($idCuentaArray), "?"));
+        $idCuentaArray = explode(",", $id_cuenta); // Asegúrate de sanitizar si viene como string
+        $placeholders = implode(",", array_fill(0, count($idCuentaArray), "?"));
 
-    $stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua, Tipo_Tributo, Numero_Recibo,
-                Anio, Id_Contribuyente,
-                SUM(Importe) AS Total_Importe, 
-                SUM(Gasto_Emision) AS Total_Gasto_Emision,
-                SUM(Saldo) AS Total_Saldo,
-                SUM(Total) AS Total_Total,
-                SUM(Total_Aplicar) AS Total_Aplicar,
-                DNI,
-                Nombres,
-                Id_Licencia_Agua
-            FROM estado_cuenta_agua
-            WHERE Id_Licencia_Agua = ?
-                AND Estado = 'D' 
-                AND Id_Estado_Cuenta_Agua IN ($placeholders)
-            GROUP BY Anio
-            ORDER BY Anio");
+        $stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua, Tipo_Tributo, Numero_Recibo,
+                    Anio, Id_Contribuyente,
+                    SUM(Importe) AS Total_Importe, 
+                    SUM(Gasto_Emision) AS Total_Gasto_Emision,
+                    SUM(Saldo) AS Total_Saldo,
+                    SUM(Total) AS Total_Total,
+                    SUM(Total_Aplicar) AS Total_Aplicar,
+                    DNI,
+                    Nombres,
+                    Id_Licencia_Agua
+                FROM estado_cuenta_agua
+                WHERE Id_Licencia_Agua = ?
+                    AND Estado = 'D' 
+                    AND Id_Estado_Cuenta_Agua IN ($placeholders)
+                GROUP BY Anio
+                ORDER BY Anio");
 
-    $params = array_merge([$idlicencia], $idCuentaArray);
-    $stmt->execute($params);
+        $params = array_merge([$idlicencia], $idCuentaArray);
+        $stmt->execute($params);
 
-    // UPDATE seguro
-    $sqlUpdate = "UPDATE estado_cuenta_agua SET Estado_notificacion='N'
-                  WHERE Id_Licencia_Agua = ?
-                  AND Estado = 'D'
-                  AND Id_Estado_Cuenta_Agua IN ($placeholders)";
-    $stmta = $pdo->prepare($sqlUpdate);
-    $stmta->execute($params);
+        // UPDATE seguro
+        $sqlUpdate = "UPDATE estado_cuenta_agua SET Estado_notificacion='N'
+                    WHERE Id_Licencia_Agua = ?
+                    AND Estado = 'D'
+                    AND Id_Estado_Cuenta_Agua IN ($placeholders)";
+        $stmta = $pdo->prepare($sqlUpdate);
+        $stmta->execute($params);
 
-    return $stmt->fetchAll();
-}
+        return $stmt->fetchAll();
+    }
 
 
 	// public static function mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia, $id_cuenta)

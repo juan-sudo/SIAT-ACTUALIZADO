@@ -533,23 +533,48 @@ imprimirAgua() {
     let filtroFecha=null;
       let filtroEstado=null;
 
-
-    // Recorrer todas las filas
-    filas.forEach(fila => {
+        filas.forEach(fila => {
         // Obtener todas las celdas <td> de la fila actual
         let celdas = fila.querySelectorAll('td');
 
         // Crear un array para almacenar los valores de las celdas en esta fila
         let filaDatos = [];
 
-        // Recorrer todas las celdas de la fila y capturar su contenido
-        celdas.forEach(celda => {
-            filaDatos.push(celda.innerText);  // Obtener el texto de la celda
-        });
+        // Comprobar que hay suficientes celdas para evitar errores de índice
+        if (celdas.length > 0) {
+            // Capturar solo las celdas que nos interesan: td1, td3, td4 y el último td
+            if (celdas.length > 0) filaDatos.push(celdas[0].innerText); // td1
+            if (celdas.length > 2) filaDatos.push(celdas[2].innerText); // td3
+            if (celdas.length > 3) filaDatos.push(celdas[3].innerText); // td4
+             if (celdas.length > 4) filaDatos.push(celdas[4].innerText); // td4
+            if (celdas.length > 5) filaDatos.push(celdas[celdas.length - 1].innerText); // Último td
+        }
 
         // Agregar los datos de la fila al array principal
-        datosCapturados.push(filaDatos);
+        if (filaDatos.length > 0) {
+            datosCapturados.push(filaDatos);
+        }
     });
+
+
+
+    
+    // Recorrer todas las filas
+    // filas.forEach(fila => {
+    //     // Obtener todas las celdas <td> de la fila actual
+    //     let celdas = fila.querySelectorAll('td');
+
+    //     // Crear un array para almacenar los valores de las celdas en esta fila
+    //     let filaDatos = [];
+
+    //     // Recorrer todas las celdas de la fila y capturar su contenido
+    //     celdas.forEach(celda => {
+    //         filaDatos.push(celda.innerText);  // Obtener el texto de la celda
+    //     });
+
+    //     // Agregar los datos de la fila al array principal
+    //     datosCapturados.push(filaDatos);
+    // });    
 
       filtroFecha = document.getElementById('fecha_notificacion').value;
         // Capturar el valor del estado seleccionado
@@ -560,7 +585,7 @@ imprimirAgua() {
         console.log("Estado seleccionado: " + filtroEstado);
 
     // Ver los datos capturados en la consola
-    console.log("aqui..-----",datosCapturados);
+    console.log("aqui..-----", );
 
     // Enviar los datos al servidor a través de AJAX
     $.ajax({
@@ -1209,6 +1234,71 @@ formatDate(dateStr) {
     });
   }
 
+  
+  //NOTIFICACION
+  
+  imprimirhere_agua_n_volver() {
+    // const Propietarios_ = []; // Declarar un arreglo vacío
+
+    // $("#id_propietarios tr").each(function (index){
+    //   // Accede al valor del atributo 'id' de cada fila
+      
+
+
+
+    //   Propietarios_[index] = idFila; // Agregar el valor al arreglo
+    // });
+
+    // const Propietarios = Propietarios_.map(function(valor) {
+    //   return parseInt(valor, 10); // El segundo argumento 10 especifica la base numérica (decimal).
+    // });
+
+
+    var Propietarios = $('#inputidcontribuyente').val();
+
+
+    console.log(Propietarios);
+    const idsSeleccionados_ = this.idsSeleccionados.map(function(valor) {
+      return parseInt(valor, 10); // El segundo argumento 10 especifica la base numérica (decimal).
+    });
+
+
+
+
+    let datos = new FormData();
+    datos.append("idlicencia",this.idlicenciaagua);
+    datos.append("id_cuenta",idsSeleccionados_);
+    datos.append("propietarios",Propietarios);
+    datos.append("totalImporte",this.totalImporte.toFixed(2));
+    datos.append("totalGasto",this.totalGasto.toFixed(2));
+    datos.append("totalSubtotal",this.totalSubtotal.toFixed(2));
+    datos.append("totalTIM",this.totalTIM.toFixed(2));
+    datos.append("totalTotal",this.totalTotal.toFixed(2));
+
+   datos.forEach((value, key) => {
+     console.log(key + ": " + value);
+    });
+
+
+
+    $.ajax({
+      url: "./vistas/print/imprimirEstadoCuentaAguaV.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (rutaArchivo) {
+        // Establecer el src del iframe con la ruta relativa del PDF
+        document.getElementById("iframe_agua_volver").src = 'vistas/print/' + rutaArchivo;
+      }
+    });
+
+
+
+  }
+
+
 
 
 }
@@ -1462,6 +1552,8 @@ $(document).on("click", ".btnVerNotificacion", function () {
     console.log(idLicencia); // Verifica que el ID se está capturando correctamente
 
      $("#inputLicencia").val(idLicencia);  // Mostrar el valor en el input
+
+     $("#inputidcontribuyente").val(notificacionUsuario.idcontribuyente);  // Mostrar el valor en el input
 
 
     notificacionUsuario.MostrarEstadoCuentaAguaReconexcionn(idLicencia); // Llamar a la función para mostrar el estado de cuenta
@@ -1979,6 +2071,7 @@ $(document).on("click", "#popimprimirExportarPDF", function () {
 
 
 
+
 $(document).ready(function() {
     // Muestra u oculta el div 'pagoTodo' basado en el cambio en #estadoNo
     $('#estadoNo').change(function() {
@@ -2036,6 +2129,64 @@ $(document).ready(function() {
         }
     });
 });
+
+
+
+//NOTIFICACION
+$(document).on("click", "#popimprimir_agua_volver", function () {
+  if(notificacionUsuario.idsSeleccionados.length === 0)
+  {
+    $("#respuestaAjax_srm").show();
+    $("#respuestaAjax_srm").html('<div class="col-sm-30">' +
+    '<div class="alert alert-warning">' +
+      '<button type="button" class="close font__size-18" data-dismiss="alert">' +
+      '</button>' +
+      '<i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>' +
+      '<strong class="font__weight-semibold">Alerta!</strong> Seleccione un fila para poder imprimir.' +
+    '</div>' +
+    '</div>');
+    setTimeout(function () {
+      $("#respuestaAjax_srm").hide();
+    }, 4000);
+  }
+  else{
+  //  consulta_deuda_agua_lista.imprimirhere_agua_n();
+   // $("#Modalimprimir_cuentaagua_n").modal("show");
+
+
+     $("#modal_generar_notificacion_volver").modal("show");
+    
+  }
+});
+
+//NOTIFICACION VOLVER A IMPRIMIR
+
+$(document).on("click", "#confirmarGenerarNotificacionVolver", function () {
+  if(notificacionUsuario.idsSeleccionados.length === 0)
+  {
+    $("#respuestaAjax_srm").show();
+    $("#respuestaAjax_srm").html('<div class="col-sm-30">' +
+    '<div class="alert alert-warning">' +
+      '<button type="button" class="close font__size-18" data-dismiss="alert">' +
+      '</button>' +
+      '<i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>' +
+      '<strong class="font__weight-semibold">Alerta!</strong> Seleccione un fila para poder imprimir.' +
+    '</div>' +
+    '</div>');
+    setTimeout(function () {
+      $("#respuestaAjax_srm").hide();
+    }, 4000);
+  }
+  else{
+    notificacionUsuario.imprimirhere_agua_n_volver();
+
+    $("#Modalimprimir_cuentaagua_n_volver").modal("show");
+     $("#modal_generar_notificacion_volver").modal("hide");
+
+    
+  }
+});
+
 
 
 //REEMPRIMIR NOTIFICACION
@@ -2103,5 +2254,22 @@ $(document).ready(function() {
     });
     $('#modalReconectarAguasdacuota').on('show.bs.modal', function () {
         $('#totalPagadoSe').val('');
+    });
+});
+
+//REDIRIGE AL LICENCIA DE AGUA
+$(document).ready(function() {
+    // Usamos delegación de eventos para asegurarnos de que el click funcione incluso si las filas se generan dinámicamente
+    $('body').on('click', '.id-contribuyente .btn-enlace', function() {
+        console.log("¡Has hecho clic aquí!");
+
+        // Obtener el Id_Contribuyente desde el atributo 'data-id' de la celda
+        var idContribuyente = $(this).closest('td').data('id');
+        
+        // Construir la URL dinámica
+        var url = "http://localhost/SIAT/index.php?ruta=listapredioagua&id=" + idContribuyente;
+        
+        // Redirigir a la URL
+        window.location.href = url;
     });
 });

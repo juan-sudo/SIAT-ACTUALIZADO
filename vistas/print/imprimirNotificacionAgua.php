@@ -161,9 +161,9 @@ $pdf->Cell($colWidths[3], 7, 'Direccion', 0, 1, 'C'); // Salto de línea
 $pdf->SetFont('helvetica', '', 8);
 foreach ($tabla_datos as $row) {
     $pdf->Cell($colWidths[0], 6, $row[0], 0, 0, 'C');
-    $pdf->Cell($colWidths[1], 6, $row[1], 0, 0, 'C');
+    $pdf->Cell($colWidths[1], 6, $row[1], 0, 0, 'L');
     $pdf->Cell($colWidths[2], 6, $row[2], 0, 0, 'C');
-    $pdf->Cell($colWidths[3], 6, $row[3], 0, 1, 'C'); // Salto de línea
+    $pdf->Cell($colWidths[3], 6, $row[3], 0, 1, 'L'); // Salto de línea
 }
 
             

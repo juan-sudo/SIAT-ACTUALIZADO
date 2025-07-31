@@ -98,8 +98,15 @@ class LicenciaAgua {
   MostrarLicencia() {
     const cuerpoTabla = document.getElementById("listaLicenciasAgua");
     const filas = cuerpoTabla.getElementsByTagName("tr");
-    console.log("id_del contribuyete agua" +this.idContribuyenteC)
+    console.log("id_del contribuyete agua ------------" +this.idContribuyenteC)
     let id=this.idContribuyenteC
+
+     if (id == null) {
+        const urlParams = new URLSearchParams(window.location.search);
+        id = urlParams.get('id');  // Obtiene el valor del parámetro 'id'
+    }
+
+
     while (filas.length > 0) {
       cuerpoTabla.deleteRow(0); // Elimina la primera fila de la tabla
     }
@@ -121,13 +128,52 @@ class LicenciaAgua {
           let contador = 1;
           respuesta = JSON.parse(respuesta);
           respuesta.forEach((value) => {
+
             let fila = cuerpoTabla.insertRow();
+              // Establecer un valor claro para el estadoNotificacion
+         // Establecer un valor claro para el estadoNotificacion y el color de fondo de la celda
+    let estadoTexto = "";
+    let fondoCelda = "";  // Aquí almacenaremos el color de fondo para la celda
+
+    switch (value.estadoNotificacion) {
+        case "R":
+            estadoTexto = "Reconectado";
+            fondoCelda = "background-color: #26a1d1;"; // Plomo
+            break;
+        case "P":
+            estadoTexto = "Pagado";
+            fondoCelda = "background-color: green;"; // Verde
+            break;
+        case "R1":
+            estadoTexto = "1ra Cuota";
+            fondoCelda = "background: red" // Amarillo
+            break;
+        case "S":
+            estadoTexto = "Sin Servicio";
+            fondoCelda = "background-color: gray;"; // Rojo
+            break;
+        case "N":
+            estadoTexto = "Notificado";
+            fondoCelda = "background-color: orange;"; // Azul
+            break;
+        case "C":
+            estadoTexto = "Afecto Corte";
+            fondoCelda = "background-color: red;"; // Naranja
+            break;
+        default:
+            estadoTexto = " ";
+            fondoCelda = "background-color: #6c757d;"; // Gris oscuro
+            break;
+    }
+
             fila.innerHTML = `
         <td style="display: none;">${value.Id_Licencia_Agua}</td>
 				<td class="text-center">${contador}</td>
 				<td class="text-center">${value.tipo_via} ${value.nombre_calle} N° ${value.Numero_Ubicacion} Mz.${value.numManzana} Lt.${value.Lote} Luz.${value.Luz} Cdr.${value.cuadra} ${value.habilitacion}- ${value.zona}</td>
 				<td class="text-center">${value.Numero_Licencia}</td>
         	<td class="text-center">${value. 	Fecha_Expedicion }</td>
+        <td class="text-center" ><span style="${fondoCelda}" >${estadoTexto} </span></td> <!-- Solo aquí se aplica el color -->
+
         <td class="text-center">
 						<img src="./vistas/img/iconos/deuda.png" class="t-icon-tbl-imprimir_agua btnEstadoCuentaAgua" idLicenciaAgua="${value.Id_Licencia_Agua}"  title="Estado Cuenta Agua">
            

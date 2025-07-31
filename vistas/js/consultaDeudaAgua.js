@@ -888,6 +888,33 @@ $(document).on("click", "#popimprimir_agua_n", function () {
 });
 
 
+//NOTIFICACION REMPRIMIR
+$(document).on("click", "#popimprimir_agua_n", function () {
+  if(consulta_deuda_agua_lista.idsSeleccionados.length === 0)
+  {
+    $("#respuestaAjax_srm").show();
+    $("#respuestaAjax_srm").html('<div class="col-sm-30">' +
+    '<div class="alert alert-warning">' +
+      '<button type="button" class="close font__size-18" data-dismiss="alert">' +
+      '</button>' +
+      '<i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>' +
+      '<strong class="font__weight-semibold">Alerta!</strong> Seleccione un fila para poder imprimir.' +
+    '</div>' +
+    '</div>');
+    setTimeout(function () {
+      $("#respuestaAjax_srm").hide();
+    }, 4000);
+  }
+  else{
+  //  consulta_deuda_agua_lista.imprimirhere_agua_n();
+   // $("#Modalimprimir_cuentaagua_n").modal("show");
+
+     $("#modal_generar_notificacion").modal("show");
+    
+  }
+});
+
+
 //CONFIRMAR NOTFICACIPN
 
 //NOTIFICACION

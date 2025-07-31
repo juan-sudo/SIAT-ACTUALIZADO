@@ -226,7 +226,8 @@ class ModeloLicenciAgua
                                                       cu.Numero_Cuadra as cuadra,
                                                       z.Nombre_Zona as zona,
                                                       h.Habilitacion_Urbana as habilitacion,
-                                                      u.Id_Ubica_Vias_Urbano as id
+                                                      u.Id_Ubica_Vias_Urbano as id,
+                                                      na.estado as estadoNotificacion
                                                       FROM licencia_agua l 
                 inner join categoria_agua ca  on ca.Id_Categoria_Agua =l.Id_Categoria_Agua
                 INNER JOIN ubica_via_urbano u ON u.Id_Ubica_Vias_Urbano = l.Id_Ubica_Vias_Urbano  
@@ -237,8 +238,8 @@ class ModeloLicenciAgua
                 INNER JOIN cuadra cu ON cu.Id_cuadra = u.Id_Cuadra 
                 INNER JOIN habilitaciones_urbanas h ON h.Id_Habilitacion_Urbana = z.Id_Habilitacion_Urbana 
                 INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via  
-                                              
-                                                WHERE Id_Contribuyente =:id_condtribuyente AND Estado=1");
+                LEFT JOIN notificacion_agua na ON na.Id_Licencia_Agua = l.Id_Licencia_Agua                                              
+                                                WHERE l.Id_Contribuyente =:id_condtribuyente AND l.Estado=1");
      $stmt->bindParam(":id_condtribuyente",$datos['id_contribuyente_agua']);
       $stmt->execute();
       return $stmt->fetchAll();
