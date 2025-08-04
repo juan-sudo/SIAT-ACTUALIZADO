@@ -841,6 +841,8 @@ $idArray = array_filter($idArray);
 <!--====== FIN DEL MODAL LITIGIO =======-->
 
 
+
+
 <!--====== MODAL REGISTRAR CONTRIBUYENTE A PREDIO EXISTENTE =======-->
 <div class="modal" id="modalAgregarContribuyente_Predio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog modal-lg" role="document">
@@ -2619,6 +2621,10 @@ d
             <input type="text" class="form2" name="anioFiscalC" id="anioFiscalC" disabled="true">
             
             <input type="text" class="form2" name="idConstruccionC" id="idConstruccionC">
+
+           
+
+
           </div>
 
           <div class="row"> <!--Datos del Piso-->
@@ -2685,6 +2691,7 @@ d
           <div class="row2 col-md-6">
             <fieldset style="border: 1px dotted #000; padding: 5px;">
               <legend>Valores Unitarios de Edificacion</legend>
+
               <div>
                 <label for="" class="cajalabel2">Muros y Columnas</label>
                 <select name="murosColumnasC" id="murosColumnasC">
@@ -2854,10 +2861,17 @@ d
         <form role="form" method="POST" enctype="multipart/form-data" class="formRegistrarPiso" id="formRegistrarPiso">
 
           <div class="row2"> <!--Datos del Predio-->
+         
             <label class="cajalabel" for=""> Codigo Predio: </label>
             <input type="text" class="form2" name="idCatastroRow" id="idCatastroRow" disabled="true">
             <label class="cajalabel" for=""> Año Fiscal: </label>
             <input type="text" class="form2" name="anioFiscal" id="anioFiscal" disabled="true">
+
+            <button type="button" class="btn btn-primary " id="btnVerCuadroValor">
+            Ver Cuadro Valor
+          </button>
+
+
           </div>
 
           <div class="row"> <!--Datos del Piso-->
@@ -3081,6 +3095,11 @@ d
             <input type="text" class="form2" name="idCatastroEdit" id="idCatastroEdit" disabled="true">
             <label class="cajalabel" for=""> Año Fiscal: </label>
             <input type="text" class="form2" name="anioFiscalEdit" id="anioFiscalEdit" disabled="true">
+
+             <button type="button" class="btn btn-primary " id="btnEditarCuadroValor">
+            Ver Cuadro Valor
+          </button>
+
           </div>
           <div class="row"> <!--Datos del Piso-->
             <fieldset style="border: 1px dotted #000;">
@@ -3403,6 +3422,306 @@ d
 </div>
 <!-- FIN MODAL  CONFIRMAR TRANSFERENCIA SI O NO -->
 
+
+<!--====== VER CUADRO DE VALORES =======-->
+<div class="modal" id="modalVerCuadroValor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <form role="form" id="formPredioLitigio" method="post" enctype="multipart/form-data">
+      
+      <div class="modal-header">
+        <label class="modal-title">Cuadro de valores unitarios oficiales de edificaciones de la sierra</label>
+      </div>
+          <div class="modal-body">
+            <p style="text-align: center;">Cuadro de valores unitarios oficiales de edificacion para la sierra (Vigente desde 01 al 31 de julio del 2025)</p>
+              <div style="max-height: 500px; overflow-y: auto;">
+            <table class="table table-bordered">
+              <thead>
+                <tr >
+                  <th> </th>
+                  <th style="text-align: center;">Muros y columnas</th>
+                  <th style="text-align: center;">Techos</th>
+                  <th style="text-align: center;">Puertas y ventanas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> <strong>A</strong> </td>
+                  <td>
+                      <p style="text-align: center;">  Estructuras laminares curvadas de concreto armado que incluyen en una sola armadura la cimentación y el techo, para este caso no se considera los valores de la columna N° 2
+                      </p>
+                      <p style="text-align: center;"><strong> 715.43</strong> </p>
+
+                  </td>
+
+                  <td>
+                    <p style="text-align: center;">
+                      Losa o aligerado de concreto armado con luces mayores de 6 m. con sobrecarga mayor a 300 kg/m2
+                    </p>
+                      <p style="text-align: center;"><strong> 372.01</strong> </p>
+                    
+                  </td>
+                 
+                 
+                  <td>
+                    <p style="text-align: center;">
+                      Aluminio pesado con perfiles especiales madera fina ornamental (caoba, cedro o pino selecto) vidrio insulado.
+                
+                    </p>
+                    <p style="text-align: center;"><strong> 282.37 </strong> </p>
+                    
+                  </td>
+                </tr>
+                <tr>
+                  <td> <strong>B</strong> </td>
+                  <td>
+                    <p style="text-align: center;">
+                      columnas, vigas y/o placas de concreto armado y/o metálicas.
+                    </p>
+
+                     <p style="text-align: center;"><strong> 425.64 </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P style="text-align: center;">aligerados o losas de concreto armado inclinadas</P>
+                     <p style="text-align: center;"><strong> 255.75 </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">Aluminio o madera fina (caoba o similar) de diseño especial, vidrio tratado polarizado (2) y curvado, laminado o templado</P>
+                    <p style="text-align: center;"><strong> 249.87 </strong> </p>
+                
+                  </td>
+                </tr>
+                 <tr>
+                  <td> <strong>C</strong> </td>
+                  <td>
+                    <p style="text-align: center;">
+                      Placas de concreto de 10 a 15 cm albñilería armada, ladrillo o similar con columnas y vigas de amarre de concreto armado
+                    </p>
+
+                     <p style="text-align: center;"><strong> 308.81 </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P style="text-align: center;">Aligerado o losas de concreto armado horizontales</P>
+                     <p style="text-align: center;"><strong> 178.97 </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">
+                     Aluminio o madera fina (caoba o similar) vidrio tratado polarizado (2) laminado o templado
+                    </P>
+                    <p style="text-align: center;"><strong> 182.31 </strong> </p>
+                
+                  </td>
+                </tr>
+
+                  <tr>
+                  <td style="text-align: center;"> <strong>D</strong> </td>
+                  <td>
+                    <p style="text-align: center;">
+                     ladrillo, sillar o similar sin elementos de concreto armado, drywall o similar incluye techo (5)
+                    </p>
+
+                     <p style="text-align: center;"><strong> 285.24 </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P style="text-align: center;">Calamina metálica fibrocemento sobre viguería metálica</P>
+                     <p style="text-align: center;"><strong> 135.44 </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">
+                     Ventanas de aluminio, puertas de madera selecta, vidrio tratado trasnparente (3)
+                    </P>
+                    <p style="text-align: center;"><strong> 106..92 </strong> </p>
+                
+                  </td>
+                </tr>
+                <!-- Agrega más filas aquí -->
+
+                  <tr>
+                  <td> <strong>E</strong> </td>
+                  <td>
+                    <p style="text-align: center;">
+                   Adobe, tapial o quincha banbú estructural.
+                    </p>
+
+                     <p style="text-align: center;"><strong> 223.92 </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P style="text-align: center;">
+                     Madera con material impermeabilizante policarbonato.
+
+                    </P>
+                     <p style="text-align: center;"><strong> 55.62 </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">
+                    Ventanas de fierro, puertas de madera selecta(Kaobra o similar) vidrio simple transparente(4)
+                    </P>
+                    <p style="text-align: center;"><strong> 81.68 </strong> </p>
+                
+                  </td>
+                </tr>
+
+                
+                  <tr>
+                  <td> <strong>F</strong> </td>
+                  <td>
+                    <p style="text-align: center;">
+                   Madera (estoraque, pumaquiro, huayruro, machinga, catahua amarillo, copaiba, diablo fuerte, tornillo o similares), dry wall o similar (sin techo)
+                    </p>
+
+                     <p style="text-align: center;"><strong> 139.63 </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P style="text-align: center;">
+                    Calamina metálica fibrocemento o teja sobre viguería de madera corriente
+
+                    </P>
+                     <p style="text-align: center;"><strong> 44.44 </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">
+                 ventanas de fierro o aluminio industrial, puertas de fierro, puertas contraplacadas de madera (cedro o similar), puertas material mdf o hdf, vidrio simple transparente (4).
+                  </P>
+                    <p style="text-align: center;"><strong> 63.17 </strong> </p>
+                
+                  </td>
+                </tr>
+
+                   
+                  <tr>
+                  <td>G</td>
+                  <td>
+                    <p style="text-align: center;">
+                     Pircado con mezcla de barro
+                  </p>
+
+                     <p style="text-align: center;"><strong> 82.27 </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P style="text-align: center;"  >
+                    Sin techo
+
+                    </P>
+                     <p style="text-align: center;"><strong> 0.00 </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">
+                MAdera corriente con marcos en puerta y ventanas de pvc o madera corriente.
+                </P>
+                    <p style="text-align: center;"><strong> 37.22 </strong> </p>
+                
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>H</td>
+                  <td>
+                    <p>
+                 
+                  </p>
+
+                     <p style="text-align: center;"><strong> - </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P>
+
+
+                    </P>
+                     <p style="text-align: center;"><strong> - </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">
+                Madera rústica
+                </P>
+                    <p style="text-align: center;"><strong> 18.61 </strong> </p>
+                
+                  </td>
+                </tr>
+
+
+                
+                <tr>
+                  <td>I</td>
+                  <td>
+                    <p>
+                 
+                  </p>
+
+                     <p style="text-align: center;"><strong> - </strong> </p>
+                    
+                  </td>
+
+
+                  <td>
+                    <P>
+                    
+
+                    </P>
+                     <p style="text-align: center;"><strong> - </strong> </p>
+                  </td>
+                  <td>
+                    <P style="text-align: center;">
+                  Sin puerta ni ventanas
+                </P>
+                    <p style="text-align: center;"><strong> 0.00 </strong> </p>
+                
+                  </td>
+                </tr>
+
+
+              </tbody>
+            </table>
+            </div>
+
+          </div>
+
+
+      <div class="modal-footer">
+
+      <div class="row">
+
+       
+
+         <div class="col-12 col-md-">
+           <button type="button" class="btn btn-secondary" id="salir_modal_litigio" data-dismiss="modal">Salir</button>
+      
+          
+        </div>
+
+      </div>
+
+     
+       
+      </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!--====== VER CUADRO DE VALORES =======-->
 
 
 

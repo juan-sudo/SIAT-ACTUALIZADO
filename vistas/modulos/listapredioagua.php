@@ -100,9 +100,11 @@ $idArray = array_filter($idArray);
                   <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_agua">
                   Editar progreso
                 </button>
-            </div>
+          </div>
 
-            </div>
+        </div>
+
+
             <thead>
               <th class="text-center">Codigo</th>
               <th class="text-center">Documento</th>
@@ -123,6 +125,7 @@ $idArray = array_filter($idArray);
               }
               ?>
             <tbody>
+              
           </table>
       </div>
     </div>

@@ -158,6 +158,7 @@ class ControladorEstadoCuenta
 	}
 	public  static function ctrMostrar_licencia_estadocuenta($idlicenciaagua)
 	{
+		
 		$respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_agua($idlicenciaagua);
             if(count($respuesta)>0){
                 foreach ($respuesta as $fila) {

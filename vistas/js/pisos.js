@@ -2102,3 +2102,24 @@ $("#confirmarEliminarPiso").on("click", function () {
     }
   }
 });
+
+
+//MOSTRAR VISUALIZACION DE CUADRO DE VALORES
+  
+//=============== CUADRO DE VALOR EN NUEVO PISO ======================
+$("#btnVerCuadroValor").on("click", function () {
+  
+    // Mostrar el modal de confirmación
+    $('#modalVerCuadroValor').modal('show');
+
+});
+
+ 
+//=============== CUADRO DE VALOR EN EDITAR PISO ======================
+$("#btnEditarCuadroValor").on("click", function () {
+  
+    // Mostrar el modal de confirmación
+    $('#modalVerCuadroValor').modal('show');
+
+});
+

@@ -199,6 +199,8 @@ class ConsultaDeudaAguaClass {
 
 
   MostrarEstadoCuentaAgua(idlicencia){
+
+    console.log("id licenicia agua enviado",idlicencia)
     let self=this;
     $.ajax({
       type: "POST",
@@ -207,6 +209,9 @@ class ConsultaDeudaAguaClass {
         idlicenciaagua_estadocuenta: idlicencia,
       },
       success: function (respuesta) {
+
+        console.log("aqui llego para estado cuenta---",respuesta);
+
         $("#listaLicenciasAgua_estadocuenta").html(respuesta);
        
             // Función para manejar el clic en las filas de la tabla y sumar los valores
@@ -741,7 +746,8 @@ $(document).on("click", ".btnEstadoCuentaAgua", function() {
     consulta_deuda_agua_lista.reniciar_valor();
     
     consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
-    console.log("iDlicencia agua:"+consulta_deuda_agua_lista.idlicenciaagua)
+
+    console.log("iDlicencia agua----:"+consulta_deuda_agua_lista.idlicenciaagua)
     
     consulta_deuda_agua_lista.MostrarEstadoCuentaAgua(consulta_deuda_agua_lista.idlicenciaagua);
 

@@ -218,7 +218,7 @@ class ModeloLicenciAgua
     }
 
 
-  public static function mdlMostrarLicencias($datos)
+  public static function   mdlMostrarLicencias($datos)
   {
         $stmt = Conexion::conectar()->prepare("SELECT l.*,t.Codigo as tipo_via,
                                                       nv.Nombre_Via as nombre_calle,

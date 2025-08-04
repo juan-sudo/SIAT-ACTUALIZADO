@@ -76,6 +76,7 @@ use Controladores\ControladorNotificacion;
 
             <thead>
               <tr>
+                <th> </th>
                 <th style="width:10px;">#</th>
                  <th>Cod.</th>
                 <th>Nombres y apellidos</th>

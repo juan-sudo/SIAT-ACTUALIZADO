@@ -119,7 +119,9 @@ class LicenciaAgua {
       },
       success: function (respuesta) {
         //console.log(respuesta);
-        console.log("valores de retorno"+respuesta);
+        console.log("valores de lista de agua"+respuesta);
+
+
         if (respuesta === "vacio") {
           let fila = cuerpoTabla.insertRow();
           fila.innerHTML = `<td class="text-center" colspan='10' style='text-align:center;'>No registra Licencia de agua</td>`;
