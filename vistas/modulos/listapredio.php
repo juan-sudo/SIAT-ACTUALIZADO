@@ -903,9 +903,10 @@ $idArray = array_filter($idArray);
                   ?>
                 </tbody>
               </table>
+              
             </div>
             <button type="button" class="btn btn-secondary" id="salir_AgregarContribuyente" data-dismiss="modal">Salir</button>
-            <button style='float:right;' type="button" class="btn btn-primary btnAgregarContribuyente_predio">Agregar</button>
+            <button style='float:right;' type="button" class="btn btn-primary btnAgregarContribuyente_predio">Agregar r</button>
           </section>
         </div>
       </div>
@@ -3523,7 +3524,7 @@ d
                   <td style="text-align: center;"> <strong>D</strong> </td>
                   <td>
                     <p style="text-align: center;">
-                     ladrillo, sillar o similar sin elementos de concreto armado, drywall o similar incluye techo (5)
+                     ladrillo o similar sin elementos de concreto armado, drywall o similar incluye techo (5)
                     </p>
 
                      <p style="text-align: center;"><strong> 285.24 </strong> </p>
@@ -3604,7 +3605,7 @@ d
 
                    
                   <tr>
-                  <td>G</td>
+                  <td><strong>G</strong></td>
                   <td>
                     <p style="text-align: center;">
                      Pircado con mezcla de barro
@@ -3632,7 +3633,7 @@ d
                 </tr>
 
                 <tr>
-                  <td>H</td>
+                  <td><strong>H</strong></td>
                   <td>
                     <p>
                  
@@ -3662,7 +3663,7 @@ d
 
                 
                 <tr>
-                  <td>I</td>
+                  <td><strong>I</strong></td>
                   <td>
                     <p>
                  
@@ -4506,7 +4507,7 @@ d
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        Pagos Realizados
+        Pagos Realizados j
       </div>
       <div class="modal-body">
 

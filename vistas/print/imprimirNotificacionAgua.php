@@ -37,12 +37,6 @@ $pdf->SetTitle('Mi PDF');
 // Agregar una página
 $pdf->AddPage();
 
-// $id_usuario=$_POST['id_usuario'];
-// $carpeta=$_POST['carpeta'];
-// $id_area=$_POST['id_area']; 
-// $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
-// $propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
-// //$estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_pdf($propietarios,$id_cuenta,"null","null",'null');
 
 //$propietarios = ModeloEstadoCuenta::mdlPropietarios_pdf($propietarios);
 $filtroFecha = $_POST['fecha_notificacion'];  // Capturamos la fecha de notificación
@@ -159,8 +153,9 @@ $pdf->Cell($colWidths[3], 7, 'Direccion', 0, 1, 'C'); // Salto de línea
           
 // Imprimir filas de datos
 $pdf->SetFont('helvetica', '', 8);
+$contador = 1;
 foreach ($tabla_datos as $row) {
-    $pdf->Cell($colWidths[0], 6, $row[0], 0, 0, 'C');
+    $pdf->Cell($colWidths[0], 6, $contador++, 0, 0, 'C');
     $pdf->Cell($colWidths[1], 6, $row[1], 0, 0, 'L');
     $pdf->Cell($colWidths[2], 6, $row[2], 0, 0, 'C');
     $pdf->Cell($colWidths[3], 6, $row[3], 0, 1, 'L'); // Salto de línea

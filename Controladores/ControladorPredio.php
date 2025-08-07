@@ -36,6 +36,8 @@ class ControladorPredio
 	
 		echo $respuesta;
 	}
+
+	
 	public  static function ctrListarPredioAgua($valor, $year)
 	{
 		$respuesta = ModeloPredio::mdlListarPredioAgua($valor, $year);

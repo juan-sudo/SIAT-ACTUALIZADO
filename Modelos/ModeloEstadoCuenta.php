@@ -973,7 +973,7 @@ public static function mdlEstadoCuenta_Orden_pdf_historial($datosH)
                               <td class="text-center">' . number_format($value['Gasto_Emision'], 2) . '</td>
                               <td class="text-center">' . number_format($value['Saldo'], 2) . '</td>
                               <td class="text-center">' . number_format($value['TIM'], 2) . '</td>
-                              <td class="text-center">' . number_format($value['Total_Pagar'], 2) . '</td>
+                             <td class="text-center">' . number_format($value['Total_Pagar'], 2, '.', '') . '</td>
                               <td class="text-center"></td>
                           </tr>';
                 return $html;

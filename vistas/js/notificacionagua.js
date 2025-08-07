@@ -521,102 +521,154 @@ manejarClicFila_agua_rs(fila) {
   }
 
 
-
-
-
 imprimirAgua() {
-    // Obtener todas las filas de la tabla
-    let filas = document.querySelectorAll('#lista_de_notificacion tr');
-    
+    // Obtener todos los checkboxes seleccionados
+    let checkboxes = document.querySelectorAll('.checkbox-notificacion:checked');
+
     // Crear un array para almacenar los datos capturados
     let datosCapturados = [];
-    let filtroFecha=null;
-      let filtroEstado=null;
+    let filtroFecha = document.getElementById('fecha_notificacion').value;
+    let filtroEstado = document.getElementById('filtrar_estado').value;
+
+    // Si hay checkboxes seleccionados, filtrar solo esas filas
+    if (checkboxes.length > 0) {
+        checkboxes.forEach(chk => {
+            let fila = chk.closest('tr');
+            let celdas = fila.querySelectorAll('td');
+            let filaDatos = [];
+
+            // Capturar los datos deseados
+            if (celdas.length > 0) filaDatos.push(celdas[0].innerText); // td1
+            if (celdas.length > 2) filaDatos.push(celdas[2].innerText); // td3 (Nombre)
+            if (celdas.length > 3) filaDatos.push(celdas[3].innerText); // td4 (Número notificación)
+            if (celdas.length > 4) filaDatos.push(celdas[4].innerText); // td5 (Dirección)
+            if (celdas.length > 5) filaDatos.push(celdas[celdas.length - 1].innerText); // Última celda (acciones o estado)
+
+            datosCapturados.push(filaDatos);
+        });
+    } else {
+        // Si no hay checkboxes marcados, recorrer todas las filas
+        let filas = document.querySelectorAll('#lista_de_notificacion tr');
 
         filas.forEach(fila => {
-        // Obtener todas las celdas <td> de la fila actual
-        let celdas = fila.querySelectorAll('td');
+            let celdas = fila.querySelectorAll('td');
+            let filaDatos = [];
 
-        // Crear un array para almacenar los valores de las celdas en esta fila
-        let filaDatos = [];
-
-        // Comprobar que hay suficientes celdas para evitar errores de índice
-        if (celdas.length > 0) {
-            // Capturar solo las celdas que nos interesan: td1, td3, td4 y el último td
             if (celdas.length > 0) filaDatos.push(celdas[0].innerText); // td1
             if (celdas.length > 2) filaDatos.push(celdas[2].innerText); // td3
             if (celdas.length > 3) filaDatos.push(celdas[3].innerText); // td4
-             if (celdas.length > 4) filaDatos.push(celdas[4].innerText); // td4
+            if (celdas.length > 4) filaDatos.push(celdas[4].innerText); // td4
             if (celdas.length > 5) filaDatos.push(celdas[celdas.length - 1].innerText); // Último td
-        }
 
-        // Agregar los datos de la fila al array principal
-        if (filaDatos.length > 0) {
             datosCapturados.push(filaDatos);
+        });
+    }
+
+    // Confirmación (opcional)
+    console.log("Fecha de notificación seleccionada:", filtroFecha);
+    console.log("Estado seleccionado:", filtroEstado);
+    console.log("Datos capturados:", datosCapturados);
+
+    // Enviar los datos al servidor
+    $.ajax({
+        url: "./vistas/print/imprimirNotificacionAgua.php",
+        method: "POST",
+        data: {
+            tabla_datos: JSON.stringify(datosCapturados),
+            fecha_notificacion: filtroFecha,
+            estado: filtroEstado
+        },
+        success: function (rutaArchivo) {
+            document.getElementById("iframeA").src = 'vistas/print/' + rutaArchivo;
+        },
+        error: function (error) {
+            console.log('Error en la llamada AJAX:', error);
         }
     });
+}
 
 
 
+// imprimirAgua() {
+//     // Obtener todas las filas de la tabla
+//     let filas = document.querySelectorAll('#lista_de_notificacion tr');
     
-    // Recorrer todas las filas
-    // filas.forEach(fila => {
-    //     // Obtener todas las celdas <td> de la fila actual
-    //     let celdas = fila.querySelectorAll('td');
+//     // Crear un array para almacenar los datos capturados
+//     let datosCapturados = [];
+//     let filtroFecha=null;
+//       let filtroEstado=null;
 
-    //     // Crear un array para almacenar los valores de las celdas en esta fila
-    //     let filaDatos = [];
+//         filas.forEach(fila => {
+//         // Obtener todas las celdas <td> de la fila actual
+//         let celdas = fila.querySelectorAll('td');
 
-    //     // Recorrer todas las celdas de la fila y capturar su contenido
-    //     celdas.forEach(celda => {
-    //         filaDatos.push(celda.innerText);  // Obtener el texto de la celda
-    //     });
+//         // Crear un array para almacenar los valores de las celdas en esta fila
+//         let filaDatos = [];
 
-    //     // Agregar los datos de la fila al array principal
-    //     datosCapturados.push(filaDatos);
-    // });    
+//         // Comprobar que hay suficientes celdas para evitar errores de índice
+//         if (celdas.length > 0) {
+//             // Capturar solo las celdas que nos interesan: td1, td3, td4 y el último td
+//             if (celdas.length > 0) filaDatos.push(celdas[0].innerText); // td1
+//             if (celdas.length > 2) filaDatos.push(celdas[2].innerText); // td3
+//             if (celdas.length > 3) filaDatos.push(celdas[3].innerText); // td4
+//              if (celdas.length > 4) filaDatos.push(celdas[4].innerText); // td4
+//             if (celdas.length > 5) filaDatos.push(celdas[celdas.length - 1].innerText); // Último td
+//         }
 
-      filtroFecha = document.getElementById('fecha_notificacion').value;
-        // Capturar el valor del estado seleccionado
-        filtroEstado = document.getElementById('filtrar_estado').value;
-
-        // Mostrar los filtros capturados
-        console.log("Fecha de notificación seleccionada: " + filtroFecha);
-        console.log("Estado seleccionado: " + filtroEstado);
-
-    // Ver los datos capturados en la consola
-    console.log("aqui..-----", );
-
-    // Enviar los datos al servidor a través de AJAX
-    $.ajax({
-      url: "./vistas/print/imprimirNotificacionAgua.php", // Asegúrate de que esta sea la URL correcta
-      method: "POST",
-      data: { 
-        tabla_datos: JSON.stringify(datosCapturados) , // Convertimos el array a una cadena JSON
-         fecha_notificacion: filtroFecha,  // Enviar filtroFecha al servidor
-         estado: filtroEstado  // Enviar filtroEstado al servidor
-      },
-      success: function (rutaArchivo) {
-        // Establecer el src del iframe con la ruta relativa del PDF
-        document.getElementById("iframeA").src = 'vistas/print/' + rutaArchivo;
-      },
-      error: function (error) {
-        console.log('Error en la llamada AJAX:', error);
-      }
-    });
+//         // Agregar los datos de la fila al array principal
+//         if (filaDatos.length > 0) {
+//             datosCapturados.push(filaDatos);
+//         }
+//     });
 
 
+//       filtroFecha = document.getElementById('fecha_notificacion').value;
+//         // Capturar el valor del estado seleccionado
+//         filtroEstado = document.getElementById('filtrar_estado').value;
 
-  }
+//         // Mostrar los filtros capturados
+//         console.log("Fecha de notificación seleccionada: " + filtroFecha);
+//         console.log("Estado seleccionado: " + filtroEstado);
+
+//     // Ver los datos capturados en la consola
+//     console.log("aqui..-----", );
+
+//     // Enviar los datos al servidor a través de AJAX
+//     $.ajax({
+//       url: "./vistas/print/imprimirNotificacionAgua.php", // Asegúrate de que esta sea la URL correcta
+//       method: "POST",
+//       data: { 
+//         tabla_datos: JSON.stringify(datosCapturados) , // Convertimos el array a una cadena JSON
+//          fecha_notificacion: filtroFecha,  // Enviar filtroFecha al servidor
+//          estado: filtroEstado  // Enviar filtroEstado al servidor
+//       },
+//       success: function (rutaArchivo) {
+//         // Establecer el src del iframe con la ruta relativa del PDF
+//         document.getElementById("iframeA").src = 'vistas/print/' + rutaArchivo;
+//       },
+//       error: function (error) {
+//         console.log('Error en la llamada AJAX:', error);
+//       }
+//     });
+
+
+
+//   }
+
+
 
   // Función para listar notificaciones
-lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos', pagina = 1) {
+
+
+
+  lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos', pagina = 1,resultados_por_pagina='15') {
     let datos = new FormData();
     datos.append("lista_notificacion", "lista_notificacion");
     datos.append("filtro_nombre", filtro_nombre);  // Agregar filtro de nombre
     datos.append("filtro_fecha", filtro_fecha);    // Agregar filtro de fecha
     datos.append("filtro_estado", filtro_estado);  // Agregar filtro de estado
-    datos.append("pagina", pagina);                // Agregar página actual
+     datos.append("pagina", pagina);   
+    datos.append("resultados_por_pagina", resultados_por_pagina);                // Agregar página actual
 
     $.ajax({
         url: "ajax/notificacionagua.ajax.php",
@@ -1451,13 +1503,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const nombreField = document.querySelector('#filtrar_nombre');
     const fechaField = document.querySelector('#fecha_notificacion');
     const estadoField = document.querySelector('#filtrar_estado'); // Campo de estado
+     const resultados_por_pagina = document.querySelector('#resultados_por_pagina'); // Campo de estado
 
     // Detectar cambios en el campo de texto para filtrar por nombre
     nombreField.addEventListener('input', function () {
         const nombre = nombreField.value;
         const fecha = fechaField.value; // Capturar la fecha seleccionada
         const estado = estadoField.value; // Capturar el estado seleccionado
-        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1);  // Resetear a la página 1
+        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
     });
 
     // Detectar cambios en el campo de fecha para filtrar por fecha
@@ -1465,7 +1518,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const fecha = fechaField.value;
         const nombre = nombreField.value;
         const estado = estadoField.value;
-        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1);  // Resetear a la página 1
+        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
     });
 
     // Detectar cambios en el campo de estado para filtrar por estado
@@ -1473,8 +1526,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const estado = estadoField.value;
         const nombre = nombreField.value;
         const fecha = fechaField.value;
-        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1);  // Resetear a la página 1
+        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
     });
+
+     // Detectar cambios en el campo de estado para filtrar por estado
+    resultados_por_pagina.addEventListener('change', function () {
+        const estado = estadoField.value;
+        const nombre = nombreField.value;
+        const fecha = fechaField.value;
+        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
+    });
+
+
 });
 
 

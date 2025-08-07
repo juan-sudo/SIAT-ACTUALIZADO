@@ -34,7 +34,7 @@ use Controladores\ControladorNotificacion;
         </div>
 
         <div class="box-header">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <label>Filtrar por nombre</label>
         <input type="text" id="filtrar_nombre" name="filtrar_nombre" class="form-control" style="width: 100%;" placeholder="Ingrese nombre o apellidos">
     </div>
@@ -58,11 +58,24 @@ use Controladores\ControladorNotificacion;
         </select>
     </div>
 
+     <div class="col-md-1">
+        <label>Paginas</label>
+        <select id="resultados_por_pagina" name="resultados_por_pagina" class="form-control">
+            <option value="15" selected >15</option>
+            <option value="25">25</option>
+        </select>
+
+    </div>
+
+   
     <div class="col-md-4">
         <button class="btn btn-success pull-right btn-radius" id="popimprimirExportarPDF" style="margin-top: 24px;">
             <i class="fas fa-plus-square"></i> Exportar PDF
         </button>
     </div>
+
+
+
 </div>
 
 
@@ -76,8 +89,8 @@ use Controladores\ControladorNotificacion;
 
             <thead>
               <tr>
-                <th> </th>
-                <th style="width:10px;">#</th>
+               
+                <th style="width:10px;"> </th>
                  <th>Cod.</th>
                 <th>Nombres y apellidos</th>
                 <th>Nro notif.</th>
@@ -264,8 +277,10 @@ use Controladores\ControladorNotificacion;
                             <div class="col-md-9">
                                 <select class="form-control" id="estadoN" name="estadoN">
                                     <option value="N">Notificado</option>
+                                    <option value="MC">Medidor cerrado</option>
                                     <option value="C">Afecto Corte</option>
                                     <option value="S">Sin Servicio</option>
+                                    
                                     <!-- <option value="P">Pagado</option> -->
                                 </select>
                             </div>

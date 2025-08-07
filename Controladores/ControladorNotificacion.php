@@ -414,8 +414,10 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
                                     ? '<span style="background-color: #26a1d1; padding: 2px 5px;">Reconectado</span>' 
                                     : ($row['estado'] == 'R1' 
                                           ? '<span style="background: linear-gradient(to right, #26a1d1 50%, red 50%); padding: 2px 5px;">1ra cuota</span>' 
+                                            : ($row['estado'] == 'MC' 
+                                          ? '<span style="background: #d95218; color:#ffffff; padding: 2px 5px;">Cerrado</span>' 
    
-                            : $row['estado']))))) ;
+                                         : $row['estado'])))))) ;
 
                                // Crear botones dependiendo del estado
                         $botonReconectarAgua = '';  // Para el primer botón
@@ -459,7 +461,10 @@ if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
             $tabla .= '<tr id="' . $row['Id_Licencia_Agua'] . '" >
 
                        
-                         <td style="text-align: center;">' . $contador++ . '</td>  
+                         <td style="text-align: center;">
+                            <input type="checkbox" class="checkbox-notificacion" value="' . $row['Id_Notificacion_Agua'] . '">
+                        </td>
+                        
                         <td style="text-align: center;" class="id-contribuyente" data-id="' . $row['Id_Contribuyente'] . '">
                                 <button class="btn-enlace">' . $row['Id_Contribuyente'] . '</button>
                             </td>
@@ -516,47 +521,55 @@ if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
             $pagina = 1;
         }
 
-        // Rango de páginas que vamos a mostrar (3 anteriores, 3 posteriores)
-        $rangos = 5;
 
-        // Iniciamos la variable para contener los enlaces de paginación
-        $pagination = '<nav aria-label="Page navigation example"><ul class="pagination justify-content-center">';
+        // Rango de páginas
+    $rangos = 5;
 
-        // Enlace de "Anterior"
-        if ($pagina > 1) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina - 1) . ')">Anterior</a></li>';
-        }
+    // Calcular resumen
+    $registro_inicio = $inicio + 1;
+    $registro_fin = $inicio + count($respuesta);
 
-        // Páginas anteriores y siguientes
-        // Si la diferencia entre la página actual y la primera página es mayor que 6, agregar puntos suspensivos
-        if ($pagina > $rangos + 1) {
-            $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
-        }
+    // Estructura flex con resumen + paginación
+    $pagination = '
+    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+        <div class="registro-resumen" style="color:#969493">Mostrando del ' . $registro_inicio . ' al ' . $registro_fin . ' de un total de ' . $total_registros . ' registros</div>
+       
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mb-0">
+    ';
 
-        // Mostrar las páginas anteriores (hasta 3 páginas)
-        for ($i = max(1, $pagina - $rangos); $i < $pagina; $i++) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
-        }
+    if ($pagina > 1) {
+        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina - 1) . ')">Anterior</a></li>';
+    }
 
-        // Página actual (marcada como activa)
-        $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $pagina . '</a></li>';
+    if ($pagina > $rangos + 1) {
+        $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
+    }
 
-        // Mostrar las páginas siguientes (hasta 3 páginas)
-        for ($i = $pagina + 1; $i <= min($total_paginas, $pagina + $rangos); $i++) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
-        }
+    for ($i = max(1, $pagina - $rangos); $i < $pagina; $i++) {
+        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
+    }
 
-        // Si la diferencia entre la página actual y la última página es mayor que 6, agregar puntos suspensivos
-        if ($pagina < $total_paginas - $rangos) {
-            $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
-        }
+    $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $pagina . '</a></li>';
 
-        // Enlace de "Siguiente"
-        if ($pagina < $total_paginas) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
-        }
+    for ($i = $pagina + 1; $i <= min($total_paginas, $pagina + $rangos); $i++) {
+        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
+    }
 
-        $pagination .= '</ul></nav>';
+    if ($pagina < $total_paginas - $rangos) {
+        $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
+    }
+
+    if ($pagina < $total_paginas) {
+        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
+    }
+
+    $pagination .= '
+            </ul>
+        </nav>
+    </div>
+    ';
+
 
         // Devolver los resultados y la paginación
         echo json_encode(array('data' => $tabla, 'pagination' => $pagination));

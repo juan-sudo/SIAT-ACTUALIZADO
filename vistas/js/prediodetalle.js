@@ -1062,7 +1062,8 @@ error: function (xhr, status, error) {
     for(var i=1, row;row =tabla_contribuyente.rows[i];i++){
       var id_contribuyente = row.getAttribute('id').trim();
       contribuyentes.push( id_contribuyente);
-      }
+    }
+
     var id_propietario = predio.id_propietario;
     var carpeta = $('#carpeta_contribuyente').attr('id_carpeta');
     var select = document.getElementById('selectnum');
