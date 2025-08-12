@@ -231,6 +231,7 @@ $(document).on("click", "btnModalRegistrarCambios", function () {
   alert("REGISTRO CAMBIOS");
 });
 let perfilOculto_c = $("#perfilOculto_c").val();
+
 function loadContribuyente(page, searchClass,init_envio) {
     if (event.keyCode === 13) {
       buscarcontribuyente_.loadcontribuyente_filtro(page,searchClass,init_envio);

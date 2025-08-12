@@ -19,7 +19,8 @@ use Controladores\ControladorCategorias;
                      <input type="search" class="search_dni" id="searchContribuyente" name="searchContribuyente" placeholder="Documento DNI" onkeyup="loadContribuyente(1,'search_dni','')">
                      <input type="search" class="search_nombres" id="searchContribuyente" name="searchContribuyente" placeholder="Nombres y Apellidos" onkeyup="loadContribuyente(1,'search_nombres','')">
                      <input type="search" class="search_codigo_sa" id="searchContribuyente_caja" name="searchContribuyente_caja" placeholder="Codigo Carpeta" onkeyup="loadContribuyente(1,'search_codigo_sa','caja')">
-                     <input type="search" class="search_direccion" id="searchContribuyente_direccion" name="searchContribuyente_direccion" placeholder="direccion" onkeyup="loadContribuyente(1,'search_direccion','')">
+                     <input type="search" class="search_direccion" id="searchContribuyente_direccion" name="searchContribuyente_direccion" placeholder="Direccion fiscal" onkeyup="loadContribuyente(1,'search_direccion','')">
+                    <input type="search" class="search_direccion_predio" id="searchContribuyente_direccion" name="searchContribuyente_direccion" placeholder="Direccion predio" onkeyup="loadContribuyente(1,'search_direccion_predio','')">
                     
                     
                     

@@ -24,6 +24,16 @@ class ProvedioClass {
     this.fechaPres=null;
 
   }
+
+  validarMonto(input) {
+    let val = parseFloat(input.value);
+    if (isNaN(val) || val < 1) {
+        input.value = 1; // Nunca menos de 1
+    }
+    actualizarMonto(input); // Si quieres seguir llamando tu lógica actual
+}
+
+  
   MostrarProveidos(idAreaC, fechPres) {
     const cuerpoTabla = document.getElementById("listaProveidos");
     const filas = cuerpoTabla.getElementsByTagName("tr");
@@ -459,6 +469,10 @@ $(".modalMostrar_EspecieValorada_b").click(function () {
   $("#modalAgregarEspecie_valorada").modal("show");
 });
 
+
+
+
+
 $(".btnModalNuevoProveido").on("click", function () {
   bloCamposReg();
  
@@ -485,8 +499,16 @@ $(".btnModalNuevoProveido").on("click", function () {
     if (editable_ === "0") {
       html += "<td style='width:40px;' class='monto_cantidad text-center'><center>" + Monto + "</center></td>";
     } else {
-      html += "<td style='width:40px;' class='text-center'><input style='width:60px;' type='text' class='monto_cantidad text-center' value='" + Monto + "' oninput='actualizarMonto(this)'></td>";
+
+      html += "<td style='width:40px;' class='text-center'>" +
+        "<input style='width:60px;' type='number' class='monto_cantidad text-center' " +
+        "value='" + Monto + "' min='1' oninput='nuevoProvedio.validarMonto(this)'>" +
+        "</td>";
+     // html += "<td style='width:40px;' class='text-center'><input style='width:60px;' type='text' class='monto_cantidad text-center' value='" + Monto + "' oninput='actualizarMonto(this)'></td>";
+   
+   
     }
+    
     html += "<td><center class='monto_cantidad_total'>" + (1 * Monto).toFixed(2) + "</center></td>" +
       '<td><center><button type="button" class="btn btn-danger btn-xs btnEliminarEspcie_val" idespecie_eli="' + codigo + '"><i class="fas fa-trash-alt"></i></button></center></td>' +
       "</tr>";
@@ -507,6 +529,9 @@ $(".btnModalNuevoProveido").on("click", function () {
 
   $("#modalAgregarEspecie_valorada").modal("hide");
 });
+
+
+
 
 function actualizarMonto(elemento) {
   var fila = $(elemento).closest('tr');
@@ -565,3 +590,5 @@ $(document).on("click", ".bi-eye", function() {
 $(document).on("click", ".cerrar_proveido", function() {
   nuevoProvedio.elementosAgregados=[];
 });
+
+

@@ -840,6 +840,9 @@ class ModeloPredio
 		return $content;
 	}
 
+
+	
+
 	private static function generateRowHTML($value, $key, $anio_actual)
 {
 	$estilo = isset($value['Id_predio_litigio']) && $value['Id_predio_litigio'] !== null

@@ -955,6 +955,7 @@ public static function mdlEstadoCuenta_Orden_pdf_historial($datosH)
 				if ($value['cierre'] == 0) {
 					$html .= ' class="color_coactivo"';
 				}
+                
 				$html .='><td class="text-center">' . htmlspecialchars($value['Tipo_Tributo']) . '</td>
                               <td class="text-center">' . htmlspecialchars($tributo) . '</td>
                               <td class="text-center">' . htmlspecialchars($value['Anio']) . '</td>
@@ -962,7 +963,7 @@ public static function mdlEstadoCuenta_Orden_pdf_historial($datosH)
                               <td class="text-center">' . htmlspecialchars($value['Fecha_Pago']) . '</td>';
 
                  if($value['Estado']=='E'){
-                     $html.='<td class="text-center">Prescrito</td>';
+                     $html.='<td class="text-center">  </td>';
 				 }
 				 
 				 else{

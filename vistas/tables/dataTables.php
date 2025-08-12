@@ -30,7 +30,11 @@ class DataTables
                 break;
             case 'search_direccion':
                     $campoBusqueda = 'Direccion_completo';
-                 break;    
+                 break;  
+
+           case  'search_direccion_predio':
+                   $campoBusqueda = 'Direccion_completo';
+                 break;  
             default:
                 $campoBusqueda = 'Nombre_Completo';
                 break;
@@ -40,6 +44,7 @@ class DataTables
         $idContribuyentesString = ""; // Variable para almacenar IDs separados por guiones
 
         if (!empty($searchProducto)) {
+
             if ($tipoBusqueda == 'search_codigo' || $tipoBusqueda == 'search_dni') {
                 $sWhere = "WHERE $campoBusqueda = :searchProducto";
             } else if ($tipoBusqueda == 'search_nombres') {
@@ -47,6 +52,10 @@ class DataTables
                 $searchProducto = "%$searchProducto%";
             }
             else if ($tipoBusqueda == 'search_direccion') {
+                $sWhere = "WHERE $campoBusqueda LIKE :searchProducto";
+                $searchProducto = "%$searchProducto%";
+            }
+              else if ($tipoBusqueda == 'search_direccion_predio') {
                 $sWhere = "WHERE $campoBusqueda LIKE :searchProducto";
                 $searchProducto = "%$searchProducto%";
             }
@@ -70,6 +79,98 @@ class DataTables
                     return;
                 }
             }
+            else if ($tipoBusqueda == 'search_direccion_predio') {
+    $pdo = Conexion::conectar();
+
+    $sql = "SELECT DISTINCT
+                c.Id_Ubica_Vias_Urbano as ubicacionvia,
+                c.Estado,
+                c.Id_Contribuyente as id_contribuyente,
+                td.descripcion as tipo_documento,
+                c.Documento as documento, 
+                CONCAT(c.Nombres, ' ', c.Apellido_Paterno, ' ', c.Apellido_Materno) AS nombre_completo,
+                p.Direccion_completo as direccion_completo,
+                c.Coactivo as coactivo
+            FROM propietario pro
+            INNER JOIN predio p ON pro.Id_Predio = p.Id_Predio
+            INNER JOIN contribuyente c ON pro.Id_Contribuyente = c.Id_Contribuyente
+            INNER JOIN tipo_documento_siat td ON c.Id_Tipo_Documento = td.Id_Tipo_Documento
+            WHERE pro.Baja=1 AND p.Direccion_completo LIKE :searchProducto
+            ORDER BY p.Direccion_completo";
+
+    $stmt = $pdo->prepare($sql);
+    $searchProducto = "%$searchProducto%";
+    $stmt->execute(['searchProducto' => $searchProducto]);
+
+    $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Aquí reutilizamos el mismo renderizado HTML que ya tienes
+    if (!empty($registros)) {
+        foreach ($registros as $key => $value) {
+            $activo = ($value['Estado'] == '1') ? 'checked' : '';
+            ?>
+            <tr class="<?= $value['coactivo'] === '1' ? 'color_coactivo': '' ?>"
+                id="tr_id_contribuyente"
+                idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>"
+                init_envio=""
+                id="predio_propietario"
+                parametro_b="c_b"
+                data-target="#modal_predio_propietario"
+                title="Predio">
+                <td class="text-center"><?= ++$key ?></td>
+                <td class="text-center"><?= $value['id_contribuyente'] ?></td>
+                <td class="text-center"><?= $value['tipo_documento'] ?></td>
+                <td class="text-center"><?= $value['documento'] ?></td>
+                <td><?= $value['nombre_completo'] ?></td>
+                <td><?= $value['direccion_completo'] ?></td>
+                <td class="text-center"><?= $value['coactivo'] === '1' ? 'Si': 'No' ?></td>
+                <td class="text-center">
+                    <i class="bi bi-house-gear-fill lis_ico_con"
+                       title="Predio"
+                       idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>"
+                       init_envio=""
+                       id="predio_propietario"
+                       parametro_b="c_b"
+                       data-target="#modal_predio_propietario"></i>
+                </td>
+                <td class="text-center">
+                    <div class="modo-contenedor-selva">
+                        <input type="checkbox" data-toggle="toggle"
+                               data-on="Activado" data-off="Desactivado"
+                               data-onstyle="success" data-offstyle="danger"
+                               id="usuarioEstado"
+                               name="usuarioEstado<?= $value['Estado'] ?>"
+                               value="<?= $value['Estado'] ?>"
+                               data-size="mini" data-width="110"
+                               idUsuario="<?= $value['id_contribuyente'] ?>" <?= $activo ?>>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="btn-group">
+                        <i class="bi bi-pencil-fill lis_ico_con btnEditarcontribuyente"
+                           title="Editar"
+                           idContribuyente="<?= $value['id_contribuyente'] ?>"
+                           idDireccionnu="<?= $value['ubicacionvia'] ?>"
+                           data-toggle="modal"
+                           data-target="#modalEditarcontribuyente"></i>
+                        <?php if ($perfilUsuario == 'Administrador') : ?>
+                            <i class="bi bi-trash3-fill btnEliminarContribuyente ico_eli_contri"
+                               title="Eliminar"
+                               idContribuyente="<?= $value['id_contribuyente'] ?>"></i>
+                        <?php endif; ?>
+                    </div>
+                </td>
+            </tr>
+            <?php
+        }
+    } else {
+        echo "<td colspan='12' style='text-align:center;'>No se encontraron contribuyentes con esa dirección</td>";
+    }
+
+    $pdo = null;
+    return; // Salimos para no ejecutar la consulta genérica
+}
+
 
             // Preparar y ejecutar la consulta principal
             $stmt = $pdo->prepare("SELECT 
@@ -84,6 +185,7 @@ class DataTables
                                     FROM contribuyente c 
                                     INNER JOIN tipo_documento_siat td ON td.Id_Tipo_Documento = c.Id_Tipo_Documento
                                     $sWhere");
+
 
             if ($tipoBusqueda == 'search_codigo_sa') {
                 $stmt->execute($codigosArray);
@@ -129,7 +231,9 @@ class DataTables
                         $contribuyente['Codigo_Carpeta'] = ''; // Si no encuentra el código de carpeta, asigna una cadena vacía
                     }
                 }
+
             }
+
 
             $pdo = null;
 
