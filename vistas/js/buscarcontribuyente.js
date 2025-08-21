@@ -129,7 +129,9 @@ class buscarcontribuyente {
       url: 'ajax/contribuyente.ajax.php', // Cambia esto por la URL a la que envías los datos
       data: datosFormulario, // Serializa los datos del formulario
       success: function(respuesta) {
+
         if (respuesta.tipo === "correcto") {
+          
           $("#modalEditarcontribuyente").modal("hide");
           $("#respuestaAjax_srm").show(); // Mostrar el elemento #error antes de establecer el mensaje
           $("#respuestaAjax_srm").html(respuesta.mensaje);
@@ -139,6 +141,8 @@ class buscarcontribuyente {
             window.location.href = window.location.href; // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
             // Recargar la página manteniendo los parámetros actuales
           }, 1000); // 3000 milisegundos = 3 segundos (ajusta según tus preferencias)
+
+
         } else {
           $("#modalEditarcontribuyente").modal("hide");
           $("#respuestaAjax_srm").show(); // Mostrar el elemento #error antes de establecer el mensaje

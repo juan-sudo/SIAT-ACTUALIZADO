@@ -4875,6 +4875,7 @@ class ModeloCalcular
 		} else {
 			$impuesto_anual = ($uit['uit'] * 15 * 0.002) + (($uit['uit'] * 60 - $uit['uit'] * 15) * 0.006) + (($base_imponible - $uit['uit'] * 60) * 0.01);
 		}
+		
 		$impuesto_trimestral = $impuesto_anual / 4;
 		$resultados['impuesto_anual'] = round($impuesto_anual, 2);
 		$resultados['impuesto_trimestral'] = round($impuesto_trimestral, 2);

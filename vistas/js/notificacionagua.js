@@ -588,75 +588,6 @@ imprimirAgua() {
 }
 
 
-
-// imprimirAgua() {
-//     // Obtener todas las filas de la tabla
-//     let filas = document.querySelectorAll('#lista_de_notificacion tr');
-    
-//     // Crear un array para almacenar los datos capturados
-//     let datosCapturados = [];
-//     let filtroFecha=null;
-//       let filtroEstado=null;
-
-//         filas.forEach(fila => {
-//         // Obtener todas las celdas <td> de la fila actual
-//         let celdas = fila.querySelectorAll('td');
-
-//         // Crear un array para almacenar los valores de las celdas en esta fila
-//         let filaDatos = [];
-
-//         // Comprobar que hay suficientes celdas para evitar errores de índice
-//         if (celdas.length > 0) {
-//             // Capturar solo las celdas que nos interesan: td1, td3, td4 y el último td
-//             if (celdas.length > 0) filaDatos.push(celdas[0].innerText); // td1
-//             if (celdas.length > 2) filaDatos.push(celdas[2].innerText); // td3
-//             if (celdas.length > 3) filaDatos.push(celdas[3].innerText); // td4
-//              if (celdas.length > 4) filaDatos.push(celdas[4].innerText); // td4
-//             if (celdas.length > 5) filaDatos.push(celdas[celdas.length - 1].innerText); // Último td
-//         }
-
-//         // Agregar los datos de la fila al array principal
-//         if (filaDatos.length > 0) {
-//             datosCapturados.push(filaDatos);
-//         }
-//     });
-
-
-//       filtroFecha = document.getElementById('fecha_notificacion').value;
-//         // Capturar el valor del estado seleccionado
-//         filtroEstado = document.getElementById('filtrar_estado').value;
-
-//         // Mostrar los filtros capturados
-//         console.log("Fecha de notificación seleccionada: " + filtroFecha);
-//         console.log("Estado seleccionado: " + filtroEstado);
-
-//     // Ver los datos capturados en la consola
-//     console.log("aqui..-----", );
-
-//     // Enviar los datos al servidor a través de AJAX
-//     $.ajax({
-//       url: "./vistas/print/imprimirNotificacionAgua.php", // Asegúrate de que esta sea la URL correcta
-//       method: "POST",
-//       data: { 
-//         tabla_datos: JSON.stringify(datosCapturados) , // Convertimos el array a una cadena JSON
-//          fecha_notificacion: filtroFecha,  // Enviar filtroFecha al servidor
-//          estado: filtroEstado  // Enviar filtroEstado al servidor
-//       },
-//       success: function (rutaArchivo) {
-//         // Establecer el src del iframe con la ruta relativa del PDF
-//         document.getElementById("iframeA").src = 'vistas/print/' + rutaArchivo;
-//       },
-//       error: function (error) {
-//         console.log('Error en la llamada AJAX:', error);
-//       }
-//     });
-
-
-
-//   }
-
-
-
   // Función para listar notificaciones
 
 
@@ -669,7 +600,6 @@ imprimirAgua() {
     datos.append("filtro_estado", filtro_estado);  // Agregar filtro de estado
      datos.append("pagina", pagina);   
     datos.append("resultados_por_pagina", resultados_por_pagina);                // Agregar página actual
-
     $.ajax({
         url: "ajax/notificacionagua.ajax.php",
         method: "POST",
@@ -698,25 +628,6 @@ imprimirAgua() {
 
 }
 
-  //    lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos') {
-  //   let datos = new FormData();
-  //    datos.append("lista_notificacion", "lista_notificacion");
-  //   datos.append("filtro_nombre", filtro_nombre); // Agregar filtro de nombre
-  //   datos.append("filtro_fecha", filtro_fecha);   // Agregar filtro de fecha
-  //   datos.append("filtro_estado", filtro_estado); // Agregar filtro de estado
-
-  //   $.ajax({
-  //     url: "ajax/notificacionagua.ajax.php",
-  //     method: "POST",
-  //     data: datos,
-  //     cache: false,
-  //     contentType: false,
-  //     processData: false,
-  //     success: function (respuesta) {
-  //       document.getElementById('lista_de_notificacion').innerHTML = respuesta;
-  //     }
-  //   });
-  // }
 
 
   
@@ -1627,6 +1538,8 @@ $(document).on("click", ".btnVerNotificacion", function () {
 
 
 });
+
+
 
 //PAGO DE SEGUNDO CUOTA
 $(document).on("click", ".btnReconectarAguaseCuota", function () {

@@ -65,7 +65,7 @@ $idArray = array_filter($idArray);
                     <tr>
                       <th class="text-center">N°</th>
                       <th class="text-center">Ubicacion del Predio</th>
-                      <th class="text-center">N° Licencia</th>
+                      <th class="text-center">N° Licencia a</th>
                     </tr>
                   </thead>
                   <?php

@@ -1,6 +1,5 @@
 <?php
 
-use Controladores\ControladorUsuarios;
 use Controladores\ControladorPredio;
 use Controladores\ControladorNotificacion;
 
@@ -28,7 +27,7 @@ use Controladores\ControladorNotificacion;
       <!-- BOX INI -->
       <div class="box rounded">
         <div class="box-header ">
-          <h3 class="box-title">Notificacion agua</h3>
+          <h3 class="box-title">Administracion de coactivo</h3>
 
 
         </div>
@@ -39,23 +38,18 @@ use Controladores\ControladorNotificacion;
         <input type="text" id="filtrar_nombre" name="filtrar_nombre" class="form-control" style="width: 100%;" placeholder="Ingrese nombre o apellidos">
     </div>
 
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
         <label>Filtrar por fecha notificación</label>
         <input type="date" id="fecha_notificacion" name="fecha_notificacion" class="form-control">
-    </div>
+    </div> -->
 
     <div class="col-md-2">
         <label>Filtrar Estado</label>
         <select id="filtrar_estado" name="filtrar_estado" class="form-control">
             <option value="todos">Todos</option>
-            <option value="N">Notificado</option>
-             <option value="MC">Medidor cerrado</option>
-             <option value="RC">Reconexion Medidor cerrado</option>
-            <option value="C">Afecto a corte</option>
-            <option value="S">Sin servicio</option>
-             <option value="P">Pagado</option>
-               <option value="R">Reconectado</option>
-               <option value="R1">Primera cuota</option>
+            <option value="N">Iniciado</option>
+            <option value="C">Medida cautelar</option>
+          
 
         </select>
     </div>
@@ -71,9 +65,9 @@ use Controladores\ControladorNotificacion;
 
    
     <div class="col-md-4">
-        <button class="btn btn-success pull-right btn-radius" id="popimprimirExportarPDF" style="margin-top: 24px;">
+        <!-- <button class="btn btn-success pull-right btn-radius" id="popimprimirExportarPDF" style="margin-top: 24px;">
             <i class="fas fa-plus-square"></i> Exportar PDF
-        </button>
+        </button> -->
     </div>
 
 
@@ -87,30 +81,35 @@ use Controladores\ControladorNotificacion;
         <div class="box-body table-user">
           <input type="hidden" id="perfilOculto" value="<?php echo $_SESSION['perfil'] ?>">
           <!-- table-bordered table-striped  -->
+
+           <div style="overflow-x: auto; max-width: 100%;">
+
           <table class="table  dt-responsive  tbl-t" width="100%">
 
             <thead>
               <tr>
                
                 <th style="width:10px;"> </th>
-                 <th>Cod.</th>
+                 <th>Codigo</th>
+                 <th>N° de expe.</th>
+                 <th>N° de o.p.</th>
                 <th>Nombres y apellidos</th>
-                <th>Nro notif.</th>
-                <th>Direccion</th>
-                <th>Fecha notificacion</th>
-                <th>Fecha corte</th>
-                <th>Estado</th>
+               
+                <th>Domicilio</th>
+              
+               
                 <th>Acciones</th>
               </tr>
             </thead>
 
-            <tbody id="lista_de_notificacion">
+            <tbody id="lista_de_coactivo">
               <!-- Lista Contribuyente dinamico-->
             </tbody>
 
             
 
           </table>
+           </div>
             <!-- Agregar la sección de paginación aquí -->
           <div id="pagination" style="text-align: center;">
             <!-- Los enlaces de paginación se generarán aquí -->
@@ -118,6 +117,7 @@ use Controladores\ControladorNotificacion;
 
 
         </div>
+
 
       </div>
       <!-- BOX FIN -->
@@ -130,6 +130,85 @@ use Controladores\ControladorNotificacion;
   <!-- <embed class="printerhere" src="" type="application/pdf" width="100%" height="600px" class="printerhere" /> -->
 
 </div>
+
+
+
+<!-- MODAL DE RECONEXION -->
+<div id="modalVerAgua" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+           
+                <!-- Modal Header -->  
+                <div class="modal-header" style="background-color: #3c8dbc; color: white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                    <h4 class="modal-title" > Importe anual /total coactivo </h4>
+                </div>
+
+         
+
+<!-- Modal Body -->
+<div class="modal-body estado_cuentaAgua_mostrar">
+    <div class="row divDetallePredioR">
+        <div class="table-responsive">
+
+        <table id="table-moto-anios">
+
+        </table>
+
+        </div>
+    </div>
+
+    
+
+ 
+
+</div>
+
+
+
+<!-- Modal Body -->
+<!-- Modal Body -->
+<div class="modal-body estado_cuentaAgua_mostrar">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="numeroOperacion">Número de operación</label>
+        <input type="text" id="numeroOperacion" class="form-control" placeholder="Número de operación">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="numeroExpediente">Número de expediente</label>
+        <input type="text" id="numeroExpediente" class="form-control" placeholder="Número de expediente">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Modal Footer -->
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" data-dismiss="modal">
+        <i class="far fa-save"></i> Guardar
+    </button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <i class="far fa-times-circle"></i> Cancelar
+    </button>
+</div>
+
+          
+
+        </div>
+    </div>
+</div>
+<!-- MODAL DE RECONEXION FIN -->
 
 <!-- MODAL AGREGAR USUARIO -->
 <!-- Modal -->
@@ -280,7 +359,6 @@ use Controladores\ControladorNotificacion;
                                 <select class="form-control" id="estadoN" name="estadoN">
                                     <option value="N">Notificado</option>
                                     <option value="MC">Medidor cerrado</option>
-                                     <option value="RC">Reconexion de Medidor cerrado</option>
                                     <option value="C">Afecto Corte</option>
                                     <option value="S">Sin Servicio</option>
                                     
@@ -559,6 +637,14 @@ use Controladores\ControladorNotificacion;
 
                             </div>
 
+                
+
+
+
+
+                       
+
+    
                       </div>
 
                 
@@ -681,34 +767,6 @@ use Controladores\ControladorNotificacion;
                         <div class="col-md-6">
 
 
-                          <select class="form-control" id="estadoNo" name="estadoNo">
-                            <option value="" selected>Seleccionar</option> <!-- Opción predeterminada -->
-
-                            <?php
-                            // Obtener los tipos de pago
-                            $tipoPago = ControladorNotificacion::ctrMostrarTipoPagoNo();
-
-                            // Iterar sobre los tipos de pago y mostrar las opciones
-                            foreach ($tipoPago as $tipo_pago) {
-                                // Obtener el nombre de pago
-                                $nombrePago = $tipo_pago['Nombre_Pago'];
-
-                                // Mostrar las opciones basadas en el nombre del pago
-                                if ($nombrePago === 'Todo') {
-                                    // Si es 'Todo', no debe ser seleccionado por defecto
-                                    echo "<option value='" . $tipo_pago['Id_Notificacion_t_Pago'] . "'>" . $nombrePago . "</option>";
-                                } elseif ($nombrePago === 'Particionado') {
-                                    // Si es 'Particionado', no debe ser seleccionado por defecto
-                                    echo "<option value='" . $tipo_pago['Id_Notificacion_t_Pago'] . "'>" . $nombrePago . "</option>";
-                                } else {
-                                    // Para otros valores, se agregan sin seleccionarse por defecto
-                                    echo "<option value='" . $tipo_pago['Id_Notificacion_t_Pago'] . "'>" . $nombrePago . "</option>";
-                                }
-                            }
-                            ?>
-                        </select>
-
-
 
 
                         </div>
@@ -756,28 +814,6 @@ use Controladores\ControladorNotificacion;
 
                                   </div>
 
-                                  <div class="col-md-3">
-                                   
-                                           <select class="form-control" id="estadoC" name="estadoC">
-                                              <option value="">Seleccionar</option> <!-- Sin "selected", no se selecciona automáticamente -->
-                                              <?php
-                                              $tipoPago = ControladorNotificacion::ctrMostrarCuotas();
-                                              foreach ($tipoPago as $tipo_pago) {
-                                                  // Verifica si el nombre del pago es "Todo" o "Particionado"
-                                                  $nombrePago = $tipo_pago['Nombre_cuota'];
-                                                  $ncantidadCuota = $tipo_pago['cantidad'];
-                                                  if ($nombrePago === 'Todo') {
-                                                      echo "<option value='" . $tipo_pago['cantidad'] . "'>" . $ncantidadCuota . '</option>';
-                                                  } elseif ($nombrePago === 'Particionado') {
-                                                      echo "<option value='" . $tipo_pago['cantidad'] . "'>" . $ncantidadCuota . " " . $nombrePago . '</option>';
-                                                  } else {
-                                                      echo "<option value='" . $tipo_pago['cantidad'] . "'>" . $ncantidadCuota . " "  .  $nombrePago . '</option>';
-                                                  }
-                                              }
-                                              ?>
-                                            </select>
-
-                              </div>
 
                  
 

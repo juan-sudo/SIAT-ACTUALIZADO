@@ -93,22 +93,20 @@ class AjaxLicenciaAgua
     return $respuesta;
 }
 
+//MEDIDOR CERRADO
+  public function ajaxConsulta_medidor_cerrado()
+{
+    $idLicencia = $_POST['idlicencia'];
+ 
+    // Llamar al modelo para guardar los datos para cada ID
+    $respuesta = ControladorLicenciaAgua::ctrConsultarMedidorCerrado($idLicencia);
+    
+    // Retornar la respuesta como JSON
+    echo $respuesta;
+}
 
-  //  public function ajaxGuardar_meses_agua()
-  // {
-  
-  //     $datos = array(
-  //       //'montoCategoria' => $_POST['idCategoria']
-  //        'idSelecionado' => $_POST['idSelecionado']
 
-  //     );
 
-  //     var_dump($datos);
-
-  //   $respuesta = ModeloLicenciAgua::mdlGuardarMeses($datos);
-  //    echo json_encode($respuesta);
-   
-  // }
   
   //muestra la licencia de agua por predio para el estado de cuenta
   public function ajaxMostrarLicenciaAgua_deuda()
@@ -408,4 +406,12 @@ if (isset($_POST['registrar_meses'])) {
   $editar = new AjaxLicenciaAgua();
   $editar->ajaxGuardar_meses_agua();
 }
+
+//MEDIDOR CERRADO
+// GUARDAR EDITAR BARRA DE PROGRESO AGUA
+if (isset($_POST['medidor_cerrado'])) {
+  $editar = new AjaxLicenciaAgua();
+  $editar->ajaxConsulta_medidor_cerrado();
+}
+
 

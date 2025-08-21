@@ -200,6 +200,7 @@ class ModeloPredio
 		$stmt = $pdo->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario 
 		WHERE Id_Predio = :Id_Predio AND Baja=1");
 		$stmt->bindParam(":Id_Predio", $datos['Id_Predio']);
+
 		//$estadoTransferencia = 'R'; // Variable que contiene el valor a vincular
 		//$stmt->bindParam(":Estado_Transferencia", $estadoTransferencia);
 		$stmt->execute();
@@ -356,6 +357,10 @@ class ModeloPredio
 
 	public static function mdlEditarPredioR($datos)
 	{
+		var_dump($datos);
+
+
+		
 		$pdo  = Conexion::conectar();
 
 		$stmt = $pdo->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario 
@@ -365,6 +370,7 @@ class ModeloPredio
 		//$stmt->bindParam(":Estado_Transferencia", $estadoTransferencia);
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
 		if ($resultado) {
 			$idDetalleT = $resultado['Id_Detalle_Transferencia'];
 			$stmt = $pdo->prepare("UPDATE detalle_transferencia SET 
@@ -380,8 +386,10 @@ class ModeloPredio
 			$stmt->bindParam(":Id_Documento_Inscripcion", $datos['tipo_doc_inscripcion']);
 			$stmt->execute();
 		}
+
 		$stmt = $pdo->prepare("SELECT Id_Catastro_Rural FROM predio WHERE Id_Predio = :Id_Predio");
 		$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+
 		$stmt->execute();
 		$resultadok = $stmt->fetch(PDO::FETCH_ASSOC);
 		if ($resultado) {
@@ -399,6 +407,7 @@ class ModeloPredio
 			$stmt->bindParam(":Denominacion", $datos['Denominacion']);
 			$stmt->bindParam(":Id_Denominacion_Rural", $datos['idDenominacionR']);
 			$stmt->execute();
+			
 			if (isset($datos['idColindenominacion']) && !empty($datos['idColindenominacion']) && is_numeric($datos['idColindenominacion']) && intval($datos['idColindenominacion']) > 0){
 				// Actualizar registro existente
 				$sql = "UPDATE colindante_denominacion 
@@ -1263,6 +1272,8 @@ private static function generateRowHTMLHistorial($value, $key)
 	public static function mdlListarPredioAgua_caja($valor, $year)
 	{
 		$pdo =  Conexion::conectar();
+
+
 		if (count($valor) === 1) {
 			// Cuando $valor tiene un solo valor
 			$stmt = $pdo->prepare("SELECT  
@@ -1296,6 +1307,7 @@ private static function generateRowHTMLHistorial($value, $key)
 			$stmt->execute();
 		}
 		$campos = $stmt->fetchall();
+		
 		$content = "<tbody class='body-predio'>";
 
 
@@ -1324,6 +1336,10 @@ private static function generateRowHTMLHistorial($value, $key)
 		return $content;
 		$pdo = null;
 	}
+
+
+
+
 	// BUSCAR CONTRIBUYENTE PARA EL REGISTRO DE PREDIO
 	public static function mdlBuscarContribuyente($tabla, $valor)
 	{
@@ -2913,6 +2929,7 @@ private static function generateRowHTMLHistorial($value, $key)
 				$stmt->bindParam(":valor", $valor1);
 				$stmt->execute();
 				$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+				
 				if ($resultado) {
 					$idDetalleT = $resultado['Id_Detalle_Transferencia'];
 					$stmt = $conexion->prepare("SELECT * FROM detalle_transferencia WHERE Id_Detalle_Transferencia = :idDetalleTransferencia");

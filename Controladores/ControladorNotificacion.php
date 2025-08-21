@@ -416,8 +416,10 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
                                           ? '<span style="background: linear-gradient(to right, #26a1d1 50%, red 50%); padding: 2px 5px;">1ra cuota</span>' 
                                             : ($row['estado'] == 'MC' 
                                           ? '<span style="background: #d95218; color:#ffffff; padding: 2px 5px;">Cerrado</span>' 
+                                                   : ($row['estado'] == 'RC' 
+                                          ? '<span style="background: #6fbdde; color:#ffffff; padding: 2px 5px;">Recon. medidor</span>' 
    
-                                         : $row['estado'])))))) ;
+                                         : $row['estado']))))))) ;
 
                                // Crear botones dependiendo del estado
                         $botonReconectarAgua = '';  // Para el primer botón
@@ -482,7 +484,9 @@ if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
                                 data-idlicenciaver="' . $row['Id_Licencia_Agua'] . '" 
                                 data-idcontribuyentever="' . $row['Id_Contribuyente'] . '" 
                                 data-toggle="modal" data-target="#modalVerAgua"
-                                title="Ver Notificación">
+                                title="Ver Notificación"
+                                
+                                >
                             <i class="fas fa-eye"></i>
                         </button>
 

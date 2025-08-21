@@ -78,8 +78,8 @@ class DataTables
                     $pdo = null;
                     return;
                 }
-            }
-            else if ($tipoBusqueda == 'search_direccion_predio') {
+     }
+    else if ($tipoBusqueda == 'search_direccion_predio') {
     $pdo = Conexion::conectar();
 
     $sql = "SELECT DISTINCT

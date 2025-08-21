@@ -66,6 +66,73 @@ class ConsultaDeudaAguaCajaClass {
     });
   }
 
+
+  //MEDIDOR CERRADO
+  MostrarMedidorCerrado_caja(idlicencia){
+
+    let datos = new FormData();
+    datos.append("idlicencia",idlicencia);
+
+    datos.append("medidor_cerrado","medidor_cerrado");
+
+    $.ajax({
+      type: "POST",
+      url: "ajax/licenciaagua.ajax.php",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (respuesta) {
+
+         // Verificar si la respuesta contiene "ok"
+            const data = JSON.parse(respuesta); // Parsear la respuesta JSON
+
+            if (data.status === "medidorCerrado") {
+                // Si el medidor está cerrado, mostrar la alerta y evitar la ejecución de las otras funciones
+               // alert(data.message); // Muestra el mensaje
+
+                 Swal.fire({
+                  icon: 'warning', // Tipo de alerta
+                  title: 'Medidor Cerrado!',
+                  html: data.message, // Mostrar el mensaje HTML proporcionado por el servidor
+                  showCancelButton: false, // Opcional: Ocultar el botón de cancelación
+                  confirmButtonText: 'Cerrar', // Botón de confirmación
+                  confirmButtonColor: '#d33' // Color del botón
+              });
+                
+
+            } 
+              if (data.status === "sinServicio") {
+                // Si el medidor está cerrado, mostrar la alerta y evitar la ejecución de las otras funciones
+               // alert(data.message); // Muestra el mensaje
+
+                 Swal.fire({
+                  icon: 'warning', // Tipo de alerta
+                  title: 'Sin servio de agua!',
+                  html: data.message, // Mostrar el mensaje HTML proporcionado por el servidor
+                  showCancelButton: false, // Opcional: Ocultar el botón de cancelación
+                  confirmButtonText: 'Cerrar', // Botón de confirmación
+                  confirmButtonColor: '#d33' // Color del botón
+              });
+                
+
+            } 
+            
+            else if(data.status === "normal") {
+                // Si el medidor no está cerrado, ejecutar las otras funciones
+                agua_caja.MostrarEstadoCuentaAgua_caja(agua_caja.idlicenciaagua_caja);
+                agua_caja.ajustarAnchoColumnas_agua_caja();
+            }
+      },
+       error: function () {
+            alert("Hubo un error al consultar el estado del medidor.");
+        }
+    });
+
+  }
+
+
+
   MostrarEstadoCuentaAgua_caja(idlicencia){
     let self=this;
     $.ajax({
@@ -89,6 +156,9 @@ class ConsultaDeudaAguaCajaClass {
     });
 
   }
+
+
+
   manejarClicS(thS) {
     const filas = $("#primeraTabla_agua_caja tbody tr");
     let filasSeleccionadas = $("td:eq(9):contains('1')", filas).length;
@@ -384,19 +454,28 @@ $(document).on("click", ".btncaja_agua", function () {
   });
  
 $(document).on("click", "#tablalistaprediosAgua_consulta_caja tbody tr", function() {
-    //consulta_deuda_agua_lista.idCatastroC_consulta_agua = $(this).find("td:nth-child(4)").text();
-    //consulta_deuda_agua_lista.ubiLicenciaC_consulta_agua = $(this).find("td:nth-child(3)").text();
-     
+
+  console.log("has hecho clik aqui---");
+
     $("#tablalistaprediosAgua_consulta_caja tbody tr").not(this).css("background-color", "");
     $(this).css("background-color", "rgb(255, 248, 167)");
     // Aquí puedes continuar con el resto de tu lógica si es necesario
    // agua_caja.codCatastroC_consulta_agua = $(this).attr("idcatastro");
+
     //consulta_deuda_agua_lista.seleccionar_predio();   
     agua_caja.idlicenciaagua_caja = $(this).attr("idlicenciaagua_caja");
     console.log("iDlicencia agua:"+agua_caja.idlicenciaagua_caja)
-    agua_caja.MostrarEstadoCuentaAgua_caja(agua_caja.idlicenciaagua_caja);
+
+    agua_caja.MostrarMedidorCerrado_caja(agua_caja.idlicenciaagua_caja);
+
+
+  //  agua_caja.MostrarEstadoCuentaAgua_caja(agua_caja.idlicenciaagua_caja);
+
+
   
-    agua_caja.ajustarAnchoColumnas_agua_caja();
+  //  agua_caja.ajustarAnchoColumnas_agua_caja();
+
+
 });
 
 $(document).on("click", "#tablalistaLicences tbody tr", function() {

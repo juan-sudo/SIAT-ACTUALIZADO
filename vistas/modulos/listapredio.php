@@ -84,7 +84,7 @@ $idArray = array_filter($idArray);
 
 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;  margin-bottom: 0.3rem; margin-top: 0.3rem;">
     <table class="miTabla_propietarios" style="width: 100%;">
-        <caption>Propietarios</caption>
+        <caption>Propietarios s</caption>
     </table>
 
     
@@ -1450,7 +1450,7 @@ $idArray = array_filter($idArray);
 
                  
                 <!--====== LEVANTAMIENTO YANO ==-->
-                <div id="divDescripPreu" >
+                <div id="divDescriPreR" >
                   <div class="box box-success" style="border-top: 0px;">
                     <div class="box-body" style="border: 1px dotted gray;  ">
                       <div class="row">
@@ -1593,7 +1593,7 @@ d
                     <div class="row2">
                       <span class="caption_">Informacion de Ubicacion del Predio</span>
                       <div class="flex">
-                        <button id="btnAbrirUbigeoRural_e" type="button" class="btn btn-secundary" data-toggle="modal" data-target="#moda_PredioRusticoe"><i class="bi bi-geo-fill"></i>UBIGEO PREDIO RUSTICO</button>
+                        <button id="btnAbrirUbigeoRural_e" type="button" class="btn btn-secundary" data-toggle="modal" data-target="#moda_PredioRusticoe"><i class="bi bi-geo-fill"></i>UBIGEO PREDIO RUSTICO I</button>
                       </div>
                     </div>
                     <!-- Tabla-->
@@ -3373,6 +3373,7 @@ d
     </div>
   </div>
 </div>
+
 
 
 

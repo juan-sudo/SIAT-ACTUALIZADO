@@ -129,7 +129,22 @@ class ControladorCaja
 				   </div>'
 			);
 			return $respuesta;
-		} else {
+		} else if ($respuesta == 'cerrado') {
+			$respuesta = array(
+				"tipo" => "correcto",
+				"mensaje" => '<div class="col-sm-30">
+					 <div class="alert alert-success">
+					   <button type="button" class="close font__size-18" data-dismiss="alert">
+					   </button>
+					   <i class="start-icon far fa-check-circle faa-tada animated"></i>
+					   <strong class="font__weight-semibold">Alerta!</strong>Medidor cerrado
+					 </div>
+				   </div>'
+			);
+			return $respuesta;
+		} 
+		
+		else {
 			$respuesta = array(
 				'tipo' => 'advertencia',
 				'mensaje' => '<div class="col-sm-30">

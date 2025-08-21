@@ -73,6 +73,61 @@ class ControladorLicenciaAgua
 
     }
 
+    //CONCULTAR MEDIDOR CERRADO
+      public static function ctrConsultarMedidorCerrado($idLicencia)
+    {
+
+       
+     
+      $respuesta = ModeloLicenciAgua::mdlConsultarMedidorCerrado($idLicencia);
+
+   
+
+       if ($respuesta == 'medidorCerrado') {
+
+            echo json_encode([
+                "status" => "medidorCerrado",
+                "message" => ' <div >
+            <strong class="letra">¡No puede realizar el pago!</strong>
+            <p><span class="letra">Acérquese por favor a la Oficina de Servicios Básicos.</span></p>
+            <p class="alert alert-warning"><span class="letra">Para la reconexión, el costo es de $20.00.</span></p>
+        </div>'
+            ]);
+        } 
+         else if ($respuesta == 'sinServicio') {
+
+            echo json_encode([
+                "status" => "medidorCerrado",
+                "message" => '<div >
+            <strong class="letra">¡No puede realizar el pago!</strong>
+            <p><span class="letra">Acérquese por favor a la Oficina de Servicios Básicos.</span></p>
+            <p class="alert alert-warning"><span class="letra">Para la reconexión, el costo es de $20.00.</span></p>
+        </div>'
+            ]);
+        } 
+         else if($respuesta == 'normal')  {
+
+              echo json_encode([
+                  "status" => "normal",
+                  "message" => ' '
+              ]);
+          }
+        else {
+            echo json_encode([
+                "status" => "error",
+                "message" => '<div class="alert warning">
+				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+				<span aria-hidden="true" class="letra">×</span>
+				</button><p class="inner"><strong class="letra">Exito!</strong> 
+				<span class="letra">Algo salio mal comunicate con el Administrador</span></p></div>'
+            ]);
+        }
+    
+
+    }
+
+    
+
 
   
     // BARRA DE PROGRESO AGUA

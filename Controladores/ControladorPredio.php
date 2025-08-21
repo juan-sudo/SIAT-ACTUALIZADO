@@ -779,6 +779,8 @@ class ControladorPredio
 		$table = 'predio';
 		$item1 = 'Id_Predio';
 		$respuesta = ModeloPredio::mdlMostrarPredioT($table, $item1, $datos);
+
+		var_dump($respuesta);
 		return $respuesta;
 	}
 	public static function crtMostrarPropietarios($datos)
@@ -831,6 +833,7 @@ class ControladorPredio
 				</button><p class="inner"><strong class="letra">Exito!</strong> 
 				<span class="letra">Se modifico los datos de Predio de forma Correcta</span></p></div>'
 			);
+
 			return $respuesta;
 		} else {
 			$respuesta = array(
@@ -844,6 +847,9 @@ class ControladorPredio
 			return $respuesta;
 		}
 	}
+
+
+
 	public static function crtEditarPredioR($datos)
 	{
 		$respuesta = ModeloPredio::mdlEditarPredioR($datos);

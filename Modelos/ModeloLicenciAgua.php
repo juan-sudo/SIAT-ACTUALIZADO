@@ -140,6 +140,49 @@ class ModeloLicenciAgua
     }
   }
 
+
+//MEDIDOR CERRADO
+
+public static function mdlConsultarMedidorCerrado($idLicencia)
+{
+    // Conexión a la base de datos
+    $conexion = Conexion::conectar();
+
+    // Preparar la consulta SELECT para obtener el estado de la notificación de agua
+    $stmt = $conexion->prepare("SELECT estado FROM notificacion_agua WHERE Id_Licencia_Agua = :idLicencia");
+
+    // Enlazar el parámetro
+    $stmt->bindParam(":idLicencia", $idLicencia);
+
+    // Ejecutar la consulta
+    $stmt->execute();
+
+    // Obtener el resultado
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verificar si se obtuvo el estado
+    if ($row !== false) {
+        // Si el estado es "MC" (Medidor Cerrado), devolver "ok"
+        if ($row['estado'] == 'MC') {
+            return 'medidorCerrado';
+        } 
+         if ($row['estado'] == 'S') {
+            return 'sinServicio';
+        } 
+        else {
+            // Si el estado no es "MC", devolver "error"
+            return 'normal';
+        }
+    } else {
+        // Si no se encontró el estado, devolver "error"
+        return 'error';
+    }
+
+    // Cerrar la consulta
+    $stmt = null;
+}
+
+
   //ACTUALIZAR GUARDAR MESES
 
 
