@@ -152,6 +152,7 @@ class OrdenPagoClass {
 
     imprimir_orden() {
       let datos = new FormData();
+      datos.append("carpeta", predio.carpeta);
       datos.append("propietarios",predio.Propietarios);
       datos.append("tipo_tributo", this.tipo_tributo_orden);
       datos.append("anio", this.anio_orden);
@@ -216,6 +217,7 @@ class OrdenPagoClass {
 
 
       let datos = new FormData();
+      datos.append("carpeta", predio.carpeta);
       datos.append("propietarios",predio.Propietarios);
       datos.append("tipo_tributo", this.tipo_tributo_orden);
       datos.append("anio", this.anio_orden);

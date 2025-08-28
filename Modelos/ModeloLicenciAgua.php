@@ -25,16 +25,7 @@ class ModeloLicenciAgua
         $stmt0->bindParam(":Id_Proveido", $datos['idproveidor']);
         $stmt0->execute();
 
-       /* $catastro = Conexion::conectar()->prepare("SELECT * FROM catastro WHERE Codigo_Catastral = :Codigo_Catastral");
-        $catastro->bindParam(":Codigo_Catastral", $datos['Codigo_Catastral']);
-        $catastro->execute();
-        $resultado = $catastro->fetch(); // Obtener la única fila de resultados
-        //formar el codigoCatastro del predio
-        if ($resultado) {
-          $idCatastro =  $resultado['Id_Catastro'];
-        } else {
-          $idCatastro = 'Id_noExiste';
-        }*/
+   
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(Numero_Licencia,Tipo_Licencia,
                                                            Permanencia, 
                                                            Extension_Suministro, 
@@ -142,7 +133,6 @@ class ModeloLicenciAgua
 
 
 //MEDIDOR CERRADO
-
 public static function mdlConsultarMedidorCerrado($idLicencia)
 {
     // Conexión a la base de datos
@@ -162,25 +152,28 @@ public static function mdlConsultarMedidorCerrado($idLicencia)
 
     // Verificar si se obtuvo el estado
     if ($row !== false) {
-        // Si el estado es "MC" (Medidor Cerrado), devolver "ok"
+       
+        // Si el estado es "MC" (Medidor Cerrado), devolver "medidorCerrado"
         if ($row['estado'] == 'MC') {
             return 'medidorCerrado';
-        } 
-         if ($row['estado'] == 'S') {
-            return 'sinServicio';
-        } 
-        else {
-            // Si el estado no es "MC", devolver "error"
-            return 'normal';
         }
+
+        // Si el estado es "S" (Sin Servicio), devolver "sinServicio"
+        if ($row['estado'] == 'S') {
+            return 'sinServicio';
+        }
+
+        // En caso de que el estado no sea ninguno de los anteriores
+        return 'normal';
     } else {
         // Si no se encontró el estado, devolver "error"
-        return 'error';
+         return 'normal';
     }
 
     // Cerrar la consulta
     $stmt = null;
 }
+
 
 
   //ACTUALIZAR GUARDAR MESES

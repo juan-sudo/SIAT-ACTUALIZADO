@@ -35,6 +35,7 @@ $pdf->AddPage('P','A4');
 // Establecer la información del PDF
 
 
+$carpeta=$_POST['carpeta'];  
 $propietarios_=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 $anio=$_POST['anio'];
 $tipo_tributo=$_POST['tipo_tributo'];
@@ -74,9 +75,18 @@ $html_head='<table align="left" >
                     </tr>
 
                     <tr>
+
                     <th width="380">SISTEMA DE RECAUDACIÓN MUNICIPAL</th>
                      <th  align="center" border="0.1">'.$fechaActual.'</th> 
+                      
                     </tr>
+
+                     <tr>
+                     <th width="380"></th>
+                     <th  align="center" style="background-color: #ffd439; " border="0.1"> &nbsp;Carpeta :'.$carpeta.'</th> 
+                    
+                    </tr>
+                    
                    
                     
                     

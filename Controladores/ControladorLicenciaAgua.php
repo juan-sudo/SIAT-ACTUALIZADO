@@ -97,7 +97,7 @@ class ControladorLicenciaAgua
          else if ($respuesta == 'sinServicio') {
 
             echo json_encode([
-                "status" => "medidorCerrado",
+                "status" => "sinServicio",
                 "message" => '<div >
             <strong class="letra">¡No puede realizar el pago!</strong>
             <p><span class="letra">Acérquese por favor a la Oficina de Servicios Básicos.</span></p>

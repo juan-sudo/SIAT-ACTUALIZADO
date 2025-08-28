@@ -94,6 +94,7 @@ $tiem = time();
 				"registrar-prediourbano" => "registrar-prediourbano.php",
 				"registrarprediourbano" => "registrarprediourbano.php",
 				"listapredio" => "listapredio.php",
+				"administracioncoactivo" => "administracioncoactivo.php",
 				"listapredioagua" => "listapredioagua.php",
 				"reporte-coactivo" => "reporte-coactivo.php",
 				"direccion" => "direccion.php",
@@ -188,7 +189,8 @@ $tiem = time();
 	<script src="vistas/js/cajaagua.js"></script>
 	<script src="vistas/js/cuadrecaja.js"></script>
 	<script src="vistas/js/cuadreespeciecaja.js"></script>
-	<script src="vistas/js/usuario_reporte_impuesto_arbitrios.js"></script>
+
+	<!-- <script src="vistas/js/usuario_reporte_impuesto_arbitrios.js"></script> -->
 	<script src="vistas/js/reportes.js"></script>
 	<script src="vistas/js/coactivo.js"></script>
 	<script src="vistas/js/cierrecaja.js"></script>

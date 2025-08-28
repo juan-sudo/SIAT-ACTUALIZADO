@@ -200,7 +200,6 @@ class ModeloPredio
 		$stmt = $pdo->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario 
 		WHERE Id_Predio = :Id_Predio AND Baja=1");
 		$stmt->bindParam(":Id_Predio", $datos['Id_Predio']);
-
 		//$estadoTransferencia = 'R'; // Variable que contiene el valor a vincular
 		//$stmt->bindParam(":Estado_Transferencia", $estadoTransferencia);
 		$stmt->execute();
@@ -357,10 +356,8 @@ class ModeloPredio
 
 	public static function mdlEditarPredioR($datos)
 	{
-		var_dump($datos);
 
 
-		
 		$pdo  = Conexion::conectar();
 
 		$stmt = $pdo->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario 
@@ -370,7 +367,6 @@ class ModeloPredio
 		//$stmt->bindParam(":Estado_Transferencia", $estadoTransferencia);
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
 		if ($resultado) {
 			$idDetalleT = $resultado['Id_Detalle_Transferencia'];
 			$stmt = $pdo->prepare("UPDATE detalle_transferencia SET 
@@ -387,9 +383,11 @@ class ModeloPredio
 			$stmt->execute();
 		}
 
+	
+
+
 		$stmt = $pdo->prepare("SELECT Id_Catastro_Rural FROM predio WHERE Id_Predio = :Id_Predio");
 		$stmt->bindParam(":Id_Predio", $datos['id_predio']);
-
 		$stmt->execute();
 		$resultadok = $stmt->fetch(PDO::FETCH_ASSOC);
 		if ($resultado) {
@@ -407,7 +405,6 @@ class ModeloPredio
 			$stmt->bindParam(":Denominacion", $datos['Denominacion']);
 			$stmt->bindParam(":Id_Denominacion_Rural", $datos['idDenominacionR']);
 			$stmt->execute();
-			
 			if (isset($datos['idColindenominacion']) && !empty($datos['idColindenominacion']) && is_numeric($datos['idColindenominacion']) && intval($datos['idColindenominacion']) > 0){
 				// Actualizar registro existente
 				$sql = "UPDATE colindante_denominacion 
@@ -532,6 +529,350 @@ class ModeloPredio
 			return 'error';
 		}
 	}
+
+	// public static function mdlEditarPredioR($datos)
+	// {
+	// 	var_dump($datos);
+
+	// 	$pdo  = Conexion::conectar();
+
+	// 	$stmt = $pdo->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario 
+	// 	WHERE Id_Predio = :Id_Predio AND Baja =1");
+	// 	$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 	//$estadoTransferencia = 'R'; // Variable que contiene el valor a vincular
+	// 	//$stmt->bindParam(":Estado_Transferencia", $estadoTransferencia);
+	// 	$stmt->execute();
+	// 	$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+	// 	if ($resultado) {
+	// 		$idDetalleT = $resultado['Id_Detalle_Transferencia'];
+	// 		$stmt = $pdo->prepare("UPDATE detalle_transferencia SET 
+    //            Numero_Documento_Inscripcion=:Numero_Documento_Inscripcion,
+    //            Fecha_Escritura=:Fecha_Escritura,
+    //            Id_Tipo_Escritura=:Id_Tipo_Escritura,
+    //            Id_Documento_Inscripcion=:Id_Documento_Inscripcion
+    //            WHERE Id_Detalle_Transferencia = :Id_Detalle_Transferencia");
+	// 		$stmt->bindParam(":Id_Detalle_Transferencia", $idDetalleT);
+	// 		$stmt->bindParam(":Numero_Documento_Inscripcion", $datos['Numero_doc_inscripcion']);
+	// 		$stmt->bindParam(":Fecha_Escritura", $datos['fecha_escritura']);
+	// 		$stmt->bindParam(":Id_Tipo_Escritura", $datos['tipo_escritura']);
+	// 		$stmt->bindParam(":Id_Documento_Inscripcion", $datos['tipo_doc_inscripcion']);
+	// 		$stmt->execute();
+	// 	}
+	// 	$stmt = $pdo->prepare("SELECT Id_Catastro_Rural FROM predio WHERE Id_Predio = :Id_Predio");
+	// 	$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 	$stmt->execute();
+	// 	$resultadok = $stmt->fetch(PDO::FETCH_ASSOC);
+	// 	if ($resultado) {
+	// 		$idCatastro = $resultadok['Id_Catastro_Rural'];
+
+	// 		$stmt = $pdo->prepare(" UPDATE catastro_rural
+	// 								SET Id_valores_categoria_x_hectarea = :idvalcat
+	// 								WHERE Id_Catastro_Rural = :Id_Catastro_Rural");
+	// 		$stmt->bindParam(":idvalcat", $datos['idvalcat']);
+	// 		$stmt->bindParam(":Id_Catastro_Rural", $idCatastro);
+	// 		$stmt->execute();
+	// 		$stmt = $pdo->prepare(" UPDATE denominacion_rural
+	// 								SET Denominacion = :Denominacion
+	// 								WHERE Id_Denominacion_Rural = :Id_Denominacion_Rural");
+	// 		$stmt->bindParam(":Denominacion", $datos['Denominacion']);
+	// 		$stmt->bindParam(":Id_Denominacion_Rural", $datos['idDenominacionR']);
+	// 		$stmt->execute();
+	// 		if (isset($datos['idColindenominacion']) && !empty($datos['idColindenominacion']) && is_numeric($datos['idColindenominacion']) && intval($datos['idColindenominacion']) > 0){
+	// 			// Actualizar registro existente
+	// 			$sql = "UPDATE colindante_denominacion 
+	// 					SET Denominacion_Rural = :Denominacion_Rural,Colindante_Sur_Nombre = :Colindante_Sur_Nombre,Colindante_Sur_Denominacion = :Colindante_Sur_Denominacion,Colindante_Norte_Nombre = :Colindante_Norte_Nombre,Colindante_Norte_Denominacion = :Colindante_Norte_Denominacion,Colindante_Este_Nombre = :Colindante_Este_Nombre,Colindante_Este_Denominacion = :Colindante_Este_Denominacion,Colindante_Oeste_Nombre = :Colindante_Oeste_Nombre,Colindante_Oeste_Denominacion = :Colindante_Oeste_Denominacion
+	// 					WHERE Id_Colindante_Denominacion = :Id_Colindante_Denominacion";
+	// 			$stmt = $pdo->prepare($sql);
+	// 			$id_Col_denominacion=$datos['idColindenominacion'];
+	// 			$stmt->bindParam(":Denominacion_Rural", $datos['Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Sur_Nombre", $datos['Colindante_Sur_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Sur_Denominacion", $datos['Colindante_Sur_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Norte_Nombre", $datos['Colindante_Norte_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Norte_Denominacion", $datos['Colindante_Norte_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Este_Nombre", $datos['Colindante_Este_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Este_Denominacion", $datos['Colindante_Este_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Nombre", $datos['Colindante_Oeste_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Denominacion", $datos['Colindante_Oeste_Denominacion']);
+	// 			$stmt->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt->execute();
+	// 			$stmt = $pdo->prepare("SELECT  CONCAT(z.nombre_zona,' - ', d.Denominacion)AS Nuevo_Direccion_completo from  predio p
+	// 			INNER JOIN denominacion_rural d ON p.Id_Denominacion_Rural = d.Id_Denominacion_Rural 
+	// 			INNER JOIN catastro_rural cr ON p.Id_Catastro_Rural = cr.Id_Catastro_Rural
+	// 			INNER JOIN valores_categoria_x_hectarea vc ON cr.Id_valores_categoria_x_hectarea = vc.Id_valores_categoria_x_hectarea
+	// 			INNER JOIN zona_rural z ON vc.Id_Zona_Rural = z.Id_zona_rural
+	// 			WHERE p.Id_Predio =:Id_Predio");
+	// 			$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 			$stmt->execute();
+	// 			$direccion = $stmt->fetch();
+	// 			$direccionCompleto = $direccion['Nuevo_Direccion_completo'];
+
+	// 			$sql = "UPDATE predio SET Id_Colindante_Denominacion=:Id_Colindante_Denominacion,Direccion_completo=:Direccion_completo
+	// 			WHERE Id_Catastro_Rural = :Id_Catastro_Rural";
+	// 			$stmt = $pdo->prepare($sql);
+	// 			$stmt->bindParam(":Id_Catastro_Rural", $idCatastro);
+	// 			$stmt->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt->bindParam(":Direccion_completo", $direccionCompleto);
+	// 			$stmt->execute();
+	// 		} else {
+	// 			// Insertar nuevo registro
+	// 			$sql = "INSERT INTO colindante_denominacion (Denominacion_Rural,Colindante_Sur_Nombre,Colindante_Sur_Denominacion, Colindante_Norte_Nombre,Colindante_Norte_Denominacion,Colindante_Este_Nombre,Colindante_Este_Denominacion,Colindante_Oeste_Nombre,Colindante_Oeste_Denominacion) VALUES (:Denominacion_Rural,:Colindante_Sur_Nombre,:Colindante_Sur_Denominacion,:Colindante_Norte_Nombre,:Colindante_Norte_Denominacion,:Colindante_Este_Nombre,:Colindante_Este_Denominacion,:Colindante_Oeste_Nombre,:Colindante_Oeste_Denominacion)";
+			
+	// 			$stmt = $pdo->prepare($sql);
+			
+	// 			// Asignar valores a los parámetros
+	// 			$stmt->bindParam(":Denominacion_Rural", $datos['Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Sur_Nombre", $datos['Colindante_Sur_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Sur_Denominacion", $datos['Colindante_Sur_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Norte_Nombre", $datos['Colindante_Norte_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Norte_Denominacion", $datos['Colindante_Norte_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Este_Nombre", $datos['Colindante_Este_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Este_Denominacion", $datos['Colindante_Este_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Nombre", $datos['Colindante_Oeste_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Denominacion", $datos['Colindante_Oeste_Denominacion']);			
+	// 			if ($stmt->execute()) {
+	// 				$id_Col_denominacion = $pdo->lastInsertId();
+	// 			$stmt3 = $pdo->prepare("UPDATE predio SET Id_Colindante_Denominacion = :Id_Colindante_Denominacion WHERE Id_Predio = :Id_Predio");
+	// 			$stmt3->bindParam(":Id_Predio", $datos['id_predio']);
+	// 			$stmt3->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt3->execute();
+
+	// 			$stmt = $pdo->prepare("SELECT  CONCAT(z.nombre_zona,' - ', d.Denominacion)AS Nuevo_Direccion_completo from  predio p
+	// 			INNER JOIN denominacion_rural d ON p.Id_Denominacion_Rural = d.Id_Denominacion_Rural 
+	// 			INNER JOIN catastro_rural cr ON p.Id_Catastro_Rural = cr.Id_Catastro_Rural
+	// 			INNER JOIN valores_categoria_x_hectarea vc ON cr.Id_valores_categoria_x_hectarea = vc.Id_valores_categoria_x_hectarea
+	// 			INNER JOIN zona_rural z ON vc.Id_Zona_Rural = z.Id_zona_rural
+	// 			WHERE p.Id_Predio =:Id_Predio");
+	// 			$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 			$stmt->execute();
+	// 			$direccion = $stmt->fetch();
+	// 			$direccionCompleto = $direccion['Nuevo_Direccion_completo'];
+
+	// 			$sql = "UPDATE predio SET Id_Colindante_Denominacion=:Id_Colindante_Denominacion,Direccion_completo=:Direccion_completo
+	// 			WHERE Id_Catastro_Rural = :Id_Catastro_Rural";
+	// 			$stmt = $pdo->prepare($sql);
+	// 			$stmt->bindParam(":Id_Catastro_Rural", $idCatastro);
+	// 			$stmt->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt->bindParam(":Direccion_completo", $direccionCompleto);
+	// 			$stmt->execute();
+	// 			}
+
+	// 		}
+
+
+	// 		/*------------ */
+	// 	}
+	// 	$stmt3 = $pdo->prepare("UPDATE predio
+    //                 SET Fecha_Adquisicion = :fecha_adquisicion,
+    //                     Area_Terreno = :area_terreno,
+    //                     Valor_Terreno = :valor_terreno,
+    //                     Valor_predio = :Valor_predio,
+    //                     Expediente_Tramite = :expediente,
+    //                     Observaciones = :observacion,
+    //                     Id_Tipo_Predio = :tipo_predio,
+    //                     Id_Uso_Predio = :uso_predio,
+    //                     Id_Estado_Predio = :estado_predio,
+    //                     Id_Regimen_Afecto = :regimen_inafecto,
+    //                     Id_inafecto = :inafecto,
+    //                     Id_Condicion_Predio = :condicion_predio ,
+	// 					Id_Uso_Terreno=:uso_terreno,
+	// 					Id_Tipo_Terreno =:tipo_terreno,
+	// 					Valor_Predio_Aplicar=:valor_predio_aplicar
+    //                  WHERE Id_Predio = :Id_Predio");
+	// 	$stmt3->bindParam(":fecha_adquisicion", $datos['fecha_adquisicion']);
+	// 	$stmt3->bindParam(":area_terreno", $datos['area_terreno']);
+	// 	$stmt3->bindParam(":valor_terreno", $datos['valor_terreno']);
+	// 	$stmt3->bindParam(":Valor_predio", $datos['valor_predio']);
+	// 	$stmt3->bindParam(":expediente", $datos['expediente']);
+	// 	$stmt3->bindParam(":observacion", $datos['observacion']);
+	// 	$stmt3->bindParam(":tipo_predio", $datos['tipo_predio']);
+	// 	$stmt3->bindParam(":uso_predio", $datos['uso_predio']);
+	// 	$stmt3->bindParam(":estado_predio", $datos['estado_predio']);
+	// 	$stmt3->bindParam(":regimen_inafecto", $datos['regimen_inafecto']);
+	// 	$stmt3->bindParam(":inafecto", $datos['inafecto']);
+	// 	$stmt3->bindParam(":condicion_predio", $datos['condicion_predio']);
+	// 	$stmt3->bindParam(":uso_terreno", $datos['uso_terreno']);
+	// 	$stmt3->bindParam(":tipo_terreno", $datos['tipo_terreno']);
+	// 	$stmt3->bindParam(":valor_predio_aplicar", $datos['valor_predio']);
+	// 	//	$stmt3->bindParam(":id_usuario", $datos['id_usuario']);
+	// 	$stmt3->bindParam(":Id_Predio", $datos['id_predio']);
+	// 	if ($stmt3->execute()) {
+	// 		return 'ok';
+	// 	} else {
+	// 		return 'error';
+	// 	}
+	// }
+
+	// public static function mdlEditarPredioR($datos)
+	// {
+	// 	var_dump($datos);
+
+	// 	$pdo  = Conexion::conectar();
+
+	// 	$stmt = $pdo->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario 
+	// 	WHERE Id_Predio = :Id_Predio AND Baja =1");
+	// 	$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 	//$estadoTransferencia = 'R'; // Variable que contiene el valor a vincular
+	// 	//$stmt->bindParam(":Estado_Transferencia", $estadoTransferencia);
+	// 	$stmt->execute();
+	// 	$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+	// 	if ($resultado) {
+	// 		$idDetalleT = $resultado['Id_Detalle_Transferencia'];
+	// 		$stmt = $pdo->prepare("UPDATE detalle_transferencia SET 
+    //            Numero_Documento_Inscripcion=:Numero_Documento_Inscripcion,
+    //            Fecha_Escritura=:Fecha_Escritura,
+    //            Id_Tipo_Escritura=:Id_Tipo_Escritura,
+    //            Id_Documento_Inscripcion=:Id_Documento_Inscripcion
+    //            WHERE Id_Detalle_Transferencia = :Id_Detalle_Transferencia");
+	// 		$stmt->bindParam(":Id_Detalle_Transferencia", $idDetalleT);
+	// 		$stmt->bindParam(":Numero_Documento_Inscripcion", $datos['Numero_doc_inscripcion']);
+	// 		$stmt->bindParam(":Fecha_Escritura", $datos['fecha_escritura']);
+	// 		$stmt->bindParam(":Id_Tipo_Escritura", $datos['tipo_escritura']);
+	// 		$stmt->bindParam(":Id_Documento_Inscripcion", $datos['tipo_doc_inscripcion']);
+	// 		$stmt->execute();
+	// 	}
+	// 	$stmt = $pdo->prepare("SELECT Id_Catastro_Rural FROM predio WHERE Id_Predio = :Id_Predio");
+	// 	$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 	$stmt->execute();
+	// 	$resultadok = $stmt->fetch(PDO::FETCH_ASSOC);
+	// 	if ($resultado) {
+	// 		$idCatastro = $resultadok['Id_Catastro_Rural'];
+
+	// 		$stmt = $pdo->prepare(" UPDATE catastro_rural
+	// 								SET Id_valores_categoria_x_hectarea = :idvalcat
+	// 								WHERE Id_Catastro_Rural = :Id_Catastro_Rural");
+	// 		$stmt->bindParam(":idvalcat", $datos['idvalcat']);
+	// 		$stmt->bindParam(":Id_Catastro_Rural", $idCatastro);
+	// 		$stmt->execute();
+	// 		$stmt = $pdo->prepare(" UPDATE denominacion_rural
+	// 								SET Denominacion = :Denominacion
+	// 								WHERE Id_Denominacion_Rural = :Id_Denominacion_Rural");
+	// 		$stmt->bindParam(":Denominacion", $datos['Denominacion']);
+	// 		$stmt->bindParam(":Id_Denominacion_Rural", $datos['idDenominacionR']);
+	// 		$stmt->execute();
+	// 		if (isset($datos['idColindenominacion']) && !empty($datos['idColindenominacion']) && is_numeric($datos['idColindenominacion']) && intval($datos['idColindenominacion']) > 0){
+	// 			// Actualizar registro existente
+	// 			$sql = "UPDATE colindante_denominacion 
+	// 					SET Denominacion_Rural = :Denominacion_Rural,Colindante_Sur_Nombre = :Colindante_Sur_Nombre,Colindante_Sur_Denominacion = :Colindante_Sur_Denominacion,Colindante_Norte_Nombre = :Colindante_Norte_Nombre,Colindante_Norte_Denominacion = :Colindante_Norte_Denominacion,Colindante_Este_Nombre = :Colindante_Este_Nombre,Colindante_Este_Denominacion = :Colindante_Este_Denominacion,Colindante_Oeste_Nombre = :Colindante_Oeste_Nombre,Colindante_Oeste_Denominacion = :Colindante_Oeste_Denominacion
+	// 					WHERE Id_Colindante_Denominacion = :Id_Colindante_Denominacion";
+	// 			$stmt = $pdo->prepare($sql);
+	// 			$id_Col_denominacion=$datos['idColindenominacion'];
+	// 			$stmt->bindParam(":Denominacion_Rural", $datos['Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Sur_Nombre", $datos['Colindante_Sur_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Sur_Denominacion", $datos['Colindante_Sur_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Norte_Nombre", $datos['Colindante_Norte_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Norte_Denominacion", $datos['Colindante_Norte_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Este_Nombre", $datos['Colindante_Este_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Este_Denominacion", $datos['Colindante_Este_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Nombre", $datos['Colindante_Oeste_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Denominacion", $datos['Colindante_Oeste_Denominacion']);
+	// 			$stmt->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt->execute();
+	// 			$stmt = $pdo->prepare("SELECT  CONCAT(z.nombre_zona,' - ', d.Denominacion)AS Nuevo_Direccion_completo from  predio p
+	// 			INNER JOIN denominacion_rural d ON p.Id_Denominacion_Rural = d.Id_Denominacion_Rural 
+	// 			INNER JOIN catastro_rural cr ON p.Id_Catastro_Rural = cr.Id_Catastro_Rural
+	// 			INNER JOIN valores_categoria_x_hectarea vc ON cr.Id_valores_categoria_x_hectarea = vc.Id_valores_categoria_x_hectarea
+	// 			INNER JOIN zona_rural z ON vc.Id_Zona_Rural = z.Id_zona_rural
+	// 			WHERE p.Id_Predio =:Id_Predio");
+	// 			$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 			$stmt->execute();
+	// 			$direccion = $stmt->fetch();
+	// 			$direccionCompleto = $direccion['Nuevo_Direccion_completo'];
+
+	// 			$sql = "UPDATE predio SET Id_Colindante_Denominacion=:Id_Colindante_Denominacion,Direccion_completo=:Direccion_completo
+	// 			WHERE Id_Catastro_Rural = :Id_Catastro_Rural";
+	// 			$stmt = $pdo->prepare($sql);
+	// 			$stmt->bindParam(":Id_Catastro_Rural", $idCatastro);
+	// 			$stmt->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt->bindParam(":Direccion_completo", $direccionCompleto);
+	// 			$stmt->execute();
+	// 		} else {
+	// 			// Insertar nuevo registro
+	// 			$sql = "INSERT INTO colindante_denominacion (Denominacion_Rural,Colindante_Sur_Nombre,Colindante_Sur_Denominacion, Colindante_Norte_Nombre,Colindante_Norte_Denominacion,Colindante_Este_Nombre,Colindante_Este_Denominacion,Colindante_Oeste_Nombre,Colindante_Oeste_Denominacion) VALUES (:Denominacion_Rural,:Colindante_Sur_Nombre,:Colindante_Sur_Denominacion,:Colindante_Norte_Nombre,:Colindante_Norte_Denominacion,:Colindante_Este_Nombre,:Colindante_Este_Denominacion,:Colindante_Oeste_Nombre,:Colindante_Oeste_Denominacion)";
+			
+	// 			$stmt = $pdo->prepare($sql);
+			
+	// 			// Asignar valores a los parámetros
+	// 			$stmt->bindParam(":Denominacion_Rural", $datos['Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Sur_Nombre", $datos['Colindante_Sur_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Sur_Denominacion", $datos['Colindante_Sur_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Norte_Nombre", $datos['Colindante_Norte_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Norte_Denominacion", $datos['Colindante_Norte_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Este_Nombre", $datos['Colindante_Este_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Este_Denominacion", $datos['Colindante_Este_Denominacion']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Nombre", $datos['Colindante_Oeste_Nombre']);
+	// 			$stmt->bindParam(":Colindante_Oeste_Denominacion", $datos['Colindante_Oeste_Denominacion']);			
+	// 			if ($stmt->execute()) {
+	// 				$id_Col_denominacion = $pdo->lastInsertId();
+	// 			$stmt3 = $pdo->prepare("UPDATE predio SET Id_Colindante_Denominacion = :Id_Colindante_Denominacion WHERE Id_Predio = :Id_Predio");
+	// 			$stmt3->bindParam(":Id_Predio", $datos['id_predio']);
+	// 			$stmt3->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt3->execute();
+
+	// 			$stmt = $pdo->prepare("SELECT  CONCAT(z.nombre_zona,' - ', d.Denominacion)AS Nuevo_Direccion_completo from  predio p
+	// 			INNER JOIN denominacion_rural d ON p.Id_Denominacion_Rural = d.Id_Denominacion_Rural 
+	// 			INNER JOIN catastro_rural cr ON p.Id_Catastro_Rural = cr.Id_Catastro_Rural
+	// 			INNER JOIN valores_categoria_x_hectarea vc ON cr.Id_valores_categoria_x_hectarea = vc.Id_valores_categoria_x_hectarea
+	// 			INNER JOIN zona_rural z ON vc.Id_Zona_Rural = z.Id_zona_rural
+	// 			WHERE p.Id_Predio =:Id_Predio");
+	// 			$stmt->bindParam(":Id_Predio", $datos['id_predio']);
+	// 			$stmt->execute();
+	// 			$direccion = $stmt->fetch();
+	// 			$direccionCompleto = $direccion['Nuevo_Direccion_completo'];
+
+	// 			$sql = "UPDATE predio SET Id_Colindante_Denominacion=:Id_Colindante_Denominacion,Direccion_completo=:Direccion_completo
+	// 			WHERE Id_Catastro_Rural = :Id_Catastro_Rural";
+	// 			$stmt = $pdo->prepare($sql);
+	// 			$stmt->bindParam(":Id_Catastro_Rural", $idCatastro);
+	// 			$stmt->bindParam(":Id_Colindante_Denominacion", $id_Col_denominacion);
+	// 			$stmt->bindParam(":Direccion_completo", $direccionCompleto);
+	// 			$stmt->execute();
+	// 			}
+
+	// 		}
+
+
+	// 		/*------------ */
+	// 	}
+	// 	$stmt3 = $pdo->prepare("UPDATE predio
+    //                 SET Fecha_Adquisicion = :fecha_adquisicion,
+    //                     Area_Terreno = :area_terreno,
+    //                     Valor_Terreno = :valor_terreno,
+    //                     Valor_predio = :Valor_predio,
+    //                     Expediente_Tramite = :expediente,
+    //                     Observaciones = :observacion,
+    //                     Id_Tipo_Predio = :tipo_predio,
+    //                     Id_Uso_Predio = :uso_predio,
+    //                     Id_Estado_Predio = :estado_predio,
+    //                     Id_Regimen_Afecto = :regimen_inafecto,
+    //                     Id_inafecto = :inafecto,
+    //                     Id_Condicion_Predio = :condicion_predio ,
+	// 					Id_Uso_Terreno=:uso_terreno,
+	// 					Id_Tipo_Terreno =:tipo_terreno,
+	// 					Valor_Predio_Aplicar=:valor_predio_aplicar
+    //                  WHERE Id_Predio = :Id_Predio");
+	// 	$stmt3->bindParam(":fecha_adquisicion", $datos['fecha_adquisicion']);
+	// 	$stmt3->bindParam(":area_terreno", $datos['area_terreno']);
+	// 	$stmt3->bindParam(":valor_terreno", $datos['valor_terreno']);
+	// 	$stmt3->bindParam(":Valor_predio", $datos['valor_predio']);
+	// 	$stmt3->bindParam(":expediente", $datos['expediente']);
+	// 	$stmt3->bindParam(":observacion", $datos['observacion']);
+	// 	$stmt3->bindParam(":tipo_predio", $datos['tipo_predio']);
+	// 	$stmt3->bindParam(":uso_predio", $datos['uso_predio']);
+	// 	$stmt3->bindParam(":estado_predio", $datos['estado_predio']);
+	// 	$stmt3->bindParam(":regimen_inafecto", $datos['regimen_inafecto']);
+	// 	$stmt3->bindParam(":inafecto", $datos['inafecto']);
+	// 	$stmt3->bindParam(":condicion_predio", $datos['condicion_predio']);
+	// 	$stmt3->bindParam(":uso_terreno", $datos['uso_terreno']);
+	// 	$stmt3->bindParam(":tipo_terreno", $datos['tipo_terreno']);
+	// 	$stmt3->bindParam(":valor_predio_aplicar", $datos['valor_predio']);
+	// 	//	$stmt3->bindParam(":id_usuario", $datos['id_usuario']);
+	// 	$stmt3->bindParam(":Id_Predio", $datos['id_predio']);
+	// 	if ($stmt3->execute()) {
+	// 		return 'ok';
+	// 	} else {
+	// 		return 'error';
+	// 	}
+	// }
 
 
 	public static function ndlNuevoPredioR($datos)
@@ -771,7 +1112,7 @@ class ModeloPredio
 						p.Area_Terreno as a_terreno,
 						p.Area_Construccion as a_construccion,
 						p.Valor_Predio_Aplicar as v_predio_aplicar,
-						 pl.Id_predio_litigio,
+					    pl.Id_predio_litigio,
                         pl.Observaciones
 					FROM 
 						predio p 
@@ -801,7 +1142,7 @@ class ModeloPredio
 						p.Area_Terreno as a_terreno,
 						p.Area_Construccion as a_construccion,
 						p.Valor_Predio_Aplicar as v_predio_aplicar,
-						 pl.Id_predio_litigio,
+						pl.Id_predio_litigio,
                         pl.Observaciones
 		  FROM 
 			predio p 
@@ -811,10 +1152,7 @@ class ModeloPredio
 			INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
 			LEFT JOIN predio_litigio pl ON pl.Id_Predio=p.Id_Predio
 			WHERE pro.Id_Contribuyente IN ($ids) and an.NomAnio=:anio  AND pro.Baja='1' 
-			GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor) . " ORDER BY p.predio_UR"
-			
-			
-			;
+			GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor) . " ORDER BY p.predio_UR";
 			$stmt = $pdo->prepare($query);
 			$stmt->bindParam(":anio", $anio_actual);
 		}
@@ -849,87 +1187,44 @@ class ModeloPredio
 		return $content;
 	}
 
+	private static function generateRowHTML($value, $key,$anio_actual)
+	{
 
-	
-
-	private static function generateRowHTML($value, $key, $anio_actual)
-{
-	$estilo = isset($value['Id_predio_litigio']) && $value['Id_predio_litigio'] !== null
+		$estilo = isset($value['Id_predio_litigio']) && $value['Id_predio_litigio'] !== null
 		? 'style="background-color:#ffcccc;"'  // Fondo rojo claro si hay litigio
 		: '';
 
-	return sprintf(
-		'<tr id_predio="%s" id_catastro="%s" id_tipo="%s" id="fila" %s>
+		return sprintf(
+			'<tr id_predio="%s" id_catastro="%s" id_tipo="%s" id="fila" %s>
 			<td class="text-center">
 				<input type="checkbox" class="checkbox-predio" data-id_predio="%s" data-onstyle="success" data-offstyle="danger" data-size="mini" data-width="110">
 			</td>
-			<td class="text-center" style="display:none;">%d</td>
-			<td class="text-center">%s</td>
-			<td>%s</td>
-			<td class="text-center" style="display:none;">%s</td>
-			<td class="text-center">%s</td>
-			<td class="text-center">%s</td>
-			<td class="text-center">%s</td>
-			<td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
-			<td class="text-center" style="display:none;">%s</td> 
-			
-		</tr>',
-		$value['id_predio'],
-		$value['catastro'],
-		$value['tipo_ru'],
-		$estilo, // ← Aquí se aplica el estilo condicional
-		$value['id_predio'],
-		$key,
-		$value['tipo_ru'],
-		$value['direccion_completo'],
-		$value['catastro'],
-		$value['a_terreno'],
-		$value['a_construccion'],
-		$value['v_predio_aplicar'],
-		$value['id_predio'],
-		$anio_actual
-	);
-}
-
-
-	// private static function generateRowHTML($value, $key,$anio_actual)
-	// {
-
-	// 	$estilo = isset($value['Id_predio_litigio']) && $value['Id_predio_litigio'] !== null
-	// 	? 'style="background-color:#ffcccc;"'  // Fondo rojo claro (puedes cambiarlo)
-	// 	: '';
-
-	// 	return sprintf(
-	// 		'<tr id_predio="%s" id_catastro="%s" id_tipo="%s" id="fila">
-	// 		<td class="text-center">
-	// 			<input type="checkbox" class="checkbox-predio" data-id_predio="%s" data-onstyle="success" data-offstyle="danger" data-size="mini" data-width="110">
-	// 		</td>
-    //             <td class="text-center" style="display:none;" >%d</td>
-    //             <td class="text-center">%s</td>
-    //             <td>%s</td>
-    //             <td class="text-center" style="display:none;">%s</td>
-    //             <td class="text-center">%s</td>
-    //             <td class="text-center">%s</td>
-    //             <td class="text-center">%s</td>
-	// 			<td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
-	// 			  <td class="text-center"style="display:none;">%s</td> 
-    //         </tr>',
-	// 		$value['id_predio'],
-	// 		$value['catastro'],
-	// 		$value['tipo_ru'],
-			
-	// 		$value['id_predio'],
-	// 		$key,
-	// 		$value['tipo_ru'],
-	// 		$value['direccion_completo'],
-	// 		$value['catastro'],
-	// 		$value['a_terreno'],
-	// 		$value['a_construccion'],
-	// 		$value['v_predio_aplicar'],
-	// 		$value['id_predio'],
-	// 		$anio_actual
-	// 	);
-	// }
+                <td class="text-center" style="display:none;" >%d</td>
+                <td class="text-center">%s</td>
+                <td>%s</td>
+                <td class="text-center" style="display:none;">%s</td>
+                <td class="text-center">%s</td>
+                <td class="text-center">%s</td>
+                <td class="text-center">%s</td>
+				<td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
+				  <td class="text-center"style="display:none;">%s</td> 
+            </tr>',
+			$value['id_predio'],
+			$value['catastro'],
+			$value['tipo_ru'],
+			$estilo, // ← Aquí se aplica el estilo condicional
+			$value['id_predio'],
+			$key,
+			$value['tipo_ru'],
+			$value['direccion_completo'],
+			$value['catastro'],
+			$value['a_terreno'],
+			$value['a_construccion'],
+			$value['v_predio_aplicar'],
+			$value['id_predio'],
+			$anio_actual
+		);
+	}
 
 
 	
@@ -1272,8 +1567,6 @@ private static function generateRowHTMLHistorial($value, $key)
 	public static function mdlListarPredioAgua_caja($valor, $year)
 	{
 		$pdo =  Conexion::conectar();
-
-
 		if (count($valor) === 1) {
 			// Cuando $valor tiene un solo valor
 			$stmt = $pdo->prepare("SELECT  
@@ -1307,7 +1600,6 @@ private static function generateRowHTMLHistorial($value, $key)
 			$stmt->execute();
 		}
 		$campos = $stmt->fetchall();
-		
 		$content = "<tbody class='body-predio'>";
 
 
@@ -1336,10 +1628,6 @@ private static function generateRowHTMLHistorial($value, $key)
 		return $content;
 		$pdo = null;
 	}
-
-
-
-
 	// BUSCAR CONTRIBUYENTE PARA EL REGISTRO DE PREDIO
 	public static function mdlBuscarContribuyente($tabla, $valor)
 	{
@@ -2890,6 +3178,8 @@ private static function generateRowHTMLHistorial($value, $key)
 		$stmt = null;
 		return $resultado;
 	}
+
+
 	public static function mdlMostrarPredioT($table, $item1, $valor1)
 	{
 		$conexion = Conexion::conectar();
@@ -2898,10 +3188,12 @@ private static function generateRowHTMLHistorial($value, $key)
 		$ubicacion = [];
 		$resulta4 = [];
 		try {
-			$stmt = $conexion->prepare("SELECT * FROM $table WHERE $item1 = :valor");
+			$stmt = $conexion->prepare("SELECT * FROM predio WHERE $item1 = :valor");
 			$stmt->bindParam(":valor", $valor1, PDO::PARAM_INT);
+
 			$stmt->execute();
 			$predio = $stmt->fetch(PDO::FETCH_ASSOC);
+
 			if (!empty($predio)) {
 				$idCatastastroU = $predio['Id_Catastro'];
 				$idCatastastroR = $predio['Id_Catastro_Rural'];
@@ -2919,17 +3211,20 @@ private static function generateRowHTMLHistorial($value, $key)
 					$stmt->execute();
 					$ubicacion = $stmt->fetch(PDO::FETCH_ASSOC);
 				}
+
 				if ($idCatastastroR != null) {
 					$stmt = $conexion->prepare("SELECT * FROM catastro_rural WHERE Id_Catastro_Rural = :valor");
 					$stmt->bindParam(":valor", $idCatastastroR, PDO::PARAM_INT);
 					$stmt->execute();
 					$catastro = $stmt->fetch(PDO::FETCH_ASSOC);
 				}
-				$stmt = $conexion->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario WHERE $item1 = :valor");
+
+				$stmt = $conexion->prepare("SELECT DISTINCT Id_Detalle_Transferencia FROM propietario WHERE $item1 = :valor AND Baja=1");
 				$stmt->bindParam(":valor", $valor1);
 				$stmt->execute();
+
 				$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-				
+
 				if ($resultado) {
 					$idDetalleT = $resultado['Id_Detalle_Transferencia'];
 					$stmt = $conexion->prepare("SELECT * FROM detalle_transferencia WHERE Id_Detalle_Transferencia = :idDetalleTransferencia");
@@ -2960,6 +3255,8 @@ private static function generateRowHTMLHistorial($value, $key)
 		}
 		return $predio;
 	}
+
+
 	public static function mdlMostrarPropietarios($tabla, $item1, $valor1)
 	{
 		try {

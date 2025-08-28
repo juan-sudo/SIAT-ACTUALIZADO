@@ -147,8 +147,89 @@ $(document).on("click", ".btnVerAdministracionCoactivo", function () {
     administracionCoactivo_.MostrarAdministracionCoactivo(administracionCoactivo_.idcontribuyente);
 });
 
+//REGISTRAR EL NUMERO DE EXPEDIENTE
+
+$(document).ready(function() {
+    // Al hacer clic en "Asignar Número"
+    $("#btnAsignar").click(function() {
+        // Ocultar el texto del número de expediente
+        $("#expedienteAsignado").hide();
+        
+        // Mostrar el input para el número de expediente
+        $("#numeroExpediente").show().focus();
+        
+        // Mostrar los botones de Guardar y Cancelar
+        $("#btnGuardar").show();
+        $("#btnCancelar").show();
+        
+        // Ocultar el botón Asignar Número
+        $("#btnAsignar").hide();
+    });
+
+    // Al hacer clic en "Guardar"
+    $("#btnGuardar").click(function() {
+        var numeroExpediente = $("#numeroExpediente").val().trim();
+        
+        if (numeroExpediente !== "") {
+            // Actualizar el número de expediente con el valor ingresado
+            $("#expedienteAsignado").text(numeroExpediente).show();
+            
+            // Ocultar el input y los botones
+            $("#numeroExpediente").hide();
+            $("#btnGuardar").hide();
+            $("#btnCancelar").hide();
+            
+            // Mostrar el botón Asignar Número
+            $("#btnAsignar").show();
+        } else {
+            alert("Ingrese un número de expediente válido");
+        }
+    });
+
+    // Al hacer clic en "Cancelar"
+    $("#btnCancelar").click(function() {
+        // Volver al estado inicial, mostrando el texto del expediente
+        $("#numeroExpediente").hide();
+        $("#btnGuardar").hide();
+        $("#btnCancelar").hide();
+        $("#expedienteAsignado").show();
+        $("#btnAsignar").show();
+    });
+});
 
 
+$(document).on("click", ".btnAdministracionCoactivo", function () {
+    var contribuyenteId = $(this).data('idcontribuyente');  // Obtener el valor
+    console.log("ID del contribuyente:", contribuyenteId);
+    
+    // Verificar si el ID está presente
+    if (contribuyenteId) {
+        // Asegurar que contribuyenteId sea una cadena de texto antes de aplicar .trim()
+        contribuyenteId = String(contribuyenteId).trim();  // Convertir a cadena y limpiar espacios
+        
+        // Verificar si el valor contiene más de un ID (si tiene comas)
+        if (contribuyenteId.includes(',')) {
+            // Convertir el valor en un arreglo si hay más de un ID
+            var idsArray = contribuyenteId.split(','); 
+            
+            // Eliminar cualquier espacio dentro de los valores antes de unirlos con un solo guion
+            idsArray = idsArray.map(function(id) {
+                return id.trim(); // Limpiar cualquier espacio dentro de cada ID
+            });
+            
+            // Unir con un solo guion
+            contribuyenteId = idsArray.join('-');
+        }
 
-
-
+        // Verificar que el valor de contribuyenteId esté limpio
+        console.log("ID(s) del contribuyente formateado(s):", contribuyenteId);
+        
+        // Construcción de la URL
+        var url = 'http://localhost/SIAT/index.php?ruta=administracioncoactivo&id=' + contribuyenteId + '&anio=2025';
+        
+        // Asegúrate de que la URL esté correcta
+        window.location.href = url; // Redirigir a la URL
+    } else {
+        console.log("No se encontró el ID del contribuyente.");
+    }
+});

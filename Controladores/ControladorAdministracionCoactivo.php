@@ -111,22 +111,27 @@ class ControladorAdministracionCoactivo
                                   <td style="text-align: center;">876-2025</td>
                                 <td style="text-align: left;">' . $nombres_str . '</td>
                                 <td style="text-align: left;">' . $direcciones_str . '</td>
+                                <td style="text-align: left;">Medida cutelar</td>
 
                                 <td style="text-align: center;">
 
-                                <div class="btn-group">
-                                  
-                                       <button class="btn btn-danger btnVerAdministracionCoactivo" 
-                                            data-idcontribuyente="' . $codigos_str . '" 
-                                          
-                                            data-toggle="modal" data-target="#modalVerAgua"
-                                            title="Pago por años coactivo"
-                                            
-                                            >
-                                       <i class="fas fa-folder"></i> 
-                                    </button>
+                           <div class="btn-group">
+                                <button class="btn btn-danger btnVerAdministracionCoactivo" 
+                                    data-idcontribuyente="' . $codigos_str . '" 
+                                    data-toggle="modal" data-target="#modalVerAgua"
+                                    title="Pago por años coactivo">
+                                    <i class="fas fa-folder"></i> 
+                                </button>
 
-                                </div>
+                            <button class="btn btn-danger btnAdministracionCoactivo" 
+                                    data-idcontribuyente="' . $codigos_str . '" 
+                                    title="Pago por años coactivo">
+                                    <i class="fas fa-arrow-right"></i>
+                              </button>
+
+
+                            </div>
+
 
 
                                                   

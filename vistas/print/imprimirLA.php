@@ -95,6 +95,7 @@ $html_head='<table align="center"><tr>
                     <tr>
                     <th colspan="8"></th>
                     <th colspan="2" border="0.1" style="background-color: #ffd439; " border="0.1">&nbsp;Carpeta :'.$carpeta.'</th>  
+                    
                     </tr>
                     <tr>
                     <th colspan="4"></th>

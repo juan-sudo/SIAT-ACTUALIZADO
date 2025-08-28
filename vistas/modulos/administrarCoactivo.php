@@ -38,11 +38,6 @@ use Controladores\ControladorNotificacion;
         <input type="text" id="filtrar_nombre" name="filtrar_nombre" class="form-control" style="width: 100%;" placeholder="Ingrese nombre o apellidos">
     </div>
 
-    <!-- <div class="col-md-2">
-        <label>Filtrar por fecha notificación</label>
-        <input type="date" id="fecha_notificacion" name="fecha_notificacion" class="form-control">
-    </div> -->
-
     <div class="col-md-2">
         <label>Filtrar Estado</label>
         <select id="filtrar_estado" name="filtrar_estado" class="form-control">
@@ -91,14 +86,15 @@ use Controladores\ControladorNotificacion;
                
                 <th style="width:10px;"> </th>
                  <th>Codigo</th>
-                 <th>N° de expe.</th>
-                 <th>N° de o.p.</th>
+                 <th>N° expe.</th>
+                 <th>N° o.p.</th>
                 <th>Nombres y apellidos</th>
                
                 <th>Domicilio</th>
+                 <th>Estado</th>
               
                
-                <th>Acciones</th>
+                <th style="width: 100px;text-align: center;">Acciones</th>
               </tr>
             </thead>
 
@@ -161,28 +157,54 @@ use Controladores\ControladorNotificacion;
         </div>
     </div>
 
+</div>
+
+<div class="modal-body estado_cuentaAgua_mostrar">
+  <div class="row align-items-center">
     
 
- 
+    <div class="col-md-6 text-md-end ">
+      <button type="button" class="btn btn-success " id="btnGuardar" style="display:none;">
+        <i class="far fa-save me-1"></i> Guardar
+      </button>
+      <button type="button" class="btn btn-danger " id="btnCancelar" style="display:none;">
+        <i class="far fa-times-circle me-1"></i> Cancelar
+      </button>
+      <button type="button" class="btn btn-primary" id="btnAsignar">
+        <i class="fas fa-plus-circle me-1"></i> Asignar Número expediente
+      </button>
+    </div>
+    
+  </div>
+</div>
 
+<div class="modal-body estado_cuentaAgua_mostrar " style="padding-left: 20px;padding-top:0px; padding-bottom:0px">
+  <div class="row align-items-center">
+    <div class="col-md-12">
+      <div class="form-group mb-0" style="align-items: center;">
+
+    <label for="">Numero de expediente</label>
+      </div>
+    </div>
+  </div>
 </div>
 
 
 
-<!-- Modal Body -->
-<!-- Modal Body -->
-<div class="modal-body estado_cuentaAgua_mostrar">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="numeroOperacion">Número de operación</label>
-        <input type="text" id="numeroOperacion" class="form-control" placeholder="Número de operación">
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="numeroExpediente">Número de expediente</label>
-        <input type="text" id="numeroExpediente" class="form-control" placeholder="Número de expediente">
+<div class="modal-body estado_cuentaAgua_mostrar " style="padding-left: 20px;padding-top:0px; padding-bottom:0px">
+  <div class="row align-items-center">
+    <div class="col-md-12">
+      <div class="form-group mb-0" style="align-items: center;">
+
+       <!-- Número de expediente mostrado como un badge -->
+     <p id="expedienteAsignado" class="fs-20 py-3 px-3" style="width: 100%; max-width: 250px; font-size: 30px;">
+      <span>N° </span> <span>15425</span>
+    </p>
+
+      <!-- Input para el número de expediente (con el mismo ancho, pero con un tamaño más pequeño) -->
+      <input type="text" id="numeroExpediente" class="form-control mt-2" placeholder="Número de expediente" 
+      style="display:none; width: 100%; max-width: 250px; height: 25px; padding: 10px 15px;">
+
       </div>
     </div>
   </div>
@@ -192,16 +214,6 @@ use Controladores\ControladorNotificacion;
 
 
 
-
-<!-- Modal Footer -->
-<div class="modal-footer">
-  <button type="button" class="btn btn-success" data-dismiss="modal">
-        <i class="far fa-save"></i> Guardar
-    </button>
-    <button type="button" class="btn btn-danger" data-dismiss="modal">
-        <i class="far fa-times-circle"></i> Cancelar
-    </button>
-</div>
 
           
 

@@ -375,7 +375,6 @@ $(document).ready(function () {
 
   const predioEdit = new PredioClass();
 
-  
   $(document).on("click", "#tablalistapredios tbody tr", function () {
     predioSelect = true;
     predioEdit.idPredioC = $(this).attr("id_predio");
@@ -393,7 +392,10 @@ $(document).ready(function () {
     if (predioSelect) {
       let datos = new FormData();
       datos.append("idPredio", predioEdit.idPredioC);
+
       datos.append("editarPredio", "true");
+
+      console.log("esta es ta enviandiose", predioEdit.idPredioC );
       //traer informaion del predio
       $.ajax({
         url: "ajax/predio.ajax.php",
@@ -404,7 +406,9 @@ $(document).ready(function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-          console.log(respuesta);
+          console.log("rspouesta para editar",respuesta);
+
+
           predioEdit.idPredioC = respuesta.Id_Predio;
           predioEdit.fechaAdquisicionC = respuesta.Fecha_Adquisicion;
           predioEdit.numeroLuzC = respuesta.Numero_Luz;
@@ -517,32 +521,7 @@ $(document).ready(function () {
     }
   });
 
-$(document).on("click", "#agregarConstruccion", function () {
-
-  console.log("has hecho click aqui--", predioEdit.idPredioC);
-
-
-  
-    $("#idPredioCons").val(predioEdit.idPredioC);
-
-      if (predioSelect) {
-  // Mostrar el modal
-  $("#modal_registrar_construccion").modal("show");
-
-      }
-       else {
-      alert("Debe Seleccionar un Predio para agregar consturccion");
-    }
-
-
-});
-
-
-
-
-  function asignarvaloreurbanos() { 
-
-
+  function asignarvaloreurbanos() {
     $("#idPredio").val(predioEdit.idPredioC);
     $("#nroUbicacion_e").val(predioEdit.numUbicacionC);
     $("#nroLote_e").val(predioEdit.numLoteC);
@@ -822,6 +801,7 @@ error: function (xhr, status, error) {
   }
   
   $(document).on("click", "#btnGuardarPredio_e", function () {
+
     if (predioEdit.predioURC === "U") {
           capturarValoresUrbanosE();
           // =========== REGISTRO PREDIO =============================
@@ -882,12 +862,7 @@ error: function (xhr, status, error) {
           formd.append("tAgua", predioEdit.tAguaC); //34
           formd.append("otroNombre", predioEdit.otroNombreC); //34
 
-          for (let [key, value] of formd.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-
         
-
 
           formd.append("predioUrbanoE", "predioUrbanoE");
             $.ajax({
@@ -918,6 +893,8 @@ error: function (xhr, status, error) {
         },
       });
     } else {
+
+      console.log("aqui e");
 
     // =========== REGISTRO PREDIO =============================
     predioEdit.idViaC = parseInt($("#idzona_rustico").text().trim(),10);
@@ -964,6 +941,11 @@ error: function (xhr, status, error) {
     formd.append("idvalcat", $("#idzona_rustico").text()); // idviar
     formd.append("id_predio", predioEdit.idPredioC); //
     formd.append("predio_rural_E", "predio_rural_E");
+
+    for (let [key, value] of formd.entries()) {
+      console.log(`${key}: ${value}`);
+  }
+
 
     $.ajax({
       type: "POST",
@@ -1064,8 +1046,7 @@ error: function (xhr, status, error) {
     for(var i=1, row;row =tabla_contribuyente.rows[i];i++){
       var id_contribuyente = row.getAttribute('id').trim();
       contribuyentes.push( id_contribuyente);
-    }
-
+      }
     var id_propietario = predio.id_propietario;
     var carpeta = $('#carpeta_contribuyente').attr('id_carpeta');
     var select = document.getElementById('selectnum');
@@ -1260,11 +1241,11 @@ error: function (xhr, status, error) {
             $('#paga_otro_nombre_row').show();
 
           } 
-            else if (valor ===  "cl") {
+          else if (valor ===  "cl") {
             $('#paga_otro_nombre_row').show();
 
           } 
-        
+          
           else {
             $('#paga_otro_nombre_row').hide();
             $('#paga_otro_nombre_e').val(''); // <- corrección aquí
