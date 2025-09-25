@@ -2192,6 +2192,27 @@ color: white;
   z-index: 1060; /* Mantén los fondos alineados */
 }
 
+.eliminar-fila {
+    background: #b5554e; /* Color de fondo del círculo */
+    border: none; /* Elimina el borde */
+    color: white; /* Cambia el color del texto a blanco */
+    font-size: 15px; /* Tamaño de la letra */
+    width: 20px; /* Ancho del círculo */
+    height: 20px; /* Altura del círculo */
+    border-radius: 50%; /* Hace que el botón sea circular */
+    display: flex; /* Usamos flexbox para centrar la X */
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    cursor: pointer; /* Cambia el cursor a un puntero cuando pasas por encima */
+    text-align: center; /* Asegura que el texto esté centrado */
+}
+
+.eliminar-fila:hover {
+    background: red; /* Color de fondo cuando pasas el ratón sobre el círculo */
+    color: white; /* Mantener el color del texto blanco */
+}
+
+
 
 /* Checkbox personalizado elegante */
 .custom-checkbox {

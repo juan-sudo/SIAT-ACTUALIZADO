@@ -120,6 +120,7 @@ $tiem = time();
 				"Pagados-impuesto-arbitrios" => "Pagados-impuesto-arbitrios.php",
 				"cierre-caja" => "cierre-caja.php",
 				"reporte-ingreso-diario" => "reporte-ingreso-diario.php",
+				"reporte-actualizacion" => "reporteActualizacion.php",
 				"buscar-orden-pago" => "buscar-orden-pago.php",
 				"extorno" => "extorno.php",
 				"reimprimir" => "reimprimir.php",
@@ -207,18 +208,35 @@ $tiem = time();
 	<script src="vistas/js/litigio.js"></script>
 	<script src="vistas/js/notificacionagua.js"></script>
 	<script src="vistas/js/administrarcoactivo.js"></script>
+	<script src="vistas/js/perdidaFraccionamiento.js"></script>
+	<script src="vistas/js/deudaFraccionado.js"></script>
+	<script src="vistas/js/resolucionFraccionado.js"></script>
+	<script src="vistas/js/resolucionAcumulacion.js"></script>
+	<script src="vistas/js/resolucionAcumulacionVehi.js"></script>
+	<script src="vistas/js/cartaRecordatorio.js"></script>
+	<script src="vistas/js/requerimientoPago.js"></script>
+	<script src="vistas/js/esquelaPago.js"></script>
+	<script src="vistas/js/gestionDomiciliaria.js"></script>
+	<script src="vistas/js/cobranzaTelefonico.js"></script>
+	<script src="vistas/js/resolucionDeterminacion.js"></script>
+	<script src="vistas/js/resolucionMulta.js"></script>
+	<script src="vistas/js/aprobacionFraccionado.js"></script>
+	<script src="vistas/js/deudaConsentida.js"></script>
+	<script src="vistas/js/ejecucionCoactivaDOS.js"></script>
+	<script src="vistas/js/resolucionVehicular.js"></script>
+	<script src="vistas/js/resolucionInmueble.js"></script>
+	<script src="vistas/js/medidaCautelar.js"></script>
+	<script src="vistas/js/suspencionSolicitud.js"></script>
+	<script src="vistas/js/terceraPropiedad.js"></script>
+	<script src="vistas/js/notificacionValores.js"></script>
+	<script src="vistas/js/cargoNotificacion.js"></script>
+	<script src="vistas/js/carpetaActualizacion.js"></script>
+	<script src="vistas/js/resolucionMedidaCautelar.js"></script>
+	
+	<!-- Incluye SheetJS desde el CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
 
-	<!-- <script>
-  	$.fn.modal.Constructor.prototype.enforceFocus = function() {};
-	</script> -->
-	<!-- BUSCADOR DE SELECT -->
-	 <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-	  -->
-
-	  <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
-
-	<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+	
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Invocamos cada 5 segundos ;)

@@ -32,7 +32,10 @@ class ControladorPredio
 
 	public  static function ctrListarPredio($valor,$anio)
 	{
+		
 		$respuesta = ModeloPredio::mdlListarPredio($valor,$anio);
+		
+		
 		echo $respuesta;
 	}
 	public  static function ctrListarPredioAgua($valor, $year)

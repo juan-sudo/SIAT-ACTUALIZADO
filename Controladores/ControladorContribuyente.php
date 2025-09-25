@@ -264,7 +264,7 @@ class ControladorContribuyente
             //   else {
               
                echo '<td class="text-center">
-                        <i class="bi bi-house-fill btnPredios"  title="Predio" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'" estado_Coactivo="'. $coPropietario["coactivo"] .'" nombre_contribuyente="'. $coPropietario["nombres"] .'"</i>
+                        <i class="bi bi-house-fill btnPredios"  title="Predio" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'" estado_Coactivo="'. $coPropietario["coactivo"] .'" nombre_contribuyente="'. $coPropietario["nombres"] .'"  </i>
                       </td>';
              // }
              

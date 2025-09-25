@@ -157,15 +157,14 @@ $idArray = array_filter($idArray);
 
       </div>
 
-      <div class="col-lg-5 col-xs-5" style="display: flex; flex-direction: row; justify-content: center; align-items: center; padding-top: 4rem; ">
-    <button class="btn btn-secondary btn-sm btn-1" id="anterior_Predio"  style="margin-right: 1rem;">
-    <i class="bi bi-chevron-left"></i>
-    </button>
+      <div class="col-lg-5 col-xs-5" style="display: flex; flex-direction: row; justify-content: center; align-items: center; padding-top: 2rem; ">
 
-    <button class=" btn btn-secondary btn-sm btn-1" id="siguiente_Predio" style="margin-left: 1rem;">
-    <i class="bi bi-chevron-right"></i>
-    </button>
-</div>
+          <button class="btn btn-secondary btn-sm btn-1" id="volver_administracion_co" style="margin-right: 1rem;">
+            <i class="bi bi-box-arrow-left"></i> Volver
+        </button>
+
+
+        </div>
 
 
 
@@ -203,6 +202,7 @@ $idArray = array_filter($idArray);
                 </div>
               </div>
               <br>
+              
               <table class="table-container" id="tablalistapredios">
                 <thead>
                   <tr>
@@ -258,58 +258,132 @@ $idArray = array_filter($idArray);
             <label class="bltp" id="countpredio"></label>
 
 
-
-
-
-
-
             <!--======== CONTADOR PREDIOS ===========-->
             <div class="row">
 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/deuda.png" class="t-icon-tbl-imprimir" id="abrirEstadoCuenta" data-target="#modalEstadoCuenta" title="Estado Cuenta">
+                </div>        
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/transferir.png" class="t-icon-tbl-imprimir" id="abrirPopupButton" data-target="#modalTransferenciaPredio" data-toggle="tooltip" title="Transferir de Predio"></img>
-              </div>
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/pagos_.png" class="t-icon-tbl-imprimir" id="abrirPagosImpuestoArbitrios" data-target="#modalPagosImpuestoArbitrios" title="Pagos Impuesto Arbitrios">
+                </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/copiar.svg" class="t-icon-tbl-imprimir" id="abrirPopupButton_copiar" data-target="#modalCopiarPredio" title="Copiar Predio"></i>
-              </div>
+               <!-- ANEXO 01 --> 
+                <div class="col-md-1">
+                    <img src="./vistas/img/iconos/imagen1r.png" class="t-icon-tbl-imprimir" id="abrirCartaRecordatorio" data-target="#modalCartaRecordatorio" title=" Formato de carta recordatoria de pago ">
+                </div>
+                 <!-- ANEXO 02 --> 
+                 <div class="col-md-1">
+                    <img src="./vistas/img/iconos/formato2r.png" class="t-icon-tbl-imprimir" id="abrirRequerimientoPago" data-target="#modalRequerimientoPago" title="Formato de requerimiento de pago">
+                </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/editar.png" class="t-icon-tbl-imprimir" id="btnEditarPredioU" data-target="#modalEditarPredio" title="Editar Predio">
-              </div>
+                 <!-- ANEXO 03 --> 
+                 <div class="col-md-1">
+                    <img src="./vistas/img/iconos/formato3r.png" class="t-icon-tbl-imprimir" id="abrirEsquelaCobranza" data-target="#modalEsquelaCobranza" title="Formato de esquela de cobranza ">
+                </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/orden_pago.png" class="t-icon-tbl-imprimir" id="abrirOrdenPago" data-target="#modalOrdenPago" title="Orden Pago">
-              </div>
+                 <!-- ANEXO 04 --> 
 
-              <div class="col-md-1">
+                <div class="col-md-1">
+                    <img src="./vistas/img/iconos/formato4r.png" class="t-icon-tbl-imprimir" id="abrirGestionDomiciliaria" data-target="#modalGestionDomiciliaria" title=" Formato de acta de visita en una gestión domiciliaria ">
+                </div>
+
+                <!-- ANEXO 05 --> 
+                <div class="col-md-1">
+                    <img src="./vistas/img/iconos/formato5r.png" class="t-icon-tbl-imprimir" id="abrirCobranzaTelefonica" data-target="#modalCobranzaTelefonica" title="Formatos de “speech” de cobranza telefónica">
+                </div>
+                
+                <!-- ANEXO 06 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/orden_pago.png" class="t-icon-tbl-imprimir" id="abrirOrdenPago" data-target="#modalOrdenPago" title=" Formato de orden de pago ">
+                </div>
+
+                <!-- ANEXO 07 --> 
+                <div class="col-md-1">
+                    <img src="./vistas/img/iconos/formato7r.png" class="t-icon-tbl-imprimir" id="abrirResoDeter" data-target="#modalResolucionDeterminacion" title="Formato de Resolución de Determinación ">
+                </div>
+
+                <!-- ANEXO 08 --> 
+                <div class="col-md-1">
+                    <img src="./vistas/img/iconos/formato8r.png" class="t-icon-tbl-imprimir" id="abrirResoMulta" data-target="#modalResolucionMulta" title="Formato de Resolución de Multa ">
+                </div>
+
+                <!-- ANEXO 09 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/frados.png" class="t-icon-tbl-imprimir" id="abrirPerFraccio" data-target="#modalPerdidaFraccionamiento" title="Formato de resolución de pérdida de fraccionamiento  ">
+                </div>
+
+                <!-- ANEXO 10 --> 
+                 <div class="col-md-1">
+                  <img src="./vistas/img/iconos/fratres.png" class="t-icon-tbl-imprimir" id="abrirFraccionadoDeuda" data-target="#modalFraccionadoDeuda" title=" Formato de solicitud de fraccionamiento de deuda ">
+                </div>
+              
+             
+             </div>
+
+            <div class="row">
+
+               <!-- ANEXO 11 --> 
+                 <div class="col-md-1">
+                  <img src="./vistas/img/iconos/frauno.png" class="t-icon-tbl-imprimir" id="abrirAproFraccion" data-target="#modalAprobacionFracciona" title="Resolución de aprobación de un fraccionamiento  ">
+                </div>
+
+                <!-- ANEXO 12 --> 
+                <div class="col-md-1">
+                    <img src="./vistas/img/iconos/formato12r.png" class="t-icon-tbl-imprimir" id="abrirConcentidaDeuda" data-target="#modalConcentidaDeuda" title="Formato de constancia de haber quedado consentida la deuda para el inicio del proceso coactivo">
+                </div>
+
+
+                <!-- ANEXO 13 --> 
+                  <div class="col-md-1">
                     <img src="./vistas/img/iconos/icono_coactivo.png" class="t-icon-tbl-imprimir" id="abrirEstadoCoactivo" data-target="#modalEstadoCuentaC" title="Coactivo">
                 </div>
 
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/deuda.png" class="t-icon-tbl-imprimir" id="abrirEstadoCuenta" data-target="#modalEstadoCuenta" title="Estado Cuenta">
-              </div>
+                <!-- ANEXO 14 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/sentenciadoce.png" class="t-icon-tbl-imprimir" id="abrirResolucionDOS" data-target="#modalrResolucionAcumulacionDOS" title="Resolución Ejecución Coactiva DOS por acumulación ">
+                </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/pagos_.png" class="t-icon-tbl-imprimir" id="abrirPagosImpuestoArbitrios" data-target="#modalPagosImpuestoArbitrios" title="Pagos Impuesto Arbitrios">
-              </div>
+              
+                <!-- ANEXO 15 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/vehicular15.png" class="t-icon-tbl-imprimir" id="abrirResolucionDOSVehi" data-target="#modalResolucionVehicular" title="Resolución Ejecución Coactiva DOS. Por acumulación y/o ejecución, trabando Medida Cautelar en forma de secuestro conservativo y/o inscripción vehicular  ">
+                </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/calcular.png" class="t-icon-tbl-imprimir" id="obciones_calcular" title="Calcular Impuesto" data-target="#modal_predio_propietario_">
-              </div>
+                <!-- ANEXO 16 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/ejecucionCoactivo15.png" class="t-icon-tbl-imprimir" id="abrirResolucionDOSIm" data-target="#modalResolucionInmueble" title="Resolución Ejecución Coactiva DOS. Por acumulación y/o ejecución, trabando Medida Cautelar en forma de inscripción de inmueble  ">
+                </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/delete.png" class="t-icon-tbl-imprimir" id="abrirEliminar_Predio" data-target="#modalEliminarPredio" title="Elimar Predio">
-              </div>
+                <!-- ANEXO 17 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/medidacutelar16.png" class="t-icon-tbl-imprimir" id="abrirResolucionDOSMedidaCau" data-target="#modalrResolucionAcumulacionEjecucion" title="Resolución Ejecución Coactiva DOS por acumulación y/o ejecución. trabando Medida Cautelar en forma de retención  ">
+                </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/foto.png" class="t-icon-tbl-imprimir" id="abrirFoto" data-target="#modal_foto" title="Gestionar Foto">
-              </div>
+                <!-- ANEXO 18 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/formato18r.png" class="t-icon-tbl-imprimir" id="abrirResoSuspencion" data-target="#modalFormatoSuspencion" title="Resolución Ejecución Coactiva DOS por acumulación y/o ejecución. trabando Medida Cautelar en forma de retención  ">
+                </div>
 
+                <!-- ANEXO 19 --> 
+                  <div class="col-md-1">
+                  <img src="./vistas/img/iconos/formato19r.png" class="t-icon-tbl-imprimir" id="abrirTerceraPropiedad" data-target="#modalTerceraPropiedad" title="Resolución Ejecución Coactiva DOS por acumulación y/o ejecución. trabando Medida Cautelar en forma de retención  ">
+                </div>
+
+                <!-- ANEXO 20 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/formato20r.png" class="t-icon-tbl-imprimir" id="abrirResoNotiValores" data-target="#modalNotificacionValores" title="Resolución Ejecución Coactiva DOS por acumulación y/o ejecución. trabando Medida Cautelar en forma de retención  ">
+                </div>
+
+                <!-- ANEXO 21 --> 
+                <div class="col-md-1">
+                  <img src="./vistas/img/iconos/formato21r.png" class="t-icon-tbl-imprimir" id="abrirResoCargaNotifi" data-target="#modalCargoNotificiacion" title="Resolución Ejecución Coactiva DOS por acumulación y/o ejecución. trabando Medida Cautelar en forma de retención  ">
+                </div>
 
             </div>
+
 
           </div>
           <!--DETALLE PREDIOS - PISOS-->
@@ -928,6 +1002,7 @@ $idArray = array_filter($idArray);
           
           <h7> Al menos debe elegir una fila <span id="anio_formato"><!-- CONTENIDO DINAMICO--></span></h7>
         </div>
+
       </div>
 
 
@@ -946,885 +1021,1212 @@ $idArray = array_filter($idArray);
 
 
 
+<!--FROMULARIO DE ANEXO 01-->
+<div class="modal fade" id="modal_formulario_carta" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+        <div class="row">
+          <div class="col-lg-4">
+            <label for="tipoTributario">Tipo Tributario:</label>
+            <select class="form-control" id="tipoTributario" name="tipoTributario">
+              <option value="">Seleccione tipo tributario</option>
+              <option value="tributario">Tributario</option>
+              <option value="no tributario">No tributario</option>
+            </select>
+          </div>
+           <div class="col-lg-2">
+            <label for="numeroCuota">Número de Cuota:</label>
+            <input type="number" class="form-control" id="numeroCuota" name="numeroCuota" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        
+
+            <div class="col-lg-3">
+            <label for="fechaVencimiento">Fecha Vencimiento:</label>
+            <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento" value="" placeholder="Seleccione la fecha de vencimiento" />
+          </div>
+            <div class="col-lg-3">
+            <label for="anioFiscal">Año Fiscal:</label>
+            <select class="form-control" id="anioFiscalg" name="anioFiscalg">
+              <option value="">Seleccione un año fiscal</option>
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+              <option value="2018">2018</option>
+              <option value="2017">2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+              <option value="2014">2014</option>
+              <option value="2013">2013</option>
+              <option value="2012">2012</option>
+              <option value="2011">2011</option>
+              <option value="2010">2010</option>
+              <option value="2009">2009</option>
+              <option value="2008">2008</option>
+              <option value="2007">2007</option>
+              <option value="2006">2006</option>
+              <option value="2005">2005</option>
+              <option value="2004">2004</option>
+            </select>
+          </div>
+
+        </div>
+
+
+     
+      
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_coactivo_aviso_ok">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 01-->
+
+
+<!--FROMULARIO DE ANEXO 02-->
+<div class="modal fade" id="modal_requerimiento_pago" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+     <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+        <div class="row mt-3">
+          <div class="col-lg-2">
+            <label for="numeroCuota2">Número de Cuota:</label>
+            <input type="number" class="form-control" id="numeroCuota2" name="numeroCuota2" value="" placeholder="Ingrese número de cuota" />
+          </div>
+          <div class="col-lg-3">
+            <label for="anioFiscal2">Año Fiscal:</label>
+            <select class="form-control" id="anioFiscalg2" name="anioFiscalg2">
+              <option value="">Seleccione un año fiscal</option>
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+              <option value="2018">2018</option>
+              <option value="2017">2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+              <option value="2014">2014</option>
+              <option value="2013">2013</option>
+              <option value="2012">2012</option>
+              <option value="2011">2011</option>
+              <option value="2010">2010</option>
+              <option value="2009">2009</option>
+              <option value="2008">2008</option>
+              <option value="2007">2007</option>
+              <option value="2006">2006</option>
+              <option value="2005">2005</option>
+              <option value="2004">2004</option>
+            </select>
+          </div>
+
+            <div class="col-lg-2">
+            <label for="periodo2">Periodo:</label>
+            <select class="form-control" id="periodo2" name="periodo2">
+              <option value="">Seleccione perido</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+             
+            </select>
+          </div>
+           <div class="col-lg-2">
+            <label for="plazoDias2">Plazo en dias:</label>
+            <input type="number" class="form-control" id="plazoDias2" name="plazoDias2" value="" placeholder="Plazo en dias" />
+          </div>
+
+           <div class="col-lg-3">
+            <label for="fechaVencimiento2">Fecha Vencimiento:</label>
+            <input type="date" class="form-control" id="fechaVencimiento2" name="fechaVencimiento2" value="" placeholder="Seleccione la fecha de vencimiento" />
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_2">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 02-->
+
+
+<!--FROMULARIO DE ANEXO 03-->
+<div class="modal fade" id="modal_esquela_cobranza" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+     <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+       
+         <div class="row mt-3">
+          <div class="col-xs-12">
+            <label for="plazoDias3">Plazo en dias:</label>
+            <input type="number" class="form-control" id="plazoDias3" name="plazoDias3" value="" placeholder="Plazo en dias" />
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_3">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 03-->
+
+
+<!--FROMULARIO DE ANEXO 07-->
+<div class="modal fade" id="modal_resolucion_determinacion" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+       
+         <div class="row mt-3">
+
+
+          <div class="col-lg-3">
+            <label for="baseImponible7">Base imp. fiscalizada</label>
+            <input type="number" class="form-control" id="baseImponible7" name="baseImponible7" value="" placeholder="Plazo en dias" />
+          </div>
+
+           <div class="col-lg-3">
+            <label for="montoFiscalizado7">Monto fiscalizada</label>
+            <input type="number" class="form-control" id="montoFiscalizado7" name="montoFiscalizado7" value="" placeholder="Plazo en dias" />
+          </div>
+          
+            <div class="col-lg-3">
+            <label for="impuestoFiscalizado7">Impuesto fiscalizada</label>
+            <input type="number" class="form-control" id="impuestoFiscalizado7" name="impuestoFiscalizado7" value="" placeholder="Plazo en dias" />
+          </div>
+
+
+
+        </div>
+
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_7">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 07-->
+
+<!--FROMULARIO DE ANEXO 08-->
+<div class="modal fade" id="modal_resolucion_multa" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+     <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+
+         <div class="row ">
+
+           <div class="col-lg-3">
+            <label for="docInfraccion8">Doc. de infraccion</label>
+            <input type="text" class="form-control" id="docInfraccion8" name="docInfraccion8" value="" placeholder="Doc infraccion" />
+          </div>
+
+          <div class="col-lg-3">
+            <label for="fechaInfraccion8">Fecha de infraccion</label>
+            <input type="date" class="form-control" id="fechaInfraccion8" name="fechaInfraccion8" value="" placeholder="Fecha infraccion" />
+          </div>
+
+           <div class="col-lg-3">
+            <label for="baseImponible8">Base imponible</label>
+            <input type="number" class="form-control" id="baseImponible8" name="baseImponible8" value="" placeholder="Base imponible" />
+          </div>
+         
+         
+ 
+
+        </div>
+
+
+
+    
+         <div class="row">
+
+           <div class="col-lg-3">
+            <label for="sansion8">Sanción (%)</label>
+            <input type="number" class="form-control" id="sansion8" name="sansion8" value="" placeholder="Sancion" min="0" max="100" step="0.01" />
+          </div>
+
+
+           <div class="col-lg-3">
+            <label for="montoInsoluto8">Monto insoluto</label>
+            <input type="number" class="form-control" id="montoInsoluto8" name="montoInsoluto8" value="" placeholder="Monto insoluto" />
+          </div>
+
+          <div class="col-lg-3">
+            <label for="interesMoratorio8">Interes moratorio</label>
+            <input type="number" class="form-control" id="interesMoratorio8" name="interesMoratorio8" value="" placeholder="Interes moratorio" />
+          </div>
+
+          <div class="col-lg-3">
+            <label for="total8">Total</label>
+            <input type="number" class="form-control" id="total8" name="total8" value=""   />
+          </div>
+
+        </div>
+
+        
+      </div>
+
+
+      
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_8">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 08-->
+
+
+
+<!--FROMULARIO DE ANEXO 09-->
+<div class="modal fade" id="modal_perdida_fracciona" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+        <div class="row">
+
+         
+          <div class="col-lg-4">
+            <label for="numeroResolucion109">Número de resolución:</label>
+            <input type="number" class="form-control" id="numeroResolucion109" name="numeroResolucion109" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+
+          <div class="col-lg-4">
+            <label for="numeroSolicitud09">Número de solicitud:</label>
+            <input type="number" class="form-control" id="numeroSolicitud09" name="numeroSolicitud09" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        
+
+          <div class="col-lg-4">
+            <label for="numeroResolucion209">Número de resolucion:</label>
+            <input type="number" class="form-control" id="numeroResolucion209" name="numeroResolucion209" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+
+        </div>
+
+     
+     <div class="row">
+
+      
+          <div class="col-lg-4">
+            <label for="fechaFraccionamiento09">Fecha fraccionamiento:</label>
+            <input type="date" class="form-control" id="fechaFraccionamiento09" name="fechaFraccionamiento09" value="" placeholder="Seleccione la fecha de vencimiento" />
+          </div>
+     
+          <div class="col-lg-4">
+            <label for="fechaAprobacion09">Fecha aprobacion:</label>
+            <input type="date" class="form-control" id="fechaAprobacion09" name="fechaAprobacion09" value="" placeholder="Seleccione la fecha de vencimiento" />
+          </div>
+     </div>
+
+      
+
+        <!-- Tabla con 4 campos input -->
+<div class="row" style="margin-top: 20px;">
+  <div class="col-lg-12">
+    <table class="table table-bordered" id="tabla-deuda">
+      <thead>
+        <tr>
+          <th>N° cuota</th>
+          <th>Documento de deuda</th>
+          <th>Fecha vencimiento</th>
+          <th>Monto total</th>
+      
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><input type="number" class="form-control" name="nCouta" id="nCouta" placeholder="Ingrese cuota"></td>
+          <td><input type="text" class="form-control" name="DocDeuda" id="DocDeuda" placeholder="Ingres numero docu"></td>
+          <td><input type="date" class="form-control" name="fechaVencimiento" id="fechaVencimiento" placeholder="Ingrese fecha ven"></td>
+          <td><input type="number" class="form-control" name="montoTotal" id="montoTotal" placeholder="Ingrese monto"></td>
+          <td style="text-align: center;"></td>
+        </tr>
+        
+
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-success agregar-fila">+ Agregar fila</button>
+  </div>
+</div>
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_9">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 09-->
+
+
+<!--FROMULARIO DE ANEXO 11-->
+<div class="modal fade" id="modal_aprobacion_fracciona" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+        <div class="row">
+
+          <div class="col-lg-12">
+            <label for="numeroFraccionado11">Número de solicitud fraccionado:</label>
+            <input type="number" class="form-control" id="numeroFraccionado11" name="numeroFraccionado11" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+
+        
+        <div class="row">
+
+         
+          <div class="col-lg-12">
+            <label for="numeroCuotas11">Número de cuotas:</label>
+            <input type="number" class="form-control" id="numeroCuotas11" name="numeroCuotas11" value="" placeholder="Ingrese número de cuota" />
+          </div>
+       
+        </div>
+
+      <div class="row">
+          <div class="col-lg-12">
+            <label for="numeroConvenio11">Número de convenio:</label>
+            <input type="number" class="form-control" id="numeroConvenio11" name="numeroConvenio11" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+            <div class="row">
+          <div class="col-lg-12">
+            <label for="importeFraccionado11">Importe fraccionamiento:</label>
+            <input type="number" class="form-control" id="importeFraccionado11" name="importeFraccionado11" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_11">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 11-->
+
+
+<!--FROMULARIO DE ANEXO 12-->
+<div class="modal fade" id="modal_concentida_deuda" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+   
+        <!-- Tabla con 4 campos input -->
+        <div class="row" style="margin-top: 20px;">
+          <div class="col-lg-12">
+            <table class="table table-bordered" id="consentida-deuda">
+              <thead>
+                <tr>
+                  <th>Detalle de cosuemtos</th>
+       
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td><input type="text" class="form-control" name="detalleFraccionamiento12" id="detalleFraccionamiento12" placeholder="Ingrese cuota"></td>
+                
+                  <td style="text-align: center;"></td>
+                </tr>
+                
+
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-success agregar-fila-concentido">+ Agregar fila</button>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_12">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 12-->
+
+
+
+<!--FROMULARIO DE ANEXO 14-->
+<div class="modal fade" id="modal_coactiva_dos" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+        <div class="row">
+         <div class="col-lg-12">
+            <label for="expedientes14">Expedientes:</label>
+            <input type="number" class="form-control" id="expedientes14" name="expedientes14" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+
+          <div class="row">
+          <div class="col-lg-12">
+            <label for="numeroExpediente14">Número de expedientes:</label>
+            <input type="number" class="form-control" id="numeroExpediente14" name="numeroExpediente14" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_14">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 14-->
+                    
+<!--FROMULARIO DE ANEXO 15-->
+<div class="modal fade" id="modal_coactiva_dos_vehicular" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+
+        <div class="row">
+         <div class="col-lg-12">
+            <label for="numeroExpediente0115">Número de expedientes:</label>
+            <input type="number" class="form-control" id="numeroExpediente0115" name="numeroExpediente0115" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+     
+        <div class="row">
+         <div class="col-lg-12">
+            <label for="expedientes15">Expedientes:</label>
+            <input type="number" class="form-control" id="expedientes15" name="expedientes15" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+
+          <div class="row">
+          <div class="col-lg-12">
+            <label for="numeroExpediente15">Número de expedientes acumulados:</label>
+            <input type="number" class="form-control" id="numeroExpediente15" name="numeroExpediente15" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="monto15">Monto de deuda:</label>
+            <input type="number" class="form-control" id="monto15" name="monto15" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+          <div class="row">
+          <div class="col-lg-12">
+            <label for="placaRodaje15">Número de placa de rodaje:</label>
+            <input type="number" class="form-control" id="placaRodaje15" name="placaRodaje15" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+         <div class="row">
+          <div class="col-lg-12">
+            <label for="nombrePropietario15">Nombre propietario:</label>
+            <input type="text" class="form-control" id="nombrePropietario15" name="nombrePropietario15" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="dniPropietario15">Dni de propietario:</label>
+            <input type="text" class="form-control" id="dniPropietario15" name="dniPropietario15" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_15">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 15-->
+
+<!--FROMULARIO DE ANEXO 16 -->
+<div class="modal fade" id="modal_coactiva_dos_inmueble" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+     <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+      
+        <div class="row">
+         <div class="col-lg-12">
+            <label for="numeroExpediente0116">Número de expedientes:</label>
+            <input type="number" class="form-control" id="numeroExpediente0116" name="numeroExpediente0116" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+     
+        <div class="row">
+         <div class="col-lg-12">
+            <label for="expedientes16">Expedientes:</label>
+            <input type="number" class="form-control" id="expedientes16" name="expedientes16" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+
+          <div class="row">
+          <div class="col-lg-12">
+            <label for="numeroExpediente16">Número de expedientes acumulados:</label>
+            <input type="number" class="form-control" id="numeroExpediente16" name="numeroExpediente16" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="monto16">Monto de deuda:</label>
+            <input type="number" class="form-control" id="monto16" name="monto16" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+
+         <div class="row">
+          <div class="col-lg-12">
+            <label for="nombrePropietario16">Nombre propietario:</label>
+            <input type="text" class="form-control" id="nombrePropietario16" name="nombrePropietario16" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="dniPropietario16">Dni de propietario:</label>
+            <input type="text" class="form-control" id="dniPropietario16" name="dniPropietario16" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_16">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 16-->
+
+
+<!--FROMULARIO DE ANEXO 17 -->
+<div class="modal fade" id="modal_coactiva_dos_cautelar" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+      
+        <div class="row">
+         <div class="col-lg-12">
+            <label for="numeroExpediente0117">Número de expedientessss:</label>
+            <input type="text" class="form-control" id="numeroExpediente0117" name="numeroExpediente0117" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+     
+        <div class="row">
+         <div class="col-lg-12">
+            <label for="expedientes17">Expedientes:</label>
+            <input type="text" class="form-control" id="expedientes17" name="expedientes17" value="" placeholder="Ingrese número de cuota" />
+          </div>
+     
+        </div>
+
+          <div class="row">
+          <div class="col-lg-12">
+            <label for="numeroExpediente17">Número de expedientes acumulados:</label>
+            <input type="text" class="form-control" id="numeroExpediente17" name="numeroExpediente17" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="monto17">Monto de deuda:</label>
+            <input type="number" class="form-control" id="monto17" name="monto17" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+
+         <div class="row">
+          <div class="col-lg-12">
+            <label for="nombrePropietario17">Nombre propietario:</label>
+            <input type="text" class="form-control" id="nombrePropietario17" name="nombrePropietario17" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="dniPropietario17">Dni de propietario:</label>
+            <input type="number" class="form-control" id="dniPropietario17" name="dniPropietario17" value="" placeholder="Ingrese número de cuota" />
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_17">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 17-->
+
+
+
+<!--FROMULARIO DE ANEXO 18 -->
+<div class="modal fade" id="modal_solicitud_suspencion" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+     <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+  <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+      
+        <div class="row">
+         <div class="col-lg-4">
+            <label for="resolucionEjecucion18">Resolucion de ejecucion coactiva REC N°:</label>
+            <input type="text" class="form-control" id="resolucionEjecucion18" name="resolucionEjecucion18" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+           <div class="col-lg-4">
+            <label for="resolucionMedida18">Resolucion de medida cautelar N°:</label>
+            <input type="text" class="form-control" id="resolucionMedida18" name="resolucionMedida18" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+          <div class="col-lg-4">
+            <label for="numeroDocumento18">Número de docuemento de deuda:</label>
+            <input type="text" class="form-control" id="numeroDocumento18" name="numeroDocumento18" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+
+     
+        </div>
+
+           <div class="row">
+              <div class="col-lg-4">
+                  <p>Fundamento</p>
+              </div>
+         </div>
+      
+      <div class="row">
+              <div class="col-lg-12">
+         
+        <div style="max-height: 400px; overflow-y: scroll;">
+        <table border="1" style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th style="position: sticky; top: 0; background-color: #0d4570; z-index: 1;">Estado</th>
+              <th style="position: sticky; top: 0; background-color: #0d4570; z-index: 1;">Descripción</th>
+              <th style="position: sticky; top: 0; background-color: #0d4570; z-index: 1;">Nro Expediente</th>
+              <th style="position: sticky; top: 0; background-color: #0d4570; z-index: 1;">Nro Resolución</th>
+              <th style="position: sticky; top: 0; background-color: #0d4570; z-index: 1;">Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox"  data-experiment="1">
+              </td>
+              <td>La deuda ha sido extinguida o la obligación ha sido cumplida. 1/ (Art. 16.1 inc. a)</td>
+            </tr>
+
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-experiment="2">
+              </td>
+              <td>La deuda u obligación está prescrita. 1/ (Art. 16.1, inc. b)</td>
+              <td><input type="text"  placeholder="N° Resolución"></td>
+              <td><input type="number" disabled placeholder="N° Expediente"></td>
+              <td><input type="date" ></td>
+            </tr>
+
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="El obligado es persona distinta. 1/ (Art. 16.1, inc. c)"></td>
+              <td>El obligado es persona distinta. 1/ (Art. 16.1, inc. c)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Se ha omitido notificar al obligado el acto administrativo que sirve de título para la ejecución. 1/ (Art. 16.1, inc. d)"></td>
+              <td>Se ha omitido notificar al obligado el acto administrativo que sirve de título para la ejecución. 1/ (Art. 16.1, inc. d)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Se encuentra en trámite un recurso administrativo, recurso impugnatorio de reclamación o demanda contenciosa administrativa presentado dentro del plazo establecido por ley o está pendiente de vencimiento el plazo para la presentación del mismo. 1/(Art. 16.1, inc. e y 31.1, inc. c)"></td>
+              <td>Se encuentra en trámite un recurso administrativo, recurso impugnatorio de reclamación o demanda contenciosa administrativa presentado dentro del plazo establecido por ley o está pendiente de vencimiento el plazo para la presentación del mismo. 1/(Art. 16.1, inc. e y 31.1, inc. c)</td>
+              <td><input type="text" placeholder="N° Resolución " disabled></td>
+              <td><input type="text"  placeholder="N° Expediente"></td>
+              <td><input type="date" disabled></td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Existe convenio de liquidación judicial o extrajudicial, acuerdo de acreedores o declaración de quiebra. 1/(Art. 16.1, inc. f)"></td>
+              <td>Existe convenio de liquidación judicial o extrajudicial, acuerdo de acreedores o declaración de quiebra. 1/(Art. 16.1, inc. f)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Existe Resolución de fraccionamiento y/o aplazamiento. 1/ (Art. 16.1, inc. g)"></td>
+              <td>Existe Resolución de fraccionamiento y/o aplazamiento. 1/ (Art. 16.1, inc. g)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="La empresa se encuentra en proceso de reestructuración patrimonial. 1/ (Art. 16.1, inc. h)"></td>
+              <td>La empresa se encuentra en proceso de reestructuración patrimonial. 1/ (Art. 16.1, inc. h)</td>
+              <td><input type="text" placeholder="N° Resolución" disabled></td>
+              <td><input type="number" placeholder="N° Expediente" disabled></td>
+              <td><input type="date" ></td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Se ha cumplido con el pago de la obligación tributaria o no tributaria ante otra Municipalidad que se atribuye la misma competencia territorial. 1/ (Art. 16.1, inc. i y 31.1, inc. d)"></td>
+              <td>Se ha cumplido con el pago de la obligación tributaria o no tributaria ante otra Municipalidad que se atribuye la misma competencia territorial. 1/ (Art. 16.1, inc. i y 31.1, inc. d)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Existe mandato emitido por el Poder Judicial dentro de un proceso de amparo o contencioso administrativo o se ha dictado medida cautelar dentro o fuera del proceso contencioso administrativo. 1/ (Art. 16.2 y 31.4)"></td>
+              <td>Existe mandato emitido por el Poder Judicial dentro de un proceso de amparo o contencioso administrativo o se ha dictado medida cautelar dentro o fuera del proceso contencioso administrativo. 1/ (Art. 16.2 y 31.4)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Silencio positivo (Art. 16.4)"></td>
+              <td>Silencio positivo (Art. 16.4)</td>
+              <td><input type="text"  placeholder="Resolución N°"></td>
+              <td><input type="number" placeholder="N° resolución" disabled></td>
+              <td><input type="date" name="fecha1811"></td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Se ha presentado una demanda de revisión judicial. 1/ (Art. 23.3)"></td>
+              <td>Se ha presentado una demanda de revisión judicial. 1/ (Art. 23.3)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Existen anticipos o pagos a cuenta del mismo tributo realizados en exceso, que no se encuentran prescritos. (Art. 31.1, inc. a)"></td>
+              <td>Existen anticipos o pagos a cuenta del mismo tributo realizados en exceso, que no se encuentran prescritos. (Art. 31.1, inc. a)</td>
+            </tr>
+            <tr>
+              <td style="display: flex; justify-content: center; align-items: center;">
+                <input type="checkbox" class="checkbox" data-description="Por decisión del Tribunal Fiscal, en mérito a la solicitud presentada por el administrado dentro de un recurso de queja. 1/ (Art. 31.1 inc. b)"></td>
+              <td>Por decisión del Tribunal Fiscal, en mérito a la solicitud presentada por el administrado dentro de un recurso de queja. 1/ (Art. 31.1 inc. b)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+        </div>
+         </div>
+                     
+
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_18">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 18-->
+
+
+
+<!--FROMULARIO DE ANEXO 19 -->
+<div class="modal fade" id="modal_terceria_propiedad" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Cabecera del Modal -->
+      <!-- Cabecera del Modal -->
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="staticBackdropLabel">Asignar valores</h5>
+      
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario de los campos -->
+     
+         <div class="row">
+         <div class="col-lg-6">
+            <label for="resolucionEjecucion19">Respecto de la deuda: </label>
+           
+          </div>
+
+        </div>
+
+
+        <div class="row">
+         <div class="col-lg-4">
+            <label for="resolucionEjecucion19">Expediente coactivo N°</label>
+            <input type="text" class="form-control" id="resolucionEjecucion19" name="resolucionEjecucion19" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+           <div class="col-lg-4">
+            <label for="resolucionMedida19">Resolucion de medida cautelar N°</label>
+            <input type="text" class="form-control" id="resolucionMedida19" name="resolucionMedida19" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+        </div>
+
+         <div class="row" style="margin-top: 10px;">
+          <div class="col-lg-6">
+              <label for="resolucionEjecucion19"> <strong> Respecto del bien afectado por la medida cautelar: </strong></label>
+            
+            </div>
+
+        </div>
+    
+       <div class="row">
+          <div class="col-lg-6">
+              <div style="display: flex; flex-direction: row; gap: 20px;">
+                  <div style="display: flex; align-items: center;">
+                      <input type="checkbox" class="checkboxx" data-descriptionm="Mueble">
+                      <label for="mueble" style="padding-left: 10px;"> Mueble</label>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                      <input type="checkbox" class="checkboxx" data-descriptionm="Inmueble">
+                      <label for="inmueble" style="padding-left: 10px;"> Inmueble</label>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+      <div class="row" style="margin-top: 10px;">
+         <div class="col-lg-4">
+            <label for="placaVehiculo19">Placa de vehiculo</label>
+            <input type="text" class="form-control" id="placaVehiculo19" name="placaVehiculo19" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+           <div class="col-lg-4">
+            <label for="ubicacionPredio19">Ubicacion del predio</label>
+            <input type="text" class="form-control" id="ubicacionPredio19" name="ubicacionPredio19" value="" placeholder="Ingrese número de cuota" />
+          </div>
+            <div class="col-lg-4">
+            <label for="partidaRegistral19">Partida registral</label>
+            <input type="text" class="form-control" id="partidaRegistral19" name="partidaRegistral19" value="" placeholder="Ingrese número de cuota" />
+          </div>
+
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-lg-12">
+                <label for="fundamento19">Fundamento°:</label>
+                <textarea class="form-control" id="fundamento19" name="fundamento19" placeholder="Ingrese el texto aquí"></textarea>
+            </div>
+        </div>
+
+
+
+
+        <div class="row" style="margin-top: 10px;">
+         <div class="col-lg-6">
+            <label for="resolucionEjecucion19">Fundamentos: </label>
+           
+          </div>
+
+        </div>
+
+     
+        <div class="row">
+          <div class="col-lg-6" >
+            <table border="1" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr>
+                    <th style="position: sticky; top: 0; background-color: #0d4570; z-index: 1;">Estado</th>
+                  <th style="position: sticky; top: 0; background-color: #0d4570; z-index: 1;">Descripcion</th>
+                  
+                    
+                  </tr>
+                </thead>
+                <tbody> 
+                  <tr>
+                    <td style="display: flex; justify-content: center; align-items: center;">
+                      <input type="checkbox" class="checkbox" data-description="Tarjeta de propiedad"></td>
+                    <td>Tarjeta de propiedad</td>
+                  </tr>
+                  <tr>
+                    <td style="display: flex; justify-content: center; align-items: center;">
+                      <input type="checkbox" class="checkbox" data-description="Acta de transparencia"></td>
+                    <td>Acta de transparencia</td>
+                  </tr>
+                  <tr>
+                    <td style="display: flex; justify-content: center; align-items: center;">
+                      <input type="checkbox" class="checkbox" data-description="Contrato de compra venta"></td>
+                    <td>Contrato de compra venta</td>
+                  </tr>
+                  <tr>
+                    <td style="display: flex; justify-content: center; align-items: center;">
+                      <input type="checkbox" class="checkbox" data-description="Partida registral"></td>
+                    <td>Partida registral</td>
+                  </tr>
+                    <tr>
+                    <td style="display: flex; justify-content: center; align-items: center;">
+                      <input type="checkbox" class="checkbox" data-description="Otros"></td>
+                    <td>Otros</td>
+                  </tr>
+
+
+                </tbody>
+              </table>
+
+          </div>
+
+        
+
+
+
+      </div>
+
+      </div>
+
+      <!-- Pie de Modal -->
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary print_orden_aviso_ok_19">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--END FROMULARIO DE ANEXO 19-->
+
+
 
 
 <!--====== MODAL EDITAR PREDIO U==================-->
-
-<div class="modal fade" id="modalEditarPredio" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <label class="modal-title"> EDITAR PREDIO</label>
-      </div>
-      <div class="modal-body" style="padding-bottom: 0 !important;padding-top: 0 !important;">
-        <div class="row ">
-          <!-- FORMULARIO -->
-          <div class="col-lg-12 col-xs-12">
-            <form role="form" method="post" class="formEditarPredio" id="formEditarPredio">
-              <!--=============== DOCUMENTOS DE INSCRPCION ===================-->
-              <div class="row">
-
-              <input type="text" name="idPredio"  class="hidden" id="idPredio">
-
-
-                <!-- TIPO PREDIO  -->
-                <div class="col-12 col-md-5">
-                  <label for="tipoPredioUR_e" class="cajalabel2">Tipo Predio</label>
-                  <select class="form2" name="tipoPredioUR_e" id="tipoPredioUR_e" required>
-                    <option value="" selected="" disabled="">Seleccione</option>
-                    <option value="U">Urbano </option>
-                    <option value="R">Rural</option>
-                  </select>
-                </div>
-                <!-- AÑO FISCAL   -->
-                <div class="col-12 col-md-5">
-                  <label for="anioFiscal_e" class="cajalabel2">Año Fiscal</label>
-                  <select class="form2" name="anioFiscal_e" id="anioFiscal_e" required="">
-                    <option value="" selected="" disabled="">Seleccione Año</option>
-                    <?php
-                    $anioSiat = 'anio';
-                    $registros = ControladorPredio::ctrMostrarData($anioSiat);
-                    foreach ($registros as $data_d) {
-                      echo "<option value='" . $data_d['Id_Anio'] . "'>" . $data_d['NomAnio'] . '</option>';
-                    }
-                    ?>
-                    
-                  </select>
-                </div>
-              </div>
-
-              <div class="box box-success" style="border-top: 0px;">
-                <div class="box-body" style="border: 1px dotted gray; padding-top:5px; ">
-                  <!-- ENTRADA DOC INDCRIPCION -->
-                  <div class="row2">
-                    <legend class="text-bold" style="margin-left:15px; font-size:1.3em; letter-spacing: 1px; margin-bottom: 10px !important;">DOCUMENTO DE INSCRIPCION:</legend>
-                    <div class="row">
-                      <!-- ENTRADA DOC INSCRIPCION -->
-                      <div class="col-sm-6">
-                        <label for="tipodocInscripcion_e" class="cajalabel31">Doc. Inscripcion:</label>
-                        <select class="form2" name="tipodocInscripcion_e" required="" id="tipodocInscripcion_e" required="">
-                          <option value="" selected="" disabled="">Seleccione Documento</option>
-                          <?php
-                          $tabla = 'documento_inscripcion';
-                          $registros = ControladorPredio::ctrMostrarData($tabla);
-                          foreach ($registros as $data_d) {
-                            echo "<option value='" . $data_d['Id_Documento_Inscripcion'] . "'>" . $data_d['Documento_Inscripcion'] . '</option>';
-                          }
-                          ?>
-                        </select>
-                      </div>
-                      <!-- ENTRADA NRO DOC -->
-                      <div class="col-sm-6">
-                        <label for="nroDocIns_e" class="cajalabel31">Nro. Doc.:</label>
-                        <input type="text" pattern="[A-Za-z0-9\s:.\-]+" title="Solo se permiten letras" class="form3" name="nroDocIns_e" id="nroDocIns_e" maxlength="10" required>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <!-- ENTRADA TIPO DOC -->
-                      <div class="col-sm-6">
-                        <label for="tipoEscritura_e" class="cajalabel31">Tipo de Doc.:</label>
-                        <select class="form2" name="tipoEscritura_e" required="" id="tipoEscritura_e">
-                          <option value="" selected="" disabled="">Seleccione</option>
-                          <?php
-                          $tabla = 'tipo_escritura';
-                          $registros = ControladorPredio::ctrMostrarData($tabla);
-                          foreach ($registros as $data_d) {
-                            echo "<option value='" . $data_d['Id_Tipo_Escritura'] . "'>" . $data_d['Tipo_Escritura'] . '</option>';
-                          }
-                          ?>
-                        </select>
-                      </div>
-                      <!-- ENTRADA FECHA DOC -->
-                      <div class="col-sm-6">
-                        <label for="fechaEscritura_e" class="cajalabel31">Fecha Doc.:</label>
-                        <input type="date" class="form2" name="fechaEscritura_e" id="fechaEscritura_e" required="">
-                      </div>
-                    </div>
-                  </div>
-                  <!-- ENTRADA PROPIETARIOS-->
-
-                  <div class="col-md-6">
-                    <span class="caption_">Propietarios</span>
-                    <table id="tabla_propietario" class="table-container">
-                      <thead>
-                        <tr>
-                          <th>Código</th>
-                          <th>Documento</th>
-                          <th>Nombres</th>
-                        </tr>
-                      </thead>
-                      <tbody id="div_propietario_e">
-                        <?php foreach ($datos_contribuyente as $valor => $filas) {
-                          foreach ($filas as $fila) {
-                            echo '<tr id="fila" id_contribuyente="' . $fila['Id_Contribuyente'] . '">
-                                    <td class="text-center">' . $fila['Id_Contribuyente'] . '</td>
-                                    <td class="text-center">' . $fila['Documento'] . '</td>
-                                    <td class="text-center">' . $fila['Nombre_Completo'] . '</td>';
-                          }
-                        }
-                        ?>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  
-                   <div class="col-md-6">
-                     <span class="caption_">Direccion de predio</span>
-                      <div class="row2">
-                        <div class="flex">
-                          <button type="button" class="bi bi-geo-alt-fill btn btn-secundary btn-1" data-toggle="modal" data-target="#modalViacalle_Predio">Ubicacion del Predio</button>
-                        </div>
-                       
-                      </div>
-                  </div>
-
-
-                </div>
-                <!--====== ENTRADA UBIGEO PREDIO URBANO =======-->
-                <div id="divUbigeoPreu">
-                  <div class="box">
-                    <div class="box-body">
-                   
-                      <!-- Tabla-->
-                      <div class="row2">
-                        <div class="">
-                          <div class="">
-                            <table class="table-container">
-                              <thead>
-                                <tr>
-                                  <th>Nombre Via</th>
-                                  <th>Manzana</th>
-                                  <th>Cuadra</th>
-                                  <th>Lado</th>
-                                  <th>Zona</th>
-                                  <th>Habilitacion</th>
-                                  <th>Arancel</th>
-                                  <th>Id Via</th>
-                                  <th>Condición</th>
-                                </tr>
-                              </thead>
-                              <tbody id="itemsRP">
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- otros Campos-->
-                    <div class="box-body" style="border: 1px dotted gray; border-top: 0px ; padding-top:5px; ">
-                      <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO-->
-                        <!-- ENTRADA NRO UBICACION-->
-                        <div class="row">
-                          <label for="nroUbicacion_e" class=""># Ubic</label>
-                          <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form3" name="nroUbicacion_e" id="nroUbicacion_e" maxlength="5" required="">
-                        </div>
-                        <!-- ENTRADA NRO LOTE-->
-                        <div class="row">
-                          <label for="nroLote_e" class="">#Lote</label>
-                          <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form3" name="nroLote_e" id="nroLote_e" maxlength="5" required="">
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO-->
-                        <!-- ENTRADA NRO LUZ-->
-                        <div class="row">
-                          <label for="reciboLuz_e" class="">#Rec.Luz</label>
-                          <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form3" name="reciboLuz_e" id="reciboLuz_e" required="" maxlength="5">
-                        </div>
-                        <!-- ENTRADA RECIBO AGUA-->
-                        <div class="row">
-                          <label for="codCofopri_e" class="">Cod.Cof</label>
-                          <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form3" name="codCofopri_e" id="codCofopri_e" required="" maxlength="10">
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO-->
-                        <!-- ENTRADA NRO BLOQUE-->
-                        <div class="row">
-                          <label for="nroBloque_e" class="">#Bloque</label>
-                          <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form3" name="nroBloque_e" id="nroBloque_e" maxlength="5">
-                        </div>
-                        <!-- ENTRADA NRO DEPARTAMENTO-->
-                        <div class="row">
-                          <label for="nroDepa_e" class="">#Depart.</label>
-                          <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form3" name="nroDepa_e" id="nroDepa_e" maxlength="5">
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO-->
-                        <!-- ENTRADA REFERENCIA-->
-                        <div class="row">
-                          <label for="referenUbi_e" class="cajalabe2">Referencia</label>
-                          <input type="text" pattern="[A-Za-z0-9\s:.\-]+" title="Solo se permiten letras" class="form1" name="referenUbi_e" id="referenUbi_e" maxlength="70">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <!--====== DESCRIPCION ENTRADA PREDIO URBANO ==-->
-                <div id="divDescripPreu">
-                  <div class="box box-success" style="border-top: 0px;">
-                    <div class="box-body" style="border: 1px dotted gray; padding-top:0px; ">
-                      <div class="row">
-                        <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                          <legend class="text-bold" style="margin-left:15px;  letter-spacing: 1px;">Parametro predio</legend>
-                          <!-- ENTRADA AREA TERRENO-->
-                          <div class="row">
-                            <label for="areaTerreno_e" class="cajalabel2">Area (m2)</label>
-                            <input type="text" title="Solo se permiten números" class="form3" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
-                          </div>
-                          <!-- VALOR ARANCEL-->
-                          <div class="row">
-                            <label for="" class="cajalabel2">Val Arancel</label>
-                            <label id="valorArancel_e">-</label>
-                          </div>
-                          <!-- VALOR TERRENO-->
-                          <div class="row">
-                            <label class="cajalabel2">Val Terreno</label>
-                            <label id="valorTerreno_e">-</label>
-                          </div>
-                          <!-- VALOR CONSTRUCCION-->
-                          <div class="row">
-                            <label class="cajalabel2">Val Const.</label>
-                            <label id="valorConstruc_e">-</label>
-                          </div>
-                          <!-- VALOR OTRAS INSTALACIONES-->
-                          <div class="row">
-                            <label for="valorOtrasIns_e" class="cajalabel2">Val. Inst.</label>
-                            <label id="valorOtrasIns_e">-</label>
-                          </div>
-                          <!-- AREA CONSTRUCCION-->
-                          <div class="row">
-                            <label for="areaConstruc_e" class="cajalabel2">Area Const.(m2)</label>
-                            <label id="areaConstruc_e">-</label>
-                          </div>
-                          <!-- VALOR PREDIO POR AÑO-->
-                          <div class="row">
-                            <label for="valorPredioAnio_e" class="cajalabel2">Valor Total</label>
-                            <label id="valorPredioAnio_e">-</label>
-                          </div>
-                        </div>
-
-                        <div class="col-12 col-md-8"><!-- LADO 2 DESCRIPCION DEL PREDIO-->
-                          <legend class="text-bold" style="margin-left:15px; font-size:1.3em; letter-spacing: 1px;">Descripcion predio</legend>
-                         
-                         
-                          <div class="col-12 col-md-6">
-                            <!-- TIPO PREDIO   -->
-                            <div class="row">
-                              <label for="tipoPredio_e" class="cajalabet"> Tipo </label>
-                              <select class="form2" name="tipoPredio_e" id="tipoPredio_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'tipo_predio';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_Tipo_Predio'] . "'>" . $data_d['Tipo'] . '</option>';
-                                }
-                                ?>
-                              </select>
-                            </div>
-                            <!-- USO PREDIO    -->
-                            <div class="row">
-                              <label for="usoPredio_e" class="cajalabet"> Uso</label>
-                              <select class="form2" name="usoPredio_e" id="usoPredio_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'uso_predio';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_Uso_Predio'] . "'>" . $data_d['Uso'] . '</option>';
-                                }
-                                ?>
-                              </select>
-                            </div>
-                            <!-- ESTADO PREDIO -->
-                            <div class="row">
-                              <label for="estadoPredio_e" class="cajalabet"> Estado</label>
-                              <select class="form2" name="estadoPredio_e" required="" id="estadoPredio_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'estado_predio';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_Estado_Predio'] . "'>" . $data_d['Estado'] . '</option>';
-                                }
-                                ?>
-                              </select>
-                            </div>
-
-
-
-
-                            <!-- GIRO ESTABLECIMIENTO -->
-                            <div class="row "  style="margin-top: 3px; margin-bottom: 3px" >
-                              <label for="giroPredio_e" class="cajalabet"> Giro Est.</label>
-
-                                  <select id="giroPredio_e" class="form2" name="giroPredio_e" required style="width: 66%">
-                                        <option value=""></option> <!-- Para placeholder -->
-                                        <?php
-                                        $tabla = 'giro_establecimiento';
-                                        $registros = ControladorPredio::ctrMostrarData($tabla);
-                                        foreach ($registros as $data_d) {
-                                          echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
-                                        }
-                                        ?>
-                                </select>
-
-                            </div>
-
-
-
-                            
-
-
-                            <!-- CONDICION DEL PREDIO  -->
-                            <div class="row">
-                              <label for="condicionPredio_e" class="cajalabet"> Cond.
-                              </label>
-                              <select class="form2" name="condicionPredio_e" required="" id="condicionPredio_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'condicion_predio';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_Condicion_Predio'] . "'>" . $data_d['Condicion'] . '</option>';
-                                }
-                                ?>
-                              </select>
-                            </div>
-                            <!--FECHA DE ADQUICISION-->
-                            <div class="row">
-                              <label for="fechaAdqui_e" class="cajalabet">Fec Adq.</label>
-                              <input type="date" class="form2" name="fechaAdqui_e" id="fechaAdqui_e">
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <!--REGIMEN AFECTACION-->
-                            <div class="row">
-                              <label for="regInafecto_e" class="cajalabet"> Reg.Inaf</label>
-                              <select class="form2" name="regInafecto_e" id="regInafecto_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'regimen_afecto';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_Regimen_Afecto'] . "'>" . $data_d['Regimen'] . '</option>';
-                                }
-                                ?>
-                              </select>
-                            </div>
-
-                         <div class="row" id="fecha_ini_div" style="display: none; justify-content: flex-end; align-items: center;">
-                              <label for="fechaInicio_e" class="cajalabet" style="margin-right: 10px; margin-left:24px">Fecha ini.</label>
-                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaInicio_e" id="fechaInicio_e">
-                          </div>
-
-                          <div class="row" id="fecha_fin_div" style="display: none;  justify-content: flex-end; align-items: center;">
-                              <label for="fechaFin_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">Fecha fin</label>
-                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaFin_e" id="fechaFin_e">
-                          </div>
-
-                          <div class="row" id="expediente_div" style="display: none; justify-content: flex-end; align-items: center;">
-                              <label for="numeroExpediente_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">N° exped.</label>
-                              <input type="text" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="numeroExpediente_e" id="numeroExpediente_e">
-                          </div>
-
-                            
-                            <!-- ENTRADA REGIMEN AFECTACION POR COMPAÑIA -->
-                            <div class="row">
-                              <label for="afecto_e" class="cajalabet"> Inafecto</label>
-                              <select class="form2" name="afecto_e" id="afecto_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'inafecto';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_inafecto'] . "'>" . $data_d['Inafectacion'] . '</option>';
-                                }
-                                ?>
-                              </select>
-                            </div>
-                            <!--AFECTACION ARBITRIOS-->
-                            <div class="row">
-                              <label for="afectacionArb_e" class="cajalabet">Afec.Arbit.</label>
-                              <select class="form2" name="afectacionArb_e" required="" id="afectacionArb_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'arbitrios';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_Arbitrios'] . "'>" . $data_d['Categoria'] . '</option>';
-                                }
-                                ?>
-                              </select>
-                            </div>
-                            <!--EXPEDIENTE -->
-                            <div class="row">
-                              <label for="nroExpediente_e" class="cajalabet"># Exped.</label>
-                              <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form2" name="nroExpediente_e" id="nroExpediente_e" maxlength="10">
-                            </div>
-                            <!--FECHA DE INICIO-->
-                            <div class="row">
-                              <label class="cajalabet">F.Inicio</label>
-                              <label id="fechaIni">01-01-2023</label>
-                            </div>
-                            <!--FECHA DE FINALIZA-->
-                            <div class="row">
-                              <label class="cajalabet">F.Fin</label>
-                              <label id="fechaFin">31-12-2023</label>
-                            </div>
-                          </div>
-                        </div>
-                        <!--OBSERVACIONES-->
-                      </div>
-                      <div class="row">
-                        <div>
-                          <label for="observacion_e" class="cajalabel2">Obervaciones</label>
-                          <input style="width: 50%;" type="text" pattern="[A-Za-z0-9\s:.\-]+" title="Solo se permiten letras" name="observacion_e" id="observacion_e" maxlength="70">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                 
-                <!--====== LEVANTAMIENTO YANO ==-->
-                <div id="divDescripPreu" >
-                  <div class="box box-success" style="border-top: 0px;">
-                    <div class="box-body" style="border: 1px dotted gray;  ">
-                      <div class="row">
-
-
-                       <div class="col-md-4">
-                   
-                      <div class="row2">
-                        <div class="flex">
-                          <button type="button" class="bi bi-cart-fill btn btn-secundary btn-1" id="btnAbrirModal" style="border: 1px solid #6c757d; padding: 5px 10px; border-radius: 5px;">Agregar negocio</button>
-
-                          <!-- <button type="button" class="bi bi-geo-alt-fill btn btn-secundary btn-1" data-toggle="modal" data-target="#modalRegistrar_negocio">Agregar negocio</button>
-                        -->
-                       
-                       
-                        </div>
-                       
-                      </div>
-                  </div>
-                      
-                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                        
-                              <div class="row">
-                                  <label for="npersonas_e" class="cajalabel2">¿Cuantas personas viven?</label>
-                                  <input type="number" title="Solo se permiten números" class="form33" name="npersonas_e" id="npersonas_e" maxlength="10" required="">
-                            
-                            
-                                </div>
-
-                                     
-
-                        </div>
-
-
-                         <div class="col-12 col-md-5"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                        
-                            
-                            <!-- TIENE AGUA DEL MISMO PREDIO -->
-                                <div class="row align-items-center">
-                                  <div class="d-flex align-items-center">
-                                  <span class="cajalabet">¿Tiene agua el predio?</span>
-                                  </div>
-
-                                <div class="col-auto d-flex align-items-center">
-                                <input type="radio" id="agua_si" name="tieneAgua" value="si" />
-                                <label for="agua_si" class="cajalabet">Sí</label>
-
-                                <input type="radio" id="agua_no" name="tieneAgua" value="no" />
-                                <label for="agua_no" class="cajalabet">No</label>
-
-                                <input type="radio" id="agua_cla" name="tieneAgua" value="cl" />
-                                <label for="agua_cla" class="cajalabet">Clandestino</label>
-
-
-
-
-
-                              </div>
-                               <div class="row"  id="paga_otro_nombre_row">
-                                      <label for="paga_otro_nombre_e" class="cajalabel22">¿Paga a otro nombre?(opcional)</label>
-                                        <input type="text" title="Solo se permiten números" class="form33" name="paga_otro_nombre_e" id="paga_otro_nombre_e" maxlength="150" required="">
-                                  
-                                 </div>
-
-
-                                </div>
-
-
-                        </div>
-
-
-                        
-                         <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                        
-                            
-                            <!-- TIENE AGUA DEL MISMO PREDIO -->
-                               
-
-
-                        </div>
-
-
-                       
-
-
-
-
-
-
-
-
-
-                        <!--OBSERVACIONES-->
-                      </div>
-                      
-                    </div>
-                  </div>
-                </div>
-
-          
-
-                  <!--====== LISTA DE NEGOCIOS ==-->
-
-                  <div id="divUbigeoPreu">
-                  <div class="box">
-                    <div class="box-body">
-                   
-                      <!-- Tabla-->
-                      <div class="row2">
-                      
-                            <table class="table-container">
-                              <thead>
-                                <tr>
-                                 <th style="text-align: center;">Razon social</th>
-                                  <th style="text-align: center;">licencia</th>
-                                  <th style="text-align: center;">Ruc</th>
-                                  <th style="text-align: center;">Area</th>
-                                  <th style="text-align: center;">Agua</th>
-                                  <th style="text-align: center;">ITSE</th>
-                                   <th style="text-align: center;">Accion</th>
-                                </tr>
-                              </thead>
-                              <tbody id="listaNegocio">
-                              </tbody>
-                            </table>
-                         
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div>
-
-
-
-                
-
-
-                <!--====== ENTRADA UBIGEO PREDIO RUST =========-->
-                <div id="divUbigeoPreR">
-
-                  <div class="">
-                    <div class="row2">
-                      <span class="caption_">Informacion de Ubicacion del Predio</span>
-                      <div class="flex">
-                        <button id="btnAbrirUbigeoRural_e" type="button" class="btn btn-secundary" data-toggle="modal" data-target="#moda_PredioRusticoe"><i class="bi bi-geo-fill"></i>UBIGEO PREDIO RUSTICO I</button>
-                      </div>
-                    </div>
-                    <!-- Tabla-->
-
-                    <table class="table-container">
-                      <thead>
-                        <tr>
-                          <th>Nombre Zona</th>
-                          <th>IdZona</th>
-                          <th>Grupo Tierra</th>
-                          <th>Categoria</th>
-                          <th>Calidad Agricola</th>
-                          <th>Valor x Hectarea</th>
-                          <th>Año</th>
-                          <th>id</th>
-                        </tr>
-                      </thead>
-                      <tbody id="itemsR">
-                      </tbody>
-                    </table>
-
-                  </div>
-                  <!-- -->
-                  <div class="box-body" style="border: 1px dotted gray; border-top: 0px ; padding-top:5px; ">
-                    <div class="col-12 col-md-4"> <!-- LADO 1 DENOMINACION PREDIO RURAL-->
-                      <!-- ENTRADA DENOMINACION RURAL-->
-                      <div class="">
-                        <label for="denoSectorR_e" class="cajalabel2">Denominacion Rural</label>
-                        <input type="text" pattern="[A-Za-z0-9\s:.\-]+" title="" class="form5" name="denoSectorR_e" id="denoSectorR_e" required="">
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-8"> <!-- LADO 2 COLINDANTES-->
-                      <div class="">
-                        <label for="" class="cajalabel2">Colindantes </label>
-                        <input for="" class="form2" value="Propietarios" disabled>
-                        <input for="" class="form2" value="Denominacion Rural" disabled>
-                      </div>
-                      <div class="">
-                        <label for="colSurNombre" class="cajalabel2">Colindante Sur</label>
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colSurNombre_e" id="colSurNombre_e" maxlength="50" required="">
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colSurSector_e" id="colSurSector_e" maxlength="50" required="">
-                      </div>
-                      <div class="">
-                        <label for="colNorteNombre" class="cajalabel2">Colindantes Norte</label>
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colNorteNombre_e" id="colNorteNombre_e" maxlength="50" required="">
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colNorteSector_e" id="colNorteSector_e" maxlength="50" required="">
-                      </div>
-                      <div class="">
-                        <label for="colEsteNombre" class="cajalabel2">Colindantes Este </label>
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colEsteNombre_e" id="colEsteNombre_e" maxlength="50" required="">
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colEsteSector_e" id="colEsteSector_e" maxlength="50" required="">
-                      </div>
-                      <div class="">
-                        <label for="colOesteNombre" class="cajalabel2">Colindantes Oeste</label>
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colOesteNombre_e" id="colOesteNombre_e" maxlength="50" required="">
-                        <input type="text" pattern="[0-9]+" title="" class="form2" name="colOesteSector_e" id="colOesteSector_e" maxlength="50" required="">
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-
-              <!--====== DESCRIPCION ENTRADA PREDIO RUST =====-->
-              <div id="divDescriPreR">
-
-                <div class="box box-success" style="border-top: 0px;">
-                  <div class="box-body" style="border: 1px dotted gray; padding-top:0px; ">
-                    <div class="row">
-                      <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO-->
-
-                        <legend class="text-bold" style="margin-left:15px; font-size:1.3em; letter-spacing: 1px;">PARAMETROS PREDIO RUSTICO:</legend>
-
-                        <!-- ENTRADA AREA TERRENO-->
-                        <div class="row">
-                          <label for="areaTerrenoR_e" class="cajalabel2">Area (Hectareas)</label>
-                          <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form3" name="areaTerrenoR_e" id="areaTerrenoR_e" maxlength="10" required="">
-                        </div>
-                        <!-- VALOR ARANCEL-->
-                        <div class="row">
-
-                          <label for="" class="cajalabel2">Valor Arancel</label>
-                          <label id="valorArancelR">-</label>
-
-                        </div>
-                        <!-- VALOR TERRENO-->
-                        <div class="row">
-
-                          <label class="cajalabel2">Valor Terreno</label>
-                          <label id="valorTerrenoR_e">-</label>
-
-                        </div>
-                        <!-- VALOR PREDIO POR AÑO-->
-                        <div class="row">
-
-                          <label for="" class="cajalabel2">Valor Predio</label>
-                          <label id="valorPredioRAnio_e">-</label>
-
-                        </div>
-                        <!--FECHA DE INICIO-->
-                        <div class="row">
-
-                          <label class="cajalabel2">Fecha Inicio</label>
-                          <label id="fechaIni">01-01</label>
-
-                        </div>
-                        <!--FECHA DE FINALIZA-->
-                        <div class="row">
-
-                          <label class="cajalabel2">Fecha Finaliza</label>
-                          <label id="fechaFin">31-12</label>
-
-                        </div>
-
-                      </div>
-
-                      <div class="col-12 col-md-8"><!-- LADO 2 DESCRIPCION DEL PREDIO-->
-
-                        <legend class="text-bold" style="margin-left:15px; font-size:1.3em; letter-spacing: 1px;">DESCRIPCION DEL PREDIO:</legend>
-                        <div class="col-12 col-md-6">
-                          <!-- TIPO PREDIO   -->
-                          <div class="row">
-                            <label for="tipoPredioR_e" class="cajalabel2"> Tipo Predio</label>
-                            <select class="form2" name="tipoPredioR_e" id="tipoPredioR_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'tipo_predio';
-                              $registros = ControladorPredio::ctrMostrarDataItems($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_Tipo_Predio'] . "'>" . $data_d['Tipo'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-
-                          <!-- USO PREDIO    -->
-                          <div class="row">
-                            <label for="usoPredioR_e" class="cajalabel2"> Uso Predio</label>
-                            <select class="form2" name="usoPredioR_e" id="usoPredioR_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'uso_predio';
-                              $registros = ControladorPredio::ctrMostrarData($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_Uso_Predio'] . "'>" . $data_d['Uso'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-
-                          <!-- ESTADO PREDIO -->
-                          <div class="row">
-                            <label for="estadoPredioR_e" class="cajalabel2"> Estado del Predio</label>
-                            <select class="form2" name="estadoPredioR_e" required="" id="estadoPredioR_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'estado_predio';
-                              $registros = ControladorPredio::ctrMostrarData($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_Estado_Predio'] . "'>" . $data_d['Estado'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-
-                          <!-- CONDICION DEL PREDIO  -->
-                          <div class="row">
-                            <label for="condicionPredioR_e" class="cajalabel2"> Cond. Propietario
-                            </label>
-                            <select class="form2" name="condicionPredioR_e" required="" id="condicionPredioR_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'condicion_predio';
-                              $registros = ControladorPredio::ctrMostrarData($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_Condicion_Predio'] . "'>" . $data_d['Condicion'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-
-                          <!--FECHA DE ADQUICISION-->
-                          <div class="row">
-                            <div class="form-group">
-                              <label for="fechaAdquiR_e" class="cajalabel2">Fecha Adquisicion</label>
-                              <input type="date" class="form2" name="fechaAdquiR_e" id="fechaAdquiR_e">
-                            </div>
-                          </div>
-
-                        </div>
-                        <div class="col-12 col-md-6">
-                          <!--REGIMEN AFECTACION-->
-                          <div class="row">
-                            <label for="regInafectoR_e" class="cajalabel2"> Reg. Inafecto</label>
-                            <select class="form2" name="regInafectoR_e" id="regInafectoR_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'regimen_afecto';
-                              $registros = ControladorPredio::ctrMostrarData($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_Regimen_Afecto'] . "'>" . $data_d['Regimen'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-                          <!-- ENTRADA REGIMEN AFECTACION POR COMPAÑIA -->
-                          <div class="row">
-                            <label for="inafectoRpor_e" class="cajalabel2"> Inafecto</label>
-                            <select class="form2" name="inafectoRpor_e" required="" id="inafectoRpor_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'inafecto';
-                              $registros = ControladorPredio::ctrMostrarData($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_inafecto'] . "'>" . $data_d['Inafectacion'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-                          <div class="row">
-                            <label for="tipoTerrenoR_e" class="cajalabel2"> Tipo Terreno</label>
-                            <select class="form2" name="tipoTerrenoR_e" required="" id="tipoTerrenoR_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'tipo_terreno';
-                              $registros = ControladorPredio::ctrMostrarData($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_Tipo_Terreno'] . "'>" . $data_d['Tipo_Terreno'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-                          <div class="row">
-                            <label for="usoTerrenoR_e" class="cajalabel2"> Uso Terreno</label>
-                            <select class="form2" name="usoTerrenoR_e" required="" id="usoTerrenoR_e">
-                              <option value="" selected="" disabled="">Seleccione</option>
-                              <?php
-                              $tabla = 'uso_terreno';
-                              $registros = ControladorPredio::ctrMostrarData($tabla);
-                              foreach ($registros as $data_d) {
-                                echo "<option value='" . $data_d['Id_Uso_Terreno'] . "'>" . $data_d['Uso_Terreno'] . '</option>';
-                              }
-                              ?>
-                            </select>
-                          </div>
-                          <!--EXPEDIENTE -->
-                          <div class="row">
-                            <div class="form-group">
-                              <label for="nroExpedienteR_e" class="cajalabel2">#Expediente</label>
-                              <input type="text" pattern="[0-9]+" title="Solo se permiten números" class="form2" name="nroExpedienteR_e" id="nroExpedienteR_e" maxlength="10">
-                            </div>
-                          </div>
-
-                        </div>
-
-                      </div>
-                      <!--OBSERVACIONES-->
-                    </div>
-                    <div class="row">
-                      <div>
-                        <label for="observacionR_e" class="cajalabel2">Obervaciones</label>
-                        <input style="width: 50%;" type="text" pattern="[A-Za-z0-9\s:.\-]+" title="Solo se permiten letras" name="observacionR_e" id="observacionR_e" maxlength="70">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              
-
-          </div>
-          </form>
-        </div>
-      </div>
-
-      <div class="modal-footer" style="padding-top: 0 !important;padding-bottom: 0 !important;">
-
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-        <button type="button" class="btn btn-primary" id="btnGuardarPredio_e"><i class="bi bi-floppy2-fill"></i> Guardar Cambios s</button>
-    
-      </div>
-
-
-    </div>
-    <div id="respuestaFechaEdit"></div>
-  </div>
-</div>
 
 
 
@@ -3792,7 +4194,7 @@ $idArray = array_filter($idArray);
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                Estado de Cuenta para coactivo
+                Estado de Cuenta para coactivo aqui
             </div>
             <div class="modal-body" style="padding: 0;">
                 <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
@@ -3800,7 +4202,7 @@ $idArray = array_filter($idArray);
                     <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
 
                        
-
+  
                     <div class="row " style="margin-bottom: 8px;">
                       <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
                           Estado de Cuenta + Tasa de Interés Moratorio (TIM)
@@ -3843,8 +4245,8 @@ $idArray = array_filter($idArray);
                                 <thead>
                                     <tr   >
                                     <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
-            S
-        </th>
+                                        S
+                                    </th>
 
                                         <th class="text-center" style="width:50px;">Cod.</th>
                                         <th class="text-center" style="width:100px;">Tributo</th>
@@ -3886,21 +4288,7 @@ $idArray = array_filter($idArray);
                       </tbody>
                   </table>
 
-                    <!-- Segunda tabla donde muestra el botón imprimir y el total del estado de cuenta-->
-                    <!-- <table class="table-container" id="segundaTablac" style="width: 100%;">
-                        <tbody>
-                            <th class="text-center" style="width:40px;"></th>
-                            <th class="text-right td   -round total_c" style="width:150px;">Total Deuda </th>
-                            <th class="text-left td-round total_c" style="width:50px;"></th>
-                            <th class="text-center td-round" style="width:45px;"></th>
-                            <th class="text-center td-round" style="width:45px;"></th>
-                            <th class="text-center td-round" style="width:44px;"></th>
-                            <th class="text-center td-round" style="width:55px;"></th>
-                            <th class="text-center rd-round" style="width:43px;"></th>
-                            <th class="text-center rd-round" style="width:58px; font-size:16px;"></th>
-                        </tbody>
-                    </table> -->
-
+                
                 </section>
             </div>
             <div class="modal-footer">
@@ -3912,14 +4300,2168 @@ $idArray = array_filter($idArray);
     </div>
 </div>
 
-<!--FIN DETALLE ESTADO CUENTA coactivo-->
+<!--====INICIO MODAL ANEXO 01-->
+
+<div class="modal fade" id="modalCartaRecordatorio" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                 Carta recordatoria de pago 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_coactivo_reco" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablacRecor" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablacRecor" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirCartaRecordatorio">Imprimir</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 2-->
+
+<div class="modal fade" id="modalRequerimientoPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Requerimiento de pago (post vencimiento y antes de la notificación de valores) 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_coactivopagono" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaRequePaga" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaPagoReque" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirRequerimientoPago">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 
+<!--FIN MODAL ANEXO 03-->
+
+<div class="modal fade" id="modalEsquelaCobranza" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
 
 
-<!--====== MODAL ORDEN DE PAGO -->
+            <div class="modal-header">
+                Formato de esquela de cobranza (post notificación de valores)
+            </div>
+
+
+
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_esquela" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                          <table class="table-container " id="primeraTablaEsquelPago" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaEsquelaPago" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirEsquelaPago">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--FIN MODAL ANEXO 04-->
+
+<div class="modal fade" id="modalGestionDomiciliaria" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+               Formato de acta de visita en una gestión domiciliaria 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_gestion_domi" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaGestionDomi" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaGestionDomi" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirGestionDomiciliaria">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 05-->
+
+<div class="modal fade" id="modalCobranzaTelefonica" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            Formatos de “speech” de cobranza telefónica 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_gestion_cotelefono" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaCoTelefo" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaCoTelefonica" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirCobranzaTelefonica">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 07-->
+
+
+<div class="modal fade" id="modalResolucionDeterminacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            Resolución de Determinación 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_reso_determinacion" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container "   id="primeraTablaResoDete"  style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaResoDete" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirResoDeter">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 08-->
+
+
+<div class="modal fade" id="modalResolucionMulta" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+             Resolución de Multa 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_reso_multa" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaResoMulta" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaResoMulta" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirResoMulta">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 09-->
+
+<div class="modal fade" id="modalPerdidaFraccionamiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                 Resolución de pérdida de fraccionamiento 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_per_fra" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablacPer" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablacper" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirPerdidaFraccionamiento">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 10-->
+<!--======  INICIO MODAL RESOLUCION DE APROBACION -->
+<div class="modal fade" id="modalFraccionadoDeuda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              solicitud de fraccionamiento de deuda 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_coactivo_eduda" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablacRosoDeuda" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablacResoDeuda" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirResoDeuda">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 11-->
+<!--======  INICIO MODAL RESOLUCION DE APROBACION -->
+<div class="modal fade" id="modalAprobacionFracciona" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              Resolución de aprobación de un fraccionamiento
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_aprobacion" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablacRosoApro" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablacResoApro" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirResoApro">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 12-->
+<!--======  INICIO MODAL RESOLUCION DE APROBACION -->
+<div class="modal fade" id="modalConcentidaDeuda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              Constancia de haber quedado consentida la deuda para el inicio del proceso coactivo 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_consentida_deuda" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaConcenDeua" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaConcentidaDeuda" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirConcentidaDeu">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 14 -->
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalrResolucionAcumulacionDOS" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">  
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+               14- Resolución Ejecución Coactiva DOS por acumulación 
+
+
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_reso_acu" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaResoDosAcu" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaResoDosAcu" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirResoDosAcu">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--FIN MODAL ANEXO 15 -->
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalResolucionVehicular" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+              15--- Resolución Ejecución Coactiva DOS. Por acumulación y/o ejecución, trabando Medida Cautelar en forma de secuestro conservativo y/o 
+            
+            
+            
+              </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_vehicular" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaVehicular" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaVehicular" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirVehicular">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--FIN MODAL ANEXO 16 -->
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalResolucionInmueble" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+               16- Resolución Ejecución Coactiva DOS. Por acumulación
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_inmueble" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaInmueble" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaInmueble" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirInmueble">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--FIN MODAL ANEXO 17 -->abrirResoSuspencion
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalrResolucionAcumulacionEjecucion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+             17- Formato de Resolución Ejecución Coactiva DOS por acumulación y/o ejecución. 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_acumulacion" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaAcumulacione" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaAcumulacionn" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirAcumulaciona">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 18 -->
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalFormatoSuspencion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+             18-  Suspensión del procedimiento coactivo 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_suspencion" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaSuspencion" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaSuspencion" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirSuspencion">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--FIN MODAL ANEXO 19 -->
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalTerceraPropiedad" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+             19-  Tercería de propiedad 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_propiedad" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaPropiedad" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaPropiedad" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirPropiedad">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--FIN MODAL ANEXO 20 -->
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalNotificacionValores" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+              20- Cargo de notificación de valores tributarios 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_valores" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaValores" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaValores" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirValores">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL ANEXO 21 -->
+<!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
+<div class="modal fade" id="modalCargoNotificiacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+             21-  Notificación de resoluciones de ejecución coactiva 
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Ajustamos el estilo del cuerpo del modal a 100% -->
+                <section class="container-fluid panel-medio">
+                    <div class="box-body table-responsive" style="width: 100%; overflow-x: auto;">
+
+                       
+
+                    <div class="row " style="margin-bottom: 8px;">
+                      <div class="col-md-8 pl-0 pr-0"> <!-- Quité el padding de izquierda y derecha -->
+                          Estado de Cuenta + Tasa de Interés Moratorio (TIM)
+                      </div>
+                      <div class="col-md-4 pl-0 pr-0">
+                      <!-- <select class="busqueda_filtros pull-right" id="select_tributo_orden" name="select_tributo_orden">
+                          <option value="trimestre">Trimestre</option>
+                          <option value="anios">Años</option>
+                      </select> -->
+
+                      <select class="busqueda_filtros pull-right" id="anio_orden_cargo" name="select_tributo_orden">
+                        <?php
+                        $anio = [
+                            ["Id_Anio" => "trimestre", "NomAnio" => "Trimestre"],
+                            ["Id_Anio" => "anio", "NomAnio" => "Año"]
+                          
+                        ];
+
+                        // Usamos un ciclo para generar las opciones del select
+                        foreach ($anio as $data_anio) {
+                            // Aquí se evalúa si la opción debe estar seleccionada
+                            $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+                            echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . "</option>";
+                        }
+                        ?>
+                    </select>
+
+
+                  
+                  </div>
+
+                  </div>
+
+
+                        <div class="box divDetallePredio">
+                            <!-- Hacemos la tabla de ancho completo <th class="seleccionado text-center" style="width:20px; padding: 0;">
+                                        <input type="checkbox" style="width:15px; height:15px; margin: 0;" id="selectAll">
+                                    </th> -->
+                                    <table class="table-container " id="primeraTablaCargo" style="width: 100%;">
+                                <thead>
+                                    <tr   >
+                                    <th class="seleccionado text-center" style="width:20px; padding: 0; cursor:pointer">
+                                        S
+                                    </th>
+
+                                        <th class="text-center" style="width:50px;">Cod.</th>
+                                        <th class="text-center" style="width:100px;">Tributo</th>
+                                        <th class="text-center" style="width:50px;">Año</th>
+                                        <th class="text-center" style="width:50px;">Periodo</th>
+                                        <th class="text-center" style="width:50px;">Importe</th>
+                                        <th class="text-center" style="width:50px;">Gasto</th>
+                                        <th class="text-center" style="width:50px;">Subtotal</th>
+                                        <th class="text-center" style="width:50px;" id="des_es">Descuento</th>
+                                        <th class="text-center" style="width:50px;">T.I.M</th>
+                                        <th class="text-center" style="width:50px;">Total</th>
+                                      
+                                    </tr>
+                                </thead>
+
+                                <tbody id="estadoCuenta" class="scrollable perdidaFraccionamiento">
+                                  <!-- Aqui Aparecen los estado de cuenta-->
+                                </tbody>
+                           
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                    <table class="table-container" id="segundaTablaCargo" style="width: 100%;">
+                      <tbody>
+                          <tr>
+                          <td class="text-center" style="width:40px;"></td>
+                          <td class="text-right td-round total_c" style="width:150px; font-weight: bold;">Total Deuda</td>
+                          <td class="text-left td-round total_c" style="width:50px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:45px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:44px; font-weight: bold;"></td>
+                          <td class="text-center td-round" style="width:55px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:43px; font-weight: bold;"></td>
+                          <td class="text-center rd-round" style="width:58px; font-size:16px; font-weight: bold;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary " id="popimprimirCargo">Imprimir coactivo</button>
+      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL RESOLUCION DE ACUMULACION-->
+
+<!--===== MODAL ORDEN DE PAGO -->
 <div class="modal fade" id="modalOrdenPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -4031,12 +6573,6 @@ $idArray = array_filter($idArray);
     </div> <!-- /modal-content -->
   </div> <!-- /modal-dialog -->
 </div> <!-- /modal -->
-
-
-<!--====== FIN DEL MODAL ORDEN DE PAGO =======-->
-
-<!-- modal donde se genera el pdf oden pago - impuesto-->
-<!--====== FIN DEL MODAL ORDEN DE PAGO =======-->
 
 <!-- modal donde se genera el pdf oden pago - impuesto-->
 <div class="container-fluid">

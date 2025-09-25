@@ -483,7 +483,7 @@ public static function mdlMostrarNotificacion($filtro_nombre = '', $filtro_fecha
             $query .= ($filtro_nombre != '' || $filtro_fecha != '') ? " AND na.estado = :filtro_estado" : " WHERE na.estado = :filtro_estado";
         }
 
-          $query .= " ORDER BY na.Fecha_Registro DESC"; 
+        $query .= " ORDER BY na.Fecha_Registro DESC"; 
           
         // Limitar los resultados según la paginación
         $query .= " LIMIT :inicio, :resultados_por_pagina";
@@ -511,6 +511,8 @@ public static function mdlMostrarNotificacion($filtro_nombre = '', $filtro_fecha
 
         // Retornar todos los resultados
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
     } catch (PDOException $e) {
         // Manejo de errores
         echo "Error: " . $e->getMessage();

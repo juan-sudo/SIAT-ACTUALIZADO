@@ -178,6 +178,7 @@ actualizarTotales() {
  $("#segundaTablac tbody td:eq(6)").text(formatearNumero(this.totalDescuento));
  $("#segundaTablac tbody td:eq(7)").text(formatearNumero(this.totalTIM));
  $("#segundaTablac tbody td:eq(8)").text(formatearNumero(this.totalTotal));
+ 
 }
 
 
@@ -546,21 +547,6 @@ imprimirherecoactivo() {
       console.log("esat es el valro de I",this.totalTotalI);
     console.log("esat es el valro de I",this.totalTotalA);
 
-
-  // Verificar si los valores están vacíos
- 
-  // Verificar si los valores están vacíos
-//   if (!this.totalTotal) {
-//     // Mostrar el primer modal si algún valor está vacío
-//     $('#modal_vacio_coactivo').modal('show');
-//     console.log("Los valores están vacíos. Se muestra el primer modal.");
-//     return; // Detener ejecución para evitar mostrar el segundo modal
-// } else {
-//     // Mostrar el segundo modal si los valores no están vacíos
-//     console.log("Los valores no están vacíos. Se muestra el segundo modal.");
-//     $("#Modalimprimir_cuenta_coactivo").modal("show");
-// }
-
   if (
       (this.totalTotalI == null || this.totalTotalA == null) || 
       (this.totalTotalI === 0 && this.totalTotalA === 0)
@@ -583,14 +569,7 @@ imprimirherecoactivo() {
   datos.append("id_cuenta", idsSeleccionados_);
   datos.append("propietarios", Propietarios);
   datos.append("carpeta", predio.carpeta);
-  // datos.append("totalImporte", this.totalImporte.toFixed(2));
-  // datos.append("totalGasto", this.totalGasto.toFixed(2));
-  // datos.append("totalSubtotal", this.totalSubtotal.toFixed(2));
-  // datos.append("totaldescuento", this.totalDescuento.toFixed(2));
-  // datos.append("totalTIM", this.totalTIM.toFixed(2));
-  // datos.append("totalTotal", this.totalTotal.toFixed(2));
 
-  
      //TOTAL PARA IMPUESTO
      datos.append("totalImporteI", this.totalImporteI.toFixed(2));
     datos.append("totalGastoI", this.totalGastoI.toFixed(2));
@@ -653,9 +632,6 @@ imprimirherecoactivo() {
 
 
 //////////////////////FIN MODAL COACTIVO///////////////////////////////
-
-
-
 
 
 

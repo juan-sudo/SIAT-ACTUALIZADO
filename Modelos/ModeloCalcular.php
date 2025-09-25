@@ -4867,12 +4867,19 @@ class ModeloCalcular
 		// Calcular impuesto
 		$impuesto_anual = 0;
 		if ($base_imponible <= ($uit['uit'] * 3)) {
+			
 			$impuesto_anual = ($uit['uit'] * 3) * 0.002;
+
+
 		} elseif ($base_imponible > ($uit['uit'] * 3) AND $base_imponible <= ($uit['uit'] * 15)) {
 			$impuesto_anual = $base_imponible * 0.002;
-		} elseif ($base_imponible > ($uit['uit'] * 15) AND $base_imponible <= ($uit['uit'] * 60)) {
+		}   
+		
+		elseif ($base_imponible > ($uit['uit'] * 15) AND $base_imponible <= ($uit['uit'] * 60)) {
 			$impuesto_anual = ($uit['uit'] * 15 * 0.002) + (($base_imponible - ($uit['uit'] * 15)) * 0.006);
-		} else {
+		} 
+		
+		else {
 			$impuesto_anual = ($uit['uit'] * 15 * 0.002) + (($uit['uit'] * 60 - $uit['uit'] * 15) * 0.006) + (($base_imponible - $uit['uit'] * 60) * 0.01);
 		}
 		

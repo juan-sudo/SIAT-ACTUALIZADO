@@ -8,8 +8,7 @@ class carpetaEditar {
   //CARGAR PARA EDITAR CARPETA
     editarCarpetaProgreso(idCarpeta){
   
-      console.log("aqui ya vas -------------", idCarpeta)
-  
+
       let idDireccion;
       let datos = new FormData();
       datos.append("idCarpeta", idCarpeta);
@@ -36,6 +35,18 @@ class carpetaEditar {
          if (respuesta["usuario"]) {
             $("#usuario_progreso").text(respuesta["usuario"]);
           }
+           if (respuesta["fecha_registro"]) {
+            $("#fecha_modificacion").text(respuesta["fecha_registro"]);
+          }
+
+
+        //USUARIO DE REGISTRA
+          if (respuesta["usu_registro"]) {
+            $("#usuario_registro").text(respuesta["usu_registro"]);
+          }
+            if (respuesta["Fecha_Registro"]) {
+            $("#fecha_registro").text(respuesta["Fecha_Registro"]);
+          }
 
           // Asignar observaciones
           if (respuesta["observacion_progreso"]) {
@@ -59,38 +70,10 @@ class carpetaEditar {
             $("#completado_campo").prop("checked", false);
           }
 
-
-
-          
-  
-          //  $("#codigo_carpeta").val(respuesta["Codigo_Carpeta"]); 
-  
             // Actualizar la barra de progreso en base al valor recibido
           actualizarBarraDeProgreso(respuesta["Estado_progreso"]);
   
-          // $("#iduc").val(respuesta["Id_Ubica_Vias_Urbano"]);
-          // $("#e_tipoDoc").val(respuesta["Id_Tipo_Documento"]);
-          // $("#e_docIdentidad").val(respuesta["Documento"]);
-          // $("#e_tipoContribuyente").val(respuesta["Id_Tipo_Contribuyente"]);
-          // $("#e_codigo_sa").val(respuesta["Codigo_sa"]);
-          // $("#e_razon_social").val(respuesta["Nombres"]);
-          // $("#e_clasificacion").val(respuesta["Id_Clasificacion_Contribuyente"]);
-          // $("#e_apellPaterno").val(respuesta["Apellido_Paterno"]);
-          // $("#e_apellMaterno").val(respuesta["Apellido_Materno"]);
-          // $("#e_condicionContri").val(respuesta["Id_Condicion_Contribuyente"]);
-          // $("#e_nroUbicacion").val(respuesta["Numero_Ubicacion"]);
-          // $("#e_nroLote").val(respuesta["Lote"]);
-          // $("#e_nroDepartamento").val(respuesta["Numero_Departamento"]);
-          // $("#e_nrobloque").val(respuesta["Bloque"]);
-          // $("#e_nroLuz").val(respuesta["Numero_Luz"]);
-          // $("#e_condicionpredio").val(respuesta["Id_Condicion_Predio_Fiscal"]);
-          // $("#e_referencia").val(respuesta["Referencia"]);
-          // $("#e_telefono").val(respuesta["Telefono"]);
-          // $("#e_correo").val(respuesta["Correo"]);
-          // $("#e_observacion").val(respuesta["Observaciones"]);
-          // $("#usuarioCoactivo").prop('checked',respuesta["Coactivo"]==='1');
-          // $("#usuarioFallecida").prop('checked',respuesta["Fallecida"]==='1');
-          // let idDireccion = respuesta["Id_Ubica_Vias_Urbano"];
+         
         },
       });
     }

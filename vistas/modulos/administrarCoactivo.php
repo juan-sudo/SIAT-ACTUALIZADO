@@ -34,24 +34,33 @@ use Controladores\ControladorNotificacion;
 
         <div class="box-header">
     <div class="col-md-3">
-        <label>Filtrar por nombre</label>
-        <input type="text" id="filtrar_nombre" name="filtrar_nombre" class="form-control" style="width: 100%;" placeholder="Ingrese nombre o apellidos">
+        <label for="filtrar_nombre_coactivo">Filtrar por nombre</label>
+        <input type="text" id="filtrar_nombre_coactivo" name="filtrar_nombre_coactivo" class="form-control" style="width: 100%;" placeholder="Ingrese nombre o apellidos">
     </div>
 
     <div class="col-md-2">
+        <label for="filtrar_op">Filtrar por orden pago</label>
+        <input type="text" id="filtrar_op" name="filtrar_op" class="form-control" style="width: 100%;" placeholder="Ingrese o.p.">
+    </div>
+     <div class="col-md-2">
+        <label for="filtrar_ex">Filtrar por expdiente</label>
+        <input type="text" id="filtrar_ex" name="filtrar_ex" class="form-control" style="width: 100%;" placeholder="Ingrese o.p.">
+    </div>
+
+    <!-- <div class="col-md-2">
         <label>Filtrar Estado</label>
-        <select id="filtrar_estado" name="filtrar_estado" class="form-control">
+        <select id="filtrar_estado_coactivo" name="filtrar_estado_coactivo" class="form-control">
             <option value="todos">Todos</option>
             <option value="N">Iniciado</option>
             <option value="C">Medida cautelar</option>
           
 
         </select>
-    </div>
+    </div> -->
 
      <div class="col-md-1">
         <label>Paginas</label>
-        <select id="resultados_por_pagina" name="resultados_por_pagina" class="form-control">
+        <select id="resultados_por_pagina_co" name="resultados_por_pagina_co" class="form-control">
             <option value="15" selected >15</option>
             <option value="25">25</option>
         </select>
@@ -84,17 +93,16 @@ use Controladores\ControladorNotificacion;
             <thead>
               <tr>
                
-                <th style="width:10px;"> </th>
-                 <th>Codigo</th>
-                 <th>N° expe.</th>
-                 <th>N° o.p.</th>
-                <th>Nombres y apellidos</th>
-               
-                <th>Domicilio</th>
-                 <th>Estado</th>
+                   <th style="width: 5%; text-align: center;">id</th>
+                 <th style="width: 5%;text-align: center;">Codigo</th>
+                 <th style="width: 10%; text-align: center;">N° expe.</th>
+                 <th style="width: 10%; text-align: center;">N° o.p.</th>
+                <th style="width: 25%;">Nombres y apellidos</th>
+                <th style="width: 25%;">Domicilio</th>
+                 <th style="width: 8%;text-align: center;">Estado</th>
               
                
-                <th style="width: 100px;text-align: center;">Acciones</th>
+                <th style="width: 12%;text-align: center;">Acciones</th>
               </tr>
             </thead>
 
@@ -107,7 +115,7 @@ use Controladores\ControladorNotificacion;
           </table>
            </div>
             <!-- Agregar la sección de paginación aquí -->
-          <div id="pagination" style="text-align: center;">
+          <div id="pagination_co" style="text-align: center;">
             <!-- Los enlaces de paginación se generarán aquí -->
           </div>
 
@@ -127,10 +135,64 @@ use Controladores\ControladorNotificacion;
 
 </div>
 
+<!-- MODAL EDITAR ADMINISTRACION COACTIVO -->
+<div id="modalEditarEstadoCuenta" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->  
+            <div class="modal-header" style="background-color: #3c8dbc; color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <h4 class="modal-title">Editar administracion coactivo</h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-6">
+                     <div class="form-group">
+                    <label for="numeroExpedienteCo">Numero de expediente</label>
+                    <input type="text" class="form-control" id="numeroExpedienteCo" name="numeroExpedienteCo" placeholder="Ingrese valor para el campo 1">
+                </div>
+
+                </div>
+                  <div class="col-lg-6">
+                      <!-- Segundo Input -->
+                <div class="form-group">
+                <label for="estadoCo">Estado</label>
+                <select class="form-control" id="estadoCo" name="estadoCo">
+                    <option value="" disabled selected>Seleccione un estado</option>
+                    <option value="I">Iniciado</option>
+                    <option value="M">Medida cautelar</option>     
+                </select>
+            </div>
+
+                </div>
 
 
-<!-- MODAL DE RECONEXION -->
-<div id="modalVerAgua" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+              </div>
+                <!-- Primer Input -->
+             
+
+              
+
+            </div>
+
+            <!-- Modal Footer (puedes agregar botones aquí si lo deseas) -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary btnGuadarAdministracionCoactivo">Guardar cambios</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- MODAL DE RECONEXION FIN -->
+
+<!-- MODAL MOSTRAR TOTAL DE COATCIVO -->
+<div id="modalEstadoCuenta" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -145,77 +207,28 @@ use Controladores\ControladorNotificacion;
 
          
 
-<!-- Modal Body -->
-<div class="modal-body estado_cuentaAgua_mostrar">
-    <div class="row divDetallePredioR">
-        <div class="table-responsive">
+          <!-- Modal Body -->
+          <div class="modal-body estado_cuentaAgua_mostrar">
+              <div class="row ">
+                  
+                  <table id="table-moto-anios">
 
-        <table id="table-moto-anios">
+                  </table>
 
-        </table>
+              
 
-        </div>
-    </div>
+               
+                      
+              </div>
+              <table id="pagina_total">
 
-</div>
+                  </table>
 
-<div class="modal-body estado_cuentaAgua_mostrar">
-  <div class="row align-items-center">
-    
+          </div>
 
-    <div class="col-md-6 text-md-end ">
-      <button type="button" class="btn btn-success " id="btnGuardar" style="display:none;">
-        <i class="far fa-save me-1"></i> Guardar
-      </button>
-      <button type="button" class="btn btn-danger " id="btnCancelar" style="display:none;">
-        <i class="far fa-times-circle me-1"></i> Cancelar
-      </button>
-      <button type="button" class="btn btn-primary" id="btnAsignar">
-        <i class="fas fa-plus-circle me-1"></i> Asignar Número expediente
-      </button>
-    </div>
-    
-  </div>
-</div>
+        
+     
 
-<div class="modal-body estado_cuentaAgua_mostrar " style="padding-left: 20px;padding-top:0px; padding-bottom:0px">
-  <div class="row align-items-center">
-    <div class="col-md-12">
-      <div class="form-group mb-0" style="align-items: center;">
-
-    <label for="">Numero de expediente</label>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="modal-body estado_cuentaAgua_mostrar " style="padding-left: 20px;padding-top:0px; padding-bottom:0px">
-  <div class="row align-items-center">
-    <div class="col-md-12">
-      <div class="form-group mb-0" style="align-items: center;">
-
-       <!-- Número de expediente mostrado como un badge -->
-     <p id="expedienteAsignado" class="fs-20 py-3 px-3" style="width: 100%; max-width: 250px; font-size: 30px;">
-      <span>N° </span> <span>15425</span>
-    </p>
-
-      <!-- Input para el número de expediente (con el mismo ancho, pero con un tamaño más pequeño) -->
-      <input type="text" id="numeroExpediente" class="form-control mt-2" placeholder="Número de expediente" 
-      style="display:none; width: 100%; max-width: 250px; height: 25px; padding: 10px 15px;">
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-          
 
         </div>
     </div>

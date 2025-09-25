@@ -9,24 +9,21 @@ class AjaxAdministracionCoactivo
 
     //mostrar lista de usuarios
     public function ajaxLista_Coactivo()
-{   
-    $filtroNombre = isset($_POST['filtro_nombre']) ? $_POST['filtro_nombre'] : '';
-    $filtroFecha = isset($_POST['filtro_fecha']) ? $_POST['filtro_fecha'] : '';
-    $filtroEstado = isset($_POST['filtro_estado']) ? $_POST['filtro_estado'] : '';
-    $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
-    
-    $resultados_por_pagina = isset($_POST['resultados_por_pagina']) ? (int)$_POST['resultados_por_pagina'] : 15;
+    {   
+        $filtroNombre = isset($_POST['filtro_nombre']) ? $_POST['filtro_nombre'] : '';
+        $filtro_op = isset($_POST['filtro_op']) ? $_POST['filtro_op'] : '';
+        $filtro_ex = isset($_POST['filtro_ex']) ? $_POST['filtro_ex'] : '';
+        $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
+        $resultados_por_pagina = isset($_POST['resultados_por_pagina']) ? (int)$_POST['resultados_por_pagina'] : 15;
 
-   
-    // Llamamos al controlador para obtener las notificaciones con filtros y paginación
-    $respuesta = ControladorAdministracionCoactivo::ctrMostrarAdministracionCoactivo($filtroNombre, $filtroFecha, $filtroEstado, $pagina, $resultados_por_pagina);
-  
- 
-
-    echo $respuesta;
-  
     
-}
+        // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+        $respuesta = ControladorAdministracionCoactivo::ctrMostrarAdministracionCoactivo($filtroNombre, $filtro_op,$filtro_ex, $pagina, $resultados_por_pagina);
+    
+        echo $respuesta;
+    
+        
+    }
 
     //mostrar lista de usuarios
     public function AjaxAdministracionCoactivoMontosAnios() 
@@ -36,13 +33,39 @@ class AjaxAdministracionCoactivo
     // Llamamos al controlador para obtener las notificaciones con filtros y paginación
     $respuesta = ControladorAdministracionCoactivo::ctrMostrarAdministracionCoactivoTotalAnio($idContribuyente);
   
-  
- 
-
     echo $respuesta;
   
     
     }
+     //MOSTRAR PARA EDITAR
+    public function AjaxEditarMoatrarCoactivo() 
+    {   
+    $idContribuyente = isset($_POST['idContribuyente']) ? $_POST['idContribuyente'] : '';
+   
+    // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+    $respuesta = ControladorAdministracionCoactivo::ctrMostrarEditar($idContribuyente);
+  
+    echo $respuesta;
+  
+    
+    }
+
+      //MOSTRAR PARA EDITAR
+    public function AjaxGuardarMoatrarCoactivo() 
+    {   
+    $idContribuyente = isset($_POST['idContribuyente']) ? $_POST['idContribuyente'] : '';
+    $expediente = isset($_POST['expediente']) ? $_POST['expediente'] : '';
+    $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+   
+    // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+    $respuesta = ControladorAdministracionCoactivo::ctrGuardarEditar($idContribuyente, $expediente, $estado);
+ 
+    echo $respuesta;
+  
+    
+    }
+
+    
 
 
 }
@@ -58,6 +81,20 @@ if (isset($_POST['lista_montos_coactivo'])) {
     $objlistapagina = new AjaxAdministracionCoactivo();
     $objlistapagina->AjaxAdministracionCoactivoMontosAnios();
 }
+
+//MOSTRAR PARA EDITAR
+if (isset($_POST['editar_coactivo'])) {
+    $objlistapagina = new AjaxAdministracionCoactivo();
+    $objlistapagina->AjaxEditarMoatrarCoactivo();
+}
+
+
+//MOSTRAR PARA EDITAR
+if (isset($_POST['guardar_coactivo'])) {
+    $objlistapagina = new AjaxAdministracionCoactivo();
+    $objlistapagina->AjaxGuardarMoatrarCoactivo();
+}
+
 
 
 

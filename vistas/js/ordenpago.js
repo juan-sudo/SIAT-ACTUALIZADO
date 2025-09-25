@@ -162,6 +162,7 @@ class OrdenPagoClass {
       datos.append("subtotal", this.totalDeuda_.Saldo);
       datos.append("tim", this.totalDeuda_.TIM_Aplicar);
       datos.append("total", this.totalDeuda_.Total_Aplicar);
+      
       for (let pair of datos.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
     }

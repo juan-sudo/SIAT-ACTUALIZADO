@@ -29,10 +29,12 @@ class ModeloCarpeta
     if ($item != null) {
 
      $stmt = $conexion->prepare(
-      "SELECT c.*, p.* , u.usuario 
+      "SELECT c.*, p.* , u.usuario , uc.usuario as usu_registro
       FROM carpeta c
       LEFT JOIN progreso p ON c.Id_Carpeta = p.Id_Carpeta 
-       LEFT JOIN usuarios u ON p.id_usuario=u.id
+      LEFT JOIN usuarios u ON p.id_usuario=u.id
+      LEFT JOIN usuarios uc ON c.id_usuario=uc.id
+
       WHERE c.Id_Carpeta = :id_Carpeta"
         );   
       $stmt->bindParam(":id_Carpeta" , $idCarpeta );
@@ -46,12 +48,6 @@ class ModeloCarpeta
     $stmt = null;
   }
 
-
-
-
-  // MOSTRAR USUARIOS
-
-  
   public static function mdlEditarCarpetaProgreso($tabla, $datos)
 { 
     $conexion = Conexion::conectar();

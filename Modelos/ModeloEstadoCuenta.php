@@ -555,153 +555,179 @@ ORDER BY
 
 
 	public static function mdlEstadoCuenta_Orden_pdf($datos)
-{
-    $pdo = Conexion::conectar();
+    {
+        $pdo = Conexion::conectar();
     
-    // Preparar el array de IDs de propietarios
-    $idArray = explode(',', $datos['id_propietarios']);
-    $idArray = array_filter($idArray); // Eliminar elementos vacíos
-    sort($idArray);
-    $ids = implode("-", $idArray);
+        // Preparar el array de IDs de propietarios
+        $idArray = explode(',', $datos['id_propietarios']);
+        $idArray = array_filter($idArray); // Eliminar elementos vacíos
+
+        sort($idArray);
+
+        $ids = implode("-", $idArray);
+        
+        $anio_actual = date('Y');
+        
+        // Consulta para obtener los datos necesarios
+        $stmt = $pdo->prepare("SELECT Tipo_Tributo, Anio, Autovaluo,
+                                        sum(Importe) as Importe,
+                                        sum(Gasto_Emision) as Gasto_Emision, 
+                                        sum(Saldo) as Saldo,
+                                        sum(TIM_Aplicar) AS TIM_Aplicar, 
+                                        sum(Total_Aplicar) as Total_Aplicar 
+                                FROM estado_cuenta_corriente 
+                                WHERE Concatenado_idc = :ids 
+                                    AND Estado = 'D' 
+                                    AND Tipo_Tributo = :tipo_tributo 
+                                    AND Anio >= :anio 
+                                    AND Anio != :anio_actual
+                                GROUP BY Tipo_Tributo, Anio, Autovaluo");
     
-    $anio_actual = date('Y');
-    
-    // Consulta para obtener los datos necesarios
-    $stmt = $pdo->prepare("SELECT Tipo_Tributo, Anio, Autovaluo,
-                                      sum(Importe) as Importe,
-                                      sum(Gasto_Emision) as Gasto_Emision, 
-                                      sum(Saldo) as Saldo,
-                                      sum(TIM_Aplicar) AS TIM_Aplicar, 
-                                      sum(Total_Aplicar) as Total_Aplicar 
-                               FROM estado_cuenta_corriente 
-                               WHERE Concatenado_idc = :ids 
-                                 AND Estado = 'D' 
-                                 AND Tipo_Tributo = :tipo_tributo 
-                                 AND Anio >= :anio 
-                                 AND Anio != :anio_actual
-                               GROUP BY Tipo_Tributo, Anio, Autovaluo");
-    
-    // Bind de parámetros
-    $stmt->bindParam(":ids", $ids, PDO::PARAM_STR);
-    $stmt->bindParam(":tipo_tributo", $datos["tipo_tributo"]);
-    $stmt->bindParam(":anio", $datos["anio"]);
-    $stmt->bindParam(":anio_actual", $anio_actual, PDO::PARAM_INT);
-    $stmt->execute();
-    
-    // Obtener los resultados de la consulta
-    $campos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    if (empty($campos)) {
-        return ['error' => 'No se encontraron registros para el tipo de tributo y año proporcionado.'];
-    }
-    
-    // Obtener el último valor de Numero_Orden
-   // $query = $pdo->query("SELECT MAX(Numero_Orden) AS max_orden FROM orden_pago");
+                // Bind de parámetros
+                $stmt->bindParam(":ids", $ids, PDO::PARAM_STR);
+                $stmt->bindParam(":tipo_tributo", $datos["tipo_tributo"]);
+                $stmt->bindParam(":anio", $datos["anio"]);
+                $stmt->bindParam(":anio_actual", $anio_actual, PDO::PARAM_INT);
+                $stmt->execute();
+                
+                // Obtener los resultados de la consulta
+                $campos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                if (empty($campos)) {
+                    return ['error' => 'No se encontraron registros para el tipo de tributo y año proporcionado.'];
+                }
+                
+                // Obtener el último valor de Numero_Orden
+            // $query = $pdo->query("SELECT MAX(Numero_Orden) AS max_orden FROM orden_pago");
 
 
-   $query = $pdo->prepare("
-    SELECT 
-        MAX(op.Numero_Orden) AS max_orden,
-        ocd.anio_actual
-    FROM 
-        orden_pago op
-    LEFT JOIN 
-        orden_pago_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
-    WHERE 
-        ocd.anio_actual = :anio_actual
-");
-// Bind del parámetro para usar el valor de $anio_actual
-$query->bindParam(':anio_actual', $anio_actual, PDO::PARAM_INT);
+            $query = $pdo->prepare("
+                SELECT 
+                    MAX(op.Numero_Orden) AS max_orden,
+                    ocd.anio_actual
+                FROM 
+                    orden_pago op
+                LEFT JOIN 
+                    orden_pago_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
+                WHERE 
+                    ocd.anio_actual = :anio_actual
+                ");
+                // Bind del parámetro para usar el valor de $anio_actual
+                $query->bindParam(':anio_actual', $anio_actual, PDO::PARAM_INT);
 
-// Ejecutar la consulta
-$query->execute();
+                // Ejecutar la consulta
+                $query->execute();
 
-    $result = $query->fetch(PDO::FETCH_ASSOC);
-    
-    $ultimo_orden = $result['max_orden'] ? $result['max_orden'] : 0;
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                
+                $ultimo_orden = $result['max_orden'] ? $result['max_orden'] : 0;
 
-    $anio_actual_sistema = $result['anio_actual'];
-    // Condición para verificar si el año actual del sistema es igual al año actual
-   
-    // Condición para verificar si el año actual del sistema es 2025
-    if ($anio_actual_sistema === $anio_actual ) {
-        // Si el año del sistema coincide con el registrado en la base de datos, incrementamos el último número de orden
-        if ($ultimo_orden != 0) {
-            $nuevo_orden = str_pad($ultimo_orden + 1, 3, '0', STR_PAD_LEFT);
+                $anio_actual_sistema = $result['anio_actual'];
+                // Condición para verificar si el año actual del sistema es igual al año actual
             
-        } else {
-            // Si no existe un número de orden, iniciamos con 001
-            $nuevo_orden = '001';
-        }
-    } else {
-        // Si el año no es 2025 ni el año actual del sistema, podemos reiniciar el número de orden a 001 o manejarlo como desees
-        $nuevo_orden = '001';
-    }
+                // Condición para verificar si el año actual del sistema es 2025
+                if ($anio_actual_sistema === $anio_actual ) {
+                    // Si el año del sistema coincide con el registrado en la base de datos, incrementamos el último número de orden
+                    if ($ultimo_orden != 0) {
+                        $nuevo_orden = str_pad($ultimo_orden + 1, 3, '0', STR_PAD_LEFT);
+                        
+                    } else {
+                        // Si no existe un número de orden, iniciamos con 001
+                        $nuevo_orden = '001';
+                    }
+                } else {
+                    // Si el año no es 2025 ni el año actual del sistema, podemos reiniciar el número de orden a 001 o manejarlo como desees
+                    $nuevo_orden = '001';
+                }
 
 
-  //  $nuevo_orden = $ultimo_orden + 1;
+            //  $nuevo_orden = $ultimo_orden + 1;
 
-   // Calcular el nuevo orden
-  
-    // Preparar la consulta de inserción en orden_pago
-    $insert_stmt = $pdo->prepare("INSERT INTO orden_pago 
-                                  (Tipo_Tributo, Anio, Base_Imponible, Importe, Gastos, Subtotal, TIM, Total, Numero_Orden) 
-                                  VALUES (:Tipo_Tributo, :Anio, :Base_Imponible, :Importe, :Gastos, :Subtotal, :TIM, :Total, :Numero_Orden)");
+            // INSERTAR TABLA ORDEN DE PAGO
+            
+                // Preparar la consulta de inserción en orden_pago
+                $insert_stmt = $pdo->prepare("INSERT INTO orden_pago 
+                                            (Tipo_Tributo, Anio, Base_Imponible, Importe, Gastos, Subtotal, TIM, Total, Numero_Orden) 
+                                            VALUES (:Tipo_Tributo, :Anio, :Base_Imponible, :Importe, :Gastos, :Subtotal, :TIM, :Total, :Numero_Orden)");
 
-    // Insertar en la tabla orden_pago y obtener el id_orden_Pago generado
-    foreach ($campos as $fila) {
-        $insert_stmt->bindParam(':Tipo_Tributo', $fila['Tipo_Tributo']);
-        $insert_stmt->bindParam(':Anio', $fila['Anio']);
-        $insert_stmt->bindParam(':Base_Imponible', $fila['Autovaluo']);
-        $insert_stmt->bindParam(':Importe', $fila['Importe']);
-        $insert_stmt->bindParam(':Gastos', $fila['Gasto_Emision']);
-        $insert_stmt->bindParam(':Subtotal', $fila['Saldo']);
-        $insert_stmt->bindParam(':TIM', $fila['TIM_Aplicar']);
-        $insert_stmt->bindParam(':Total', $fila['Total_Aplicar']);
-        $insert_stmt->bindParam(':Numero_Orden', $nuevo_orden);
-        $insert_stmt->execute();
-    }
+                // Insertar en la tabla orden_pago y obtener el id_orden_Pago generado
+                foreach ($campos as $fila) {
+                    $insert_stmt->bindParam(':Tipo_Tributo', $fila['Tipo_Tributo']);
+                    $insert_stmt->bindParam(':Anio', $fila['Anio']);
+                    $insert_stmt->bindParam(':Base_Imponible', $fila['Autovaluo']);
+                    $insert_stmt->bindParam(':Importe', $fila['Importe']);
+                    $insert_stmt->bindParam(':Gastos', $fila['Gasto_Emision']);
+                    $insert_stmt->bindParam(':Subtotal', $fila['Saldo']);
+                    $insert_stmt->bindParam(':TIM', $fila['TIM_Aplicar']);
+                    $insert_stmt->bindParam(':Total', $fila['Total_Aplicar']);
+                    $insert_stmt->bindParam(':Numero_Orden', $nuevo_orden);
+                    $insert_stmt->execute();
+                }
 
-    // Obtener el id_orden_Pago recién insertado
-   // $id_orden_Pago = $pdo->lastInsertId();  // Obtiene el id de la última fila insertada en orden_pago
 
-      // Obtener todos los id_orden_Pago generados
-	  $query_all_ids = $pdo->query("SELECT Orden_Pago FROM orden_pago ORDER BY Orden_Pago DESC LIMIT " . count($campos));
-	  $id_orden_Pagos = $query_all_ids->fetchAll(PDO::FETCH_ASSOC);
-  
-	  // Ahora, insertamos en la tabla orden_cuenta_detalle con cada id_orden_Pago generado
-	  $concatenado_idc = $ids;  // Este es el valor único de Concatenado_idc
-  
+                //ACTUALIZAR CON CONTRIBUYETE CON ORDEN DE PAGO
+             // ACTUALIZAR CON CONTRIBUYENTE CON ORDEN DE PAGO
+                foreach ($idArray as $idse) {  // Cambié el 'for' por 'foreach' para recorrer el array de IDs
 
-    // Insertar en la tabla orden_cuenta_detalle con el id_orden_Pago recién insertado
-    $insert_intermedia_stmt = $pdo->prepare("INSERT INTO orden_pago_detalle 
-                                            (id_orden_Pago, Concatenado_idc,anio_actual) 
-                                            VALUES (:id_orden_Pago, :Concatenado_idc,:anio_actual)");
-    
-	// Insertar un registro por cada id_orden_Pago
-    foreach ($id_orden_Pagos as $id_orden) {
-        // Usamos cada id_orden_Pago obtenido de la consulta
-        $insert_intermedia_stmt->bindValue(':id_orden_Pago', $id_orden['Orden_Pago']);
-        $insert_intermedia_stmt->bindValue(':Concatenado_idc', $concatenado_idc);  // El mismo Concatenado_idc para todos
-        $insert_intermedia_stmt->bindValue(':anio_actual', $anio_actual);  // El mismo Concatenado_idc para todos
+                   $orden_anio = $nuevo_orden . '-' . $anio_actual; // Concatenar el nuevo número de orden con el año y un guion en medio
 
-        // Ejecutar la inserción en orden_cuenta_detalle
-        $insert_intermedia_stmt->execute();
-    }
-	
-		
-    // Ejecutar la inserción en orden_cuenta_detalle
- //   $insert_intermedia_stmt->execute();
-    
-    // Resultado final con el nuevo orden y los campos procesados
-    $resultado = [
-        'campos' => $campos,
-        'nuevo_orden' => $nuevo_orden
-    ];
+                    // Preparar la consulta de actualización en la tabla contribuyente
+                    $update_stmt = $pdo->prepare("UPDATE contribuyente SET numero_orden_pago = :numero_orden_pago WHERE Id_Contribuyente = :ids");
 
-    return $resultado;
-    
-    $pdo = null;
+                    // Vincula los parámetros
+                    $update_stmt->bindValue(':numero_orden_pago', $orden_anio); // Asignamos el nuevo número de orden
+                    $update_stmt->bindValue(':ids', $idse, PDO::PARAM_INT); // Se asegura de que los IDs sean pasados correctamente
+
+                    // Ejecutar la actualización
+                    $update_stmt->execute();
+                }
+
+                  
+
+
+
+                // Obtener el id_orden_Pago recién insertado
+            // $id_orden_Pago = $pdo->lastInsertId();  // Obtiene el id de la última fila insertada en orden_pago
+
+                // Obtener todos los id_orden_Pago generados
+                $query_all_ids = $pdo->query("SELECT Orden_Pago FROM orden_pago ORDER BY Orden_Pago DESC LIMIT " . count($campos));
+                $id_orden_Pagos = $query_all_ids->fetchAll(PDO::FETCH_ASSOC);
+            
+                // Ahora, insertamos en la tabla orden_cuenta_detalle con cada id_orden_Pago generado
+                $concatenado_idc = $ids;  // Este es el valor único de Concatenado_idc
+            
+
+                // Insertar en la tabla orden_cuenta_detalle con el id_orden_Pago recién insertado
+                $insert_intermedia_stmt = $pdo->prepare("INSERT INTO orden_pago_detalle 
+                                                        (id_orden_Pago, Concatenado_idc,anio_actual) 
+                                                        VALUES (:id_orden_Pago, :Concatenado_idc,:anio_actual)");
+                
+                // Insertar un registro por cada id_orden_Pago
+                foreach ($id_orden_Pagos as $id_orden) {
+                    // Usamos cada id_orden_Pago obtenido de la consulta
+                    $insert_intermedia_stmt->bindValue(':id_orden_Pago', $id_orden['Orden_Pago']);
+                    $insert_intermedia_stmt->bindValue(':Concatenado_idc', $concatenado_idc);  // El mismo Concatenado_idc para todos
+                    $insert_intermedia_stmt->bindValue(':anio_actual', $anio_actual);  // El mismo Concatenado_idc para todos
+
+                    // Ejecutar la inserción en orden_cuenta_detalle
+                    $insert_intermedia_stmt->execute();
+                }
+
+
+                
+                    
+                // Ejecutar la inserción en orden_cuenta_detalle
+            //   $insert_intermedia_stmt->execute();
+                
+                // Resultado final con el nuevo orden y los campos procesados
+                $resultado = [
+                    'campos' => $campos,
+                    'nuevo_orden' => $nuevo_orden
+                ];
+
+                return $resultado;
+                
+                $pdo = null;
 }
 
 

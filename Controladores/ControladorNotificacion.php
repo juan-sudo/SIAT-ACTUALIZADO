@@ -395,7 +395,6 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
     // Llamamos al modelo y pasamos los filtros y la paginación
     $respuesta = ModeloNotificacion::mdlMostrarNotificacion($filtro_nombre, $filtro_fecha, $filtro_estado, $inicio, $resultados_por_pagina);
 
-    $contador = $inicio + 1;  // Inicializamos el contador
 
     // Recorrer todos los resultados y mostrarlos en la tabla HTML
     $tabla = '';
@@ -450,14 +449,14 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
                         }
 
                         // Solo mostrar el botón de "Editar Notificación" si el estado no es R1 ni S
-if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
-    $botonEditarNotificacion = '<button class="btn btn-warning btnEditarNotificacion " 
-                                data-idNotificacionA="' . $row['Id_Notificacion_Agua'] . '"
-                                data-toggle="modal" data-target="#modalEditarNotificacion"
-                                title="Editar Notificación">
-                                <i class="fas fa-edit"></i>
-                            </button>';
-}
+                if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
+                    $botonEditarNotificacion = '<button class="btn btn-warning btnEditarNotificacion " 
+                                                data-idNotificacionA="' . $row['Id_Notificacion_Agua'] . '"
+                                                data-toggle="modal" data-target="#modalEditarNotificacion"
+                                                title="Editar Notificación">
+                                                <i class="fas fa-edit"></i>
+                                            </button>';
+                }
 
 
             $tabla .= '<tr id="' . $row['Id_Licencia_Agua'] . '" >
@@ -527,57 +526,56 @@ if ($row['estado'] != 'R1' && $row['estado'] != 'S') {
 
 
         // Rango de páginas
-    $rangos = 5;
+        $rangos = 5;
 
-    // Calcular resumen
-    $registro_inicio = $inicio + 1;
-    $registro_fin = $inicio + count($respuesta);
+        // Calcular resumen
+        $registro_inicio = $inicio + 1;
+        $registro_fin = $inicio + count($respuesta);
 
-    // Estructura flex con resumen + paginación
-    $pagination = '
-    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
-        <div class="registro-resumen" style="color:#969493">Mostrando del ' . $registro_inicio . ' al ' . $registro_fin . ' de un total de ' . $total_registros . ' registros</div>
-       
-        <nav aria-label="Page navigation example">
-            <ul class="pagination mb-0">
+        // Estructura flex con resumen + paginación
+        $pagination = '
+        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+            <div class="registro-resumen" style="color:#969493">Mostrando del ' . $registro_inicio . ' al ' . $registro_fin . ' de un total de ' . $total_registros . ' registros</div>
+        
+            <nav aria-label="Page navigation example">
+                <ul class="pagination mb-0">
+        ';
+
+        if ($pagina > 1) {
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina - 1) . ')">Anterior</a></li>';
+        }
+
+        if ($pagina > $rangos + 1) {
+            $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
+        }
+
+        for ($i = max(1, $pagina - $rangos); $i < $pagina; $i++) {
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
+        }
+
+        $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $pagina . '</a></li>';
+
+        for ($i = $pagina + 1; $i <= min($total_paginas, $pagina + $rangos); $i++) {
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
+        }
+
+        if ($pagina < $total_paginas - $rangos) {
+            $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
+        }
+
+        if ($pagina < $total_paginas) {
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
+        }
+
+        $pagination .= '
+                </ul>
+            </nav>
+        </div>
     ';
-
-    if ($pagina > 1) {
-        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina - 1) . ')">Anterior</a></li>';
-    }
-
-    if ($pagina > $rangos + 1) {
-        $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
-    }
-
-    for ($i = max(1, $pagina - $rangos); $i < $pagina; $i++) {
-        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
-    }
-
-    $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $pagina . '</a></li>';
-
-    for ($i = $pagina + 1; $i <= min($total_paginas, $pagina + $rangos); $i++) {
-        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
-    }
-
-    if ($pagina < $total_paginas - $rangos) {
-        $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
-    }
-
-    if ($pagina < $total_paginas) {
-        $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
-    }
-
-    $pagination .= '
-            </ul>
-        </nav>
-    </div>
-    ';
-
 
         // Devolver los resultados y la paginación
         echo json_encode(array('data' => $tabla, 'pagination' => $pagination));
 
-}
+    }
 
     }

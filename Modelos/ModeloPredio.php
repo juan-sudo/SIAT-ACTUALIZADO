@@ -11,6 +11,7 @@ class ModeloPredio
 
 	public static function mdlNuevoPredio($tabla, $datos)
 	{
+		$estado_progreso='P'; //P=Pendiente
 		$catastro = Conexion::conectar()->prepare("SELECT d.Id_Direccion as campo1,
 										d.Id_Tipo_Via as campo2,
 										u.Id_Zona as campo3,
@@ -169,13 +170,19 @@ class ModeloPredio
 
 				try {
 					// Insertar el nuevo registro en la tabla carpeta
-					$stmt_insert = $pdo->prepare("INSERT INTO carpeta (Concatenado_id,Codigo_Carpeta) VALUES (:concatenado_id,:codigo_carpeta)");
+					$stmt_insert = $pdo->prepare("INSERT INTO carpeta (Concatenado_id,Codigo_Carpeta, Estado_progreso,id_usuario) VALUES (:concatenado_id,:codigo_carpeta,:Estado_progreso,:id_usuario)");
 					$stmt_insert->bindParam(':concatenado_id', $propietarios_carpeta, PDO::PARAM_STR);
+					$stmt_insert->bindParam(":Estado_progreso", $estado_progreso, PDO::PARAM_STR);
 					$stmt_insert->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
+					$stmt_insert->bindParam(':id_usuario', $datos['id_usuario'], PDO::PARAM_INT);
 					$stmt_insert->execute();
+					
+				
 					$stmt_update = $pdo->prepare("UPDATE Configuracion SET Codigo_Carpeta = :codigo_carpeta");
 					$stmt_update->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
 					$stmt_update->execute();
+
+
 				} catch (Exception $e) {
 					// Revertir la transacción en caso de error
 					$pdo->rollBack();
@@ -878,6 +885,8 @@ class ModeloPredio
 	public static function ndlNuevoPredioR($datos)
 	{
 		$pdo = Conexion::conectar();
+
+		$estado_progreso='P'; //P=Pendiente
 		$catastroRural = $pdo->prepare("SELECT v.Id_zona_rural as campo1, v.Id_Grupo_Tierra as campo2 , v.Id_Calidad_Agricola as campo3, v.Id_valores_categoria_x_hectarea as campo4, a.Id_Anio as campo5 FROM valores_categoria_x_hectarea v INNER JOIN arancel_rustico_hectarea ar ON ar.Id_valores_categoria_x_hectarea =v.Id_valores_categoria_x_hectarea INNER JOIN arancel_rustico a  ON ar.Id_Arancel_Rustico=a.Id_Arancel_Rustico WHERE v.Id_valores_categoria_x_hectarea=:Id_valores_categoria_x_hectarea");
 		$catastroRural->bindParam(":Id_valores_categoria_x_hectarea", $datos['Id_valores_categoria_x_hectarea'], PDO::PARAM_INT);
 		$catastroRural->execute();
@@ -1039,13 +1048,23 @@ class ModeloPredio
 
 				try {
 					// Insertar el nuevo registro en la tabla carpeta
-					$stmt_insert = $pdo->prepare("INSERT INTO carpeta (Concatenado_id, Codigo_Carpeta) VALUES (:concatenado_id, :codigo_carpeta)");
+					$stmt_insert = $pdo->prepare("INSERT INTO carpeta (Concatenado_id, Codigo_Carpeta, Estado_progreso,id_usuario) VALUES (:concatenado_id, :codigo_carpeta,:Estado_progreso,:id_usuario)");
 					$stmt_insert->bindParam(':concatenado_id', $propietarios_carpeta, PDO::PARAM_STR);
+					$stmt_insert->bindParam(":Estado_progreso", $estado_progreso, PDO::PARAM_STR);
 					$stmt_insert->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
+					$stmt_insert->bindParam(':id_usuario', $datos['id_usuario'], PDO::PARAM_INT);
 					$stmt_insert->execute();
+		
+
 					$stmt_update = $pdo->prepare("UPDATE Configuracion SET Codigo_Carpeta = :codigo_carpeta");
 					$stmt_update->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
 					$stmt_update->execute();
+
+					
+
+
+
+
 				} catch (Exception $e) {
 					// Revertir la transacción en caso de error
 					$pdo->rollBack();

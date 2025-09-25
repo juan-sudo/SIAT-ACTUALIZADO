@@ -91,7 +91,8 @@ class AjaxPredio
 				'Id_Contribuyente' => $_POST["IdContribuyente"], //$_POST["codigoNpropietario"]27
 				//'Id_Catastro' => '1',//28
 				'Id_Anio' => $_POST["idAnioFiscal"], //29		 
-				'id_usuario' => $_SESSION['id'] //30	  id_usuario        			        
+				'id_usuario' => $_SESSION['id'] //30	  id_usuario      
+				  			        
 			);
 			$respuesta = ControladorPredio::ctrCrearPredio($datos);
 		//	$respuesta_json = json_encode($respuesta);

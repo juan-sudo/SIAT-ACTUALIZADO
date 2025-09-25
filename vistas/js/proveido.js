@@ -329,6 +329,7 @@ $(document).ready(function () {
                     <td class="text-center">${value.Numero_Proveido}</td>
                     <td>${value.Descripcion}</td>
                     <td>${value.Nombre_Area}</td>
+                    
                     <td style='width:40px;'><input style='width:40px;' type='text' class='cantidad_especie text-center'  name='cantidad_especie' value='${value.Cantidad}' oninput='actualizarMonto(this)'></td> `;
                     if (value.Editable ==="0") {
                     fila +=  `<td style='width:60px;' class='monto_cantidad'><center>${(value.Valor_Total / value.Cantidad).toFixed(2)}</center></td>`;

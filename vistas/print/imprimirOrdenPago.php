@@ -59,9 +59,13 @@ $pdf->SetCreator($configuracion['Nombre_Empresa']);
 $pdf->SetAuthor('GRUPO HANCCO');
 $pdf->SetTitle('HR');
 
+
+
 $fechaActual = date('d/m/Y');
 $anio_impresion = date('Y');
+
 $numeroPagina = $pdf->PageNo();
+
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetX(40); 
 $pdf->Image('logo.jpg', 15, 6, 22, 28, 'JPG', 'https://perudigitales.com/', '', true, 150, '', false, false, 0, false, false, false);
@@ -131,7 +135,10 @@ $html_propietario .='</tr>';
                     }
                 }
 $html_propietario .='</table>';
-             $pdf->writeHTML($html_propietario, true, false, false, false, '');
+$pdf->writeHTML($html_propietario, true, false, false, false, '');
+
+
+
 
 $pdf->SetFont('helvetica', '', 8);
 $sector_1='<table align="left"><tr>
@@ -153,6 +160,8 @@ $sector_1='<table align="left"><tr>
                     </tr>
              </table>';
 $pdf->writeHTML($sector_1, true, false, false, false, '');
+
+
 
 //IMPRIMIR ESTADO DE CUENTA 
 $html_estado= '<table align="center">

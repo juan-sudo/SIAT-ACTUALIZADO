@@ -454,5 +454,6 @@ class ModeloReporte
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$stmt = null;
         return $result;
+        
 	}
 }

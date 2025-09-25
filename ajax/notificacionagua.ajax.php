@@ -10,25 +10,25 @@ class AjaxNotificacion
 
     //mostrar lista de usuarios
     public function ajaxLista_Notificion()
-{   
-    $filtroNombre = isset($_POST['filtro_nombre']) ? $_POST['filtro_nombre'] : '';
-    $filtroFecha = isset($_POST['filtro_fecha']) ? $_POST['filtro_fecha'] : '';
-    $filtroEstado = isset($_POST['filtro_estado']) ? $_POST['filtro_estado'] : '';
-    $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
-    
-    $resultados_por_pagina = isset($_POST['resultados_por_pagina']) ? (int)$_POST['resultados_por_pagina'] : 15;
+    {   
+        $filtroNombre = isset($_POST['filtro_nombre']) ? $_POST['filtro_nombre'] : '';
+        $filtroFecha = isset($_POST['filtro_fecha']) ? $_POST['filtro_fecha'] : '';
+        $filtroEstado = isset($_POST['filtro_estado']) ? $_POST['filtro_estado'] : '';
+        $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
+        
+        $resultados_por_pagina = isset($_POST['resultados_por_pagina']) ? (int)$_POST['resultados_por_pagina'] : 15;
 
-    // Paginación: resultados por página
-  //  $resultados_por_pagina = 15; // Establecer el número de resultados por página
+        // Paginación: resultados por página
+      //  $resultados_por_pagina = 15; // Establecer el número de resultados por página
 
-    // Llamamos al controlador para obtener las notificaciones con filtros y paginación
-    $respuesta = ControladorNotificacion::ctrMostrarNotificaciones($filtroNombre, $filtroFecha, $filtroEstado, $pagina, $resultados_por_pagina);
-  
-  
-    echo $respuesta;
-  
-    
-}
+        // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+        $respuesta = ControladorNotificacion::ctrMostrarNotificaciones($filtroNombre, $filtroFecha, $filtroEstado, $pagina, $resultados_por_pagina);
+      
+      
+        echo $respuesta;
+      
+        
+    }
 
 
 

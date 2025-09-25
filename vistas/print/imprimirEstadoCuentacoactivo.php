@@ -277,29 +277,6 @@ $textoLargo = "Impuesto predial";
 $pdf->SetFont('helvetica', '', 9); // Tamaño de fuente más legible
 $pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
 
-  //SEGUNDO REGISTRO
-
-
-// Variables para acumular los totales
-// $totalImporte = 0;
-// $totalGastoEmision = 0;
-// $totalSaldo = 0;
-// $totalTIMDescuento = 0;
-// $totalTIM = 0;
-// $totalPagado = 0;
-
-// // Sumamos los valores de $estado_cuenta
-// foreach ($estado_cuenta as $row) {
-//     $totalImporte += $row['Total_Importe'];
-//     $totalGastoEmision += $row['Total_Gasto_Emision'];
-//     $totalSaldo += $row['Total_Saldo'];
-//     $totalTIMDescuento += $row['Total_TIM_Descuento'];
-//     $totalTIM += $row['Total_TIM'];
-//     $totalPagado += $row['Total_Pagado'];
-// }
-
-
-
 
              $pdf->Line(20, $pdf->getY(),200, $pdf->getY());
              $pdf->SetFont('helvetica', '', 7.5);  
@@ -523,27 +500,6 @@ $pdf->Line(105, $pdf->getY(), 200, $pdf->getY());
 
         $pdf->Cell($anchoCelda, 10, $text . ' S/. = ' . $totalFormateado, 0, 1, 'R');
             
-           
-           
-
-            
-            // $pdf->MultiCell(0, 1, '', 0, 'L');
-         //   $sin_descuento_formateado = number_format($sin_descuento, 2, '.', ',');
-         //   $tim_formateado = number_format($tim, 2, '.', ',');
-          //  $pdf->SetFont('helvetica', 'B', 8);  // Establecer el tamaño de letra a 8
-          //  $pdf->Cell(323, 0, 'T . I . M    S/.   =               '.$tim_formateado, 0, 1, 'C', 0, '', 0);
-          //  $pdf->Line(10, $pdf->getY(),200, $pdf->getY());
-           
-           // $pdf->Cell(260, 0, 'T O T A L   D E U D A   S I N   D E S C U E N T O   + T.I.M    S/.   =               '.$sin_descuento_formateado, 0, 1, 'C', 0, '', 0);
-           
-           
-           
-           
-           // $pdf->MultiCell(0, 0, '', 0, 'L');
-
-          
-
-
           
          //PRIMER REGISTRO
 $pdf->SetX(45); 

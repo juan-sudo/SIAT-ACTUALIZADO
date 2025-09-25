@@ -256,6 +256,9 @@ $(document).on("click", "#btnConsultarReporteIng", function () {
   //caja.imprimirRecibo_IA();
   //$("#Modalimprimir_LA").modal("show");
 });
+
+
+
 $(document).on("click", "#popimprimir_reporte_diario", function () {
   cierre_caja.Reporte_Diario_PDF(cierre_caja.fechafiltro);
 });

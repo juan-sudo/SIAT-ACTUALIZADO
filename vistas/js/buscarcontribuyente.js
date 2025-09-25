@@ -156,11 +156,15 @@ class buscarcontribuyente {
     });
   }
 }
+
+
 const buscarcontribuyente_ = new buscarcontribuyente();
+
 $(document).on("click", ".btnPredios", function () {
   let id = $(this).attr("idContribuyente_predio");
   var Coactivo= $(this).attr('estado_Coactivo'); //extraemos el valor del nombre de coactivo
   var nombrecompleto= $(this).attr('nombre_contribuyente'); //extraemos el valor del nombre de nombre_completo
+
   if (Coactivo === '1'){ //si esta en coativo manda un mensaje de avertencia
     const style = document.createElement("style");
     style.textContent = `.swal2-container{
