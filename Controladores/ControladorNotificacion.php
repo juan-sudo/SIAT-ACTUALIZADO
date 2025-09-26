@@ -387,13 +387,13 @@ public static function ctrMostrar_mostrar_pago_segunda_cuota($idNotificionAgua)
 
 
 
-public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fecha = '', $filtro_estado = '', $pagina = 1, $resultados_por_pagina = 10)
+public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fecha = '', $filtroFechamc = '', $filtro_estado = '', $pagina = 1, $resultados_por_pagina = 10)
 {
     // Calcular el inicio de la consulta según la página actual
     $inicio = ($pagina - 1) * $resultados_por_pagina;
 
     // Llamamos al modelo y pasamos los filtros y la paginación
-    $respuesta = ModeloNotificacion::mdlMostrarNotificacion($filtro_nombre, $filtro_fecha, $filtro_estado, $inicio, $resultados_por_pagina);
+    $respuesta = ModeloNotificacion::mdlMostrarNotificacion($filtro_nombre, $filtro_fecha, $filtroFechamc, $filtro_estado, $inicio, $resultados_por_pagina);
 
 
     // Recorrer todos los resultados y mostrarlos en la tabla HTML
@@ -470,10 +470,12 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
                                 <button class="btn-enlace">' . $row['Id_Contribuyente'] . '</button>
                             </td>
                         <td style="text-align: center;">' . $row['Nombres_Licencia'] . '</td>
-                        <td style="text-align: center;">' . $row['Numero_Notificacion'] . '</td>
+                        <td style="text-align: center;">' . $row['monto_notificacion'] . '</td>
                         <td style="text-align: center;">' . $row['tipo_via'] . ' ' . $row['nombre_calle'] . ' Mz. ' . $row['numManzana'] . ' Lt. ' . $row['Lote'] . ' Nro Luz. ' . $row['Luz'] . ' Cdra.' . $row['cuadra'] . ' ' . $row['zona'] . ' ' . $row['habilitacion'] . '</td>
                         <td style="text-align: center;">' . $row['Fecha_Registro'] . '</td>
                         <td style="text-align: center;">' . $row['fecha_corte'] . '</td>
+                        <td style="text-align: center;">' . $row['fecha_corte_medidor'] . '</td>
+                      
                          <td style="text-align: center;">' . $estado . '</td>
                              <td style="text-align: center;">
 

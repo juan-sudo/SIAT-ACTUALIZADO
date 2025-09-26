@@ -201,40 +201,39 @@ $tiem = time();
 	<script src="vistas/js/calcularimpuestoPOO.js"></script>
 	<script src="vistas/js/foto.js"></script>
 	<script src="vistas/js/prescripcion.js"></script>
-	<script src="vistas/js/reporteGeneral.js"></script>
+	<script src="vistas/js/reporteGeneral.js" defer></script>
 	<script src="vistas/js/negocio.js"></script> 
 	<script src="vistas/js/compensacion.js"></script> 
 	<script src="vistas/js/construccion.js"></script>
 	<script src="vistas/js/litigio.js"></script>
-	<script src="vistas/js/notificacionagua.js"></script>
-	<script src="vistas/js/administrarcoactivo.js"></script>
-	<script src="vistas/js/perdidaFraccionamiento.js"></script>
-	<script src="vistas/js/deudaFraccionado.js"></script>
-	<script src="vistas/js/resolucionFraccionado.js"></script>
-	<script src="vistas/js/resolucionAcumulacion.js"></script>
-	<script src="vistas/js/resolucionAcumulacionVehi.js"></script>
-	<script src="vistas/js/cartaRecordatorio.js"></script>
-	<script src="vistas/js/requerimientoPago.js"></script>
-	<script src="vistas/js/esquelaPago.js"></script>
-	<script src="vistas/js/gestionDomiciliaria.js"></script>
-	<script src="vistas/js/cobranzaTelefonico.js"></script>
-	<script src="vistas/js/resolucionDeterminacion.js"></script>
-	<script src="vistas/js/resolucionMulta.js"></script>
-	<script src="vistas/js/aprobacionFraccionado.js"></script>
-	<script src="vistas/js/deudaConsentida.js"></script>
-	<script src="vistas/js/ejecucionCoactivaDOS.js"></script>
-	<script src="vistas/js/resolucionVehicular.js"></script>
-	<script src="vistas/js/resolucionInmueble.js"></script>
-	<script src="vistas/js/medidaCautelar.js"></script>
-	<script src="vistas/js/suspencionSolicitud.js"></script>
-	<script src="vistas/js/terceraPropiedad.js"></script>
-	<script src="vistas/js/notificacionValores.js"></script>
-	<script src="vistas/js/cargoNotificacion.js"></script>
+	<script src="vistas/js/notificacionagua.js" ></script>
 	<script src="vistas/js/carpetaActualizacion.js"></script>
-	<script src="vistas/js/resolucionMedidaCautelar.js"></script>
+
+	<script src="vistas/js/administrarcoactivo.js" defer></script>
+	<script src="vistas/js/perdidaFraccionamiento.js" defer></script>
+	<script src="vistas/js/deudaFraccionado.js" defer></script>
+	<script src="vistas/js/resolucionFraccionado.js" defer></script>
+	<script src="vistas/js/resolucionAcumulacion.js" defer></script>
+	<script src="vistas/js/resolucionAcumulacionVehi.js" defer></script>
+	<script src="vistas/js/cartaRecordatorio.js" defer></script>
+	<script src="vistas/js/requerimientoPago.js" defer></script>
+	<script src="vistas/js/esquelaPago.js" defer></script>
+	<script src="vistas/js/gestionDomiciliaria.js" defer></script>
+	<script src="vistas/js/cobranzaTelefonico.js" defer></script>
+	<script src="vistas/js/resolucionDeterminacion.js" defer></script>
+	<script src="vistas/js/resolucionMulta.js" defer></script>
+	<script src="vistas/js/aprobacionFraccionado.js" defer></script>
+	<script src="vistas/js/deudaConsentida.js" defer></script>
+	<script src="vistas/js/resolucionVehicular.js" defer></script>
+	<script src="vistas/js/resolucionInmueble.js" defer></script>
+	<script src="vistas/js/suspencionSolicitud.js" defer></script>
+	<script src="vistas/js/terceraPropiedad.js"defer ></script>
+	<script src="vistas/js/notificacionValores.js" defer></script>
+	<script src="vistas/js/cargoNotificacion.js" defer></script>
+	<script src="vistas/js/resolucionMedidaCautelar.js" defer></script>
 	
 	<!-- Incluye SheetJS desde el CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
 
 	
 	<script>
@@ -253,6 +252,7 @@ $tiem = time();
 			$(".reload-all").hide();
 		})
 	</script>
+
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div id="respuestaAjax_srm"></div>

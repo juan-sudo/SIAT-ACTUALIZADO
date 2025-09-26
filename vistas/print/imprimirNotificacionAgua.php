@@ -145,7 +145,7 @@ $pdf->SetFont('helvetica', 'B', 9);
 
 $pdf->Cell($colWidths[0], 7, 'Nro', 0, 0, 'C');
 $pdf->Cell($colWidths[1], 7, 'Nombres', 0, 0, 'C');
-$pdf->Cell($colWidths[2], 7, 'Nro notif.', 0, 0, 'C');
+$pdf->Cell($colWidths[2], 7, 'Monto', 0, 0, 'C');
 $pdf->Cell($colWidths[3], 7, 'Direccion', 0, 1, 'C'); // Salto de línea
 
   $pdf->Line(10, $pdf->getY(),190, $pdf->getY());

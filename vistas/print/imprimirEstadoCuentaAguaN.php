@@ -37,12 +37,13 @@ $pdf->SetTitle('Mi PDF');
 // Agregar una página
 $pdf->AddPage();
 
+$totalTotal_total=$_POST['totalTotal'];
 $idlicencia=$_POST['idlicencia'];
 $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 //$propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 $estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_agua_pdf_consulta_n($idlicencia,$id_cuenta);
 
-$fila = ModeloEstadoCuenta::mdlPropietario_licencia_pdf_n($idlicencia);
+$fila = ModeloEstadoCuenta::mdlPropietario_licencia_pdf_n($idlicencia,$totalTotal_total);
 
 $notificacion = ModeloEstadoCuenta::mdlGenerar_notificacion_n();
 

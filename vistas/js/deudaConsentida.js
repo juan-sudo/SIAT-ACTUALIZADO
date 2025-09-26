@@ -813,7 +813,7 @@ $("#anio_orden_consentida_deuda").change(function() {
   const formatearNumero = (numero) => {
       return numero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
-
+  
   // Clear or reset the displayed totals
   $("#segundaTablaConcentidaDeuda tbody td:eq(3)").text(formatearNumero(this.totalImporte));
   $("#segundaTablaConcentidaDeuda tbody td:eq(4)").text(formatearNumero(this.totalGasto));

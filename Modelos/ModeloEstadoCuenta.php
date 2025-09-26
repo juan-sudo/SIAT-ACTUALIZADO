@@ -1219,7 +1219,7 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 
 
 //REGISTRAR NOTIFICACION
-	public static function mdlPropietario_licencia_pdf_n($idlicencia)
+	public static function mdlPropietario_licencia_pdf_n($idlicencia,$totalTotal_total)
 {
     $pdo = Conexion::conectar();
     
@@ -1270,13 +1270,14 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
     $estado='N';
 
     // Insertar el nuevo registro en la tabla notificacion_agua
-    $stmt = $pdo->prepare("INSERT INTO notificacion_agua (Id_Licencia_Agua, Fecha_Registro, Numero_Notificacion, anio_Actual,fecha_corte,estado)
-                           VALUES (:idlicencia, NOW(), :numero_notificacion,YEAR(NOW()),DATE_ADD(NOW(), INTERVAL 7 DAY) ,:estado )" );
+    $stmt = $pdo->prepare("INSERT INTO notificacion_agua (Id_Licencia_Agua, Fecha_Registro, Numero_Notificacion, anio_Actual,fecha_corte,estado, monto_notificacion)
+                           VALUES (:idlicencia, NOW(), :numero_notificacion,YEAR(NOW()),DATE_ADD(NOW(), INTERVAL 7 DAY) ,:estado, :monto_notificacion )" );
 
     // Ejecutar la inserción
     $stmt->bindParam(':idlicencia', $idlicencia, PDO::PARAM_INT);
     $stmt->bindParam(':numero_notificacion', $nuevoNumero, PDO::PARAM_STR);
     $stmt->bindParam(':estado', $estado, PDO::PARAM_STR);
+    $stmt->bindParam(':monto_notificacion', $totalTotal_total, PDO::PARAM_INT);
     $stmt->execute();
 
     // Retornar los detalles de la licencia

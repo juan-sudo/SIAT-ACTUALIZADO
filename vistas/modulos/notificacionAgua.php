@@ -34,7 +34,7 @@ use Controladores\ControladorNotificacion;
         </div>
 
         <div class="box-header">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <label>Filtrar por nombre</label>
         <input type="text" id="filtrar_nombre" name="filtrar_nombre" class="form-control" style="width: 100%;" placeholder="Ingrese nombre o apellidos">
     </div>
@@ -42,6 +42,10 @@ use Controladores\ControladorNotificacion;
     <div class="col-md-2">
         <label>Filtrar por fecha notificación</label>
         <input type="date" id="fecha_notificacion" name="fecha_notificacion" class="form-control">
+    </div>
+    <div class="col-md-2">
+        <label>Filtrar medidor cerrado</label>
+        <input type="date" id="fecha_mecerrado" name="fecha_mecerrado" class="form-control">
     </div>
 
     <div class="col-md-2">
@@ -70,7 +74,7 @@ use Controladores\ControladorNotificacion;
     </div>
 
    
-    <div class="col-md-4">
+    <div class="col-md-3">
         <button class="btn btn-success pull-right btn-radius" id="popimprimirExportarPDF" style="margin-top: 24px;">
             <i class="fas fa-plus-square"></i> Exportar PDF
         </button>
@@ -95,10 +99,11 @@ use Controladores\ControladorNotificacion;
                 <th style="width:10px;"> </th>
                  <th>Cod.</th>
                 <th>Nombres y apellidos</th>
-                <th>Nro notif.</th>
+                <th>Monto</th>
                 <th>Direccion</th>
                 <th>Fecha notificacion</th>
                 <th>Fecha corte</th>
+                <th>Fecha m.c.</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>

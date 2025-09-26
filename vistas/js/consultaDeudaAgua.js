@@ -585,6 +585,7 @@ manejarClicFila_agua_pagados(fila) {
     datos.append("totalTIM",this.totalTIM.toFixed(2));
     datos.append("totalTotal",this.totalTotal.toFixed(2));
     console.log(datos);
+    
     $.ajax({
       url: "./vistas/print/imprimirEstadoCuentaAguaN.php",
       method: "POST",

@@ -592,11 +592,12 @@ imprimirAgua() {
 
 
 
-  lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_estado = 'todos', pagina = 1,resultados_por_pagina='15') {
+  lista_notificacion(filtro_nombre = '', filtro_fecha = '', filtro_fecha_mc = '', filtro_estado = 'todos', pagina = 1,resultados_por_pagina='15') {
     let datos = new FormData();
     datos.append("lista_notificacion", "lista_notificacion");
     datos.append("filtro_nombre", filtro_nombre);  // Agregar filtro de nombre
     datos.append("filtro_fecha", filtro_fecha);    // Agregar filtro de fecha
+    datos.append("filtro_fecha_mc", filtro_fecha_mc);    // Agregar filtro de fecha
     datos.append("filtro_estado", filtro_estado);  // Agregar filtro de estado
      datos.append("pagina", pagina);   
     datos.append("resultados_por_pagina", resultados_por_pagina);                // Agregar página actual
@@ -1408,11 +1409,13 @@ $(document).ready(function() {
 // Al cargar la página, mostrar todas las notificaciones
 // Al cargar la página, mostrar todas las notificaciones
 document.addEventListener('DOMContentLoaded', function () {
-   notificacionUsuario.lista_notificacion('', '', 'todos', 1);  // Mostrar página 1 por defecto
+  
+   notificacionUsuario.lista_notificacion('', '', '', 'todos', 1);  // Mostrar página 1 por defecto
     
     // Detectar cambios en los campos de filtro (nombre, fecha, estado)
     const nombreField = document.querySelector('#filtrar_nombre');
     const fechaField = document.querySelector('#fecha_notificacion');
+    const fecha_mecerrado = document.querySelector('#fecha_mecerrado');
     const estadoField = document.querySelector('#filtrar_estado'); // Campo de estado
      const resultados_por_pagina = document.querySelector('#resultados_por_pagina'); // Campo de estado
 
@@ -1421,7 +1424,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const nombre = nombreField.value;
         const fecha = fechaField.value; // Capturar la fecha seleccionada
         const estado = estadoField.value; // Capturar el estado seleccionado
-        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
+        const fechamc = fecha_mecerrado.value;
+        notificacionUsuario.lista_notificacion(nombre, fecha,fechamc, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
     });
 
     // Detectar cambios en el campo de fecha para filtrar por fecha
@@ -1429,15 +1433,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const fecha = fechaField.value;
         const nombre = nombreField.value;
         const estado = estadoField.value;
-        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
+        const fechamc = fecha_mecerrado.value;
+        notificacionUsuario.lista_notificacion(nombre, fecha, fechamc, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
     });
+     // Detectar cambios en el campo de fecha para filtrar por medidor cerrado
+    fecha_mecerrado.addEventListener('change', function () {
+        const fecha = fechaField.value;
+        const fechamc = fecha_mecerrado.value;
+        const nombre = nombreField.value;
+        const estado = estadoField.value;
+        notificacionUsuario.lista_notificacion(nombre, fecha, fechamc, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
+    });
+
 
     // Detectar cambios en el campo de estado para filtrar por estado
     estadoField.addEventListener('change', function () {
         const estado = estadoField.value;
         const nombre = nombreField.value;
         const fecha = fechaField.value;
-        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
+        const fechamc = fecha_mecerrado.value;
+        notificacionUsuario.lista_notificacion(nombre, fecha,fechamc, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
     });
 
      // Detectar cambios en el campo de estado para filtrar por estado
@@ -1445,7 +1460,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const estado = estadoField.value;
         const nombre = nombreField.value;
         const fecha = fechaField.value;
-        notificacionUsuario.lista_notificacion(nombre, fecha, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
+        const fechamc = fecha_mecerrado.value;
+        notificacionUsuario.lista_notificacion(nombre, fecha,fechamc, estado, 1,resultados_por_pagina.value);  // Resetear a la página 1
     });
 
 

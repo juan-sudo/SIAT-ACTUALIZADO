@@ -13,6 +13,7 @@ class AjaxNotificacion
     {   
         $filtroNombre = isset($_POST['filtro_nombre']) ? $_POST['filtro_nombre'] : '';
         $filtroFecha = isset($_POST['filtro_fecha']) ? $_POST['filtro_fecha'] : '';
+        $filtroFechamc = isset($_POST['filtro_fecha_mc']) ? $_POST['filtro_fecha_mc'] : '';
         $filtroEstado = isset($_POST['filtro_estado']) ? $_POST['filtro_estado'] : '';
         $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
         
@@ -22,7 +23,7 @@ class AjaxNotificacion
       //  $resultados_por_pagina = 15; // Establecer el número de resultados por página
 
         // Llamamos al controlador para obtener las notificaciones con filtros y paginación
-        $respuesta = ControladorNotificacion::ctrMostrarNotificaciones($filtroNombre, $filtroFecha, $filtroEstado, $pagina, $resultados_por_pagina);
+        $respuesta = ControladorNotificacion::ctrMostrarNotificaciones($filtroNombre, $filtroFecha, $filtroFechamc, $filtroEstado, $pagina, $resultados_por_pagina);
       
       
         echo $respuesta;

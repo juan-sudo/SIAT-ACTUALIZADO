@@ -121,14 +121,32 @@ public static function mdlMostrarGuardarIdNotificacion($datos)
    
   try {
       $pdo = Conexion::conectar();
-      
-      $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado, observacion = :observacion WHERE Id_Notificacion_Agua = :idNotificacion");
-      $stmt->bindParam(":idNotificacion", $datos['idNotificacion']);
+
+      if($datos['estado']==='MC'){
+        $fecha_corte_medidor = date('Y-m-d'); 
+        $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado, observacion = :observacion, fecha_corte_medidor=:fecha_corte_medidor WHERE Id_Notificacion_Agua = :idNotificacion");
+        $stmt->bindParam(":idNotificacion", $datos['idNotificacion']);
 
         $stmt->bindParam(":estado", $datos['estado']);
 
         $stmt->bindParam(":observacion", $datos['observacion']);
+
+        $stmt->bindParam(":fecha_corte_medidor", $fecha_corte_medidor);
+
       $stmt->execute();
+
+      }else{
+        $stmt = $pdo->prepare("UPDATE notificacion_agua SET estado = :estado, observacion = :observacion WHERE Id_Notificacion_Agua = :idNotificacion");
+        $stmt->bindParam(":idNotificacion", $datos['idNotificacion']);
+
+        $stmt->bindParam(":estado", $datos['estado']);
+
+        $stmt->bindParam(":observacion", $datos['observacion']);
+        
+        $stmt->execute();
+      }
+      
+    
       $pdo = null; // Mueve esta línea al final para cerrar la conexión después de ejecutar la consulta
       return "ok";
    } catch (Exception $e) {
@@ -449,12 +467,12 @@ public static function mdlTotalGuardarIdNotificacion($datos)
     }
 }
 
-public static function mdlMostrarNotificacion($filtro_nombre = '', $filtro_fecha = '', $filtro_estado = '', $inicio = 0, $resultados_por_pagina = 10) {
+public static function mdlMostrarNotificacion($filtro_nombre = '', $filtro_fecha = '', $filtroFechamc='',  $filtro_estado = '', $inicio = 0, $resultados_por_pagina = 10) {
     try {
-        $query = "SELECT l.Id_Licencia_Agua, l.Id_Contribuyente , l.Lote, l.Luz, l.Nombres_Licencia, l.Id_Ubica_Vias_Urbano, na.Numero_Notificacion, t.Codigo as tipo_via,
+        $query = "SELECT l.Id_Licencia_Agua, l.Id_Contribuyente , l.Lote, l.Luz, l.Nombres_Licencia, l.Id_Ubica_Vias_Urbano, na.monto_notificacion, na.Numero_Notificacion, t.Codigo as tipo_via, na.fecha_corte_medidor,
                 nv.Nombre_Via as nombre_calle, m.NumeroManzana as numManzana, cu.Numero_Cuadra as cuadra,
                 z.Nombre_Zona as zona, h.Habilitacion_Urbana as habilitacion, u.Id_Ubica_Vias_Urbano as id,
-                na.Fecha_Registro, na.fecha_corte, na.estado, na.Id_Notificacion_Agua
+                 DATE(na.Fecha_Registro) as Fecha_Registro, na.fecha_corte, na.estado, na.Id_Notificacion_Agua
             FROM notificacion_agua na
             INNER JOIN licencia_agua l ON l.Id_Licencia_Agua = na.Id_Licencia_Agua
             INNER JOIN categoria_agua ca ON ca.Id_Categoria_Agua = l.Id_Categoria_Agua
@@ -473,9 +491,15 @@ public static function mdlMostrarNotificacion($filtro_nombre = '', $filtro_fecha
             $query .= " WHERE l.Nombres_Licencia LIKE :filtro_nombre";
         }
 
+
         // Filtrar por fecha si se proporciona
         if ($filtro_fecha != '') {
             $query .= ($filtro_nombre != '') ? " AND DATE(na.Fecha_Registro) = :filtro_fecha" : " WHERE DATE(na.Fecha_Registro) = :filtro_fecha";
+        }
+
+          // Filtrar por fecha si se proporciona
+        if ($filtroFechamc != '') {
+            $query .= ($filtro_nombre != '') ? " AND DATE(na.fecha_corte_medidor) = :filtro_fecha_mc" : " WHERE DATE(na.fecha_corte_medidor) = :filtro_fecha_mc";
         }
 
         // Filtrar por estado si se proporciona
@@ -495,9 +519,17 @@ public static function mdlMostrarNotificacion($filtro_nombre = '', $filtro_fecha
         if ($filtro_nombre != '') {
             $stmt->bindValue(':filtro_nombre', "%$filtro_nombre%", PDO::PARAM_STR);
         }
+
+
         if ($filtro_fecha != '') {
             $stmt->bindValue(':filtro_fecha', $filtro_fecha, PDO::PARAM_STR);
         }
+
+         if ($filtroFechamc != '') {
+            $stmt->bindValue(':filtro_fecha_mc', $filtroFechamc, PDO::PARAM_STR);
+        }
+
+
         if ($filtro_estado != '' && $filtro_estado != 'todos') {
             $stmt->bindValue(':filtro_estado', $filtro_estado, PDO::PARAM_STR);
         }
