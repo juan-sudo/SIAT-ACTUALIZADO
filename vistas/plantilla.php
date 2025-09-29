@@ -209,7 +209,7 @@ $tiem = time();
 	<script src="vistas/js/notificacionagua.js" ></script>
 	<script src="vistas/js/carpetaActualizacion.js"></script>
 
-	<script src="vistas/js/administrarcoactivo.js" defer></script>
+
 	<script src="vistas/js/perdidaFraccionamiento.js" defer></script>
 	<script src="vistas/js/deudaFraccionado.js" defer></script>
 	<script src="vistas/js/resolucionFraccionado.js" defer></script>
@@ -231,6 +231,8 @@ $tiem = time();
 	<script src="vistas/js/notificacionValores.js" defer></script>
 	<script src="vistas/js/cargoNotificacion.js" defer></script>
 	<script src="vistas/js/resolucionMedidaCautelar.js" defer></script>
+
+		<script src="vistas/js/administrarcoactivo.js" defer></script>
 	
 	<!-- Incluye SheetJS desde el CDN -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>

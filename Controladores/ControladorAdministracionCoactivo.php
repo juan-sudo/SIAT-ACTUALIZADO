@@ -201,7 +201,7 @@ class ControladorAdministracionCoactivo
 
                                 <button class="btn btn-danger btn-sm btnVerAdministracionCoactivo" 
                                         data-idcontribuyente="' .$id_contribuyentes_str. '" 
-                                        data-toggle="modal" data-target="#modalEstadoCuenta"
+                                        data-toggle="modal" data-target="#modalEstadoCuentaVer"
                                         title="Pago por años coactivo">
                                     <i class="fas fa-eye"></i> 
                                 </button>

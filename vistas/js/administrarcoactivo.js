@@ -2,21 +2,8 @@ class AdministracionCoactivo {
 
   constructor() {
     
-        this.idCatastroC_consulta_agua = null;
-        this.ubiLicenciaC_consulta_agua = null;
-        this.codCatastroC_consulta_agua=null;
-        this.idlicenciaagua=null; 
-        this.totalImporte = 0;
-        this.totalGasto = 0;
-        this.totalSubtotal = 0;
-        this.totalTIM = 0;
-        this.totalTotal = 0;
-        this.idsSeleccionados = [];
-        this.anio=null;
-        this.totalCuotas=null;
-        this.idlicenciaaguap=null;
-        this.idcontribuyente=null;
-        this.valorTotalMo=null;
+    this.idcontribuyente=null;
+       
   }
 
 
@@ -211,7 +198,7 @@ class AdministracionCoactivo {
             }, 5000);
 
            $("#modalEditarEstadoCuenta").modal("hide");
-
+x
 
           }
           else {
@@ -427,4 +414,5 @@ $("#volver_administracion_co").click(function (e) {
     // Redirigir a la URL
     window.location.href = url;
 });
+
 
