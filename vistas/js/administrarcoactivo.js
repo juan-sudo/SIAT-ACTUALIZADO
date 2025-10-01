@@ -3,19 +3,18 @@ class AdministracionCoactivo {
   constructor() {
     
     this.idcontribuyente=null;
+    this.idcoactivo=null;
        
   }
-
-
 
   lista_coactivo(filtro_nombre = '', filtro_op='', filtro_ex='',  pagina = 1, resultados_por_pagina='15') {
     let datos = new FormData();
     datos.append("lista_coactivo", "lista_coactivo");
-    datos.append("filtro_nombre", filtro_nombre);  // Agregar filtro de nombre
-    datos.append("filtro_op", filtro_op);  // Agregar filtro de nombre
-    datos.append("filtro_ex", filtro_ex);  // Agregar filtro de nombre
-    datos.append("pagina", pagina);   
-    datos.append("resultados_por_pagina", resultados_por_pagina);                // Agregar página actual
+    datos.append("filtro_nombre", filtro_nombre);
+    datos.append("filtro_op", filtro_op);
+    datos.append("filtro_ex", filtro_ex);
+    datos.append("pagina", pagina);
+    datos.append("resultados_por_pagina", resultados_por_pagina);
    
     $.ajax({
         url: "ajax/administracioncoactivo.ajax.php",
@@ -26,43 +25,98 @@ class AdministracionCoactivo {
         processData: false,
         success: function (respuesta) {
            
-             let data;
-          try {
-              data = JSON.parse(respuesta);
-          } catch (e) {
-              console.log("No se pudo parsear la respuesta:", e);
-              return;
-          }
+            let data;
+            try {
+                // Intenta parsear la respuesta como JSON
+                data = JSON.parse(respuesta);
+            } catch (e) {
+                console.log("No se pudo parsear la respuesta:", e);
+                return;
+            }
 
-          document.getElementById('lista_de_coactivo').innerHTML = data.data;
-          document.getElementById('pagination_co').innerHTML = data.pagination;  
-
-            // Verifica si el elemento existe antes de modificarlo
             const listaDeCoactivo = document.getElementById('lista_de_coactivo');
-            if (listaDeCoactivo) {
-                // Verifica si la respuesta comienza con "<tr" (lo que indica que es HTML)
+            const pagination = document.getElementById('pagination_co');
+
+            // Asegúrate de que los elementos existen
+            if (listaDeCoactivo && pagination) {
+                // Si la respuesta es HTML (por ejemplo, empieza con "<tr"), actualiza el contenido
                 if (respuesta.startsWith('<tr')) {
-                    // Si es HTML, simplemente actualiza el contenido sin parsear
                     listaDeCoactivo.innerHTML = respuesta;
                 } else {
-                    // Si es JSON, parsea y maneja como JSON
-                    let data;
-                    try {
-                        data = JSON.parse(respuesta);
+                    // Si la respuesta es JSON, asegura que 'data' tiene la propiedad 'data'
+                    if (data && data.data) {
                         listaDeCoactivo.innerHTML = data.data;
-                    } catch (e) {
-                        console.log("No se pudo parsear la respuesta:", e);
-                        console.log("Respuesta cruda:", respuesta);
+                        pagination.innerHTML = data.pagination;
+                    } else {
+                        console.error("La respuesta no contiene los datos esperados.");
                     }
                 }
             } else {
-                console.error("No se encontró el elemento '#lista_de_coactivo'.");
+                console.error("No se encontró el elemento '#lista_de_coactivo' o '#pagination_co'.");
             }
         }
-
-
     });
 }
+
+
+
+
+
+//   lista_coactivo(filtro_nombre = '', filtro_op='', filtro_ex='',  pagina = 1, resultados_por_pagina='15') {
+//     let datos = new FormData();
+//     datos.append("lista_coactivo", "lista_coactivo");
+//     datos.append("filtro_nombre", filtro_nombre);  // Agregar filtro de nombre
+//     datos.append("filtro_op", filtro_op);  // Agregar filtro de nombre
+//     datos.append("filtro_ex", filtro_ex);  // Agregar filtro de nombre
+//     datos.append("pagina", pagina);   
+//     datos.append("resultados_por_pagina", resultados_por_pagina);                // Agregar página actual
+   
+//     $.ajax({
+//         url: "ajax/administracioncoactivo.ajax.php",
+//         method: "POST",
+//         data: datos,
+//         cache: false,
+//         contentType: false,
+//         processData: false,
+//         success: function (respuesta) {
+           
+//              let data;
+//           try {
+//               data = JSON.parse(respuesta);
+//           } catch (e) {
+//               console.log("No se pudo parsear la respuesta:", e);
+//               return;
+//           }
+
+//           document.getElementById('lista_de_coactivo').innerHTML = data.data;
+//           document.getElementById('pagination_co').innerHTML = data.pagination;  
+
+//             // Verifica si el elemento existe antes de modificarlo
+//             const listaDeCoactivo = document.getElementById('lista_de_coactivo');
+//             if (listaDeCoactivo) {
+//                 // Verifica si la respuesta comienza con "<tr" (lo que indica que es HTML)
+//                 if (respuesta.startsWith('<tr')) {
+//                     // Si es HTML, simplemente actualiza el contenido sin parsear
+//                     listaDeCoactivo.innerHTML = respuesta;
+//                 } else {
+//                     // Si es JSON, parsea y maneja como JSON
+//                     let data;
+//                     try {
+//                         data = JSON.parse(respuesta);
+//                         listaDeCoactivo.innerHTML = data.data;
+//                     } catch (e) {
+//                         console.log("No se pudo parsear la respuesta:", e);
+//                         console.log("Respuesta cruda:", respuesta);
+//                     }
+//                 }
+//             } else {
+//                 console.error("No se encontró el elemento '#lista_de_coactivo'.");
+//             }
+//         }
+
+
+//     });
+// }
 
 
   //ADMINISTACION COACTIVO MOSTRAR ESTADO DE CUENTA
@@ -108,14 +162,14 @@ class AdministracionCoactivo {
   
 
   //EDITAR ADMINISTRACION COACTIVO
-   EditarAdministracionCoactivo(idContribuyente){
+   EditarAdministracionCoactivo(idCoactivo){
 
     console.log("llego aqui-", idContribuyente)
 
 
     let datos = new FormData();
 
-    datos.append("idContribuyente", idContribuyente);  // Agregar filtro de nombre
+    datos.append("idCoactivo", idCoactivo);  // Agregar filtro de nombre
     datos.append("editar_coactivo", "editar_coactivo");
    
 
@@ -166,7 +220,7 @@ class AdministracionCoactivo {
     console.log("pgina actual", pagina_numero);
     let datos = new FormData();
 
-   datos.append("idContribuyente",administracionCoactivo_.idcontribuyente);
+   datos.append("idcoactivo",administracionCoactivo_.idcoactivo);
    datos.append("expediente",numeroExpediente);
    datos.append("estado",estado);
     datos.append("guardar_coactivo", "guardar_coactivo");
@@ -220,13 +274,14 @@ x
 
 const administracionCoactivo_ = new AdministracionCoactivo();
 
+
 document.addEventListener('DOMContentLoaded', function () {
 
    administracionCoactivo_.lista_coactivo('','','',1);  // Mostrar página 1 por defecto
     
     // Detectar cambios en los campos de filtro (nombre, fecha, estado)
     const nombreField = document.querySelector('#filtrar_nombre_coactivo');
-
+   
      const resultados_por_pagina = document.querySelector('#resultados_por_pagina_co'); // Campo de estado
 
     const numeroop = document.querySelector('#filtrar_op');
@@ -290,10 +345,10 @@ $(document).on("click", ".btnVerAdministracionCoactivo", function () {
 //VER EDITAR ADMINISTRACION COACTIVO
 $(document).on("click", ".btnEditarAdministracionCoactivo", function () {
 
-    const idcontribuyente = $(this).data("idcontribuyente");
+    const idcoactivo = $(this).data("idcoactivo");
 
-    administracionCoactivo_.idcontribuyente = idcontribuyente;
-    administracionCoactivo_.EditarAdministracionCoactivo(administracionCoactivo_.idcontribuyente);
+    administracionCoactivo_.idcoactivo = idcoactivo;
+    administracionCoactivo_.EditarAdministracionCoactivo(administracionCoactivo_.idcoactivo);
 });
 
 
@@ -366,6 +421,7 @@ $(document).ready(function() {
 
 $(document).on("click", ".btnAdministracionCoactivo", function () {
     var contribuyenteId = $(this).data('idcontribuyente');  // Obtener el valor
+    
     console.log("ID del contribuyente:", contribuyenteId);
     
     // Verificar si el ID está presente

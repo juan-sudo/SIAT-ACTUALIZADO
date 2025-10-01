@@ -10,11 +10,17 @@ class AjaxAdministracionCoactivo
     //mostrar lista de usuarios
     public function ajaxLista_Coactivo()
     {   
-        $filtroNombre = isset($_POST['filtro_nombre']) ? $_POST['filtro_nombre'] : '';
-        $filtro_op = isset($_POST['filtro_op']) ? $_POST['filtro_op'] : '';
-        $filtro_ex = isset($_POST['filtro_ex']) ? $_POST['filtro_ex'] : '';
-        $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
-        $resultados_por_pagina = isset($_POST['resultados_por_pagina']) ? (int)$_POST['resultados_por_pagina'] : 15;
+        // $filtroNombre = isset($_POST['filtro_nombre']) ? $_POST['filtro_nombre'] : '';
+        // $filtro_op = isset($_POST['filtro_op']) ? $_POST['filtro_op'] : '';
+        // $filtro_ex = isset($_POST['filtro_ex']) ? $_POST['filtro_ex'] : '';
+        // $pagina = isset($_POST['pagina']) ? (int)$_POST['pagina'] : 1; // Obtener página actual
+        // $resultados_por_pagina = isset($_POST['resultados_por_pagina']) ? (int)$_POST['resultados_por_pagina'] : 15;
+
+        $filtroNombre = $_POST['filtro_nombre'] ?? ''; 
+        $filtro_op = $_POST['filtro_op'] ?? '';
+        $filtro_ex = $_POST['filtro_ex'] ?? '';
+        $pagina = (int) ($_POST['pagina'] ?? 1);  // Asegúrate de que 'pagina' sea un número entero
+        $resultados_por_pagina = (int) ($_POST['resultados_por_pagina'] ?? 15);
 
     
         // Llamamos al controlador para obtener las notificaciones con filtros y paginación
@@ -40,10 +46,10 @@ class AjaxAdministracionCoactivo
      //MOSTRAR PARA EDITAR
     public function AjaxEditarMoatrarCoactivo() 
     {   
-    $idContribuyente = isset($_POST['idContribuyente']) ? $_POST['idContribuyente'] : '';
+    $idCoactivo = isset($_POST['idCoactivo']) ? $_POST['idCoactivo'] : '';
    
     // Llamamos al controlador para obtener las notificaciones con filtros y paginación
-    $respuesta = ControladorAdministracionCoactivo::ctrMostrarEditar($idContribuyente);
+    $respuesta = ControladorAdministracionCoactivo::ctrMostrarEditar($idCoactivo);
   
     echo $respuesta;
   
@@ -53,12 +59,12 @@ class AjaxAdministracionCoactivo
       //MOSTRAR PARA EDITAR
     public function AjaxGuardarMoatrarCoactivo() 
     {   
-    $idContribuyente = isset($_POST['idContribuyente']) ? $_POST['idContribuyente'] : '';
+    $idcoactivo = isset($_POST['idcoactivo']) ? $_POST['idcoactivo'] : '';
     $expediente = isset($_POST['expediente']) ? $_POST['expediente'] : '';
     $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
    
     // Llamamos al controlador para obtener las notificaciones con filtros y paginación
-    $respuesta = ControladorAdministracionCoactivo::ctrGuardarEditar($idContribuyente, $expediente, $estado);
+    $respuesta = ControladorAdministracionCoactivo::ctrGuardarEditar($idcoactivo, $expediente, $estado);
  
     echo $respuesta;
   
@@ -72,27 +78,27 @@ class AjaxAdministracionCoactivo
 
 //MOSTRAR LSITA DE COACTIVO
 if (isset($_POST['lista_coactivo'])) {
-    $objlistapagina = new AjaxAdministracionCoactivo();
-    $objlistapagina->ajaxLista_Coactivo();
+    $objlistapaginaa = new AjaxAdministracionCoactivo();
+    $objlistapaginaa->ajaxLista_Coactivo();
 }
 
 //MOSTRAR LSITA DE COACTIVO
 if (isset($_POST['lista_montos_coactivo'])) {
-    $objlistapagina = new AjaxAdministracionCoactivo();
-    $objlistapagina->AjaxAdministracionCoactivoMontosAnios();
+    $objlistapaginaa = new AjaxAdministracionCoactivo();
+    $objlistapaginaa->AjaxAdministracionCoactivoMontosAnios();
 }
 
 //MOSTRAR PARA EDITAR
 if (isset($_POST['editar_coactivo'])) {
-    $objlistapagina = new AjaxAdministracionCoactivo();
-    $objlistapagina->AjaxEditarMoatrarCoactivo();
+    $objlistapaginaa = new AjaxAdministracionCoactivo();
+    $objlistapaginaa->AjaxEditarMoatrarCoactivo();
 }
 
 
 //MOSTRAR PARA EDITAR
 if (isset($_POST['guardar_coactivo'])) {
-    $objlistapagina = new AjaxAdministracionCoactivo();
-    $objlistapagina->AjaxGuardarMoatrarCoactivo();
+    $objlistapaginaa = new AjaxAdministracionCoactivo();
+    $objlistapaginaa->AjaxGuardarMoatrarCoactivo();
 }
 
 

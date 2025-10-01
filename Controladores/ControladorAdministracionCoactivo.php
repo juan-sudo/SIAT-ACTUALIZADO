@@ -8,10 +8,11 @@ class ControladorAdministracionCoactivo
 {
 
     //GUATRADR EDIATAR
-        public static function ctrGuardarEditar($idContribuyente, $expediente, $estado) 
-{
+        public static function ctrGuardarEditar($idcoactivo, $expediente, $estado) 
+    {
+    
     // Llamamos al modelo y pasamos los filtros y la paginación
-    $respuesta = ModeloAdministracionCoactivo::mdlGuardarEditar($idContribuyente, $expediente, $estado);
+    $respuesta = ModeloAdministracionCoactivo::mdlGuardarEditar($idcoactivo, $expediente, $estado);
 
  
       if ($respuesta == 'ok') {
@@ -38,10 +39,10 @@ class ControladorAdministracionCoactivo
     }
 
 
-    public static function ctrMostrarEditar($idContribuyente) 
+    public static function ctrMostrarEditar($idCoactivo) 
 {
     // Llamamos al modelo y pasamos los filtros y la paginación
-    $respuesta = ModeloAdministracionCoactivo::mdlMostrarEditar($idContribuyente);
+    $respuesta = ModeloAdministracionCoactivo::mdlMostrarEditar($idCoactivo);
 
     echo json_encode(array('data' => $respuesta));
  
@@ -55,10 +56,6 @@ class ControladorAdministracionCoactivo
     // Llamamos al modelo y pasamos los filtros y la paginación
     $respuesta = ModeloAdministracionCoactivo::mdlMostrarAdministracionCoactivoTotalAnio($idContribuyente);
 
-    // Inicializamos las variables para acumular los totales
-    // $totalAplicar = 0;
-    // $totalTIM = 0;
-    
     // Comienza la primera tabla
     $tabla = '<table border="1" style="border-collapse: collapse;">';
     $tabla .= '<thead>
@@ -66,57 +63,62 @@ class ControladorAdministracionCoactivo
                     <th style="width:20%">Año</th>
                     <th style="width:40%">TIM a Aplicar</th>
                     <th style="width:40%">Total a Aplicar</th>
-                    
                 </tr>
               </thead>';
     
     // Recorre cada fila del array de respuesta
-    foreach ($respuesta as $row) {
-        // Acumulamos los totales
-        // $totalAplicar += $row['SUM(Total_Aplicar)'];
-        // $totalTIM += $row['SUM(TIM_Aplicar)'];
-
-        // Añadimos una fila por cada resultado
-        $tabla .= '<tr>';
-        $tabla .= '<td>' . $row['Anio'] . '</td>';
-        $tabla .= '<td>' . number_format($row['SUM(TIM_Aplicar)'], 2) . '</td>'; 
-        $tabla .= '<td>' . number_format($row['SUM(Total_Aplicar)'], 2) . '</td>';  // Formateamos a 2 decimales
-         // Formateamos a 2 decimales
-        $tabla .= '</tr>';
+    if ($respuesta) {
+        foreach ($respuesta as $row) {
+            // Añadimos una fila por cada resultado
+            $tabla .= '<tr>';
+            $tabla .= '<td>' . $row['Anio'] . '</td>';
+            $tabla .= '<td>' . number_format($row['TIM_Aplicar'], 2) . '</td>'; 
+            $tabla .= '<td>' . number_format($row['Total_Aplicar'], 2) . '</td>';  // Formateamos a 2 decimales
+            $tabla .= '</tr>';
+        }
+    } else {
+        // Si no hay resultados, mostramos un mensaje
+        $tabla .= '<tr><td colspan="3">No se encontraron datos.</td></tr>';
     }
-
-    
 
     // Cierra la primera tabla
     $tabla .= '</table>';
 
-     $tablat = '';
-    // Añadimos la fila de los totales al final
-    // Añadimos la fila de los totales al final
+    $tablat = '';
+   // Añadimos la fila de los totales al final
     $total_registros = ModeloAdministracionCoactivo::mdlTotalTimTotalCoactivo($idContribuyente);
 
-    // Verifica si se obtuvieron resultados de la consulta
-    if ($total_registros) {
-        $total_tim_aplicar = $total_registros[0]['SUM(TIM_Aplicar)'] ?? 0;  // Asegúrate de que el índice de la columna esté correcto
-        $total_a_aplicar = $total_registros[0]['SUM(Total_Aplicar)'] ?? 0;  // Asegúrate de que el índice de la columna esté correcto
-        
-        $tablat .= '<tr>';
-        $tablat .= '<td style="width:20%; font-size: 18px;"> <strong>Total: </strong></td>';
-        $tablat .= '<td style="width:40%;  font-size: 18px;">  <strong>' . number_format($total_tim_aplicar, 2) . '</strong></td>';  // Total TIM aplicar
-        $tablat .= '<td style="width:40%;  font-size: 18px;"> <strong>' . number_format($total_a_aplicar, 2) . '</strong></td>';  // Total a aplicar
-        $tablat .= '</tr>';
-    } else {
-        $tablat .= '<tr><td colspan="3">No se encontraron datos.</td></tr>';
-    }
-        // Devuelves ambas tablas (primera tabla y segunda tabla)
-        //echo $tabla;
 
-          echo json_encode(array('data' => $tabla, 'pagination' => $tablat));
-    }
+  //  var_dump($total_registros);
+
+    // Verifica si se obtuvieron resultados de la consulta
+  if ($total_registros) {
+    // Usar los índices correctos de la consulta
+    $total_tim_aplicar = $total_registros[0]['SUM(ord.TIM )'] ?? 0;  // Índice correcto para TIM_Aplicar
+    $total_a_aplicar = $total_registros[0]['SUM(ord.Total)'] ?? 0;  // Índice correcto para Total_Aplicar
+    
+    $tablat .= '<tr>';
+    $tablat .= '<td style="width:20%; font-size: 18px;"> <strong>Total: </strong></td>';
+    $tablat .= '<td style="width:40%; font-size: 18px;">  <strong>' . number_format($total_tim_aplicar, 2) . '</strong></td>';  // Total TIM aplicar
+    $tablat .= '<td style="width:40%; font-size: 18px;"> <strong>' . number_format($total_a_aplicar, 2) . '</strong></td>';  // Total a aplicar
+    $tablat .= '</tr>';
+} else {
+    $tablat .= '<tr><td colspan="3">No se encontraron datos para los totales.</td></tr>';
+}
+    // Devuelves ambas tablas (primera tabla y segunda tabla)
+    echo json_encode(array('data' => $tabla, 'pagination' => $tablat));
+}
+
+
+
+
+
+
 
       public static function ctrMostrarAdministracionCoactivo($filtro_nombre,$filtro_op, $filtro_ex, $pagina, $resultados_por_pagina ) 
   {
 
+ 
     
     // Calcular el inicio de la consulta según la página actual
     $inicio = ($pagina - 1) * $resultados_por_pagina;
@@ -129,47 +131,15 @@ class ControladorAdministracionCoactivo
 
      // Inicializar la variable para almacenar las filas de la tabla
     $tabla = '';
-    $ubicacionvia_count = []; // Array para contar las ocurrencias de 'ubicacionvia'
-    $id_varios=[];
-
-      // Primero contar cuántas veces aparece cada 'ubicacionvia'
-    if ($respuesta) {
-
-        foreach ($respuesta as $row) {
-            $ubicacionvia = $row['ubicacionvia'];
-            $id_contribuyente = $row['id_contribuyente'];
-
-
-            // Si 'ubicacionvia' no está en el array, inicializarla
-            if (!isset($ubicacionvia_count[$row['ubicacionvia']])) {
-                $ubicacionvia_count[$row['ubicacionvia']] = 0;
-                 $id_varios[$ubicacionvia] = [];
-            }
-            // Contar la ocurrencia de 'ubicacionvia'
-            $ubicacionvia_count[$row['ubicacionvia']]++;
-
-             $id_varios[$ubicacionvia][] = $id_contribuyente;
-        }
-
-    }
-
-
+   
     if ($respuesta) {
         
         
         // Recorrer los resultados de la consulta directamente
         foreach ($respuesta as $row) {
 
-         $id_contribuyentes_str = implode(',', $id_varios[$row['ubicacionvia']]);
-
-          // Verificar si el valor de 'ubicacionvia' ya ha sido pintado
-           if ($ubicacionvia_count[$row['ubicacionvia']] > 1) {
-
-                $fondo_fila = 'background-color:#9fd7f5 ;'; // 
-
-            } else {
-                $fondo_fila = ''; // Si no se repite, asignar otro color (gris claro)
-            }
+         
+          
 
             $estado=$row['estado_c'];
             if($estado==='M'){
@@ -185,36 +155,34 @@ class ControladorAdministracionCoactivo
             }
 
             //enerar la fila de la tabla sin utilizar arrays para agrupar
-            $tabla .= '<tr style="' . $fondo_fila . '">
-                        <td style="text-align: center; " >
-                            <button class="btn-enlace">' . $row['ubicacionvia'] . '</button>
-                        </td>
+            $tabla .= '<tr >
+                        
                        
                           <td style="text-align: center;">' . $row['id_contribuyente'] . '</td>
                         <td style="text-align: center;">' . $row['expediente'] . '</td>
                         <td style="text-align: center;">' . $row['orden_pago'] . '</td>
                         <td style="text-align: left;">' . $row['nombre_completo'] . '</td>
-                        <td style="text-align: left;">' . (isset($row['direccion_completo']) ? $row['direccion_completo'] : 'No disponible') . '</td>
+                       
                         <td style="text-align: center;">' . $estado. '</td>
                         <td style="text-align: center;">
                             <div class="btn-group">
 
                                 <button class="btn btn-danger btn-sm btnVerAdministracionCoactivo" 
-                                        data-idcontribuyente="' .$id_contribuyentes_str. '" 
+                                        data-idcontribuyente="' . $row['id_contribuyente'] . '" 
                                         data-toggle="modal" data-target="#modalEstadoCuentaVer"
                                         title="Pago por años coactivo">
                                     <i class="fas fa-eye"></i> 
                                 </button>
 
                                 <button class="btn btn-danger btn-sm btnEditarAdministracionCoactivo" 
-                                        data-idcontribuyente="' .$id_contribuyentes_str . '" 
+                                        data-idcoactivo="' . $row['id_coactivo'].'" 
                                         data-toggle="modal" data-target="#modalEditarEstadoCuenta"
                                         title="Pago por años coactivo">
                                     <i class="fas fa-edit"></i> 
                                 </button>
 
                                 <button class="btn btn-danger btn-sm btnAdministracionCoactivo" 
-                                        data-idcontribuyente="' . $id_contribuyentes_str . '" 
+                                        data-idcontribuyente="' .  $row['id_contribuyente']  . '" 
                                         title="Pago por años coactivo">
                                     <i class="fas fa-arrow-right"></i>
                                 </button>

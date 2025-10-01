@@ -514,7 +514,7 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
     }
 
             // Obtener el total de registros para la paginación
-        $total_registros = ModeloNotificacion::mdlContarNotificaciones($filtro_nombre, $filtro_fecha, $filtro_estado);
+        $total_registros = ModeloNotificacion::mdlContarNotificaciones($filtro_nombre, $filtro_fecha, $filtroFechamc, $filtro_estado);
 
         // Calcular el número total de páginas
         $total_paginas = ceil($total_registros / $resultados_por_pagina);
@@ -544,7 +544,7 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
         ';
 
         if ($pagina > 1) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina - 1) . ')">Anterior</a></li>';
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\',  \'' . $filtroFechamc . '\',  \'' . $filtro_estado . '\', ' . ($pagina - 1) . ')">Anterior</a></li>';
         }
 
         if ($pagina > $rangos + 1) {
@@ -552,13 +552,13 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
         }
 
         for ($i = max(1, $pagina - $rangos); $i < $pagina; $i++) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\',  \'' . $filtroFechamc . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
         }
 
         $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $pagina . '</a></li>';
 
         for ($i = $pagina + 1; $i <= min($total_paginas, $pagina + $rangos); $i++) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtroFechamc . '\',  \'' . $filtro_estado . '\', ' . $i . ')">' . $i . '</a></li>';
         }
 
         if ($pagina < $total_paginas - $rangos) {
@@ -566,7 +566,7 @@ public static function ctrMostrarNotificaciones($filtro_nombre = '', $filtro_fec
         }
 
         if ($pagina < $total_paginas) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\', \'' . $filtro_estado . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
+            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="notificacionUsuario.lista_notificacion(\'' . $filtro_nombre . '\', \'' . $filtro_fecha . '\',  \'' . $filtroFechamc . '\',  \'' . $filtro_estado . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
         }
 
         $pagination .= '

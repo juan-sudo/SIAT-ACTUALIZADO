@@ -84,12 +84,12 @@ use Controladores\ControladorNotificacion;
             <thead>
               <tr>
                
-                   <th style="width: 5%; text-align: center;">id</th>
+                
                  <th style="width: 5%;text-align: center;">Codigo</th>
                  <th style="width: 10%; text-align: center;">N° expe.</th>
                  <th style="width: 10%; text-align: center;">N° o.p.</th>
                 <th style="width: 25%;">Nombres y apellidos</th>
-                <th style="width: 25%;">Domicilio</th>
+               
                  <th style="width: 8%;text-align: center;">Estado</th>
               
                
