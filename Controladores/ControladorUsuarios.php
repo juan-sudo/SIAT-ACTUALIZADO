@@ -145,7 +145,7 @@ class ControladorUsuarios
             
                 // Mostrar mensaje de bloqueo dentro de un div con el tiempo restante
                 echo '<br><div class="alert alert-danger">Demasiados intentos fallidos. Intenta nuevamente en ' . round($restante / 60) . ' minutos.</div>';
-                echo "<script>grecaptcha.reset();</script>";
+               // echo "<script>grecaptcha.reset();</script>";
                 exit;
             }
     
@@ -158,7 +158,7 @@ class ControladorUsuarios
             // Verificar si los campos están vacíos
             if (empty($user) || empty($pass)) {
                 echo '<br><div class="alert alert-danger">Usuario o contraseña no pueden estar vacíos</div>';
-                echo "<script>grecaptcha.reset();</script>";
+              //  echo "<script>grecaptcha.reset();</script>";
                 exit;
             }
     
@@ -171,7 +171,7 @@ class ControladorUsuarios
             if ($respuesta === false) {
                 // Error en la consulta a la base de datos
                 echo '<br><div class="alert alert-danger">Error - No tiene Acceso</div>';
-                echo "<script>grecaptcha.reset();</script>";
+               // echo "<script>grecaptcha.reset();</script>";
                 exit;
             }
     
@@ -197,7 +197,7 @@ class ControladorUsuarios
                     exit; // Asegurarse de que el script se detenga después de la redirección
                 } else {
                     echo '<br><div class="alert alert-danger">El usuario está inactivo, contacta al administrador</div>';
-                    echo "<script>grecaptcha.reset();</script>";
+                  //  echo "<script>grecaptcha.reset();</script>";
                 }
             } else {
                 // Incrementa el contador de intentos fallidos
@@ -205,7 +205,7 @@ class ControladorUsuarios
                 $_SESSION['ultimo_intento'] = time();
     
                 echo '<br><div class="alert alert-danger">Usuario o contraseña incorrectos</div>';
-                echo "<script>grecaptcha.reset();</script>";
+              //  echo "<script>grecaptcha.reset();</script>";
             }
         }
 

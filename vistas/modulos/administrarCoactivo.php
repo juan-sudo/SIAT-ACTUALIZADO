@@ -33,7 +33,7 @@ use Controladores\ControladorNotificacion;
         </div>
 
         <div class="box-header">
-    <div class="col-md-3">
+    <!-- <div class="col-md-3">
         <label for="filtrar_nombre_coactivo">Filtrar por nombre</label>
         <input type="text" id="filtrar_nombre_coactivo" name="filtrar_nombre_coactivo" class="form-control" style="width: 100%;" placeholder="Ingrese nombre o apellidos">
     </div>
@@ -56,7 +56,7 @@ use Controladores\ControladorNotificacion;
             <option value="25">25</option>
         </select>
 
-    </div>
+    </div> -->
 
    
     <div class="col-md-4">
@@ -86,7 +86,7 @@ use Controladores\ControladorNotificacion;
                
                 
                  <th style="width: 5%;text-align: center;">Codigo</th>
-                 <th style="width: 10%; text-align: center;">N° expe.</th>
+                 <th style="width: 10%; text-align: center;">N° expe.</th> 
                  <th style="width: 10%; text-align: center;">N° o.p.</th>
                 <th style="width: 25%;">Nombres y apellidos</th>
                
@@ -125,6 +125,60 @@ use Controladores\ControladorNotificacion;
   <!-- <embed class="printerhere" src="" type="application/pdf" width="100%" height="600px" class="printerhere" /> -->
 
 </div>
+
+
+<!-- MODAL EDITAR ADMINISTRACION COACTIVO ARHICAVR -->
+<div id="modalEditarEstadoCuentaArchivar" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->  
+            <div class="modal-header" style="background-color: #3c8dbc; color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <h4 class="modal-title">Archivar expedient en coactivo</h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-6">
+                     <div class="form-group">
+                    <label for="numeroInformeCo">Numero de informe</label>
+                    <input type="text" class="form-control" id="numeroInformeCo" name="numeroInformeCo" placeholder="Ingrese valor para el campo 1">
+                </div>
+
+                </div>
+                  <div class="col-lg-6">
+                      <!-- Segundo Input -->
+                <div class="form-group text-center ">
+                <label for="estadoArchivarCo" style="display: block;">Archivar expediente de coactivo</label>
+               <input type="checkbox" id="estadoArchivarCo" name="estadoArchivarCo">
+            </div>
+
+                </div>
+
+
+              </div>
+                <!-- Primer Input -->
+             
+
+              
+
+            </div>
+
+            <!-- Modal Footer (puedes agregar botones aquí si lo deseas) -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary btnGuadarAdministracionCoactivoArchivar">Guardar cambios</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- MODAL DE RECONEXION FIN -->
+
 
 <!-- MODAL EDITAR ADMINISTRACION COACTIVO -->
 <div id="modalEditarEstadoCuenta" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">

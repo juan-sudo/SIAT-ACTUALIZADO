@@ -3925,7 +3925,7 @@ $idArray = array_filter($idArray);
     <div class="modal-content">
       
       <div class="modal-header">
-        ORDEN DE PAGO
+        ORDEN DE PAGO jjjj
       </div>
       
       <div class="modal-body">
@@ -4015,7 +4015,7 @@ $idArray = array_filter($idArray);
               </select>
 
               <!-- Botones para Modificar y Borrar, inicialmente ocultos -->
-              <button type="button" id="modificarBtn" class="btn-elegante mostrar-btn" style="display: none;">Mostrar</button>
+              <button type="button" id="modificarBtn" class="btn-elegante mostrar-btn" style="display: none;">Mostrar r</button>
               <button type="button" id="borrarBtn" class="btn-elegante" style="display: none;">Borrar</button>
             </div>
 

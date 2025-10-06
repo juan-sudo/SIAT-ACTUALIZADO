@@ -9,6 +9,8 @@ class OrdenPagoClass {
 //MOSTRAR ORDENENS DE PAGO HISTORIAL
     ordenes_pago(){
 
+      console.log("llegaste aqui---");
+
       let self=this;
       let datos = new FormData();
       var anoSeleccionado = $('#anio_orden option:selected').text();
@@ -39,6 +41,7 @@ class OrdenPagoClass {
             if (respuesta.totales && respuesta.totales.length > 0) {
                 var content = '';
                 self.totalDeuda_ = respuesta.totales[0];
+
                 console.log("total_total mlm " + self.totalDeuda_.Importe);
     
                  // Crear un conjunto para almacenar los números de orden ya agregados
@@ -215,26 +218,20 @@ class OrdenPagoClass {
 
     //MOSTRAR ORDEN DE PAGO
     imprimir_orden_historial(selectedOption) {
-
-
       let datos = new FormData();
       datos.append("carpeta", predio.carpeta);
       datos.append("propietarios",predio.Propietarios);
       datos.append("tipo_tributo", this.tipo_tributo_orden);
       datos.append("anio", this.anio_orden);
-  
-      datos.append("importe",this.totalDeuda_.Importe);
-      datos.append("gasto", this.totalDeuda_.Gasto_Emision);
-      datos.append("subtotal", this.totalDeuda_.Saldo);
-      datos.append("tim", this.totalDeuda_.TIM_Aplicar);
-      datos.append("total", this.totalDeuda_.Total_Aplicar);
-      datos.append("total", this.totalDeuda_.Total_Aplicar);
-  
+
+      // Ensure values are defined, default to 0 if undefined
+      datos.append("importe", this.totalDeuda_.Importe || 0);
+      datos.append("gasto", this.totalDeuda_.Gasto_Emision || 0);
+      datos.append("subtotal", this.totalDeuda_.Saldo || 0);
+      datos.append("tim", this.totalDeuda_.TIM_Aplicar || 0);
+      datos.append("total", this.totalDeuda_.Total_Aplicar || 0);
+
       datos.append("numero_orden_seleccionado", selectedOption);  // Pasar solo el número de la orden
-  
-  
-  
-  
   
       for (let pair of datos.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
@@ -252,8 +249,10 @@ class OrdenPagoClass {
             $("#modal_cargar").modal("show");
           },
           success: function(rutaArchivo) {
+
+            console.log("respuesta--------------------ok",rutaArchivo);
             $("#modal_cargar").modal("hide");
-              document.getElementById("iframe_orden_pago").src = 'vistas/print/' + rutaArchivo;
+             document.getElementById("iframe_orden_pago").src = 'vistas/print/' + rutaArchivo;
               $("#Modal_Orden_Pago").modal("show");
           },
           error: function() {
@@ -435,6 +434,7 @@ $(document).on("click", ".mostrar-btn", function () {
  // Obtener el valor de la opción seleccionada
  let selectedOption = $('#select_tributo_orden_h').val();  // Aquí obtenemos el valor del select
     
+ console.log("jujjjjjjjjjjjjjjjjjjjjjjjj",selectedOption);
  orden_pago.imprimir_orden_historial(selectedOption);
 
 });

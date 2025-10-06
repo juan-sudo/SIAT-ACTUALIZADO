@@ -82,7 +82,7 @@ class SuspencionSoclicitud {
          datos.append("tipo_tributo ", this.tipo_tributo_orden);
          datos.append("anio", this.anio_orden_coactivo);
          datos.append("anio_trimestre",this.anoSeleccionado);
-         datos.append("estado_cuenta_orden_anio", "estado_cuenta_orden_anio");
+         datos.append("estado_cuenta_orden_anio_co", "estado_cuenta_orden_anio_co");
 
          for (let pair of datos.entries()) {
              console.log(pair[0] + ': ' + pair[1]);

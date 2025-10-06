@@ -128,6 +128,7 @@ $tiem = time();
 				"administrarCoactivo" => "administrarCoactivo.php",
 				"Prescripcion" => "prescripcion.php",
 				"compensacion" => "compensacion.php",
+				"ordenpago" => "ordenpagoAdministracion.php",
 				"salir" => "salir.php"
 
 			);
@@ -233,6 +234,7 @@ $tiem = time();
 	<script src="vistas/js/resolucionMedidaCautelar.js" defer></script>
 
 		<script src="vistas/js/administrarcoactivo.js" defer></script>
+		<script src="vistas/js/administrarordenpago.js" defer></script>
 	
 	<!-- Incluye SheetJS desde el CDN -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>

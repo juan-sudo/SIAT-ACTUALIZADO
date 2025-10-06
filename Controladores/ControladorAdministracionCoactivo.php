@@ -7,6 +7,40 @@ use Modelos\ModeloAdministracionCoactivo;
 class ControladorAdministracionCoactivo
 {
 
+    //GUADAR ARCHIVAR COACTIVO
+
+    
+
+    public static function ctrGuardarEditarArchivar($idcoactivo, $expediente, $estado,  $idcontribuyente) 
+    {
+    
+    // Llamamos al modelo y pasamos los filtros y la paginación
+    $respuesta = ModeloAdministracionCoactivo::mdlGuardarEditarArchivar($idcoactivo, $expediente, $estado,  $idcontribuyente);
+
+ 
+      if ($respuesta == 'ok') {
+            echo json_encode([
+                "status" => "ok",
+                "message" => '<div class="alert success">
+				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+				<span aria-hidden="true" class="letra">×</span>
+				</button><p class="inner"><strong class="letra">Exito!</strong> 
+				<span class="letra">El expediente se registro de manera correcta</span></p></div>'
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "error", 
+                "message" => '<div class="alert warning">
+				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+				<span aria-hidden="true" class="letra">×</span>
+				</button><p class="inner"><strong class="letra">Exito!</strong> 
+				<span class="letra">Algo salio mal comunicate con el Administrador</span></p></div>'
+            ]);
+        }
+ 
+ 
+    }
+
     //GUATRADR EDIATAR
         public static function ctrGuardarEditar($idcoactivo, $expediente, $estado) 
     {
@@ -26,7 +60,7 @@ class ControladorAdministracionCoactivo
             ]);
         } else {
             echo json_encode([
-                "status" => "error",
+                "status" => "error", 
                 "message" => '<div class="alert warning">
 				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
 				<span aria-hidden="true" class="letra">×</span>
@@ -48,6 +82,17 @@ class ControladorAdministracionCoactivo
  
     }
 
+    //mostrar para archivar
+      public static function ctrMostrarEditarArchivar($idCoactivo) 
+{
+    // Llamamos al modelo y pasamos los filtros y la paginación
+    $respuesta = ModeloAdministracionCoactivo::mdlMostrarEditarArchivar($idCoactivo);
+
+    echo json_encode(array('data' => $respuesta));
+ 
+    }
+
+    
 
 
 
@@ -148,6 +193,9 @@ class ControladorAdministracionCoactivo
             else if($estado==='I'){
                  $estado = '<span style="background-color: #cc9547; color: #ffffff; padding: 5px 10px; border-radius: 5px;">Iniciado</span>';
             }
+            else if($estado==='A'){
+                 $estado = '<span style="background-color: red; color: #ffffff; padding: 5px 10px; border-radius: 5px;">Archivado</span>';
+            }
             else{
                 $estado = '';
 
@@ -179,6 +227,14 @@ class ControladorAdministracionCoactivo
                                         data-toggle="modal" data-target="#modalEditarEstadoCuenta"
                                         title="Pago por años coactivo">
                                     <i class="fas fa-edit"></i> 
+                                </button>
+
+                                 <button class="btn btn-danger btn-sm btnEditarAdministracionArchivar" 
+                                        data-idcoactivo="' . $row['id_coactivo'].'" 
+                                        data-idcontribuyente="' . $row['id_contribuyente'] . '" 
+                                        data-toggle="modal" data-target="#modalEditarEstadoCuentaArchivar"
+                                        title="Pago por años coactivo">
+                                    <i class="fas fa-file"></i> 
                                 </button>
 
                                 <button class="btn btn-danger btn-sm btnAdministracionCoactivo" 
@@ -221,56 +277,58 @@ class ControladorAdministracionCoactivo
         $registro_inicio = $inicio + 1;
         $registro_fin = $inicio + count($respuesta);
 
-        // Estructura flex con resumen + paginación
-        $pagination = '
-        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
-            <div class="registro-resumen" style="color:#969493">
-                Mostrando del ' . $registro_inicio . ' al ' . $registro_fin . ' de un total de ' . $total_registros . ' registros. 
-                <strong id="paginal_Actual_c" style="display: none;"> Página ' . $pagina . ' de ' . $total_paginas . '</strong> <!-- Mostrar la página actual -->
-            </div>
+          $pagination = '';
+        
+    //     // Estructura flex con resumen + paginación
+    //     $pagination = '
+    //     <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+    //         <div class="registro-resumen" style="color:#969493">
+    //             Mostrando del ' . $registro_inicio . ' al ' . $registro_fin . ' de un total de ' . $total_registros . ' registros. 
+    //             <strong id="paginal_Actual_c" style="display: none;"> Página ' . $pagina . ' de ' . $total_paginas . '</strong> <!-- Mostrar la página actual -->
+    //         </div>
     
-            <nav aria-label="Page navigation example">
-                <ul class="pagination mb-0">
-                 <li class="page-item">
-                    <a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\', 1)">Primero</a>
-                </li>';
+    //         <nav aria-label="Page navigation example">
+    //             <ul class="pagination mb-0">
+    //              <li class="page-item">
+    //                 <a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\', 1)">Primero</a>
+    //             </li>';
 
         
 
-        if ($pagina > 1) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\',' . ($pagina - 1) . ')">Anterior</a></li>';
-        }
+    //     if ($pagina > 1) {
+    //         $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\',' . ($pagina - 1) . ')">Anterior</a></li>';
+    //     }
 
-        if ($pagina > $rangos + 1) {
-            $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
-        }
+    //     if ($pagina > $rangos + 1) {
+    //         $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
+    //     }
 
-        for ($i = max(1, $pagina - $rangos); $i < $pagina; $i++) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\',  \'' . $filtro_op . '\',  \'' . $filtro_ex . '\',' . $i . ')">' . $i . '</a></li>';
-        }
+    //     for ($i = max(1, $pagina - $rangos); $i < $pagina; $i++) {
+    //         $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\',  \'' . $filtro_op . '\',  \'' . $filtro_ex . '\',' . $i . ')">' . $i . '</a></li>';
+    //     }
 
-        $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $pagina . '</a></li>';
+    //     $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $pagina . '</a></li>';
 
-        for ($i = $pagina + 1; $i <= min($total_paginas, $pagina + $rangos); $i++) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\',  \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\', ' . $i . ')">' . $i . '</a></li>';
-        }
+    //     for ($i = $pagina + 1; $i <= min($total_paginas, $pagina + $rangos); $i++) {
+    //         $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\',  \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\', ' . $i . ')">' . $i . '</a></li>';
+    //     }
 
-        if ($pagina < $total_paginas - $rangos) {
-            $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
-        }
+    //     if ($pagina < $total_paginas - $rangos) {
+    //         $pagination .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
+    //     }
 
-        if ($pagina < $total_paginas) {
-            $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', ,  \'' . $filtro_op . '\', ,  \'' . $filtro_ex . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
-        }
+    //     if ($pagina < $total_paginas) {
+    //         $pagination .= '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', ,  \'' . $filtro_op . '\', ,  \'' . $filtro_ex . '\', ' . ($pagina + 1) . ')">Siguiente</a></li>';
+    //     }
 
-        $pagination .= '
-                     <li class="page-item">
-                    <a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\', ' . $total_paginas . ')">Último</a>
-                </li>
-                </ul>
-            </nav>
-        </div>
-    ';
+    //     $pagination .= '
+    //                  <li class="page-item">
+    //                 <a class="page-link" href="javascript:void(0);" onclick="administracionCoactivo_.lista_coactivo(\'' . $filtro_nombre . '\', \'' . $filtro_op . '\' ,  \'' . $filtro_ex . '\', ' . $total_paginas . ')">Último</a>
+    //             </li>
+    //             </ul>
+    //         </nav>
+    //     </div>
+    // ';
 
 
 

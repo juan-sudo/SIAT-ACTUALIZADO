@@ -56,6 +56,21 @@ class AjaxAdministracionCoactivo
     
     }
 
+    //MOSTRAR PARA ARCHIVAR
+    public function AjaxEditarMoatrarCoactivoArchivar() 
+    {   
+    $idCoactivo = isset($_POST['idCoactivo']) ? $_POST['idCoactivo'] : '';
+   
+    // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+    $respuesta = ControladorAdministracionCoactivo::ctrMostrarEditarArchivar($idCoactivo);
+  
+    echo $respuesta;
+  
+    
+    }
+
+    
+
       //MOSTRAR PARA EDITAR
     public function AjaxGuardarMoatrarCoactivo() 
     {   
@@ -70,6 +85,25 @@ class AjaxAdministracionCoactivo
   
     
     }
+
+        public function AjaxGuardarMoatrarCoactivoArchivar() 
+    {   
+    $idcoactivo = isset($_POST['idcoactivo']) ? $_POST['idcoactivo'] : '';
+   $idcontribuyente = isset($_POST['idcontribuyente']) ? $_POST['idcontribuyente'] : '';
+    
+    $numeroInforme = isset($_POST['numeroInforme']) ? $_POST['numeroInforme'] : '';
+    $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+   
+    // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+    $respuesta = ControladorAdministracionCoactivo::ctrGuardarEditarArchivar($idcoactivo, $numeroInforme, $estado,  $idcontribuyente);
+ 
+    echo $respuesta;
+  
+    
+    }
+
+
+    
 
     
 
@@ -95,10 +129,24 @@ if (isset($_POST['editar_coactivo'])) {
 }
 
 
+//MOSTRAR PARA ARCHIVAR
+//MOSTRAR PARA EDITAR
+if (isset($_POST['editar_coactivo_archivar'])) {
+    $objlistapaginaa = new AjaxAdministracionCoactivo();
+    $objlistapaginaa->AjaxEditarMoatrarCoactivoArchivar();
+}
+
+
 //MOSTRAR PARA EDITAR
 if (isset($_POST['guardar_coactivo'])) {
     $objlistapaginaa = new AjaxAdministracionCoactivo();
     $objlistapaginaa->AjaxGuardarMoatrarCoactivo();
+}
+
+//GUARDAR Y ARCHIVAR COACTIVO
+if (isset($_POST['guardar_coactivo_archivar'])) {
+    $objlistapaginaa = new AjaxAdministracionCoactivo();
+    $objlistapaginaa->AjaxGuardarMoatrarCoactivoArchivar();
 }
 
 

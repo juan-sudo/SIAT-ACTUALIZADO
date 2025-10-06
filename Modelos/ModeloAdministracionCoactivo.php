@@ -7,6 +7,84 @@ use Exception;
 class ModeloAdministracionCoactivo {
 
 
+    public static function mdlGuardarEditarArchivar($idcoactivo, $informe, $estado,  $idcontribuyente) {
+
+       
+
+      
+         $arrayIds = array_map('intval', explode(',', $idcontribuyente));
+         $estado_asignar='0';
+        
+        
+
+    try {
+        // Quitar los espacios en blanco antes y después de la cadena
+
+        $valor_estado='';
+
+        if($estado==='A'){
+            $valor_estado=$estado;
+
+      // PRIMER INSERT
+        $query = "UPDATE coactivo
+                  SET informe_coactivo = :informe, estado_coactivo = :estado
+                  WHERE id_coactivo =:idcoactivo";
+
+
+        // Preparar la consulta
+        $stmt = Conexion::conectar()->prepare($query);
+
+        $stmt->bindParam(':informe', $informe, PDO::PARAM_STR);
+        $stmt->bindParam(':estado', $valor_estado, PDO::PARAM_STR);
+        $stmt->bindParam(':idcoactivo', $idcoactivo, PDO::PARAM_INT);
+
+
+
+        //SEGUNDO INSERT
+
+           $result2 = true;
+            foreach($arrayIds as $ids) {
+                $query2 = "UPDATE contribuyente
+                          SET coactivo = :estado
+                          WHERE Id_Contribuyente = :IdContribuyente";
+
+                $stmt2 = Conexion::conectar()->prepare($query2);
+               
+                $stmt2->bindParam(':estado', $estado_asignar, PDO::PARAM_STR);
+                $stmt2->bindParam(':IdContribuyente', $ids, PDO::PARAM_INT);
+                
+                if (!$stmt2->execute()) {
+                    $result2 = false;
+                }
+                $stmt2 = null;
+            }
+         
+
+
+        // Ejecutar la consulta
+        if ($stmt->execute() &&  $result2) {
+                return "ok";
+        } else {
+                return "error";
+        }
+
+
+        }else{
+
+            return "error";
+
+        }
+
+                $stmt = null;
+
+    } catch (Exception $e) {
+            // Manejo de excepciones
+            return "error";
+    }
+}
+
+
+
     public static function mdlGuardarEditar($idcoactivo, $expediente, $estado) {
 
     try {
@@ -40,6 +118,36 @@ class ModeloAdministracionCoactivo {
             return "error";
     }
 }
+
+//MOSTRAR PARA ARCHIVAR
+public static function mdlMostrarEditarArchivar($idCoactivo) {
+    try {
+        // Consulta SQL utilizando IN para múltiples valores
+        $query = "SELECT informe_coactivo as informe, estado_coactivo as estado
+                  FROM coactivo
+                  WHERE Id_Coactivo = :idcoactivo";  // Corregido el nombre del campo
+
+        // Preparar la consulta
+        $stmt = Conexion::conectar()->prepare($query);
+
+        // Vincular el parámetro con el valor
+        $stmt->bindParam(':idcoactivo', $idCoactivo, PDO::PARAM_INT); // Especifica el tipo correcto de parámetro
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Retornar todos los resultados como un array asociativo
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // Manejo de errores
+        echo "Error: " . $e->getMessage();
+        return null;
+    } finally {
+        // Liberar recursos, no es necesario asignar null aquí
+        $stmt = null;
+    } 
+}
+
 
 
 

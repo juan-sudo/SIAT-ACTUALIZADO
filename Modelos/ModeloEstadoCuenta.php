@@ -287,7 +287,108 @@ public static function mdlEstadoCuenta_siguiente_carpeta($datos)
 }
 
 
-//ESTADO DE CUENTA ORDEN PRUEBA PERIODO
+//ESTADO DE CUENTA ORDEN PRUEBA PERIODO -----------------PARA COACTIVO
+
+public static function mdlEstadoCuenta_Orden_periodo_co($datos)
+{   
+    $pdo = Conexion::conectar();
+    
+    try {
+        $idArray = explode(',', $datos['id_propietarios']);
+        $idArray = array_filter(array_map('trim', $idArray));
+        sort($idArray);
+        $ids = implode("-", $idArray);
+
+        // PRIMER SELECT - Obtener años de orden_pago_detalle
+        $stmt1 = $pdo->prepare("SELECT DISTINCT ord.Anio 
+                               FROM orden_pago_detalle de 
+                               INNER JOIN orden_pago ord ON de.id_orden_Pago = ord.Orden_Pago 
+                               WHERE de.Concatenado_idc = :ids");
+        $stmt1->bindParam(":ids", $ids, PDO::PARAM_STR);
+        $stmt1->execute();
+        $aniosResult = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+        // Extraer solo los valores de años en un array
+        $aniosArray = array_column($aniosResult, 'Anio');
+        
+        // Si no hay años, retornar vacío
+        if (empty($aniosArray)) {
+            return [
+                'anios' => [],
+                'campos' => [],
+                'totales' => []
+            ];
+        }
+
+        // Crear placeholders para los años (?, ?, ?)
+        $placeholders = str_repeat('?,', count($aniosArray) - 1) . '?';
+        
+        // SEGUNDO SELECT - Usar años como filtro IN
+        $stmt2 = $pdo->prepare("SELECT 
+                Id_Estado_Cuenta_Impuesto,
+                Estado,
+                Anio,
+                Tipo_Tributo,
+                Periodo,
+                Importe AS Total_Importe,
+                Gasto_Emision AS Total_Gasto_Emision,
+                Saldo AS Total_Saldo,
+                TIM AS Total_TIM,
+                TIM_Descuento AS Total_TIM_Descuento,
+                TIM_Aplicar AS Total_TIM_Aplicar,
+                Total AS Total_Total,
+                Descuento AS Total_Descuento,
+                Total_Aplicar AS Total_Aplicar_Anual
+            FROM estado_cuenta_corriente  
+            WHERE Concatenado_idc = ? AND Estado = 'D' AND Tipo_Tributo = '006' 
+            AND Anio IN ($placeholders)
+            ORDER BY Tipo_Tributo, Anio, Fecha_Registro");
+
+        // Combinar parámetros: primero el ID, luego los años
+        $params = array_merge([$ids], $aniosArray);
+        
+        $stmt2->execute($params);
+        $campos = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+        // TERCER SELECT - También filtrar por años en los totales
+        $stmt3 = $pdo->prepare("SELECT 
+                SUM(Importe) AS Total_Importe,
+                SUM(Gasto_Emision) AS Total_Gasto_Emision,
+                SUM(Saldo) AS Total_Saldo,
+                SUM(TIM) AS Total_TIM,
+                SUM(TIM_Descuento) AS Total_TIM_Descuento,
+                SUM(TIM_Aplicar) AS Total_TIM_Aplicar,
+                SUM(Total) AS Total_Total,
+                SUM(Descuento) AS Total_Descuento,
+                SUM(Total_Aplicar) AS Total_Aplicar_Anual
+            FROM estado_cuenta_corriente  
+            WHERE Concatenado_idc = ? AND Estado = 'D' 
+            AND Anio IN ($placeholders)");
+
+        $stmt3->execute($params);
+        $totales = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+
+        $response = [
+            'anios' => $aniosArray, // Array de años utilizados
+            'campos' => $campos,
+            'totales' => $totales
+        ];
+        
+        return $response;
+
+    } catch (Exception $e) {
+        error_log("Error en mdlEstadoCuenta_Orden_periodo: " . $e->getMessage());
+        return [
+            'anios' => [],
+            'campos' => [],
+            'totales' => []
+        ];
+    } finally {
+        $pdo = null;
+    }
+}
+
+//ESTADO DE CUENTA ORDEN PRUEBA PERIODO -----------------NORMAL
 public static function mdlEstadoCuenta_Orden_periodo($datos)
 {   
 	$pdo =  Conexion::conectar();
@@ -296,9 +397,7 @@ public static function mdlEstadoCuenta_Orden_periodo($datos)
 		$idArray = array_filter($idArray);
 		sort($idArray);
 		$ids = implode("-", $idArray);
-	$anio_actual=date('Y');
-
-	$stmt = $pdo->prepare(
+		$stmt = $pdo->prepare(
 		"SELECT 
 		Id_Estado_Cuenta_Impuesto,
 		Estado,
@@ -319,14 +418,7 @@ public static function mdlEstadoCuenta_Orden_periodo($datos)
         WHERE Concatenado_idc = :ids AND Estado = 'D' 
         order by Tipo_Tributo,Anio,Fecha_Registro ");
 
-	// $stmt = $pdo->prepare(
-	// 	"SELECT `Periodo`, `Importe`, `Gasto_Emision`, `Saldo`, `TIM`, `TIM_Descuento`, `TIM_Aplicar`, `Total`, `Estado` from estado_cuenta_corriente  
-	// 					   where Concatenado_idc='1001'  AND Estado='D' AND Tipo_Tributo='006' and Anio>='2023' AND Anio!=$anio_actual
-	// 					   order by Anio,Fecha_Registro,Periodo,Id_Predio,Tipo_Tributo,Total_Aplicar"
-						   
-						
-
-	// 					);
+	
 		 $stmt->bindParam(":ids", $ids);
 		// $stmt->bindParam(":tipo_tributo", $datos["tipo_tributo"]);
 		// $stmt->bindParam(":anio", $datos["anio"]);
@@ -364,6 +456,112 @@ public static function mdlEstadoCuenta_Orden_periodo($datos)
 
 
 
+//ESTADO DE CUENTA ORDEN PRUEBA--------------------COACTIVO
+public static function mdlEstadoCuenta_Orden_anio_co($datos)
+{   
+    $pdo = Conexion::conectar();
+    
+    try {
+        $idArray = explode(',', $datos['id_propietarios']);
+        $idArray = array_filter(array_map('trim', $idArray));
+        sort($idArray);
+        $ids = implode("-", $idArray);
+
+        // PRIMER SELECT - Obtener años de orden_pago_detalle
+        $stmt1 = $pdo->prepare("SELECT DISTINCT ord.Anio 
+                               FROM orden_pago_detalle de 
+                               INNER JOIN orden_pago ord ON de.id_orden_Pago = ord.Orden_Pago 
+                               WHERE de.Concatenado_idc = :ids");
+        $stmt1->bindParam(":ids", $ids, PDO::PARAM_STR);
+        $stmt1->execute();
+        $aniosResult = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+        // Extraer solo los valores de años en un array
+        $aniosArray = array_column($aniosResult, 'Anio');
+        
+        // Si no hay años, retornar vacío
+        if (empty($aniosArray)) {
+            return [
+                'campos' => [],
+                'totales' => []
+            ];
+        }
+
+        // Crear placeholders para los años (?, ?, ?)
+        $placeholders = str_repeat('?,', count($aniosArray) - 1) . '?';
+        
+        // SEGUNDO SELECT - Usar años como filtro IN (con GROUP BY)
+        $stmt2 = $pdo->prepare(
+            "SELECT
+                Id_Estado_Cuenta_Impuesto,
+                Estado,
+                Anio,
+                Tipo_Tributo,
+                SUM(Importe) AS Total_Importe,
+                SUM(Gasto_Emision) AS Total_Gasto_Emision,
+                SUM(Saldo) AS Total_Saldo,
+                SUM(TIM) AS Total_TIM,
+                SUM(TIM_Descuento) AS Total_TIM_Descuento,
+                SUM(TIM_Aplicar) AS Total_TIM_Aplicar,
+                SUM(Total) AS Total_Total,
+                SUM(Descuento) AS Total_Descuento,
+                SUM(Total_Aplicar) AS Total_Aplicar_Anual
+            FROM
+                estado_cuenta_corriente  
+            WHERE
+                Concatenado_idc = ?
+                AND Estado = 'D'
+                AND Anio IN ($placeholders) AND Tipo_Tributo = '006' 
+            GROUP BY
+                Tipo_Tributo, Anio
+            HAVING
+                COUNT(DISTINCT Periodo) BETWEEN 1 AND 4
+            ORDER BY
+                Tipo_Tributo, Anio"
+        );
+
+        // Combinar parámetros: primero el ID, luego los años
+        $params = array_merge([$ids], $aniosArray);
+        
+        $stmt2->execute($params);
+        $campos = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+        // TERCER SELECT - También filtrar por años en los totales
+        $stmt3 = $pdo->prepare("SELECT 
+                SUM(Importe) AS Total_Importe,
+                SUM(Gasto_Emision) AS Total_Gasto_Emision,
+                SUM(Saldo) AS Total_Saldo,
+                SUM(TIM) AS Total_TIM,
+                SUM(TIM_Descuento) AS Total_TIM_Descuento,
+                SUM(TIM_Aplicar) AS Total_TIM_Aplicar,
+                SUM(Total) AS Total_Total,
+                SUM(Descuento) AS Total_Descuento,
+                SUM(Total_Aplicar) AS Total_Aplicar_Anual
+            FROM estado_cuenta_corriente  
+            WHERE Concatenado_idc = ? AND Estado = 'D' 
+            AND Anio IN ($placeholders)");
+
+        $stmt3->execute($params);
+        $totales = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+
+        $response = [
+            'campos' => $campos,
+            'totales' => $totales
+        ];
+        
+        return $response;
+
+    } catch (Exception $e) {
+        error_log("Error en mdlEstadoCuenta_Orden_anio_co: " . $e->getMessage());
+        return [
+            'campos' => [],
+            'totales' => []
+        ];
+    } finally {
+        $pdo = null;
+    }
+}
+
 
 //ESTADO DE CUENTA ORDEN PRUEBA
 public static function mdlEstadoCuenta_Orden_anio($datos)
@@ -396,6 +594,7 @@ FROM
 WHERE
     Concatenado_idc = :ids
     AND Estado = 'D'
+    
 GROUP BY
     Tipo_Tributo, Anio
 HAVING
@@ -403,24 +602,11 @@ HAVING
 ORDER BY
     Tipo_Tributo, Anio;
 
-
 						   "
-						   
-						
-						   
+						  
 						);
 
-	// $stmt = $pdo->prepare(
-	// 	"SELECT `Periodo`, `Importe`, `Gasto_Emision`, `Saldo`, `TIM`, `TIM_Descuento`, `TIM_Aplicar`, `Total`, `Estado` from estado_cuenta_corriente  
-	// 					   where Concatenado_idc='1001'  AND Estado='D' AND Tipo_Tributo='006' and Anio>='2023' AND Anio!=$anio_actual
-	// 					   order by Anio,Fecha_Registro,Periodo,Id_Predio,Tipo_Tributo,Total_Aplicar"
-						   
-						
-
-	// 					);
 		 $stmt->bindParam(":ids", $ids);
-		// $stmt->bindParam(":tipo_tributo", $datos["tipo_tributo"]);
-		// $stmt->bindParam(":anio", $datos["anio"]);
 				$stmt->execute();
 				$campos = $stmt->fetchall();
 
@@ -440,8 +626,7 @@ ORDER BY
 			WHERE Concatenado_idc = :ids AND Estado = 'D';
 			");
 						$stmt->bindParam(":ids", $ids);
-			// $stmt->bindParam(":tipo_tributo", $datos["tipo_tributo"]);
-			// $stmt->bindParam(":anio", $datos["anio"]);
+
 			$stmt->execute();
 			$totales = $stmt->fetchall();
 			$response = [
@@ -558,6 +743,7 @@ ORDER BY
     {
         $pdo = Conexion::conectar();
     
+        $nuevo_orden='';
         // Preparar el array de IDs de propietarios
         $idArray = explode(',', $datos['id_propietarios']);
         $idArray = array_filter($idArray); // Eliminar elementos vacíos
@@ -667,20 +853,20 @@ ORDER BY
 
                 //ACTUALIZAR CON CONTRIBUYETE CON ORDEN DE PAGO
              // ACTUALIZAR CON CONTRIBUYENTE CON ORDEN DE PAGO
-                foreach ($idArray as $idse) {  // Cambié el 'for' por 'foreach' para recorrer el array de IDs
+                // foreach ($idArray as $idse) {  // Cambié el 'for' por 'foreach' para recorrer el array de IDs
 
-                   $orden_anio = $nuevo_orden . '-' . $anio_actual; // Concatenar el nuevo número de orden con el año y un guion en medio
+                //    $orden_anio = $nuevo_orden . '-' . $anio_actual; // Concatenar el nuevo número de orden con el año y un guion en medio
 
-                    // Preparar la consulta de actualización en la tabla contribuyente
-                    $update_stmt = $pdo->prepare("UPDATE contribuyente SET numero_orden_pago = :numero_orden_pago WHERE Id_Contribuyente = :ids");
+                //     // Preparar la consulta de actualización en la tabla contribuyente
+                //     $update_stmt = $pdo->prepare("UPDATE contribuyente SET numero_orden_pago = :numero_orden_pago WHERE Id_Contribuyente = :ids");
 
-                    // Vincula los parámetros
-                    $update_stmt->bindValue(':numero_orden_pago', $orden_anio); // Asignamos el nuevo número de orden
-                    $update_stmt->bindValue(':ids', $idse, PDO::PARAM_INT); // Se asegura de que los IDs sean pasados correctamente
+                //     // Vincula los parámetros
+                //     $update_stmt->bindValue(':numero_orden_pago', $orden_anio); // Asignamos el nuevo número de orden
+                //     $update_stmt->bindValue(':ids', $idse, PDO::PARAM_INT); // Se asegura de que los IDs sean pasados correctamente
 
-                    // Ejecutar la actualización
-                    $update_stmt->execute();
-                }
+                //     // Ejecutar la actualización
+                //     $update_stmt->execute();
+                // }
 
                   
 
@@ -1177,6 +1363,75 @@ public static function mdlEstadoCuenta_Orden_pdf_historial($datosH)
 
     return $resultados;
 }*/
+
+
+//CARPETA
+
+public static function mdlcarpetasOrdenPago($concatenadoId) // optimizado
+{
+    try {
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT * 
+             FROM carpeta 
+             WHERE Concatenado_id = :concatenadoId"
+        );
+
+        $stmt->bindParam(":concatenadoId", $concatenadoId, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        // Obtener todos los resultados como array asociativo
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $resultados;
+    } catch (PDOException $e) {
+        // Manejo de error en caso de fallo de SQL
+        error_log("Error en mdlcarpetasOrdenPago: " . $e->getMessage());
+        return [];
+    }
+}
+
+
+public static function mdlPropietarios_pdf_ordenpagoadmi($propietarios) //optimizado
+{
+    // Convertir la cadena de propietarios (separados por guiones) en un array
+    $valoresSeparados = explode('-', $propietarios);
+    
+    // Ordenar los valores
+    sort($valoresSeparados);
+    
+    // Crear una cadena de parámetros para la cláusula IN (?, ?, ...)
+    $inClause = implode(', ', array_fill(0, count($valoresSeparados), '?'));
+
+    // Preparar la consulta con la cláusula IN
+    $stmt = Conexion::conectar()->prepare("SELECT  
+                                           c.Estado as Estado,
+                                           c.Id_Contribuyente as id_contribuyente,
+                                           td.descripcion as tipo_documento,
+                                           c.Documento as documento,
+                                           c.Direccion_completo as direccion_completo,
+                                           c.Nombre_Completo as nombre_completo
+                                           FROM contribuyente c 
+                                           INNER JOIN tipo_documento_siat td ON td.Id_Tipo_Documento=c.Id_Tipo_Documento 
+                                           WHERE c.Id_Contribuyente IN ($inClause)");
+    
+    // Asignar los valores de los parámetros
+    foreach ($valoresSeparados as $key => $valor) {
+        $stmt->bindValue(($key + 1), $valor, PDO::PARAM_INT); // Los índices comienzan en 1
+    }
+
+    // Ejecutar la consulta
+    $stmt->execute();
+
+    // Obtener los resultados y organizarlos en un array asociativo
+    $resultados = array();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $resultados[$row['id_contribuyente']][] = $row;
+    }
+
+    return $resultados;
+}
+
+
 public static function mdlPropietarios_pdf($propietarios) //optimizado
 {
     // Convertir la cadena de propietarios en un array
@@ -1214,6 +1469,51 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
     }
 
     return $resultados;
+}
+
+
+
+
+
+public static function mdlEstadoCuentaAdministracion($concatenadoId)
+{
+    try {
+        $sql = " SELECT 	
+                        ord.Anio,
+                        ord.Base_Imponible,	
+                        de.Concatenado_idc,
+                        ord.Importe ,
+                        ord.Gastos ,
+                        ord.Total ,
+                        ord.Subtotal,
+                        ord.Tipo_Tributo,
+                        ord.TIM ,
+                        DATE(ord.Fecha_Registro) as Fecha_Registro,
+                        CONCAT(LPAD(ord.Numero_Orden, 3, '0'), '-', de.anio_actual) as numero_orden
+                    FROM orden_pago ord
+                    INNER JOIN orden_pago_detalle de ON de.id_orden_Pago = ord.Orden_Pago
+                    WHERE de.Concatenado_idc = :concatenadoId;
+                "
+                ;
+
+        $stmt = Conexion::conectar()->prepare($sql);
+
+        // Bind seguro
+        $stmt->bindParam(":concatenadoId", $concatenadoId, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        // Si quieres todas las filas:
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Si solo quieres una fila, usarías:
+        // return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        // Manejo de error (opcional)
+        error_log("Error en consulta: " . $e->getMessage());
+        return [];
+    }
 }
 
 

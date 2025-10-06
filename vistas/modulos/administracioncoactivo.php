@@ -4093,22 +4093,7 @@ $idArray = array_filter($idArray);
   </div> <!-- /modal-dialog -->
 </div> <!-- /modal -->
 
-<!-- modal donde se genera el pdf oden pago - impuesto-->
-<div class="container-fluid">
-  <div class="modal in" id="Modal_Orden_Pago" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-fullscreen">
-      <div class="modal-content">
-        <div class="modal-body printerhere">
-          <iframe id="iframe_orden_pago" class="iframe-full-height"><!-- Muestra el PDF --></iframe>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary cerrar-modal">Close</button>
-        <!--  <button type="button" class="btn btn-secondary cerrar-modal" data-dismiss="modal">Close</button> -->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
 <!-- fin de generar pdf oden pago - impuesto-->
 <!-- fin de generar pdf oden pago - impuesto-->
 
@@ -4214,7 +4199,21 @@ $idArray = array_filter($idArray);
 </div>
 <!--FIN DETALLE ESTADO CUENTA-->
 
-
+<div class="container-fluid">
+  <div class="modal in" id="Modal_Orden_Pago" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+      <div class="modal-content">
+        <div class="modal-body printerhere">
+          <iframe id="iframe_orden_pago" class="iframe-full-height"><!-- Muestra el PDF --></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary cerrar-modal">Close</button>
+        <!--  <button type="button" class="btn btn-secondary cerrar-modal" data-dismiss="modal">Close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

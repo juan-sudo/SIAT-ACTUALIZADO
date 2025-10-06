@@ -55,7 +55,11 @@ $datos = array(
 );
 
 $propietarios = ModeloEstadoCuenta::mdlPropietarios_pdf($propietarios_);
+
+
 $configuracion = ControladorConfiguracion::ctrConfiguracion();
+
+
 //$resultado =ModeloEstadoCuenta::mdlEstadoCuenta_Orden_pdf($datos);
 
 $resultadoOrden =ModeloEstadoCuenta::mdlEstadoCuenta_Orden_pdf_historial($datosH);

@@ -134,11 +134,36 @@ public function ajaxMostrar_ids_de_id()
 }
 
 
-    //esatdod e cuenta por año
+
+//ESATDO DE CUENTA COACTIVO
+public function ajaxMostrar_estadocuenta_orden_anio_co()
+    {
+
+        $anio = isset($_POST['anio']) ? $_POST['anio'] : null;
+        $anio_trimestre = isset($_POST['anio_trimestre']) ? $_POST['anio_trimestre'] : null;
+
+        if (!$anio || !$anio_trimestre) {
+            echo json_encode(array("error" => "Datos insuficientes"));
+            return;
+        }
+        $datos = array(
+            "id_propietarios" => $_POST['id_propietarios'],
+            "tipo_tributo" => '006',
+            "anio" => $anio,
+            "anio_trimestre" => $anio_trimestre
+        );
+
+        $respuesta = ControladorEstadoCuenta::ctrEstadoCuenta_Orden_anio_co($datos);
+        $respuesta_json = json_encode($respuesta);
+        header('Content-Type: application/json');
+        echo $respuesta_json;
+    }
+
+
+    //ESTADO DECUENTA NORMAL
 
     public function ajaxMostrar_estadocuenta_orden_anio()
     {
-
 
         $anio = isset($_POST['anio']) ? $_POST['anio'] : null;
         $anio_trimestre = isset($_POST['anio_trimestre']) ? $_POST['anio_trimestre'] : null;
@@ -155,28 +180,8 @@ public function ajaxMostrar_ids_de_id()
         );
 
         $respuesta = ControladorEstadoCuenta::ctrEstadoCuenta_Orden_anio($datos);
-
-        // $datos = array(
-        //     "id_propietarios" => $_POST['id_propietarios'],
-        //     // "tipo_tributo" => $_POST['tipo_tributo'],
-        //     "tipo_tributo" => '006',
-        //     "anio" => $_POST['anio'],
-        //     "anio_trimestre" => $_POST['anio_trimestre']
-        // );
-        // $respuesta = ControladorEstadoCuenta::ctrEstadoCuenta_Orden_anio($datos);
-      
-        // echo "<pre>"; // Mejor legibilidad al imprimir datos complejos
-        // print_r($respuesta); // Imprime la respuesta de manera estructurada
-        // echo "</pre>";
-      
-      
         $respuesta_json = json_encode($respuesta);
-
-  
-
         header('Content-Type: application/json');
-
-        
         echo $respuesta_json;
     }
 
@@ -312,6 +317,12 @@ if (isset($_POST['obtener_ids_de_id'])) {
 if (isset($_POST['estado_cuenta_orden_anio'])) {
     $mostrar_estadocuenta_caja = new AjaxCaja();
     $mostrar_estadocuenta_caja->ajaxMostrar_estadocuenta_orden_anio();
+}
+
+//ESTADO CUENTA EN COACTIVO
+if (isset($_POST['estado_cuenta_orden_anio_co'])) {
+    $mostrar_estadocuenta_caja = new AjaxCaja();
+    $mostrar_estadocuenta_caja->ajaxMostrar_estadocuenta_orden_anio_co();
 }
 
 //HISTPORIAL DE ORDENES

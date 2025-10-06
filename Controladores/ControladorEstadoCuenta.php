@@ -70,6 +70,25 @@ class ControladorEstadoCuenta
 	  }
   
   
+	   //Para coactivo
+	  public  static function ctrEstadoCuenta_Orden_anio_co($datos)
+	  {
+			// Capturando el valor de "anio" para verificar que llega correctamente
+			$anio = $datos['anio'];
+  
+		  if($anio ==='trimestre'){
+			  
+			  $respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_Orden_periodo_co($datos);
+  
+		  }  
+		  if($anio ==='anio'){
+  
+			  $respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_Orden_anio_co($datos);
+		  }
+  
+		  return  $respuesta;
+	  }
+  
       
 	  
 	  //estado de cuenta para coactico por año
@@ -83,25 +102,11 @@ class ControladorEstadoCuenta
   
 			  $respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_Orden_periodo($datos);
   
-			  //     echo "<pre>"; // Mejor legibilidad al imprimir datos complejos
-			  //    print_r($respuesta); // Imprime la respuesta de manera estructurada
-			  //    echo "</pre>";
-  
-  
 		  }  
 		  if($anio ==='anio'){
   
 			  $respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_Orden_anio($datos);
   
-			  // echo "<pre>"; // Mejor legibilidad al imprimir datos complejos
-			  // print_r($respuesta); // Imprime la respuesta de manera estructurada
-			  // echo "</pre>";
-  
-		  
-			  // Usamos print_r para imprimir el arreglo de forma legible en el backend
-				 // echo "<pre>"; // Mejor legibilidad al imprimir datos complejos
-				 // print_r($respuesta); // Imprime la respuesta de manera estructurada
-				 // echo "</pre>";
 		  }
   
   

@@ -159,14 +159,64 @@ class AdministracionCoactivo {
 
   }
 
+  //VER PARA ARCHIVAR
+  
+ EditarAdministracionCoactivoArchivar(idCoactivo){
+
+  
+    let datos = new FormData();
+
+    datos.append("idCoactivo", idCoactivo);  // Agregar filtro de nombre
+  
+    datos.append("editar_coactivo_archivar", "editar_coactivo_archivar");
+   
+    $.ajax({
+      type: "POST", 
+      url: "ajax/administracioncoactivo.ajax.php",
+       data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+      success: function (respuesta) {
+
+        console.log(respuesta);
+
+         if (typeof respuesta === "string") {
+            respuesta = JSON.parse(respuesta);
+            }
+
+        if (respuesta.data && respuesta.data.length > 0) {
+                var informe = respuesta.data[0].informe;
+                var estado = respuesta.data[0].estado;
+                  console.log(informe);
+
+                // Llenar los campos del modal
+                $('#numeroInformeCo').val(informe);
+
+               // Asignar el estado seleccionado en el select
+               // Mapea el valor "M" a la opción correspondiente
+                if (estado === "A") {
+                    $('#estadoArchivarCo').prop('checked', true);
+                
+                } else if (estado === "M") {
+                     $('#estadoArchivarCo').prop('checked', false);
+                }
+
+            }
+
+        
+
+      },
+    });
+
+  }
+
   
 
   //EDITAR ADMINISTRACION COACTIVO
    EditarAdministracionCoactivo(idCoactivo){
 
-    console.log("llego aqui-", idContribuyente)
-
-
+  
     let datos = new FormData();
 
     datos.append("idCoactivo", idCoactivo);  // Agregar filtro de nombre
@@ -213,11 +263,72 @@ class AdministracionCoactivo {
 
   }
 
+
+  //ARCHIVAR DOCUEMNTO DE COACTIVO
+
+  
+   GuardarAdministracionCoactivoArchivar(numeroInforme, estado){
+
+   
+    let datos = new FormData();
+
+      
+
+   datos.append("idcoactivo",administracionCoactivo_.idcoactivo);
+   datos.append("idcontribuyente",administracionCoactivo_.idcontribuyente);
+   datos.append("numeroInforme",numeroInforme);
+   datos.append("estado",estado);
+    datos.append("guardar_coactivo_archivar", "guardar_coactivo_archivar");
+   
+
+
+    $.ajax({
+      type: "POST", 
+      url: "ajax/administracioncoactivo.ajax.php",
+       data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+      success: function (respuesta) {
+          if (typeof respuesta === "string") {
+            respuesta = JSON.parse(respuesta);
+            }
+
+        
+          if (respuesta.status === "ok") { // Si la respuesta es exitosa
+            $("#modalEditarUsuario").modal("hide");  // Cierra el modal de edición
+            $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
+            $("#respuestaAjax_srm").html(respuesta.message);  // Muestra el mensaje de éxito en el área de respuesta
+          
+            administracionCoactivo_.lista_coactivo('', '','',1);
+
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide();  // Esconde el mensaje de respuesta después de 5 segundos
+            }, 5000);
+
+           $("#modalEditarEstadoCuentaArchivar").modal("hide");
+x
+
+          }
+          else {
+            $("#respuestaAjax_srm").show();  // Si hay error, muestra el mensaje de error
+            $("#respuestaAjax_srm").html(respuesta.message);
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide();  // Esconde el mensaje de error después de 4 segundos
+            }, 4000);
+          }
+
+        
+
+      },
+    });
+
+  }
   
   //EDITAR ADMINISTRACION COACTIVO
-   GuardarAdministracionCoactivo(numeroExpediente, estado, pagina_numero){
+   GuardarAdministracionCoactivo(numeroExpediente, estado){
 
-    console.log("pgina actual", pagina_numero);
+   
     let datos = new FormData();
 
    datos.append("idcoactivo",administracionCoactivo_.idcoactivo);
@@ -245,7 +356,7 @@ class AdministracionCoactivo {
             $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
             $("#respuestaAjax_srm").html(respuesta.message);  // Muestra el mensaje de éxito en el área de respuesta
           
-            administracionCoactivo_.lista_coactivo('', '','',pagina_numero);
+            administracionCoactivo_.lista_coactivo('', '','',1);
 
             setTimeout(function () {
               $("#respuestaAjax_srm").hide();  // Esconde el mensaje de respuesta después de 5 segundos
@@ -280,51 +391,51 @@ document.addEventListener('DOMContentLoaded', function () {
    administracionCoactivo_.lista_coactivo('','','',1);  // Mostrar página 1 por defecto
     
     // Detectar cambios en los campos de filtro (nombre, fecha, estado)
-    const nombreField = document.querySelector('#filtrar_nombre_coactivo');
+    // const nombreField = document.querySelector('#filtrar_nombre_coactivo');
    
-     const resultados_por_pagina = document.querySelector('#resultados_por_pagina_co'); // Campo de estado
+    //  const resultados_por_pagina = document.querySelector('#resultados_por_pagina_co'); // Campo de estado
 
-    const numeroop = document.querySelector('#filtrar_op');
-    const numeroex = document.querySelector('#filtrar_ex');
+    // const numeroop = document.querySelector('#filtrar_op');
+    // const numeroex = document.querySelector('#filtrar_ex');
 
-    // Detectar cambios en el campo de texto para filtrar por nombre
-    nombreField.addEventListener('input', function () {
+    // // Detectar cambios en el campo de texto para filtrar por nombre
+    // nombreField.addEventListener('input', function () {
         
-        const nombre = nombreField.value;
-        const op = numeroop.value;
-        const ex = numeroex.value;
+    //     const nombre = nombreField.value;
+    //     const op = numeroop.value;
+    //     const ex = numeroex.value;
       
-        administracionCoactivo_.lista_coactivo(nombre,op, ex,1,resultados_por_pagina.value);  // Resetear a la página 1
-    });
+    //     administracionCoactivo_.lista_coactivo(nombre,op, ex,1,resultados_por_pagina.value);  // Resetear a la página 1
+    // });
 
-     // Detectar cambios en el campo op
-    numeroop.addEventListener('input', function () {
-        const nombre = nombreField.value;
-        const op = numeroop.value;
-        const ex = numeroex.value;
+    //  // Detectar cambios en el campo op
+    // numeroop.addEventListener('input', function () {
+    //     const nombre = nombreField.value;
+    //     const op = numeroop.value;
+    //     const ex = numeroex.value;
       
-        administracionCoactivo_.lista_coactivo(nombre, op,ex, 1,resultados_por_pagina.value);  // Resetear a la página 1
-    });
+    //     administracionCoactivo_.lista_coactivo(nombre, op,ex, 1,resultados_por_pagina.value);  // Resetear a la página 1
+    // });
 
-     // Detectar cambios en el campo expdiente
-      numeroex.addEventListener('input', function () {
-        const nombre = nombreField.value;
-        const op = numeroop.value;
-        const ex = numeroex.value;
+    //  // Detectar cambios en el campo expdiente
+    //   numeroex.addEventListener('input', function () {
+    //     const nombre = nombreField.value;
+    //     const op = numeroop.value;
+    //     const ex = numeroex.value;
       
-        administracionCoactivo_.lista_coactivo(nombre, op,ex, 1,resultados_por_pagina.value);  // Resetear a la página 1
-    });
+    //     administracionCoactivo_.lista_coactivo(nombre, op,ex, 1,resultados_por_pagina.value);  // Resetear a la página 1
+    // });
 
 
   
-     // Detectar cambios en el campo de estado para filtrar por estado
-        resultados_por_pagina.addEventListener('change', function () {
-            console.log("llego aqui---");
-        const nombre = nombreField.value;
-        const op = numeroop.value;
-        const ex = numeroex.value;
-        administracionCoactivo_.lista_coactivo(nombre,op,ex,  1,resultados_por_pagina.value);  // Resetear a la página 1
-    });
+    //  // Detectar cambios en el campo de estado para filtrar por estado
+    //     resultados_por_pagina.addEventListener('change', function () {
+    //         console.log("llego aqui---");
+    //     const nombre = nombreField.value;
+    //     const op = numeroop.value;
+    //     const ex = numeroex.value;
+    //     administracionCoactivo_.lista_coactivo(nombre,op,ex,  1,resultados_por_pagina.value);  // Resetear a la página 1
+    // });
 
 
 });
@@ -351,6 +462,20 @@ $(document).on("click", ".btnEditarAdministracionCoactivo", function () {
     administracionCoactivo_.EditarAdministracionCoactivo(administracionCoactivo_.idcoactivo);
 });
 
+//MOSTRAR EDITAR ADMINISTRACIOn ARCHIVAR
+$(document).on("click", ".btnEditarAdministracionArchivar", function () {
+
+    const idcoactivo = $(this).data("idcoactivo");
+     const id_contribuyente = $(this).data("idcontribuyente");
+   
+
+    administracionCoactivo_.idcoactivo = idcoactivo;
+    administracionCoactivo_.idcontribuyente = id_contribuyente;
+
+    administracionCoactivo_.EditarAdministracionCoactivoArchivar(administracionCoactivo_.idcoactivo);
+});
+
+
 
 //GUARDAR EDITAR
 $(document).on("click", ".btnGuadarAdministracionCoactivo", function () {
@@ -358,12 +483,29 @@ $(document).on("click", ".btnGuadarAdministracionCoactivo", function () {
     var numeroExpediente = $('#numeroExpedienteCo').val(); // Capturar el valor del input de numeroExpedienteCo
     var estado = $('#estadoCo').val(); // Capturar el valor del select de estadoCo
 
-     var pagina_actual = $('#paginal_Actual_c').text();
-    
-      var pagina_numero = parseInt(pagina_actual.match(/\d+/)[0]);
+   
+
+    administracionCoactivo_.GuardarAdministracionCoactivo(numeroExpediente, estado);
+});
 
 
-    administracionCoactivo_.GuardarAdministracionCoactivo(numeroExpediente, estado, pagina_numero);
+//GGUARADR Y ARCHIVAR EXPEIENTE ENC OACTIVO
+
+$(document).on("click", ".btnGuadarAdministracionCoactivoArchivar", function () {
+
+    var numeroInforme = $('#numeroInformeCo').val(); // Capturar el valor del input de numeroExpedienteCo
+    var estado = $('#estadoArchivarCo').val(); // Capturar el valor del select de estadoCo
+    if(estado==='on'){
+        estado='A';
+
+    }else{
+         estado=' ';
+
+    }
+
+   
+
+    administracionCoactivo_.GuardarAdministracionCoactivoArchivar(numeroInforme, estado);
 });
 
 
