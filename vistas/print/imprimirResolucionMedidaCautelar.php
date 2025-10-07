@@ -4,7 +4,7 @@ require_once('./TCPDFmain/pdf/tcpdf_include.php');
 
 use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
-
+//------------------------------------------ANEXO 17
 class MYPDFC extends TCPDF {
 
     //Page header
@@ -45,14 +45,66 @@ $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string 
 $propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 
 
+
+//MONTO EN LETRAS
+function numeroALetras($numero) {
+    $unidad = array('', 'UNO', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE', 'DIEZ', 
+                    'ONCE', 'DOCE', 'TRECE', 'CATORCE', 'QUINCE', 'DIECISÉIS', 'DIECISIETE', 'DIECIOCHO', 'DIECINUEVE', 'VEINTE');
+    $decena = array('', '', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA');
+    $centena = array('', 'CIENTO', 'DOSCIENTOS', 'TRESCIENTOS', 'CUATROCIENTOS', 'QUINIENTOS', 'SEISCIENTOS', 'SETECIENTOS', 'OCHOCIENTOS', 'NOVECIENTOS');
+
+    $numero = number_format($numero, 2, '.', '');
+    list($entero, $decimal) = explode('.', $numero);
+
+    if ($entero == 0) {
+        $texto = 'CERO';
+    } else {
+        $texto = convertirNumero($entero, $unidad, $decena, $centena);
+    }
+
+    return trim($texto . ' CON ' . $decimal . '/100 SOLES');
+}
+
+function convertirNumero($num, $unidad, $decena, $centena) {
+    if ($num < 21) {
+        return $unidad[$num];
+    } elseif ($num < 100) {
+        $d = intval($num / 10);
+        $u = $num % 10;
+        if ($u == 0) return $decena[$d];
+        return $decena[$d] . ' Y ' . $unidad[$u];
+    } elseif ($num < 1000) {
+        $c = intval($num / 100);
+        $r = $num % 100;
+        if ($num == 100) return 'CIEN';
+        return trim($centena[$c] . ' ' . convertirNumero($r, $unidad, $decena, $centena));
+    } elseif ($num < 1000000) {
+        $m = intval($num / 1000);
+        $r = $num % 1000;
+        if ($m == 1) $texto = 'MIL';
+        else $texto = convertirNumero($m, $unidad, $decena, $centena) . ' MIL';
+        return trim($texto . ' ' . convertirNumero($r, $unidad, $decena, $centena));
+    } elseif ($num < 1000000000) {
+        $m = intval($num / 1000000);
+        $r = $num % 1000000;
+        if ($m == 1) $texto = 'UN MILLÓN';
+        else $texto = convertirNumero($m, $unidad, $decena, $centena) . ' MILLONES';
+        return trim($texto . ' ' . convertirNumero($r, $unidad, $decena, $centena));
+    }
+    return '';
+}
+
+
 //ASIGNARDOS
-$expediente_asig=$_POST['expediente'];
-$numero_expediente_asig=$_POST['numeroExpediente'];
-$monto_asig=$_POST['monto'];
-$monto_letras_asig=
-$nombre_propietario_asig=$_POST['nombrePropietario'];
-$dni_propietario_asig=$_POST['dniPropietario'];
-$numero_expediente1_asig=$_POST['numeroExpediente1'];
+$expediente_asig=strtoupper($_POST['expediente']);
+$numero_expediente_asig=strtoupper($_POST['numeroExpediente']);
+$monto_asig=$_POST['totalTotal']; //2000.12
+$monto_letras_asig = numeroALetras($monto_asig);
+$diasHabiles_asig=$_POST['diasHabiles']; //2000.12
+
+
+
+$monto_formateado = number_format($monto_asig, 2, '.', ',');
 
 //$estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_pdf($propietarios,$id_cuenta,"null","null",'null');
 
@@ -61,6 +113,8 @@ $estado_cuentaA = ModeloEstadoCuenta::mdlEstadoCuenta_pdfcaA($propietarios,$id_c
 
 
 $propietarios = ModeloEstadoCuenta::mdlPropietarios_pdf($propietarios);
+
+
 
 $configuracion = ControladorConfiguracion::ctrConfiguracion();
 
@@ -133,7 +187,7 @@ $html_head='<table align="left" cellpadding="1"  >
                     <tr>
 
                     <th width="320">SISTEMA DE RECAUDACIÓN MUNICIPAL</th>
-                     <th width="140"  align="left" border="0.1">Expediente: 754771 , ACUM</th> 
+                     <th width="140"  align="left" border="0.1">Expediente: '.$numero_expediente_asig.' , ACUM</th> 
                       
                     </tr>
 
@@ -145,7 +199,7 @@ $html_head='<table align="left" cellpadding="1"  >
                     
                       <tr>
                      <th width="320"></th>
-                       <th width="140"  align="left" border="0.1">CC: '.$numero_expediente1_asig.' </th> 
+                       <th width="140"  align="left" border="0.1">CC:  </th> 
                       
                     </tr>
                    
@@ -169,7 +223,7 @@ $pdf->Cell(120, 0, 'CÉDULA DE NOTIFICACIÓN N° 001-2025 GAT - MPLP', 0, 1, 'C'
 $pdf->Ln(2);
 //pripetario
 $pdf->SetX(8); 
-$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
+$pdf->SetFont('helvetica', 'B', 8);  // Establecer el tamaño de letra a 8
 $pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_impresion.' ', 0, 1, 'L');
 
 
@@ -179,8 +233,8 @@ $pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_
 $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
-$pdf->SetFont('helvetica', 'B', 6.5);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, '1. Identifiacion de deudor tributario ', 0, 1, 'L');
+$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
+$pdf->Cell(10, 2, '1. IDENTIFICACION DE DEUDOR TRIBUTARIO ', 0, 1, 'L');
 $pdf->Ln(1);
 $pdf->SetFont('helvetica', '', 6.5);
 $pdf->SetX(10); 
@@ -205,7 +259,6 @@ $html_propietario .='</tr>';
 $html_propietario .='</table>';
 $pdf->writeHTML($html_propietario, true, false, false, false, '');
 //------------------------------------------ ESTIMADO CONTRIBUEYNTE
-
 
 //end propiertario
 //------------------------------------------ ESTIMADO CONTRIBUEYNTE
@@ -276,7 +329,26 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 
 $pdf->Ln(1); // Salto de línea
 // Obtener la fecha actual
-$textoLargo = 'VISTOS: Los actuados en el presente Procedimiento, estando a lo que expresa; y CONSIDERANDO: Primero.- Que, la persona, objeto y naturaleza de los expedientes '.$expediente_asig.' son los mismos, por lo que procede su acumulación; Segundo.- Que de la verificación en el Sistema de Recaudación Municipal, se evidencia que el obligado <nombre del contribuyente>, con DNI <número de documento de identidad>, registra a la fecha deuda en cobranza coactiva, por lo que es necesario asegurar el cumplimiento de dicha obligación tributaria, en consecuencia debe procederse con trabarse las medidas cautelares que sean necesarias. Tercero.- Que el Ejecutor Coactivo en cualquier estado del procedimiento podrá trabar y/o variar la Medida Cautelar correspondiente, a fin de garantizar la deuda Tributaria materia del presente procedimiento; y de conformidad con lo dispuesto en <los artículos 3º, 20º, 32º y 33º de la Ley N° 26979 – Ley de Procedimiento de Ejecución Coactiva, modificada por la Ley Nº 28165 y la Ley Nº 28892>;';
+$textoLargo = 'VISTOS: Los actuados en el presente Procedimiento, estando a lo que expresa; y CONSIDERANDO: Primero.- Que, la persona, objeto y naturaleza de los expedientes '.$expediente_asig.' son los mismos, por lo que procede su acumulación; Segundo.- Que de la verificación en el Sistema de Recaudación Municipal, se evidencia que el obligado ';
+
+$nombresContribuyentes1 = [];
+
+foreach ($propietarios as $valor => $filas) {
+    foreach ($filas as $fila) {
+        // Combinar nombre completo con su DNI
+        $nombresContribuyentes1[] = $fila['nombre_completo'] . ' (DNI N° ' . $fila['documento'] . ')';
+    }
+}
+
+// Concatenar nombres con coma y "y" antes del último
+if (count($nombresContribuyentes1) > 1) {
+    $textoLargo .= implode(', ', array_slice($nombresContribuyentes1, 0, -1))
+        . ' y ' . end($nombresContribuyentes1);
+} else {
+    $textoLargo .= $nombresContribuyentes1[0];
+}
+
+$textoLargo.=', registra a la fecha deuda en cobranza coactiva, por lo que es necesario asegurar el cumplimiento de dicha obligación tributaria, en consecuencia debe procederse con trabarse las medidas cautelares que sean necesarias. Tercero.- Que el Ejecutor Coactivo en cualquier estado del procedimiento podrá trabar y/o variar la Medida Cautelar correspondiente, a fin de garantizar la deuda Tributaria materia del presente procedimiento; y de conformidad con lo dispuesto en <los artículos 3º, 20º, 32º y 33º de la Ley N° 26979 – Ley de Procedimiento de Ejecución Coactiva, modificada por la Ley Nº 28165 y la Ley Nº 28892>;';
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
@@ -310,11 +382,55 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 $pdf->Ln(1); // Salto de línea
 // Obtener la fecha actual
 
-$textoLargo = 'PRIMERO.- ACUMULAR los expedientes señalados en el considerando primero del presente mandato, entendiéndose en adelante como uno solo bajo el expediente Nº <número del Expediente que acumula>-ACUM;
+$textoLargo = 'PRIMERO.-';
 
-SEGUNDO.- TRABAR LA MEDIDA CAUTELAR DE EMBARGO DEFINITIVO EN FORMA DE RETENCIÓN, hasta por la suma de S/. '.$monto_asig.' (<monto de la deuda en letras>), sobre los bienes, valores y fondos en cuentas corrientes, depósitos, sobregiros, custodia y otros que tenga o pudiera tener el obligado <nombre del contribuyente>, con DNI <número de documento de identidad> en los bancos, entidades financieras tanto en sus oficinas principales, agencias, sucursales, en moneda nacional y/o extranjera, notificándose a los representantes legales de dichas instituciones para que cumplan con la medida y pongan a la orden y disposición de la Municipalidad de <Nombre de la Municipalidad>, las retenciones que efectúen hasta completar la suma señalada, bajo apercibimiento de doble pago, o de comunicar la imposibilidad de ésta en el plazo máximo de <número de días hábiles otorgados> días hábiles de notificada; sin perjuicio de realizar la diligencia de toma de dicho;
+$textoLargo .='ACUMULAR los expedientes señalados en el considerando primero del presente mandato, entendiéndose en adelante como uno solo bajo el expediente Nº '.$numero_expediente_asig.'-ACUM;
 
-TERCERO.- REQUERIR al obligado <nombre del contribuyente>, con DNI <número de documento de identidad>, para que inmediatamente luego de notificada la presente, CUMPLA con CANCELAR la obligación tributaria materia del presente procedimiento de ejecución coactiva; bajo apercibimiento de proceder a la Ejecución Forzada de las Medidas Cautelares de Embargo trabadas, conforme a ley; notificándose. Firmado. <Nombre y Apellidos del Ejecutor Coactivo>, Ejecutor Coactivo; <Nombre y Apellidos del Auxiliar Coactivo>, Auxiliar Coactivo. Lo que notifico a usted conforme a ley.';
+SEGUNDO.- TRABAR LA MEDIDA CAUTELAR DE EMBARGO DEFINITIVO EN FORMA DE RETENCIÓN, hasta por la suma de S/. '.$monto_formateado.' ('.$monto_letras_asig.'), sobre los bienes, valores y fondos en cuentas corrientes, depósitos, sobregiros, custodia y otros que tenga o pudiera tener el obligado ';
+
+$nombresContribuyentes2 = [];
+
+foreach ($propietarios as $valor => $filas) {
+    foreach ($filas as $fila) {
+        // Combinar nombre completo con su DNI
+        $nombresContribuyentes2[] = $fila['nombre_completo'] . ' (DNI N° ' . $fila['documento'] . ')';
+    }
+}
+
+// Concatenar nombres con coma y "y" antes del último
+if (count($nombresContribuyentes2) > 1) {
+    $textoLargo .= implode(', ', array_slice($nombresContribuyentes2, 0, -1))
+        . ' y ' . end($nombresContribuyentes2);
+} else {
+    $textoLargo .= $nombresContribuyentes2[0];
+}
+
+
+$textoLargo.=' en los bancos, entidades financieras tanto en sus oficinas principales, agencias, sucursales, en moneda nacional y/o extranjera, notificándose a los representantes legales de dichas instituciones para que cumplan con la medida y pongan a la orden y disposición de la Municipalidad Provincial de Lucanas Puquio, las retenciones que efectúen hasta completar la suma señalada, bajo apercibimiento de doble pago, o de comunicar la imposibilidad de ésta en el plazo máximo de '.$diasHabiles_asig.' días hábiles de notificada; sin perjuicio de realizar la diligencia de toma de dicho;
+
+TERCERO.- REQUERIR al obligado';
+
+// Crear un arreglo para los nombres con DNI
+$nombresContribuyentes = [];
+
+foreach ($propietarios as $valor => $filas) {
+    foreach ($filas as $fila) {
+        // Combinar nombre completo con su DNI
+        $nombresContribuyentes[] = $fila['nombre_completo'] . ' (DNI N° ' . $fila['documento'] . ')';
+    }
+}
+
+// Concatenar nombres con coma y "y" antes del último
+if (count($nombresContribuyentes) > 1) {
+    $textoLargo .= implode(', ', array_slice($nombresContribuyentes, 0, -1))
+        . ' y ' . end($nombresContribuyentes);
+} else {
+    $textoLargo .= $nombresContribuyentes[0];
+}
+
+
+
+$textoLargo.=', para que inmediatamente luego de notificada la presente, CUMPLA con CANCELAR la obligación tributaria materia del presente procedimiento de ejecución coactiva; bajo apercibimiento de proceder a la Ejecución Forzada de las Medidas Cautelares de Embargo trabadas, conforme a ley; notificándose. Firmado. Dr. Hector Alberto Huarcaya Cotaquispe, Ejecutor Coactivo; David Eugenio Jalixto Huasco, Auxiliar Coactivo. Lo que notifico a usted conforme a ley.';
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
@@ -327,6 +443,106 @@ $anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
 $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con márgenes definidos
 
 //----------------------------------------------- EN PRIMER PARRAFO
+
+
+
+
+
+// Escribir la tabla
+$pdf->SetX(9);
+$fechaActual = date('d/m/Y');
+$numeroPagina = $pdf->PageNo();
+
+$pdf->SetFont('helvetica', '', 7);
+$html_head ='<table cellpadding="2" >
+
+                    <tr>
+                       <th colspan="8" style="text-transform: lowercase;"> <strong>Oficinas de atencion:</strong> '.$configuracion['Nombre_Empresa'].'</th>
+                       <th colspan="2"></th>
+                    </tr>
+                      <tr>
+                       <th colspan="8"> <strong>Ubicado:</strong> Jr. Ayacucho N° 136 </th>
+                       <th colspan="2"><strong>TOTAL (s/.)</strong></th>
+                    </tr>
+
+                    <tr>
+                       <th colspan="8"> <strong>Para mayor información:</strong>'.'Oficina de ejecucion coactiva celular 966004730 / 966002552'.'</th>
+                        <th width="70" border="0.5" style="text-align: center; font-size:11px; "> <b>'.$monto_formateado.'</b></th>
+                  
+                    </tr>
+                   
+                 
+             </table>';
+$pdf->writeHTML($html_head);
+
+///---------------------------------
+
+
+$sector_2='<table align="left">
+                     <tr>
+                       <th colspan="2"><b>3. BASE LEGAL:</b>
+                       </th> 
+                     </tr>
+                     <tr>
+                       <th align="left">&nbsp;&nbsp;-Art. 70 de la ley órganica de la Municipalidad N° 27972<br>
+                           -Art. 8° al 20° Ley de Tribatación Municipal. N° 776 <br>
+                           -Art. 78° inc. 1 D.S. 133-2013-EF TUO del Código Tributario
+                       </th> 
+                       <th align="left">&nbsp;&nbsp;-TUO de la Ley 26979 de Procedimiento de Ejecución Coactiva<br>
+                           -Plazo para presentar recursos de reclamación: 03 días hábiles <br>
+                           (desde el día siguiente de notificación la presente)
+                       </th>
+                     </tr>
+                   
+             </table>';
+$pdf->writeHTML($sector_2, true, false, false, false, '');
+
+$sector_2='<table align="left">
+                     <tr>
+                       <th colspan="2" align="center"><b>CONSTANCIA DE NOTIFICACIÓN</b></th> 
+                     </tr>
+                     <tr>
+                       <th width="100" align="left">Fecha de Recepción</th> 
+                       <th width="440">: Puquio,....de..................................................del '.$anio_impresion.'</th> 
+                     </tr> <br>
+                     <tr>
+                       <th width="100"  align="left">Domicilio</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                     <tr>
+                       <th width="100"  align="left">Apellidos y Nombres</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Parentesco</th>
+                       <th>: .................................................................................................. DNI:...................................... </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Firma de Recepción</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Notificado Por</th>
+                       <th>: .................................................................................................. DNI:.....................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Firma Notificador</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Referencia</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                     <tr>
+                       <th width="100"  align="left">N° de suministro de Luz</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Correo Electronico</th>
+                       <th>: .................................................................................................. Celular:.................................  </th>
+                     </tr>
+             </table>';
+$pdf->writeHTML($sector_2, true, false, false, false, '');
 
 
 //end propiertario

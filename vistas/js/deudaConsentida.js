@@ -1,4 +1,6 @@
 //import { Pisoclass } from './pisos.js';
+
+//--------------------------------------------(ANEXO 12)-----------------------
 class ConcentidaDeuda {
 
   constructor() {

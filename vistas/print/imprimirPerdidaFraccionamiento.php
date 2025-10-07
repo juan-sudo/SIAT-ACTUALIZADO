@@ -6,6 +6,7 @@ use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
 
 class MYPDFC extends TCPDF {
+    //----------------------------------------------(ANEXO 09)-------------
 
     public function Footer() {
         $configuracion = ControladorConfiguracion::ctrConfiguracion();
@@ -97,6 +98,16 @@ div{
 
 $fechaActual = date('d/m/Y');
 $anio_impresion = date('Y');
+$dia_impresion = date('d');
+//$mes_impresion = date('m');
+$meses = array(
+    "01" => "enero", "02" => "febrero", "03" => "marzo", "04" => "abril", "05" => "mayo", "06" => "junio",
+    "07" => "julio", "08" => "agosto", "09" => "setiembre", "10" => "octubre", "11" => "noviembre", "12" => "diciembre"
+);
+
+$mes_impresion = date('m');  // Obtiene el mes en formato numérico (01-12)
+$mes_nombre = $meses[$mes_impresion];  // Obtiene el nombre del mes co
+
 
 $numeroPagina = $pdf->PageNo();
 
@@ -142,12 +153,22 @@ $pdf->Image($file, 10, 5, 25, 25, 'JPG', '', '', true);
 $pdf->MultiCell(0, 5, '', 0, 'C');
 
 $pdf->SetX(40); 
-$pdf->SetFont('helvetica', 'B', 14);  
-$pdf->Cell(120, 0, 'RESOLUCION DE PERDIDA DE FRACCIONAMIENTO N° 005-2025 GAT - MPLP', 0, 1, 'C');
+$pdf->SetFont('helvetica', 'B', 12);  
+$pdf->Cell(120, 0, 'RESOLUCION DE PERDIDA DE FRACCIONAMIENTO N° 001-2025 GAT - MPLP', 0, 1, 'C');
 
 //------------------------------------------ PRIMER PARRAFO
 
-$pdf->Ln(2); // Salto de línea
+
+//.-------------------
+$pdf->Ln(1);
+//pripetario
+$pdf->SetX(8); 
+$pdf->SetFont('helvetica', ' ', 8);  // Establecer el tamaño de letra a 8
+$pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_impresion.' ', 0, 1, 'L');
+
+
+//---------------------------
+$pdf->Ln(3); // Salto de línea
 // Obtener la fecha actual
 $textoLargo = 'VISTA, la Resolución N° '.$numero_resolucion_1_asig.' que aprobó la solicitud N°'.$numero_solicitud_asig.' de fecha '.$fecha_fraccionado_asig.', presentada por los contribuyentes, sobre fraccionamiento de deudas tributarias;';   
 
@@ -169,7 +190,7 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
-$pdf->SetFont('helvetica', '', 6.5);  // Establecer el tamaño de letra a 8
+$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
 $pdf->Cell(10, 2, '1. IDENTIFICACION DE DEUDOR TRIBUTARIO ', 0, 1, 'L');
 
 
@@ -205,8 +226,8 @@ $pdf->Ln(2); // Salto de línea
 $textoLargo = "CONSIDERANDO; ";   
 
 $pdf->SetX(8); // Margen izquierdo
-$pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$textoLargo .= "\n";
+$pdf->SetFont('helvetica', 'B', 9); // Tamaño de fuente más legible
+
 
 // Calculamos el ancho disponible para el texto
 $anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
@@ -217,7 +238,7 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 
 
 //-----------------------------------------------TERCER PARRAFO
-$pdf->Ln(2); // Salto de línea
+
 // Obtener la fecha actual
 $textoLargo = 'Que al verificar el cumplimiento de las obligaciones vinculadas al otorgamiento del fraccionemiento,se ha constatado que el deudor ha incurrido en causal de pérdida según lo establecido en Base legal, aprobada por, en la '.$fecha_aprobacion_asig.' ';   
 
@@ -255,10 +276,10 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 $pdf->Ln(2); // Salto de línea
 // Obtener la fecha actual
 $textoLargo = "SE RESUELVE:";   
-
-$pdf->SetX(8); // Margen izquierdo
-$pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
 $textoLargo .= "\n";
+$pdf->SetX(8); // Margen izquierdo
+$pdf->SetFont('helvetica', 'B', 9); // Tamaño de fuente más legible
+
 
 // Calculamos el ancho disponible para el texto
 $anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
@@ -268,7 +289,7 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 
 //------------------------------------------ SEXTO PARRAFO
 
-$pdf->Ln(2); // Salto de línea
+
 // Obtener la fecha actual
 $textoLargo = 'ARTÍCULO PRIMERO: Declarar la pérdida del fraccionamiento de deudas tributarias otorgado a ';
 
@@ -320,7 +341,7 @@ $pdf->Ln(4); // Salto de línea
 
 //pripetario
 $pdf->SetX(8); 
-$pdf->SetFont('helvetica', '', 6.5);  // Establecer el tamaño de letra a 8
+$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
 $pdf->Cell(10, 2, '2. DETALLE(S) QUE OCASIONA(N) LA PERDIDA AL '.$fechaActual.'', 0, 1, 'L');
 
 

@@ -1,4 +1,5 @@
 //import { Pisoclass } from './pisos.js';
+//--------------------------------------------(ANEXO 09)---------------
 class PerdidaFraccionamiento {
 
   constructor() {
@@ -918,10 +919,10 @@ $(document).ready(function() {
     $('.agregar-fila').click(function() {
         var nuevaFila = `
         <tr>
-            <td><input type="number" class="form-control" name="nCouta" id="nCouta" placeholder="Ingrese cuota"></td>
-            <td><input type="text" class="form-control" name="DocDeuda" id="DocDeuda" placeholder="Ingres numero docu"></td>
+            <td><input type="number" class="form-control" name="nCouta" id="nCouta" placeholder="EJ: 2"></td>
+            <td><input type="text" class="form-control" name="DocDeuda" id="DocDeuda" placeholder="EJ: DOC-003"></td>
             <td><input type="date" class="form-control" name="fechaVencimiento" id="fechaVencimiento" placeholder="Ingrese fecha ven"></td>
-            <td><input type="number" class="form-control" name="montoTotal" id="montoTotal" placeholder="Ingrese monto"></td>
+            <td><input type="number" class="form-control" name="montoTotal" id="montoTotal" placeholder="EJ: 300.50"></td>
             <td><button type="button" class="eliminar-fila">X</button></td>
         </tr>
         `;

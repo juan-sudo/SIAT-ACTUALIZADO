@@ -568,15 +568,10 @@ imprimirherecoactivo() {
   // Agregar los valores de tipoTributario, numeroCuota y anioFiscalg capturados
 
   
-
-      datos.append("numeroExpediente1", resolucionVehicular_.numeroExpediente1);
-      datos.append("expediente", resolucionVehicular_.expedientes);
       datos.append("numeroExpediente", resolucionVehicular_.numeroExpediente);
-      datos.append("monto", resolucionVehicular_.monto);
+      datos.append("expediente", resolucionVehicular_.expedientes);
       datos.append("numeroPlaca", resolucionVehicular_.numeroPlaca);
-      datos.append("nombrePropietario", resolucionVehicular_.nombrePropietario);
-      datos.append("dniPropietario", resolucionVehicular_.dniPropietario);
-     
+ 
         // Mostrar datos en consola
         for (let pair of datos.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -743,14 +738,11 @@ imprimirherecoactivo() {
 captureModalData() {
   
 
-    // Obtener los valores de los campos que no son de la tabla
-    this.numeroExpediente1 = document.getElementById("numeroExpediente0115").value;
+
     this.expedientes = document.getElementById("expedientes15").value;
     this.numeroExpediente = document.getElementById("numeroExpediente15").value;
-    this.monto = document.getElementById("monto15").value;
     this.numeroPlaca = document.getElementById("placaRodaje15").value;
-    this.nombrePropietario = document.getElementById("nombrePropietario15").value;
-    this.dniPropietario = document.getElementById("dniPropietario15").value;
+
 
 
 

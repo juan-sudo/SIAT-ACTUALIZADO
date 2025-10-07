@@ -1,7 +1,7 @@
 <?php
 require_once("../../vendor/autoload.php");
 require_once('./TCPDFmain/pdf/tcpdf_include.php');
-
+//--------------------------------------------------------(ANEXO 19)
 use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
 
@@ -45,12 +45,12 @@ $propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un s
 
 
 //VALORES ASIFNADOS
-$resolucion_Ejecucion_asig=$_POST['resolucionEjecucion'];
-$resolucion_medida_asig=$_POST['resolucionMedida'];
+$resolucion_Ejecucion_asig=strtoupper($_POST['resolucionEjecucion']);
+$resolucion_medida_asig=strtoupper($_POST['resolucionMedida']);
 
-$placa_vehiculo_asig=$_POST['placaVehiculo'];
-$ubicacion_predio_asig=$_POST['ubicacionPredio'];
-$partida_registral_asig=$_POST['partidaRegistral'];
+$placa_vehiculo_asig=strtoupper($_POST['placaVehiculo']);
+$ubicacion_predio_asig=strtoupper($_POST['ubicacionPredio']);
+$partida_registral_asig=strtoupper($_POST['partidaRegistral']);
 
 $fundamento_asig=$_POST['fundamento'];
 
@@ -130,12 +130,10 @@ $pdf->Image($file, 10, 5, 25, 25, 'JPG', '', '', true);
 // Resolución
 $pdf->MultiCell(0, 5, '', 0, 'C');
 
-$pdf->SetX(40); 
-$pdf->SetFont('helvetica', 'B', 16);  
-$pdf->Cell(120, 0, 'Oficina de Ejecucion Coactiva', 0, 1, 'C');
+
 $pdf->Ln(2); // También reducido a 1
 $pdf->SetX(40); 
-$pdf->SetFont('helvetica', 'B', 10);  
+$pdf->SetFont('helvetica', 'B', 12);  
 $pdf->Cell(120, 0, 'Solicitud de terceria de propiedad por deuda tributaria ', 0, 1, 'C');
 $pdf->Ln(4); // También reducido a 1
 
@@ -153,7 +151,7 @@ $pdf->Ln(4); // También reducido a 1
 $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
-$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
+$pdf->SetFont('helvetica', ' ', 7);  // Establecer el tamaño de letra a 8
 $pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_actual.' ', 0, 1, 'L');
 
 
@@ -166,7 +164,7 @@ $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, 'Identifiacion de contribuentes: ', 0, 1, 'L');
+$pdf->Cell(10, 2, '1. IDENTIFICACION DE CONTRIBUYENTES: ', 0, 1, 'L');
 
 
 
@@ -204,7 +202,7 @@ $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, 'Resoluciones: ', 0, 1, 'L');
+$pdf->Cell(10, 2, '2. RESOLUCIONES: ', 0, 1, 'L');
 $pdf->Ln(2);
 
 $pdf->SetFont('helvetica', '', 6.5);  // Establecer a fuente normal (sin negrita)
@@ -233,7 +231,7 @@ $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, 'Respecto del bien afectado por la medida cautelar: ', 0, 1, 'L');
+$pdf->Cell(10, 2, '3. RESPECTO DEL BIEN AFECTADO POR LA MEDIDA CAUTELAR: ', 0, 1, 'L');
 
 
 $pdf->Ln(2);
@@ -289,7 +287,7 @@ $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, 'Documentos: ', 0, 1, 'L');
+$pdf->Cell(10, 2, '4. DOCUMENTOS: ', 0, 1, 'L');
 
 $pdf->Ln(2);
 $pdf->SetFont('helvetica', '', 6.5);  // Establecer a fuente normal (sin negrita)

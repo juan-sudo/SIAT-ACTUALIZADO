@@ -1,7 +1,7 @@
 <?php
 require_once("../../vendor/autoload.php");
 require_once('./TCPDFmain/pdf/tcpdf_include.php');
-
+//---------------------------------------------------(ANEXO 08)------------
 use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
 
@@ -48,8 +48,12 @@ $fecha_infraccion_asig=$_POST['fechaInfraccion'];
 $base_imponible_asig=$_POST['baseImponible'];
 $sancion_asig=$_POST['sancion'];
 $monto_insoluto_asig=$_POST['montoInsoluto'];
+$monto_insoluto_formateado = number_format((float)$monto_insoluto_asig, 2, '.', ',');
+
 $interes_moratorio_asig=$_POST['interesMoratorio'];
 $total_asig=$_POST['total'];
+$monto_total_formateado = number_format((float)$total_asig, 2, '.', ',');
+
 
 
 
@@ -163,7 +167,7 @@ $pdf->Cell(120, 0, 'RESOLUCION DE MULTA N° 005-2025 GAT - MPLP', 0, 1, 'C');
 $pdf->Ln(2);
 //pripetario
 $pdf->SetX(8); 
-$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
+$pdf->SetFont('helvetica', ' ', 7);  // Establecer el tamaño de letra a 8
 $pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_impresion.' ', 0, 1, 'L');
 
 //--------------------
@@ -172,7 +176,7 @@ $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', '', 6.5);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, '1. Identificación de deudor tributario ', 0, 1, 'L');
+$pdf->Cell(10, 2, '1. INDENTIFICACION DEL DEUDOR TRIBUTARIO ', 0, 1, 'L');
 
 
 $pdf->Ln(1);
@@ -225,7 +229,7 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', '', 6.5);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, '2. Liquidación de multa tributaria ', 0, 1, 'L');
+$pdf->Cell(10, 2, '2. LIQUIDACION DE MULTA TRIBUTARIA ', 0, 1, 'L');
 
 
 $pdf->Ln(1);
@@ -248,9 +252,9 @@ $html_propietario .= '<td style="border: 0.1px solid black; border-left: 0.1px s
 $html_propietario .= '<td style="border: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;"> '.$fecha_infraccion_asig.' </td>';
 $html_propietario .= '<td style="border: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;"> '.$base_imponible_asig.' </td>';
 $html_propietario .= '<td style="border: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;">'.$sancion_asig.' </td>';
-$html_propietario .= '<td style="border: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;">'.$monto_insoluto_asig.'</td>';
+$html_propietario .= '<td style="border: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;">'.$monto_insoluto_formateado.'</td>';
 $html_propietario .= '<td style="border: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;">'.$interes_moratorio_asig.'</td>';
-$html_propietario .= '<td style="border: 0.1px solid black; border-right: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;">'.$total_asig.'</td>';
+$html_propietario .= '<td style="border: 0.1px solid black; border-right: 0.1px solid black; border-bottom: 0.1px solid black; width: 14%;">'.$monto_total_formateado.'</td>';
 $html_propietario .= '</tr>';
 
 $html_propietario .= '</table>';
@@ -267,7 +271,7 @@ $pdf->writeHTML($html_propietario, true, false, false, false, '');
 
 //------------------------------------------ PRIMER PARRAFO
 
-$pdf->Ln(2); // Salto de línea
+$pdf->Ln(1); // Salto de línea
 // Obtener la fecha actual
 $textoLargo = "Se adjunta la valorización de los predios fiscalizados, cuyos valores sufrieron modificaciones
 Las multas serán rebajadas conforme al Régimen de Gradualidad establecido por la Ordenanza Nº 798:
@@ -410,7 +414,7 @@ $html_head ='<table cellpadding="2" >
 
                     <tr>
                        <th colspan="8"> <strong>Para mayor información:</strong>'.'Oficina de ejecucion coactiva celular 966004730 / 966002552'.'</th>
-                        <th width="70" border="0.5" style="text-align: center; font-size:11px; "> <b>'.$totalFormateado.'</b></th>
+                        <th width="70" border="0.5" style="text-align: center; font-size:11px; "> <b>'.$monto_total_formateado.'</b></th>
                   
                     </tr>
                    

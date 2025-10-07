@@ -1,7 +1,7 @@
 <?php
 require_once("../../vendor/autoload.php");
 require_once('./TCPDFmain/pdf/tcpdf_include.php');
-
+//-----------------------------------------(ANEXO 18)-------------
 use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
 
@@ -45,8 +45,8 @@ $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string 
 $propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 
 //VALORES ASIFNADOS
-$resolucion_Ejecucion_asig=$_POST['resolucionEjecucion'];
-$resolucion_medida_asig=$_POST['resolucionMedida'];
+$resolucion_Ejecucion_asig=strtoupper($_POST['resolucionEjecucion']);
+$resolucion_medida_asig=strtoupper($_POST['resolucionMedida']);
 $numero_documento_asig=$_POST['numeroDocumento'];
 $fundamentoLegal = json_decode($_POST['fundamentoLegal'], true); // Decodificar JSON a array en PHP
 
@@ -147,12 +147,10 @@ $pdf->Image($file, 10, 5, 25, 25, 'JPG', '', '', true);
 // Resolución
 $pdf->MultiCell(0, 5, '', 0, 'C');
 
-$pdf->SetX(40); 
-$pdf->SetFont('helvetica', 'B', 16);  
-$pdf->Cell(120, 0, 'Oficina de Ejecucion Coactiva', 0, 1, 'C');
+
 $pdf->Ln(2); // También reducido a 1
 $pdf->SetX(40); 
-$pdf->SetFont('helvetica', 'B', 10);  
+$pdf->SetFont('helvetica', 'B', 12);  
 $pdf->Cell(120, 0, 'Solicitud de suspencion del procedimiento de ejecucion coactiva por deuda tributaria', 0, 1, 'C');
 
 //end propiertario
@@ -161,7 +159,7 @@ $pdf->Cell(120, 0, 'Solicitud de suspencion del procedimiento de ejecucion coact
 $pdf->Ln(2);
 //pripetario
 $pdf->SetX(8); 
-$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
+$pdf->SetFont('helvetica', ' ', 7);  // Establecer el tamaño de letra a 8
 $pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_impresion.' ', 0, 1, 'L');
 
 
@@ -179,7 +177,7 @@ $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, '1. Identificacion del deudor tributario ', 0, 1, 'L');
+$pdf->Cell(10, 2, '1. IDENTIFICACIÓN DEL DEUDOR TRIBUTARIO', 0, 1, 'L');
 
 
 $pdf->Ln(1);
@@ -218,7 +216,7 @@ $pdf->Ln(3);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, '2. Respecto de la deuda de Impuesto predial: ', 0, 1, 'L');
+$pdf->Cell(10, 2, '2. RESPECTO DE LA DEUDA DE IMPUESTO PREDIAL: ', 0, 1, 'L');
 
 
 
@@ -350,7 +348,7 @@ $pdf->Ln(2); // Salto de línea
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, '3. Resoluciones: ', 0, 1, 'L');
+$pdf->Cell(10, 2, '3. RESOLUCIONES: ', 0, 1, 'L');
 
 
 //------------------------------------------ ESTIMADO CONTRIBUEYNTE
@@ -387,7 +385,7 @@ $pdf->Ln(2);
 //pripetario
 $pdf->SetX(8); 
 $pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
-$pdf->Cell(10, 2, '4. Fundamento: ', 0, 1, 'L');
+$pdf->Cell(10, 2, '4. FUNDAMENTO: ', 0, 1, 'L');
 
 
 $pdf->Ln(1);

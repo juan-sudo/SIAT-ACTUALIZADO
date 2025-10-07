@@ -1,4 +1,5 @@
 //import { Pisoclass } from './pisos.js';
+//---------------------------------------------------(ANEXO 08)------------
 class ResolucionMulta {
 
   constructor() {

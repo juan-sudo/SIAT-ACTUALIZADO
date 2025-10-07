@@ -1,5 +1,5 @@
 class TerceraPropiedad {
-
+//---------------------------------------------(ANEXO 19)
   constructor() {
     this.idContribuyente = null;
     this.impuesto_anual = null;

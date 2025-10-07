@@ -4,7 +4,7 @@ require_once('./TCPDFmain/pdf/tcpdf_include.php');
 
 use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
-
+//-----------------------------------------------(ANEXO 11)--------------
 class MYPDFC extends TCPDF {
 
     //Page header
@@ -46,11 +46,12 @@ $propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un s
 
 
 //ASGINADO
-$numero_fraccionado_asig=$_POST['numeroFraccionado']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
-$numero_cuota_asig=$_POST['numeroCuota']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
-$numero_convenio_asig=$_POST['numeroConvenio']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
-$importeFraccionado=$_POST['importeFraccionado']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
+$numero_fraccionado_asig=strtoupper($_POST['numeroFraccionado']); //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 
+$numero_cuota_asig=$_POST['numeroCuota']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
+$numero_convenio_asig=strtoupper($_POST['numeroConvenio']); //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
+
+$monto_total=$_POST['totalTotalI'];
 
 
 
@@ -100,6 +101,15 @@ div{
 
 $fechaActual = date('d/m/Y');
 $anio_impresion = date('Y');
+$dia_impresion = date('d');
+//$mes_impresion = date('m');
+$meses = array(
+    "01" => "enero", "02" => "febrero", "03" => "marzo", "04" => "abril", "05" => "mayo", "06" => "junio",
+    "07" => "julio", "08" => "agosto", "09" => "setiembre", "10" => "octubre", "11" => "noviembre", "12" => "diciembre"
+);
+
+$mes_impresion = date('m');  // Obtiene el mes en formato numérico (01-12)
+$mes_nombre = $meses[$mes_impresion];  // Obtiene el nombre del mes co
 
 $numeroPagina = $pdf->PageNo();
 
@@ -146,7 +156,16 @@ $pdf->MultiCell(0, 5, '', 0, 'C');
 
 $pdf->SetX(40); 
 $pdf->SetFont('helvetica', 'B', 12);  
-$pdf->Cell(120, 0, 'RESOLUCION DE APROBACION DE FRACCIONAMIENTO N° 005-2025 GAT - MPLP', 0, 1, 'C');
+$pdf->Cell(120, 0, 'RESOLUCION DE APROBACION DE FRACCIONAMIENTO N° 001-2025 GAT - MPLP', 0, 1, 'C');
+
+
+//.-------------------
+$pdf->Ln(1);
+//pripetario
+$pdf->SetX(8); 
+$pdf->SetFont('helvetica', 'B', 8);  // Establecer el tamaño de letra a 8
+$pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_impresion.' ', 0, 1, 'L');
+
 
 
 //------------------------------------------ PRIMER PARRAFO
@@ -223,8 +242,7 @@ $pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con m
 $pdf->Ln(1); // Salto de línea
 // Obtener la fecha actual
 
-$textoLargo = "Que, mediante <Baselegalquenormael fraccionamiento>, la Municipalidad Provincial Lucanas - puquio en la que el ejecutor coactivo aprobó el Reglamento de Fraccionamiento,
- para brindar facilidades de pago a los contribuyentes;";
+$textoLargo = "Que, mediante <Baselegalquenormael fraccionamiento>, la Municipalidad Provincial Lucanas - puquio en la que el ejecutor coactivo aprobó el Reglamento de Fraccionamiento, para brindar facilidades de pago a los contribuyentes;";
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
@@ -245,7 +263,7 @@ $pdf->Ln(1); // Salto de línea
 // Obtener la fecha actual
 
 $textoLargo = '
-Que, de conformidad con el artículo 36 del codigo tributario del Reglamentode Fraccionamiento, aprobado mediante <normativa>,el deudor ha cumplido con la presentación de los requisitos para el acogimiento del fraccionamiento desudeuda,ascendente a la suma de '.$importeFraccionado.' importe total dela deuda fraccionada y cancelaren '.$numero_cuota_asig.' cuotas mensuales a través del Convenio de Fraccionamiento N° '.$numero_convenio_asig.', según la proforma adjunta a la solicitud; Que,en uso de las facultades con feridas en el artículo <Número de la rtículo >de la Ordenanza N°<Número de la Ordenanza que aprueba el ROF >que aprueba el Reglamento de Organización y Funciones de la Municipalidad <Distrital/Provincial> de <Nombre de la Municipalidad> y modificatorias establecidas en el presente documento';
+Que, de conformidad con el artículo 36 del codigo tributario del Reglamentode Fraccionamiento, aprobado mediante D.l. N° 822, el deudor ha cumplido con la presentación de los requisitos para el acogimiento del fraccionamiento desudeuda,ascendente a la suma de '.$monto_total.' importe total dela deuda fraccionada y cancelar en '.$numero_cuota_asig.' cuotas mensuales a través del Convenio de Fraccionamiento N° '.$numero_convenio_asig.', según la proforma adjunta a la solicitud; Que,en uso de las facultades con feridas en Ley.';
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
@@ -281,7 +299,26 @@ $pdf->Ln(2); // Salto de línea
 //------------------------------------------ PRIMER PARRAFO
 
 // Obtener la fecha actual
-$textoLargo = 'ARTÍCULO1°:APROBAR la solicitud de fraccionamiento N° '.$numero_fraccionado_asig.' ,presentada por el <datos del contribuyente >,con código N°<código de contribuyente> por S/.'.$importeFraccionado.' importe totalde ladeuda fraccionada>,otorgándoseel fraccionamiento conel númerodecuotas,montosdeamortización, interesesy fechas de vencimientos de acuerdo con el plan de pagos adjunto que forma parte de esta resolución.';
+$textoLargo = 'ARTÍCULO1°:APROBAR la solicitud de fraccionamiento N° '.$numero_fraccionado_asig.' ,presentada por el ';
+
+$nombresContribuyentes2 = [];
+
+foreach ($propietarios as $valor => $filas) {
+    foreach ($filas as $fila) {
+        // Combinar nombre completo con su DNI
+        $nombresContribuyentes2[] = $fila['nombre_completo'] . ' (CODIGO N° ' . $fila['id_contribuyente'] . ')';
+    }
+}
+
+// Concatenar nombres con coma y "y" antes del último
+if (count($nombresContribuyentes2) > 1) {
+    $textoLargo .= implode(', ', array_slice($nombresContribuyentes2, 0, -1))
+        . ' y ' . end($nombresContribuyentes2);
+} else {
+    $textoLargo .= $nombresContribuyentes2[0];
+}
+
+$textoLargo.=' por S/.'.$monto_total.', otorgándose el fraccionamiento conel número de cuotas,montos de amortización, intereses y fechas de vencimientos de acuerdo con el plan de pagos adjunto que forma parte de esta resolución.';
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible

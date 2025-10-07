@@ -758,17 +758,32 @@ $idArray = array_filter($idArray);
 
            <div class="col-lg-3">
             <label for="docInfraccion8">Doc. de infraccion</label>
-            <input type="text" class="form-control" id="docInfraccion8" name="docInfraccion8" value="" placeholder="Doc infraccion" />
+            <input type="text" class="form-control" id="docInfraccion8" name="docInfraccion8" value="" placeholder="EJ: DOC-INFRACCION" />
           </div>
 
-          <div class="col-lg-3">
+        
+ 
+
+        </div>
+
+         <div class="row " style="margin-top: 10px;">
+          <div class="col-lg-12">
+            <p>lIQUIDACION DE MULTA TRIBUTARIA</p>
+
+          </div>
+          </div>
+
+         <div class="row ">
+
+
+          <div class="col-lg-6">
             <label for="fechaInfraccion8">Fecha de infraccion</label>
-            <input type="date" class="form-control" id="fechaInfraccion8" name="fechaInfraccion8" value="" placeholder="Fecha infraccion" />
+            <input type="date" class="form-control" id="fechaInfraccion8" name="fechaInfraccion8" value=""  />
           </div>
 
-           <div class="col-lg-3">
+           <div class="col-lg-6">
             <label for="baseImponible8">Base imponible</label>
-            <input type="number" class="form-control" id="baseImponible8" name="baseImponible8" value="" placeholder="Base imponible" />
+            <input type="number" class="form-control" id="baseImponible8" name="baseImponible8" value="" placeholder="EJ: 45254.85" />
           </div>
          
          
@@ -783,18 +798,18 @@ $idArray = array_filter($idArray);
 
            <div class="col-lg-3">
             <label for="sansion8">Sanción (%)</label>
-            <input type="number" class="form-control" id="sansion8" name="sansion8" value="" placeholder="Sancion" min="0" max="100" step="0.01" />
+            <input type="number" class="form-control" id="sansion8" name="sansion8" value="" placeholder="EJ: 10" min="0" max="100" step="0.01" />
           </div>
 
 
            <div class="col-lg-3">
             <label for="montoInsoluto8">Monto insoluto</label>
-            <input type="number" class="form-control" id="montoInsoluto8" name="montoInsoluto8" value="" placeholder="Monto insoluto" />
+            <input type="number" class="form-control" id="montoInsoluto8" name="montoInsoluto8" value="" placeholder="EJ: 200.00" />
           </div>
 
           <div class="col-lg-3">
             <label for="interesMoratorio8">Interes moratorio</label>
-            <input type="number" class="form-control" id="interesMoratorio8" name="interesMoratorio8" value="" placeholder="Interes moratorio" />
+            <input type="number" class="form-control" id="interesMoratorio8" name="interesMoratorio8" value="" placeholder="EJ: 20" />
           </div>
 
           <div class="col-lg-3">
@@ -845,19 +860,19 @@ $idArray = array_filter($idArray);
          
           <div class="col-lg-4">
             <label for="numeroResolucion109">Número de resolución:</label>
-            <input type="number" class="form-control" id="numeroResolucion109" name="numeroResolucion109" value="" placeholder="Ingrese número de cuota" />
+            <input type="number" class="form-control" id="numeroResolucion109" name="numeroResolucion109" value="" placeholder="EJ: 001-2025 GAT" />
           </div>
      
 
           <div class="col-lg-4">
             <label for="numeroSolicitud09">Número de solicitud:</label>
-            <input type="number" class="form-control" id="numeroSolicitud09" name="numeroSolicitud09" value="" placeholder="Ingrese número de cuota" />
+            <input type="number" class="form-control" id="numeroSolicitud09" name="numeroSolicitud09" value="" placeholder="EJ: 007-2025 GAT"  />
           </div>
         
 
           <div class="col-lg-4">
             <label for="numeroResolucion209">Número de resolucion:</label>
-            <input type="number" class="form-control" id="numeroResolucion209" name="numeroResolucion209" value="" placeholder="Ingrese número de cuota" />
+            <input type="number" class="form-control" id="numeroResolucion209" name="numeroResolucion209" value="" placeholder="EJ: 004-2025 GAT" />
           </div>
 
 
@@ -896,10 +911,10 @@ $idArray = array_filter($idArray);
           <tbody>
             
             <tr>
-              <td><input type="number" class="form-control" name="nCouta" id="nCouta" placeholder="Ingrese cuota"></td>
-              <td><input type="text" class="form-control" name="DocDeuda" id="DocDeuda" placeholder="Ingres numero docu"></td>
+              <td><input type="number" class="form-control" name="nCouta" id="nCouta" placeholder="EJ: 1"></td>
+              <td><input type="text" class="form-control" name="DocDeuda" id="DocDeuda" placeholder="EJ:DOC-002"></td>
               <td><input type="date" class="form-control" name="fechaVencimiento" id="fechaVencimiento" placeholder="Ingrese fecha ven"></td>
-              <td><input type="number" class="form-control" name="montoTotal" id="montoTotal" placeholder="Ingrese monto"></td>
+              <td><input type="number" class="form-control" name="montoTotal" id="montoTotal" placeholder="EJ: 2055.20"></td>
               <td style="text-align: center;"></td>
             </tr>
             
@@ -926,7 +941,7 @@ $idArray = array_filter($idArray);
 
 <!--FROMULARIO DE ANEXO 11-->
 <div class="modal fade" id="modal_aprobacion_fracciona" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Cabecera del Modal -->
@@ -944,37 +959,28 @@ $idArray = array_filter($idArray);
      
         <div class="row">
 
-          <div class="col-lg-12">
-            <label for="numeroFraccionado11">Número de solicitud fraccionado:</label>
-            <input type="number" class="form-control" id="numeroFraccionado11" name="numeroFraccionado11" value="" placeholder="Ingrese número de cuota" />
+          <div class="col-lg-5">
+            <label for="numeroFraccionado11">N° de solicitud fraccionado:</label>
+            <input type="text" class="form-control" id="numeroFraccionado11" name="numeroFraccionado11" value="" placeholder="EJ: 001-2025 GAT " />
           </div>
+
+          
+
+          <div class="col-lg-5">
+            <label for="numeroConvenio11">N° de convenio fraccionado:</label>
+            <input type="text" class="form-control" id="numeroConvenio11" name="numeroConvenio11" value="" placeholder="EJ: 002-2025 GAT " />
+          </div>
+
+           <div class="col-lg-2">
+            <label for="numeroCuotas11">N°cuotas:</label>
+            <input type="number" class="form-control" id="numeroCuotas11" name="numeroCuotas11" value="" placeholder="EJ: 1" />
+          </div>
+
+            
      
         </div>
 
-        
-        <div class="row">
-
-         
-          <div class="col-lg-12">
-            <label for="numeroCuotas11">Número de cuotas:</label>
-            <input type="number" class="form-control" id="numeroCuotas11" name="numeroCuotas11" value="" placeholder="Ingrese número de cuota" />
-          </div>
-       
-        </div>
-
-      <div class="row">
-          <div class="col-lg-12">
-            <label for="numeroConvenio11">Número de convenio:</label>
-            <input type="number" class="form-control" id="numeroConvenio11" name="numeroConvenio11" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
-            <div class="row">
-          <div class="col-lg-12">
-            <label for="importeFraccionado11">Importe fraccionamiento:</label>
-            <input type="number" class="form-control" id="importeFraccionado11" name="importeFraccionado11" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
+      
 
       </div>
 
@@ -1013,7 +1019,7 @@ $idArray = array_filter($idArray);
             <table class="table table-bordered" id="consentida-deuda">
               <thead>
                 <tr>
-                  <th>Detalle de cosuemtos</th>
+                  <th>Detalle de los documentos</th>
        
                 </tr>
               </thead>
@@ -1049,7 +1055,7 @@ $idArray = array_filter($idArray);
 
 <!--FROMULARIO DE ANEXO 14-->
 <div class="modal fade" id="modal_coactiva_dos" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Cabecera del Modal -->
@@ -1066,19 +1072,19 @@ $idArray = array_filter($idArray);
         <!-- Formulario de los campos -->
      
         <div class="row">
-         <div class="col-lg-12">
-            <label for="expedientes14">Expedientes:</label>
-            <input type="number" class="form-control" id="expedientes14" name="expedientes14" value="" placeholder="Ingrese número de cuota" />
-          </div>
-     
-        </div>
-
-          <div class="row">
-          <div class="col-lg-12">
+           <div class="col-lg-5">
             <label for="numeroExpediente14">Número de expedientes:</label>
             <input type="number" class="form-control" id="numeroExpediente14" name="numeroExpediente14" value="" placeholder="Ingrese número de cuota" />
           </div>
+         <div class="col-lg-7">
+            <label for="expedientes14">Expedientes:</label>
+            <input type="number" class="form-control" id="expedientes14" name="expedientes14" value="" placeholder="Ingrese número de cuota" />
+          </div>
+         
+     
         </div>
+
+       
 
 
       </div>
@@ -1095,7 +1101,7 @@ $idArray = array_filter($idArray);
                     
 <!--FROMULARIO DE ANEXO 15-->
 <div class="modal fade" id="modal_coactiva_dos_vehicular" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Cabecera del Modal -->
@@ -1112,58 +1118,26 @@ $idArray = array_filter($idArray);
         <!-- Formulario de los campos -->
 
         <div class="row">
-         <div class="col-lg-12">
-            <label for="numeroExpediente0115">Número de expedientes:</label>
-            <input type="number" class="form-control" id="numeroExpediente0115" name="numeroExpediente0115" value="" placeholder="Ingrese número de cuota" />
+         <div class="col-lg-4">
+            <label for="numeroExpediente15">Número de expediente:</label>
+            <input type="text" class="form-control" id="numeroExpediente15" name="numeroExpediente15" value="" placeholder="EJ: 001-2025/GAT" />
           </div>
-     
-        </div>
-     
-        <div class="row">
-         <div class="col-lg-12">
-            <label for="expedientes15">Expedientes:</label>
-            <input type="number" class="form-control" id="expedientes15" name="expedientes15" value="" placeholder="Ingrese número de cuota" />
-          </div>
-     
-        </div>
 
-          <div class="row">
-          <div class="col-lg-12">
-            <label for="numeroExpediente15">Número de expedientes acumulados:</label>
-            <input type="number" class="form-control" id="numeroExpediente15" name="numeroExpediente15" value="" placeholder="Ingrese número de cuota" />
+            <div class="col-lg-5">
+            <label for="expedientes15">Expedientes acumulados:</label>
+            <input type="text" class="form-control" id="expedientes15" name="expedientes15" value="" placeholder="EJ: 001-2025/GAT Y EJ: 005-2025/GAT" />
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="monto15">Monto de deuda:</label>
-            <input type="number" class="form-control" id="monto15" name="monto15" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
-          <div class="row">
-          <div class="col-lg-12">
+            <div class="col-lg-3">
             <label for="placaRodaje15">Número de placa de rodaje:</label>
-            <input type="number" class="form-control" id="placaRodaje15" name="placaRodaje15" value="" placeholder="Ingrese número de cuota" />
-          </div>
+                <input type="text" class="form-control" id="placaRodaje15" name="placaRodaje15" value="" placeholder="EJ: AEF-717" />
+              </div>
+            </div>
+        
+     
         </div>
-
-         <div class="row">
-          <div class="col-lg-12">
-            <label for="nombrePropietario15">Nombre propietario:</label>
-            <input type="text" class="form-control" id="nombrePropietario15" name="nombrePropietario15" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="dniPropietario15">Dni de propietario:</label>
-            <input type="text" class="form-control" id="dniPropietario15" name="dniPropietario15" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
-
-
-      </div>
+     
+      
 
       <!-- Pie de Modal -->
       <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
@@ -1177,7 +1151,7 @@ $idArray = array_filter($idArray);
 
 <!--FROMULARIO DE ANEXO 16 -->
 <div class="modal fade" id="modal_coactiva_dos_inmueble" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Cabecera del Modal -->
@@ -1195,50 +1169,27 @@ $idArray = array_filter($idArray);
      
       
         <div class="row">
-         <div class="col-lg-12">
-            <label for="numeroExpediente0116">Número de expedientes:</label>
-            <input type="number" class="form-control" id="numeroExpediente0116" name="numeroExpediente0116" value="" placeholder="Ingrese número de cuota" />
+         <div class="col-lg-4">
+            <label for="numeroExpediente0116">Número de expediente:</label>
+            <input type="text" class="form-control" id="numeroExpediente0116" name="numeroExpediente0116" value="" placeholder="EJ: 005-2025/GAT" />
           </div>
+
+           <div class="col-lg-6">
+            <label for="expedientes16">Expedientes de acumulacion:</label>
+            <input type="text" class="form-control" id="expedientes16" name="expedientes16" value="" placeholder="EJ: 005-2025/GAT Y 002-2025/RENTAS" />
+          </div>
+
+           <div class="col-lg-2">
+            <label for="numeroPartida16">Nro partida:</label>
+            <input type="text" class="form-control" id="numeroPartida16" name="numeroPartida16" value="" placeholder="EJ: P4514575" />
+          </div>
+     
      
         </div>
      
-        <div class="row">
-         <div class="col-lg-12">
-            <label for="expedientes16">Expedientes:</label>
-            <input type="number" class="form-control" id="expedientes16" name="expedientes16" value="" placeholder="Ingrese número de cuota" />
-          </div>
-     
-        </div>
-
-          <div class="row">
-          <div class="col-lg-12">
-            <label for="numeroExpediente16">Número de expedientes acumulados:</label>
-            <input type="number" class="form-control" id="numeroExpediente16" name="numeroExpediente16" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="monto16">Monto de deuda:</label>
-            <input type="number" class="form-control" id="monto16" name="monto16" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
-
-         <div class="row">
-          <div class="col-lg-12">
-            <label for="nombrePropietario16">Nombre propietario:</label>
-            <input type="text" class="form-control" id="nombrePropietario16" name="nombrePropietario16" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
+       
+          
         
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="dniPropietario16">Dni de propietario:</label>
-            <input type="text" class="form-control" id="dniPropietario16" name="dniPropietario16" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
 
 
       </div>
@@ -1256,7 +1207,7 @@ $idArray = array_filter($idArray);
 
 <!--FROMULARIO DE ANEXO 17 -->
 <div class="modal fade" id="modal_coactiva_dos_cautelar" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Cabecera del Modal -->
@@ -1274,49 +1225,32 @@ $idArray = array_filter($idArray);
      
       
         <div class="row">
-         <div class="col-lg-12">
-            <label for="numeroExpediente0117">Número de expedientessss:</label>
-            <input type="text" class="form-control" id="numeroExpediente0117" name="numeroExpediente0117" value="" placeholder="Ingrese número de cuota" />
+
+     
+          <div class="col-lg-4">
+            <label for="numeroExpediente17">Número de expediente:</label>
+            <input type="text" class="form-control" id="numeroExpediente17" name="numeroExpediente17" value="" placeholder="EJE. 254-2025/GAT" />
           </div>
+
+
+           <div class="col-lg-6">
+            <label for="expedientes17">Expedientes similares:</label>
+            <input type="text" class="form-control" id="expedientes17" name="expedientes17" value="" placeholder="EJE. 111-2024/GAT y 222-2025/GAT" />
+          </div>
+
+          <div class="col-lg-1">
+            <label for="dias17">Dias:</label>
+            <input type="text" class="form-control" id="dias17" name="dias17" value="" placeholder="5" />
+          </div>
+
+       
+
      
         </div>
      
-        <div class="row">
-         <div class="col-lg-12">
-            <label for="expedientes17">Expedientes:</label>
-            <input type="text" class="form-control" id="expedientes17" name="expedientes17" value="" placeholder="Ingrese número de cuota" />
-          </div>
-     
-        </div>
+      
 
-          <div class="row">
-          <div class="col-lg-12">
-            <label for="numeroExpediente17">Número de expedientes acumulados:</label>
-            <input type="text" class="form-control" id="numeroExpediente17" name="numeroExpediente17" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="monto17">Monto de deuda:</label>
-            <input type="number" class="form-control" id="monto17" name="monto17" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-
-
-         <div class="row">
-          <div class="col-lg-12">
-            <label for="nombrePropietario17">Nombre propietario:</label>
-            <input type="text" class="form-control" id="nombrePropietario17" name="nombrePropietario17" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="dniPropietario17">Dni de propietario:</label>
-            <input type="number" class="form-control" id="dniPropietario17" name="dniPropietario17" value="" placeholder="Ingrese número de cuota" />
-          </div>
-        </div>
+      
 
 
 
@@ -1360,17 +1294,17 @@ $idArray = array_filter($idArray);
         <div class="row">
          <div class="col-lg-4">
             <label for="resolucionEjecucion18">Resolucion de ejecucion coactiva REC N°:</label>
-            <input type="text" class="form-control" id="resolucionEjecucion18" name="resolucionEjecucion18" value="" placeholder="Ingrese número de cuota" />
+            <input type="text" class="form-control" id="resolucionEjecucion18" name="resolucionEjecucion18" value="" placeholder="EJ: 001-2025 GAT" />
           </div>
 
            <div class="col-lg-4">
             <label for="resolucionMedida18">Resolucion de medida cautelar N°:</label>
-            <input type="text" class="form-control" id="resolucionMedida18" name="resolucionMedida18" value="" placeholder="Ingrese número de cuota" />
+            <input type="text" class="form-control" id="resolucionMedida18" name="resolucionMedida18" value="" placeholder="EJ: 0221-2025 GAT" />
           </div>
 
           <div class="col-lg-4">
             <label for="numeroDocumento18">Número de docuemento de deuda:</label>
-            <input type="text" class="form-control" id="numeroDocumento18" name="numeroDocumento18" value="" placeholder="Ingrese número de cuota" />
+            <input type="text" class="form-control" id="numeroDocumento18" name="numeroDocumento18" value="" placeholder="EJ: 4 DOC" />
           </div>
 
 
@@ -1410,8 +1344,8 @@ $idArray = array_filter($idArray);
                 <input type="checkbox" class="checkbox" data-experiment="2">
               </td>
               <td>La deuda u obligación está prescrita. 1/ (Art. 16.1, inc. b)</td>
-              <td><input type="text"  placeholder="N° Resolución"></td>
-              <td><input type="number" disabled placeholder="N° Expediente"></td>
+              <td><input type="text"  placeholder="N° 001-2025 GAT"></td>
+              <td><input type="number" disabled placeholder=""></td>
               <td><input type="date" ></td>
             </tr>
 
@@ -1429,8 +1363,8 @@ $idArray = array_filter($idArray);
               <td style="display: flex; justify-content: center; align-items: center;">
                 <input type="checkbox" class="checkbox" data-description="Se encuentra en trámite un recurso administrativo, recurso impugnatorio de reclamación o demanda contenciosa administrativa presentado dentro del plazo establecido por ley o está pendiente de vencimiento el plazo para la presentación del mismo. 1/(Art. 16.1, inc. e y 31.1, inc. c)"></td>
               <td>Se encuentra en trámite un recurso administrativo, recurso impugnatorio de reclamación o demanda contenciosa administrativa presentado dentro del plazo establecido por ley o está pendiente de vencimiento el plazo para la presentación del mismo. 1/(Art. 16.1, inc. e y 31.1, inc. c)</td>
-              <td><input type="text" placeholder="N° Resolución " disabled></td>
-              <td><input type="text"  placeholder="N° Expediente"></td>
+              <td><input type="text" placeholder=" " disabled></td>
+              <td><input type="text"  placeholder="EJ: 001-2025 GAT"></td>
               <td><input type="date" disabled></td>
             </tr>
             <tr>
@@ -1447,8 +1381,8 @@ $idArray = array_filter($idArray);
               <td style="display: flex; justify-content: center; align-items: center;">
                 <input type="checkbox" class="checkbox" data-description="La empresa se encuentra en proceso de reestructuración patrimonial. 1/ (Art. 16.1, inc. h)"></td>
               <td>La empresa se encuentra en proceso de reestructuración patrimonial. 1/ (Art. 16.1, inc. h)</td>
-              <td><input type="text" placeholder="N° Resolución" disabled></td>
-              <td><input type="number" placeholder="N° Expediente" disabled></td>
+              <td><input type="text" placeholder="" disabled></td>
+              <td><input type="number" placeholder="" disabled></td>
               <td><input type="date" ></td>
             </tr>
             <tr>
@@ -1465,8 +1399,8 @@ $idArray = array_filter($idArray);
               <td style="display: flex; justify-content: center; align-items: center;">
                 <input type="checkbox" class="checkbox" data-description="Silencio positivo (Art. 16.4)"></td>
               <td>Silencio positivo (Art. 16.4)</td>
-              <td><input type="text"  placeholder="Resolución N°"></td>
-              <td><input type="number" placeholder="N° resolución" disabled></td>
+              <td><input type="text"  placeholder="EJ: 002-2025 GAT"></td>
+              <td><input type="number" placeholder=" " disabled></td>
               <td><input type="date" name="fecha1811"></td>
             </tr>
             <tr>
@@ -1525,31 +1459,23 @@ $idArray = array_filter($idArray);
       <div class="modal-body">
         <!-- Formulario de los campos -->
      
-         <div class="row">
-         <div class="col-lg-6">
-            <label for="resolucionEjecucion19">Respecto de la deuda: </label>
-           
-          </div>
-
-        </div>
-
 
         <div class="row">
          <div class="col-lg-4">
-            <label for="resolucionEjecucion19">Expediente coactivo N°</label>
-            <input type="text" class="form-control" id="resolucionEjecucion19" name="resolucionEjecucion19" value="" placeholder="Ingrese número de cuota" />
+            <label for="resolucionEjecucion19">N° Expediente coactivo </label>
+            <input type="text" class="form-control" id="resolucionEjecucion19" name="resolucionEjecucion19" value="" placeholder="EJ: 001-2025 GAT" />
           </div>
 
            <div class="col-lg-4">
-            <label for="resolucionMedida19">Resolucion de medida cautelar N°</label>
-            <input type="text" class="form-control" id="resolucionMedida19" name="resolucionMedida19" value="" placeholder="Ingrese número de cuota" />
+            <label for="resolucionMedida19">N° Resolucion de medida cautelar </label>
+            <input type="text" class="form-control" id="resolucionMedida19" name="resolucionMedida19" value="" placeholder="EJ: 002-2025 GAT" />
           </div>
 
         </div>
 
          <div class="row" style="margin-top: 10px;">
           <div class="col-lg-6">
-              <label for="resolucionEjecucion19"> <strong> Respecto del bien afectado por la medida cautelar: </strong></label>
+              <label for="resolucionEjecucion19"> <strong> RESPECTO DEL BIEN AFECTADO POR LA MEDIDA CAUTELAR: </strong></label>
             
             </div>
 
@@ -1574,16 +1500,16 @@ $idArray = array_filter($idArray);
       <div class="row" style="margin-top: 10px;">
          <div class="col-lg-4">
             <label for="placaVehiculo19">Placa de vehiculo</label>
-            <input type="text" class="form-control" id="placaVehiculo19" name="placaVehiculo19" value="" placeholder="Ingrese número de cuota" />
+            <input type="text" class="form-control" id="placaVehiculo19" name="placaVehiculo19" value="" placeholder="EJ: ARD-214" />
           </div>
 
            <div class="col-lg-4">
             <label for="ubicacionPredio19">Ubicacion del predio</label>
-            <input type="text" class="form-control" id="ubicacionPredio19" name="ubicacionPredio19" value="" placeholder="Ingrese número de cuota" />
+            <input type="text" class="form-control" id="ubicacionPredio19" name="ubicacionPredio19" value="" placeholder="EJ: JR LOS ROSALES MZ.4 LT8" />
           </div>
             <div class="col-lg-4">
             <label for="partidaRegistral19">Partida registral</label>
-            <input type="text" class="form-control" id="partidaRegistral19" name="partidaRegistral19" value="" placeholder="Ingrese número de cuota" />
+            <input type="text" class="form-control" id="partidaRegistral19" name="partidaRegistral19" value="" placeholder="EJ: P85412542" />
           </div>
 
         </div>
@@ -1591,7 +1517,7 @@ $idArray = array_filter($idArray);
         <div class="row" style="margin-top: 10px;">
             <div class="col-lg-12">
                 <label for="fundamento19">Fundamento°:</label>
-                <textarea class="form-control" id="fundamento19" name="fundamento19" placeholder="Ingrese el texto aquí"></textarea>
+                <textarea class="form-control" id="fundamento19" name="fundamento19" placeholder="EJ: Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de diseño para probar el diseño visual antes de insertar el texto final."></textarea>
             </div>
         </div>
 
@@ -3411,7 +3337,7 @@ $idArray = array_filter($idArray);
 </div>
 
 
-<!--FIN MODAL ANEXO 17 -->abrirResoSuspencion
+<!--FIN MODAL ANEXO 17 -->
 <!--======  INICIO MODAL RESOLUCION DE ACUMULACION-->
 <div class="modal fade" id="modalrResolucionAcumulacionEjecucion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
     <div class="modal-dialog modal-lg" role="document">

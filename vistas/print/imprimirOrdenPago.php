@@ -219,6 +219,8 @@ $html_estado= '<table align="center">
 
 $pdf->SetX(8); 
 $pdf->SetY(185); 
+
+
 $sector_2='<table align="left">
                      <tr>
                        <th colspan="2"><b>3. BASE LEGAL:</b>

@@ -4,7 +4,7 @@ require_once('./TCPDFmain/pdf/tcpdf_include.php');
 
 use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
-
+//------------------------------------------(ANEXO 14)----------------------------
 class MYPDFC extends TCPDF {
 
     //Page header
@@ -44,6 +44,68 @@ $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string 
 
 $propietarios=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 
+
+
+//MONTO EN LETRAS
+function numeroALetras($numero) {
+    $unidad = array('', 'UNO', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE', 'DIEZ', 
+                    'ONCE', 'DOCE', 'TRECE', 'CATORCE', 'QUINCE', 'DIECISÉIS', 'DIECISIETE', 'DIECIOCHO', 'DIECINUEVE', 'VEINTE');
+    $decena = array('', '', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA');
+    $centena = array('', 'CIENTO', 'DOSCIENTOS', 'TRESCIENTOS', 'CUATROCIENTOS', 'QUINIENTOS', 'SEISCIENTOS', 'SETECIENTOS', 'OCHOCIENTOS', 'NOVECIENTOS');
+
+    $numero = number_format($numero, 2, '.', '');
+    list($entero, $decimal) = explode('.', $numero);
+
+    if ($entero == 0) {
+        $texto = 'CERO';
+    } else {
+        $texto = convertirNumero($entero, $unidad, $decena, $centena);
+    }
+
+    return trim($texto . ' CON ' . $decimal . '/100 SOLES');
+}
+
+function convertirNumero($num, $unidad, $decena, $centena) {
+    if ($num < 21) {
+        return $unidad[$num];
+    } elseif ($num < 100) {
+        $d = intval($num / 10);
+        $u = $num % 10;
+        if ($u == 0) return $decena[$d];
+        return $decena[$d] . ' Y ' . $unidad[$u];
+    } elseif ($num < 1000) {
+        $c = intval($num / 100);
+        $r = $num % 100;
+        if ($num == 100) return 'CIEN';
+        return trim($centena[$c] . ' ' . convertirNumero($r, $unidad, $decena, $centena));
+    } elseif ($num < 1000000) {
+        $m = intval($num / 1000);
+        $r = $num % 1000;
+        if ($m == 1) $texto = 'MIL';
+        else $texto = convertirNumero($m, $unidad, $decena, $centena) . ' MIL';
+        return trim($texto . ' ' . convertirNumero($r, $unidad, $decena, $centena));
+    } elseif ($num < 1000000000) {
+        $m = intval($num / 1000000);
+        $r = $num % 1000000;
+        if ($m == 1) $texto = 'UN MILLÓN';
+        else $texto = convertirNumero($m, $unidad, $decena, $centena) . ' MILLONES';
+        return trim($texto . ' ' . convertirNumero($r, $unidad, $decena, $centena));
+    }
+    return '';
+}
+
+
+//ASIGNARDOS
+$expediente_asig=strtoupper($_POST['expediente']);
+$numero_expediente_asig=strtoupper($_POST['numeroExpediente']);
+
+$monto_asig=$_POST['totalTotal']; //2000.12
+$monto_letras_asig = numeroALetras($monto_asig);
+
+
+
+$monto_formateado = number_format($monto_asig, 2, '.', ',');
+
 //$estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_pdf($propietarios,$id_cuenta,"null","null",'null');
 
 $estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_pdfcaI($propietarios,$id_cuenta,null,null,null);
@@ -51,6 +113,8 @@ $estado_cuentaA = ModeloEstadoCuenta::mdlEstadoCuenta_pdfcaA($propietarios,$id_c
 
 
 $propietarios = ModeloEstadoCuenta::mdlPropietarios_pdf($propietarios);
+
+
 
 $configuracion = ControladorConfiguracion::ctrConfiguracion();
 
@@ -89,598 +153,272 @@ div{
 </style>";
 
 $fechaActual = date('d/m/Y');
+$anio_impresion = date('Y');
+$dia_impresion = date('d');
+//$mes_impresion = date('m');
+$meses = array(
+    "01" => "enero", "02" => "febrero", "03" => "marzo", "04" => "abril", "05" => "mayo", "06" => "junio",
+    "07" => "julio", "08" => "agosto", "09" => "setiembre", "10" => "octubre", "11" => "noviembre", "12" => "diciembre"
+);
+
+$mes_impresion = date('m');  // Obtiene el mes en formato numérico (01-12)
+$mes_nombre = $meses[$mes_impresion];  // Obtiene el nombre del mes co
+
 
 $numeroPagina = $pdf->PageNo();
-$pdf->SetFont('helvetica', '', 7);
-
-
-
 
 // Logo
 $file = 'C:/xampp/htdocs/SIAT/vistas/img/logo/logou.jpg'; 
 $imageData = base64_encode(file_get_contents($file));
 $imgBase64 = 'data:image/jpeg;base64,' . $imageData;
+
+$pdf->SetFont('helvetica', '', 8);
+$pdf->SetX(40); 
+$pdf->Image('logo.jpg', 15, 6, 22, 28, 'JPG', 'https://perudigitales.com/', '', true, 150, '', false, false, 0, false, false, false);
+$html_head='<table align="left" cellpadding="1"  >
+                    <tr >
+                       <th width="430"><h3>'.$configuracion['Nombre_Empresa'].'</h3></th>
+                    </tr>
+                    <tr>
+                       <th width="380"><H4>GERENCIA DE ADMINISTRACION TRIBUTARIA</H4></th>
+                       <th style="font-size:7px;"></th> 
+                    </tr>
+
+                    <tr>
+
+                    <th width="320">SISTEMA DE RECAUDACIÓN MUNICIPAL</th>
+                     <th width="140"  align="left" border="0.1">Expediente: '.$numero_expediente_asig.' , ACUM</th> 
+                      
+                    </tr>
+
+                    <tr>
+                     <th width="320"></th>
+                       <th width="140"  align="left" border="0.1">Auxiliar: David Eugenio Jalixto Huasco</th> 
+                      
+                    </tr>
+                    
+                      <tr>
+                     <th width="320"></th>
+                       <th width="140"  align="left" border="0.1">CC:  </th> 
+                      
+                    </tr>
+                   
+                    
+                    
+             </table>';
+$pdf->writeHTML($html_head);
+
 $pdf->Image($file, 10, 5, 25, 25, 'JPG', '', '', true);
 
 // Resolución
 $pdf->MultiCell(0, 5, '', 0, 'C');
 
 $pdf->SetX(40); 
-$pdf->SetFont('helvetica', 'B', 16);  
-$pdf->Cell(120, 0, 'Oficina de Ejecucion Coactiva', 0, 1, 'C');
-$pdf->Ln(2); // También reducido a 1
-$pdf->SetX(40); 
-$pdf->SetFont('helvetica', 'B', 10);  
-$pdf->Cell(120, 0, 'no usado Formato de la Resolución Ejecución Coactiva DOS por acumulación', 0, 1, 'C');
-$pdf->Ln(4); // También reducido a 1
+$pdf->SetFont('helvetica', 'B', 12);  
+$pdf->Cell(120, 0, 'CÉDULA DE NOTIFICACIÓN N° 001-2025 GAT - MPLP', 0, 1, 'C');
 
 
-//UBICACION Y FECHA
+//------------------------------------------ ESTIMADO CONTRIBUEYNTE
 
-// Escribir la tabla
-$pdf->SetX(10);
-$pdf->SetFont('helvetica', ' ', 10); 
-$html_head ='<table cellpadding="2" ><tr>
-                     
-                      <td colspan="2">Puquio, ' . $fechaActual . '</td>
-                       
-                    </tr>
-                   
-                   
-                 
-             </table>';
-$pdf->writeHTML($html_head);
+$pdf->Ln(2);
+//pripetario
+$pdf->SetX(8); 
+$pdf->SetFont('helvetica', 'B', 8);  // Establecer el tamaño de letra a 8
+$pdf->Cell(10, 2, 'Puquio, ' . $dia_impresion .' de '.$mes_nombre.' del '.$anio_impresion.' ', 0, 1, 'L');
 
-//------------------------------------------
-$pdf->Ln(5); // Salto de línea
+
+
+
+//------------------------------------------ ESTIMADO CONTRIBUEYNTE
+$pdf->Ln(3);
+//pripetario
+$pdf->SetX(8); 
+$pdf->SetFont('helvetica', 'B', 7);  // Establecer el tamaño de letra a 8
+$pdf->Cell(10, 2, '1. IDENTIFICACION DE DEUDOR TRIBUTARIO ', 0, 1, 'L');
+$pdf->Ln(1);
+$pdf->SetFont('helvetica', '', 6.5);
+$pdf->SetX(10); 
+
+$html_propietario='<table align="center" cellpadding="1" >
+                     <tr style="background-color:#e3eff3;">
+                       <td border="0.1" width="40"><h4>Codigo</h4></td>
+                       <td border="0.1" width="50"><h4>Dni</h4></td>
+                       <td border="0.1" width="150"><h4>Propietario(s)</h4></td>
+                       <td border="0.1" width="300"><h4>Direccion Fiscal</h4></td>
+                     </tr>';
+                     foreach ($propietarios as $valor => $filas) {
+                        foreach ($filas as $fila) {
+$html_propietario .='<tr>';
+$html_propietario .='<td style=" border-left: 0.1px solid black; border-bottom: 0.1px solid black;" width="40">'.$fila['id_contribuyente'].'</td>';
+$html_propietario .='<th style=" border-bottom: 0.1px solid black;" width="50">'.$fila['documento'].'</th>';
+$html_propietario .='<th style=" border-bottom: 0.1px solid black;" width="150">'.$fila['nombre_completo'].'</th>';
+$html_propietario .='<th style=" border-right: 0.1px solid black; border-bottom: 0.1px solid black;" width="300">'. $fila['direccion_completo'] . '</th>';
+$html_propietario .='</tr>';
+                    }
+                }
+$html_propietario .='</table>';
+$pdf->writeHTML($html_propietario, true, false, false, false, '');
+//------------------------------------------ ESTIMADO CONTRIBUEYNTE
+
+//end propiertario
+//------------------------------------------ ESTIMADO CONTRIBUEYNTE
+
+$pdf->Ln(2); // Salto de línea
 // Obtener la fecha actual
-$textoLargo = "VISTA,laResoluciónN°<......>queaprobólasolicitudN°<........>defecha<..........>,presentadaporelcontribuyente<apellidosynombredelcontribuyente>,concódigoN°<código de contribuyente> y domicilio fiscal en <domicilio fiscal del contribuyente>, sobre fraccionamiento de deudas tributarias";
+$textoLargo = "El Ejecutor Coactivo de la Municipalidadde Provincial Lucanas Puquio, Abogado Dr. Hector Alberto Huarcaya Cotaquispe, ha resuelto lo siguiente:";
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
+$textoLargo .= "\n";
 
-  //SEGUNDO REGISTRO
+// Calculamos el ancho disponible para el texto
+$anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
 
-//-----------------------------------------------
+// Usamos el ancho disponible para MultiCell
+$pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con márgenes definidos
 
-//------------------------------------------
-$pdf->Ln(5); // Salto de línea
+//----------------------------------------------- ESTIMADO CONTRIBUEYNTE
+$pdf->Ln(2); // Salto de línea
+$pdf->SetDrawColor(0, 0, 0); // Color negro (RGB)
+$pdf->SetLineWidth(0.3); // Grosor más delgado
+$pdf->Line(9, $pdf->getY(), 200, $pdf->getY());
+
+//end propiertario
+//------------------------------------------ ESTIMADO CONTRIBUEYNTE
+
+//----------------------------------------------- ESTIMADO CONTRIBUEYNTE
+//end propiertario
+$pdf->Ln(2); // Salto de línea
 // Obtener la fecha actual
-$textoLargo = "CONSIDERANDO; Quealverificarelcumplimientodelasobligacionesvinculadasalotorgamientodelfraccionemiento,sehaconstatadoqueeldeudorhaincurridoencausaldepérdidasegúnlo establecido en <Base legal, aprobada por, en la fecha>";
+$textoLargo = "RESOLUCION NUMERO DOS:";
+
+$pdf->SetX(8); // Margen izquierdo
+$pdf->SetFont('helvetica', 'B', 9); // Tamaño de fuente más legible
+$textoLargo .= "\n";
+
+// Calculamos el ancho disponible para el texto
+$anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
+
+// Usamos el ancho disponible para MultiCell
+$pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con márgenes definidos
+
+//--------------------
+
+//end propiertario
+//------------------------------------------ ESTIMADO CONTRIBUEYNTE
+
+$pdf->Ln(1); // Salto de línea
+// Obtener la fecha actual
+$textoLargo = 'En puquio, a los '.$dia_impresion.' dias del '.$mes_nombre.' del '.$anio_impresion.'';
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
+$textoLargo .= "\n";
 
-  //SEGUNDO REGISTRO
+// Calculamos el ancho disponible para el texto
+$anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
 
-//-----------------------------------------------
+// Usamos el ancho disponible para MultiCell
+$pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con márgenes definidos
 
-//------------------------------------------
-$pdf->Ln(5); // Salto de línea
+//----------------------------------------------- ESTIMADO CONTRIBUEYNTE
+//end propiertario
+
+
+//------------------------------------------ ESTIMADO CONTRIBUEYNTE
+
+$pdf->Ln(1); // Salto de línea
 // Obtener la fecha actual
-$textoLargo = "De conformidad con lo dispuesto en <Base legal> ";
+$textoLargo = 'VISTOS: Los actuados en el presente Procedimiento, estando a lo que expresa; y CONSIDERANDO: Primero.- Que, la persona, objeto y naturaleza de los expedientes '.$expediente_asig.' son los mismos, por lo que procede su acumulación; Segundo.- Que de la verificación en el Sistema de Recaudación Municipal, se evidencia que el obligado ';
+
+$nombresContribuyentes1 = [];
+
+foreach ($propietarios as $valor => $filas) {
+    foreach ($filas as $fila) {
+        // Combinar nombre completo con su DNI
+        $nombresContribuyentes1[] = $fila['nombre_completo'] . ' (DNI N° ' . $fila['documento'] . ')';
+    }
+}
+
+// Concatenar nombres con coma y "y" antes del último
+if (count($nombresContribuyentes1) > 1) {
+    $textoLargo .= implode(', ', array_slice($nombresContribuyentes1, 0, -1))
+        . ' y ' . end($nombresContribuyentes1);
+} else {
+    $textoLargo .= $nombresContribuyentes1[0];
+}
+
+$textoLargo.=', registra a la fecha deuda en cobranza coactiva, por lo que es necesario asegurar el cumplimiento de dicha obligación tributaria, en consecuencia debe procederse con trabarse las medidas cautelares que sean necesarias. Tercero.- Que el Ejecutor Coactivo en cualquier estado del procedimiento podrá trabar y/o variar la Medida Cautelar correspondiente, a fin de garantizar la deuda Tributaria materia del presente procedimiento; y de conformidad con lo dispuesto en <los artículos 3º, 20º, 32º y 33º de la Ley N° 26979 – Ley de Procedimiento de Ejecución Coactiva, modificada por la Ley Nº 28165 y la Ley Nº 28892>;';
 
 $pdf->SetX(8); // Margen izquierdo
 $pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
+$textoLargo .= "\n";
 
-  //SEGUNDO REGISTRO
+// Calculamos el ancho disponible para el texto
+$anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
 
-//-----------------------------------------------
+// Usamos el ancho disponible para MultiCell
+$pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con márgenes definidos
 
-//------------------------------------------
-$pdf->Ln(5); // Salto de línea
+//----------------------------------------------- ESTIMADO CONTRIBUEYNTE
+//end propiertario
+//end propiertario
+$pdf->Ln(2); // Salto de línea
 // Obtener la fecha actual
 $textoLargo = "SE RESUELVE:";
 
 $pdf->SetX(8); // Margen izquierdo
-$pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
-
-  //SEGUNDO REGISTRO
-
-//-----------------------------------------------
-
-//------------------------------------------
-$pdf->Ln(5); // Salto de línea
-// Obtener la fecha actual
-$textoLargo = "ARTÍCULOPRIMERO:Declarar lapérdidadel fraccionamientodedeudas tributariasotorgado a<apellidos ynombresdelcontribuyente>medianteResoluciónN°<…...>; téngase por vencidos los plazos, cuotas pendientes de pago y genérense los intereses moratorios correspondientes. ";
-
-$pdf->SetX(8); // Margen izquierdo
-$pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
-
-  //SEGUNDO REGISTRO
-
-//-----------------------------------------------
-
-//------------------------------------------
-$pdf->Ln(5); // Salto de línea
-// Obtener la fecha actual
-$textoLargo = "ARTICULOSEGUNDO:Prosígasecon lacobranzadeladeudacorrespondientealtotaldecadaunadelasdeudas tributariasqueconformanel fraccionamientopendientes de pago, después de la imputación efectuada de las cuotas del fraccionamiento pagadas y ejecútense la(s) garantías que se haya(n) otorgado. ";
-
-$pdf->SetX(8); // Margen izquierdo
-$pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
-
-  //SEGUNDO REGISTRO
-
-//-----------------------------------------------
-
-// Esto agregará el texto al PDF en la posición X=10, y se ajustará de forma automática a las líneas si es necesario.
-
-//END UBICACION Y FECHA
-
-$pdf->SetFont('helvetica', '', 8);
-$html_propietario='<br>';
-
-$width = $pdf->getPageWidth();
-$tableWidth = 390; // Ancho de la tabla
-$x = ($width - $tableWidth) / 2;
-$pdf->setX($x);
-$pdf->SetFont('helvetica', '', 7); 
-
-$AnioActualE = date('Y');
-
-
-$html_propietario .= '<table align="center" width="100%" border="0.5" cellspacing="0" cellpadding="2">';
-
-foreach ($propietarios as $valor => $filas) {
-    foreach ($filas as $fila) {
-        $html_propietario .= '<tr>';
-        $html_propietario .= '<td width="60%" align="left">Contribuyente: ' . $imgBase64 . '</td>';
-        $html_propietario .= '<td width="20%" align="left">Dni: ' . ($fila['documento'] ?: '-') . '</td>';
-        $html_propietario .= '<td width="20%" align="left fontZise">Codigo: ' . $fila['id_contribuyente'] . '</td>';
-        $html_propietario .= '</tr>';
-    }
-}
-
-$html_propietario .= '</table>';
-
-
-
-$pdf->SetFont('helvetica', '', 8);
-$html_propietario='<br>';
-
-
-//contribuyente
-
-$width = $pdf->getPageWidth();
-$tableWidth = 390; // Ancho de la tabla
-$x = ($width - $tableWidth) / 2;
-$pdf->setX($x);
-$pdf->SetFont('helvetica', '', 8); 
-
-
-
-
-
-///NUEVO DE EXPEDIENTE
-
-$html_propietario .= '<table align="center" width="100%" border="0.5" cellspacing="0" cellpadding="2">';
-
-if (count($propietarios) > 1) {
-    // Mostrar solo el primer propietario si hay más de uno
-    $primerPropietario = reset($propietarios); // Obtiene el primer elemento del array
-    foreach ($primerPropietario as $fila) {
-        $html_propietario .= '<tr>';
-       // $html_propietario .= '<td width="60%" align="left"> <strong>Numero expediente:</strong>  ' . '       2025-VEC-GAT-MPLP' . '</td>';
-       // $html_propietario .= '<td width="60%" align="left"><strong>Numero expediente:</strong>2025-VEC-GAT-MPLP</td>';
-        $html_propietario .= '<td width="60%" align="left" ><strong style="font-size: 9px;">Numero expediente:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $AnioActualE . '-UEC-GAT-MPLP</td>';
-        $html_propietario .= '<td width="20%" align="center" style="background-color:#ab851f; color:white"> <strong style="font-size: 9px;">Carpeta:</strong> <strong style="font-size: 10px;">'.$_POST['carpeta']. '</strong>  </td>';
-
-        $html_propietario .= '</tr>';
-    }
-} else {
-    // Si solo hay un propietario o ningunox
-    foreach ($propietarios as $valor => $filas) {
-        foreach ($filas as $fila) {
-            $html_propietario .= '<tr>';
-       // $html_propietario .= '<td width="60%" align="left"> <strong>Numero expediente:</strong>  ' . '       2025-VEC-GAT-MPLP' . '</td>';
-       // $html_propietario .= '<td width="60%" align="left"><strong>Numero expediente:</strong>2025-VEC-GAT-MPLP</td>';
-       $html_propietario .= '<td width="60%" align="left"><strong style="font-size: 9px;">Numero expediente:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $AnioActualE . '-UEC-GAT-MPLP</td>';
-        $html_propietario .= '<td width="20%" align="center" style="background-color:#ab851f; color:white"> <strong style="font-size: 9px;">Carpeta:</strong> <strong style="font-size: 10px;">'.$_POST['carpeta']. '</strong>  </td>';
-
-        $html_propietario .= '</tr>';
-        }
-    }
-}
-
-$html_propietario .= '</table>';
-
-$html_propietario .= '<br><br>'; 
-
-///end NUEVO DE EXPEDIENTE
-
-$html_propietario .= '<table align="center" width="100%" border="0.5" cellspacing="0" cellpadding="2">';
-
-$totalPropietarios = count($propietarios);
-
-if ($totalPropietarios > 1) {
-    // Mostrar el primer propietario como "Contribuyente"
-    $primerPropietario = array_shift($propietarios); // Obtiene y elimina el primer elemento del array
-    foreach ($primerPropietario as $fila) {
-        $html_propietario .= '<tr>';
-        $html_propietario .= '<td width="60%" align="left"><strong>Contribuyente:</strong> ' . $fila['nombre_completo'] . '</td>';
-        $html_propietario .= '<td width="20%" align="left"> <strong>Dni:</strong> ' . ($fila['documento'] ?: '-') . '</td>';
-        $html_propietario .= '<td width="20%" align="left"><strong>Codigo:</strong> ' . $fila['id_contribuyente'] . '</td>';
-        $html_propietario .= '</tr>';
-    }
-
-    // Mostrar el resto como "Parentesco"
-    foreach ($propietarios as $valor => $filas) {
-        foreach ($filas as $fila) {
-            $html_propietario .= '<tr>';
-            $html_propietario .= '<td width="60%" align="left"><strong>Parentesco:</strong> ' . $fila['nombre_completo'] . '</td>';
-            $html_propietario .= '<td width="20%" align="left"> <strong>Dni:</strong> ' . ($fila['documento'] ?: '-') . '</td>';
-            $html_propietario .= '<td width="20%" align="left"><strong>Codigo:</strong> ' . $fila['id_contribuyente'] . '</td>';
-            $html_propietario .= '</tr>';
-        }
-    }
-} else {
-    // Si solo hay un propietario o ninguno
-    foreach ($propietarios as $valor => $filas) {
-        foreach ($filas as $fila) {
-            $html_propietario .= '<tr>';
-            $html_propietario .= '<td width="60%" align="left"><strong>Contribuyente:</strong>  ' . $fila['nombre_completo'] . '</td>';
-            $html_propietario .= '<td width="20%" align="left"> <strong>Dni:</strong>  ' . ($fila['documento'] ?: '-') . '</td>';
-            $html_propietario .= '<td width="20%" align="left"><strong>Codigo:</strong>: ' . $fila['id_contribuyente'] . '</td>';
-            $html_propietario .= '</tr>';
-        }
-    }
-}
-
-$html_propietario .= '</table>';
-
-$html_propietario .= '<br><br>'; 
-$html_propietario .= '<table align="center" width="100%" border="0.2" cellspacing="0" cellpadding="2">';
-
-if (count($propietarios) > 1) {
-    // Mostrar solo el primer propietario si hay más de uno
-    $primerPropietario = reset($propietarios); // Obtiene el primer elemento del array
-    foreach ($primerPropietario as $fila) {
-        $html_propietario .= '<tr>';
-        $html_propietario .= '<td width="60%" align="left"> <strong>Direccion Fiscal:</strong>  ' . $fila['direccion_completo'] . '</td>';
-        $html_propietario .= '<td width="40%" align="left"> <strong>Distrito:</strong>  ' . 'PUQUIO'. '</td>';
-
-        $html_propietario .= '</tr>';
-    }
-} else {
-    // Si solo hay un propietario o ningunox
-    foreach ($propietarios as $valor => $filas) {
-        foreach ($filas as $fila) {
-            $html_propietario .= '<tr>';
-            $html_propietario .= '<td width="60%" align="left"> <strong>Direccion Fiscal:</strong>  ' . $fila['direccion_completo'] . '</td>';
-            $html_propietario .= '<td width="40%" align="left"> <strong>Distrito:</strong>  ' . 'PUQUIO'. '</td>';
-    
-            $html_propietario .= '</tr>';
-        }
-    }
-}
-
-$html_propietario .= '</table>';
-
-$html_propietario .= '<br><br>'; 
-
-
-
-
-
- $pdf->writeHTML($html_propietario, true, false, false, false, '');
-
-//impueeetp p4eiq
-
-$pdf->SetX(20); // Margen izquierdo
-$textoLargo = "Impuesto predial";
-$pdf->SetFont('helvetica', '', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
-
-
-             $pdf->Line(20, $pdf->getY(),200, $pdf->getY());
-             $pdf->SetFont('helvetica', '', 7.5);  
-
-             $pdf->SetX(15);
-
-$html_estado= '<table align="center">
-            <thead>
-            <tr>
-             
-                <th><b>Año</b></th>
-               <th><b>Importe</b></th>
-               <th><b>Gasto</b></th>
-                <th><b>Subtotal</b></th>
-                <th><b>Descuento</b></th>
-        
-                <th><b>T.I.M</b></th>
-                <th><b>Total</b></th>
-            </tr>
-            </thead></table>';
-
-            $pdf->writeHTML($html_estado, true, false, false, false, '');
-            $pdf->Line(20, $pdf->getY()-3,200, $pdf->getY()-3);
-
-            $pdf -> setX(15);
-
-            $html= '<table align="center">';  
-
-            $sin_descuento=0; 
-            $tim=0;        
-            
-            
-           
-            foreach ($estado_cuenta as $row) {
-               
-              
-            $html .= "<tr>";
-               
-
-                $html .= "<th>".$row['Anio']."</th>";
-                $html .= "<th>".$row['Total_Importe']."</th>";
-                $html .= "<th>".$row['Total_Gasto_Emision']."</th>";
-                $html .= "<th>".$row['Total_Saldo']."</th>";
-             
-                $html .= "<th>".$row['Total_Descuento']."</th>"; //CAMBIO 1
-                
-                $html .= "<th>".$row['Total_TIM']."</th>";
-                $html .= "<th>".$row['Total_Pagado']."</th>";
-                $html .= "</tr>";
-            }
-            
-            $html .= '</table>'; // Cerramos la tabla
-
-
-
-
-            
-           // Línea separadora
-           // 🔹 Ahora dibujamos la línea DESPUÉS de terminar la tabla
-$pdf->writeHTML($html, true, false, false, false, '');
-
-$pdf->Line(20, $pdf->getY(), 198, $pdf->getY());
-$pdf -> Ln(1);
-$pdf->SetX(15);
-
-
-
-  // 🔹 Agregamos la tabla con la fila de totales (en una nueva tabla para evitar problemas de formato)
- $html_totales = '<table align="center" style=" " cellspacing="0" cellpadding="0" >'; // Sin bordes en la tabla general
-  $html_totales .= '<tr>'; // Solo borde arriba
-  $html_totales .= "<td><b>Total </b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalImporteI'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalGastoI'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalSubtotalI'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totaldescuentoI'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalTIMI'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalTotalI'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "</tr>";
-  
-  $html_totales .= '</table>';
-  
-
-$pdf->writeHTML($html_totales, true, false, false, false, '');
-
-
-//PARA LA SUNFAA
-
-
-// Variables para acumular los totales
-$totalImportea = 0;
-$totalGastoEmisiona = 0;
-$totalSaldoa = 0;
-$totalTIMDescuentoa = 0;
-$totalTIMa = 0;
-$totalPagadoa = 0;
-
-// Sumamos los valores de $estado_cuenta
-foreach ($estado_cuentaA as $row) {
-    $totalImportea += $row['Total_Importe'];
-    $totalGastoEmisiona += $row['Total_Gasto_Emision'];
-    $totalSaldoa += $row['Total_Saldo'];
-    $totalTIMDescuentoa += $row['Total_TIM_Descuento'];
-    $totalTIMa += $row['Total_TIM'];
-    $totalPagadoa += $row['Total_Pagado'];
-}
-
-
-
-$textoLargo = "Arbitrio municipal";
-
-$pdf->SetX(20); // Margen izquierdo
-$pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
-$pdf->MultiCell(190, 6, $textoLargo, 0, 'L'); // Ancho correcto para una hoja A
-
-  //SEGUNDO REGISTRO
-
-
-$pdf->Line(20, $pdf->getY(),200, $pdf->getY());
-$pdf->SetFont('helvetica', '', 7.5);  
-
-$pdf-> SetX(15);
-$html_estado= '<table align="center">
-<thead>
-<tr>
-
-   <th><b>Año</b></th>
-  <th><b>Importe</b></th>
-  <th><b>Gasto</b></th>
-   <th><b>Subtotal</b></th>
-   <th><b>Descuento</b></th>
-
-   <th><b>T.I.M</b></th>
-   <th><b>Total</b></th>
-</tr>
-</thead></table>';
-
-$pdf->writeHTML($html_estado, true, false, false, false, '');
-$pdf->Line(20, $pdf->getY()-3,200, $pdf->getY()-3);
-
-
-$pdf->SetX(15);
-$html= '<table align="center">';  
-
-$sin_descuento=0; 
-$tim=0;        
-
-
-
-foreach ($estado_cuentaA as $row) {
-  
- 
-    $html .= "<tr>";
-  
-
-   $html .= "<th>".$row['Anio']."</th>";
-   $html .= "<th>".$row['Total_Importe']."</th>";
-   $html .= "<th>".$row['Total_Gasto_Emision']."</th>";
-   $html .= "<th>".$row['Total_Saldo']."</th>";
-
-   $html .= "<th>".$row['Total_TIM_Descuento']."</th>";
-   
-   $html .= "<th>".$row['Total_TIM']."</th>";
-   $html .= "<th>".$row['Total_Pagado']."</th>";
-   $html .= "</tr>";
-}
-
-$html .= '</table>'; // Cerramos la tabla
-
-
-
-
-
-// Línea separadora
-// 🔹 Ahora dibujamos la línea DESPUÉS de terminar la tabla
-$pdf->writeHTML($html, true, false, false, false, '');
-
-$pdf->Line(20, $pdf->getY(), 198, $pdf->getY());
-$pdf->Ln(1);
-$pdf->SetX(15);
-
-// 🔹 Agregamos la tabla con la fila de totales (en una nueva tabla para evitar problemas de formato)
-  // 🔹 Agregamos la tabla con la fila de totales (en una nueva tabla para evitar problemas de formato)
-  $html_totales = '<table align="center" style=" " cellspacing="0" cellpadding="0" >'; // Sin bordes en la tabla general
-  $html_totales .= '<tr>'; // Solo borde arriba
-  $html_totales .= "<td><b>Total </b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalImporteA'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalGastoA'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalSubtotalA'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totaldescuentoA'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalTIMA'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "<td><b>" . number_format($_POST['totalTotalA'], 2, '.', ',') . "</b></td>";
-  $html_totales .= "</tr>";
-  
-  $html_totales .= '</table>';
-  
-
-$pdf->writeHTML($html_totales, true, false, false, false, '');
-
-
-//linia
-
-$pdf->SetDrawColor(0, 0, 0); // Color negro (RGB)
-$pdf->SetLineWidth(0.2); // Grosor más delgado
-$pdf->Line(105, $pdf->getY(), 200, $pdf->getY());
-
-          
-            $pdf->SetFont('helvetica', 'B', 6);  // Establecer el tamaño de letra a 8
-
-           // $pdf->MultiCell(0, 1, '', 0, 'L');
-            $totalFormateado = number_format($_POST['totalTotal'], 2, '.', ',');
-
-         $text = str_replace('  ', ' ', 'T O T A L   D E U D A'); 
-
-         // Configurar fuente más grande
-        $pdf->SetFont('Helvetica', 'B', 12); // Fuente en negrita y tamaño 14
-
-      // Definir un margen derecho manualmente restando unos píxeles
-        $margenDerecho = 25; // Ajusta este valor según tu necesidad
-        $anchoPagina = $pdf->GetPageWidth(); // Obtiene el ancho de la página
-        $anchoCelda = $anchoPagina - $margenDerecho; // Reduce el ancho para dejar margen
-
-        $pdf->Cell($anchoCelda, 10, $text . ' S/. = ' . $totalFormateado, 0, 1, 'R');
-            
-          
-         //PRIMER REGISTRO
-$pdf->SetX(45); 
-$pdf->SetFont('helvetica', '', 8);  // Establecer el tamaño de letra a 8
-
-
-$pdf->Ln(5); // Salto de línea
-// Obtener la fecha actual
-$fechaActual = date('d/m/Y'); // Formato día/mes/año
-
-$textoLargo = "De conformidad con el artículo 29° del T.U.O. de la Ley N° 26979, notifíquese al obligado para que en el plazo de siete (7) día hábiles, contados desde el día siguiente de su recepción, se sirva cancelar la suma de  $totalFormateado , actualizada al  $fechaActual más las Costas Procesales y Gastos Administrativos que devenguen hasta la total cancelación de la deuda, sin perjuicio de los intereses de Ley. Si el pago no se realiza dentro del plazo establecido, se dictarán las medidas cautelares correspondientes. El presente acto tiene vigencia desde el día de su notificación y contra el mismo no cabe la interposición de recurso impugnativo alguno. Cabe indicar, que el interés moratorio a cancelar será calculado hasta la fecha de pago de acuerdo al Art. 33° del TUO del Código Tributario y modificatorias.";
-
-$pdf->SetX(20); // Margen izquierdo
-$pdf->SetFont('helvetica', '', 10); // Tamaño de fuente más legible
-$textoLargo.="\n";
-$pdf->MultiCell(180, 6, $textoLargo, 0, 'J'); // Ancho correcto para una hoja A
-
-  //SEGUNDO REGISTRO
-
-$pdf->SetX(45); 
-$pdf->SetFont('helvetica', '', 8);  // Establecer el tamaño de letra a 8
-
-
-$pdf->Ln(5); // Salto de línea
-
-$textoLargo = "Base legal: Art. 15°, 25°, 29°, 30° y 32° del T.U.O. de la Ley de Procedimiento de Ejecución Coactiva aprobado por D.S. 018-2008-JUS y modificatorias y su reglamento aprobado por D.S. 069-2003-EF y modificatorias. Ordenanza u otra norma N° 001 que aprueba los aranceles del Procedimiento de Ejecución Coactiva.";
-
-$pdf->SetX(20); // Margen izquierdo
-$pdf->SetFont('helvetica', '', 10); // Tamaño de fuente más legible
-$textoLargo.="\n";
-$pdf->MultiCell(180, 6, $textoLargo, 0, 'J'); // Ancho correcto para una hoja A
-
-//TERCER REGISTRO
-
-$pdf->SetX(45); 
-$pdf->SetFont('helvetica', '', 8);  // Establecer el tamaño de letra a 8
-
-
-$pdf->Ln(5); // Salto de línea
-
-$textoLargo = "Se adjunta copia de el(los) acto(s) administrativo(s) generador(es) de la obligación así como su(s) cargo(s) de notificación y/o acuse(s) de recibo electrónico y constancia de haber quedado consentido o causado estado según lo establecido en el numeral 15.2 del Art. 15° de la Ley N° 26979 Ley de Procedimiento de Ejecución Coactiva, cuyo T.U.O. se aprobó por D.S. 018-2008-JUS.";
-// Verificar si hay suficiente espacio para escribir el texto
-// if ($pdf->GetY() > 640) { // Ajusta el límite inferior según tus márgenes
-//     $pdf->AddPage();
-//     $pdf->SetY(35);
-// }
-
-$pdf->SetX(20);
-$pdf->SetFont('helvetica', '', 10);
+$pdf->SetFont('helvetica', 'B', 9); // Tamaño de fuente más legible
 $textoLargo .= "\n";
-$pdf->MultiCell(180, 6, $textoLargo, 0, 'J');
+
+// Calculamos el ancho disponible para el texto
+$anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
+
+// Usamos el ancho disponible para MultiCell
+$pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con márgenes definidos
+
+//--------------------
+
+$pdf->Ln(1); // Salto de línea
+// Obtener la fecha actual
+
+$textoLargo = 'PRIMERO.- ACUMULAR los expedientes señalados en el considerando primero del presente mandato, entendiéndose en adelante como uno solo bajo el expediente Nº '.$numero_expediente_asig.'-ACUM; notificándose.- Firmado. Dr. Hector Alberto Huarcaya Cotaquispe, Ejecutor Coactivo; David Eugenio Jalixto Huasco, Auxiliar Coactivo. Lo que notifico a usted conforme a ley';
+
+
+$pdf->SetX(8); // Margen izquierdo
+$pdf->SetFont('helvetica', ' ', 9); // Tamaño de fuente más legible
+$textoLargo .= "\n";
+
+// Calculamos el ancho disponible para el texto
+$anchoDisponible = 210 - 8 - 10; // Ancho de la página A4 menos los márgenes
+
+// Usamos el ancho disponible para MultiCell
+$pdf->MultiCell($anchoDisponible, 6, $textoLargo, 0, 'J'); // Justificado, con márgenes definidos
+
 
 $pdf->Ln(40); // Salto de línea
 
-// Luego de escribir, puedes dejar un poco de espacio si quieres
-// 👇 Espacio estimado necesario para tabla + constancia
-$espacioNecesario = 120; // Ajusta si es necesario
-
-// Si no hay espacio suficiente, pasa a la siguiente página
-if ($pdf->GetY() + $espacioNecesario > $pdf->getPageHeight() - 15) {
-    $pdf->AddPage();
-    $pdf->SetY(20);
-   
-    
-}
 
 // Escribir la tabla
-$pdf->SetX(22);
+$pdf->SetX(9);
 $fechaActual = date('d/m/Y');
-$numeroPagina = $pdf->PageNo();
+//$numeroPagina = $pdf->PageNo();
 
 $pdf->SetFont('helvetica', '', 7);
-$html_head ='<table cellpadding="2" ><tr>
-                       <th colspan="8" style="text-transform: lowercase;"> <strong>Oficinas de atencion:</strong> '.$configuracion['Nombre_Empresa'].'</th>
-                      
-                       <th colspan="2"><strong>TOTAL (s/.)</strong></th>
-                       
-                    </tr>
+$html_head ='<table cellpadding="2" >
+
                     <tr>
-                       <th colspan="8"> <strong>Pagos en:</strong>'.'Oficina de ejecucion coactiva celular 966004730'.'</th>
-                          <th width="70" border="0.5" style="text-align: center; font-size:11px; "> <b>'.$totalFormateado.'</b></th>
+                       <th colspan="8" style="text-transform: lowercase;"> <strong>Oficinas de atencion:</strong> '.$configuracion['Nombre_Empresa'].'</th>
+                       <th colspan="2"></th>
+                    </tr>
+                      <tr>
+                       <th colspan="8"> <strong>Ubicado:</strong> Jr. Ayacucho N° 136 </th>
+                       <th colspan="2"><strong>TOTAL (s/.)</strong></th>
+                    </tr>
+
+                    <tr>
+                       <th colspan="8"> <strong>Para mayor información:</strong>'.'Oficina de ejecucion coactiva celular 966004730 / 966002552'.'</th>
+                        <th width="70" border="0.5" style="text-align: center; font-size:11px; "> <b>'.$monto_formateado.'</b></th>
                   
                     </tr>
                    
@@ -689,69 +427,81 @@ $html_head ='<table cellpadding="2" ><tr>
 $pdf->writeHTML($html_head);
 
 
-if ($pdf->GetY() > 350) {
-    $pdf->AddPage(); // Añadir nueva página si está muy abajo
-    $pdf->SetY(10); // Ajustar el margen superior en la nueva página
-}
+///---------------------------------
 
-$anio_impresion = date('Y');
-$sector_2 = '<table width="80%" align="center" border="0" cellspacing="2" cellpadding="4">
-                 <tr>
-                     <th colspan="2" align="center"><span style="font-size:14px;  "><b>CONSTANCIA DE NOTIFICACIÓN</b></span></th> 
-                 </tr>
-                <tr>
-                     <th width="25%" align="left"><span style="font-size:9px;; font-weight:bold;">Fecha de Recepción</span></th> 
-                     <th width="75%" align="left"><span style="font-size:9px;">: Puquio, ........ de ............................................................. del '.$anio_impresion.'</span></th> 
-                
+
+$sector_2='<table align="left">
+                     <tr>
+                       <th colspan="2"><b>3. BASE LEGAL:</b>
+                       </th> 
                      </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">Domicilio</span></th>
-                     <th width="75%"align="left"><span style="font-size:9px;">: ..........................................................................................................................</span></th>
-                 </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">Apellidos y Nombres</span></th>
-                     <th width="75%" align="left"><span style="font-size:9px;">: ..........................................................................................................................</span></th>
-                 </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px;font-weight:bold;">Parentesco</span></th>
-                     <th width="75%"align="left"><span style="font-size:9px;">: ...................................................................................... DNI:...........................</span></th>
-                 </tr>
-                  <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;"></span></th>
-                     <th width="75%"><span style="font-size:9px;"></span></th>
-                 </tr>
-                 <tr>   
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">Firma de Recepción</span></th>
-                     <th width="75%"><span style="font-size:9px;">: ..........................................................................................................................</span></th>
-                 </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">Notificado Por</span></th>
-                     <th width="75%"><span style="font-size:9px;">: ...................................................................................... DNI:...........................</span></th>
-                 </tr>
-                  <tr>
-                     <th width="25%" align="left"><span style="font-size:9px;"></span></th>
-                     <th width="75%"><span style="font-size:9px;"></span></th>
-                 </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">Firma Notificador</span></th>
-                     <th width="75%" align="center"><span style="font-size:9px;">: ..........................................................................................................................</span></th>
-                 </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">Referencia</span></th>
-                     <th width="75%"><span style="font-size:9px;">: ..........................................................................................................................</span></th>
-                 </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">N° de suministro de Luz</span></th>
-                     <th width="75%"><span style="font-size:9px;">: ..........................................................................................................................</span></th>
-                 </tr>
-                 <tr>
-                     <th width="25%" align="left"><span style="font-size:9px; font-weight:bold;">Correo Electrónico</span></th>
-                     <th width="75%" align="left"><span style="font-size:9px;">: .................................................................................... Celular:........................</span></th>
-                 </tr>
-            </table>';
-
-
+                     <tr>
+                       <th align="left">&nbsp;&nbsp;-Art. 70 de la ley órganica de la Municipalidad N° 27972<br>
+                           -Art. 8° al 20° Ley de Tribatación Municipal. N° 776 <br>
+                           -Art. 78° inc. 1 D.S. 133-2013-EF TUO del Código Tributario
+                       </th> 
+                       <th align="left">&nbsp;&nbsp;-TUO de la Ley 26979 de Procedimiento de Ejecución Coactiva<br>
+                           -Plazo para presentar recursos de reclamación: 03 días hábiles <br>
+                           (desde el día siguiente de notificación la presente)
+                       </th>
+                     </tr>
+                   
+             </table>';
 $pdf->writeHTML($sector_2, true, false, false, false, '');
+
+$pdf->Ln(45); // Salto de línea
+
+$sector_2='<table align="left">
+                     <tr>
+                       <th colspan="2" align="center"><b>CONSTANCIA DE NOTIFICACIÓN</b></th> 
+                     </tr>
+                     <tr>
+                       <th width="100" align="left">Fecha de Recepción</th> 
+                       <th width="440">: Puquio,....de..................................................del '.$anio_impresion.'</th> 
+                     </tr> <br>
+                     <tr>
+                       <th width="100"  align="left">Domicilio</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                     <tr>
+                       <th width="100"  align="left">Apellidos y Nombres</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Parentesco</th>
+                       <th>: .................................................................................................. DNI:...................................... </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Firma de Recepción</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Notificado Por</th>
+                       <th>: .................................................................................................. DNI:.....................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Firma Notificador</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Referencia</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                     <tr>
+                       <th width="100"  align="left">N° de suministro de Luz</th>
+                       <th>: ................................................................................................................................................  </th>
+                     </tr><br>
+                      <tr>
+                       <th width="100"  align="left">Correo Electronico</th>
+                       <th>: .................................................................................................. Celular:.................................  </th>
+                     </tr>
+             </table>';
+$pdf->writeHTML($sector_2, true, false, false, false, '');
+
+
+//end propiertario
+
+//---------------------END TABLA DE LIQUIDACION
 
 
 // Generar el PDF en memoria

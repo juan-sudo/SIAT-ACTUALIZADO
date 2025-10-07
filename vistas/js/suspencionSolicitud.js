@@ -1,5 +1,5 @@
 class SuspencionSoclicitud {
-
+//-----------------------------------------(ANEXO 18)-------------
   constructor() {
     this.idContribuyente = null;
     this.impuesto_anual = null;

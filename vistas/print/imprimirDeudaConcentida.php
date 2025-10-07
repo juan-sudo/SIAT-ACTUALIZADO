@@ -4,9 +4,8 @@ require_once('./TCPDFmain/pdf/tcpdf_include.php');
 
 use Controladores\ControladorConfiguracion;
 use Modelos\ModeloEstadoCuenta;
-
 class MYPDFC extends TCPDF {
-
+//-----------------------------------------ANEXO 12------------------
     //Page header
 
     // Page footer

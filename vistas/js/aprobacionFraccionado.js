@@ -1,4 +1,4 @@
-//import { Pisoclass } from './pisos.js';
+//i-------------------------------------------------(ANEXO 11)-----------
 class AproFraccionamiento {
 
   constructor() {
@@ -41,8 +41,7 @@ class AproFraccionamiento {
      this.numeroFraccionado = null;
      this.numeroCuota = null;
      this.numeroConvenio = null;
-     this.importeFraccionado = null;
-
+    
     
   }
 
@@ -575,8 +574,7 @@ imprimirherecoactivo() {
       datos.append("numeroFraccionado", aproFraccionamiento_.numeroFraccionado);
       datos.append("numeroCuota", aproFraccionamiento_.numeroCuota);
       datos.append("numeroConvenio", aproFraccionamiento_.numeroConvenio);
-      datos.append("importeFraccionado", aproFraccionamiento_.importeFraccionado);
-
+     
         // Mostrar datos en consola
         for (let pair of datos.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -714,8 +712,7 @@ imprimirherecoactivo() {
     this.numeroFraccionado = document.getElementById("numeroFraccionado11").value;
     this.numeroCuota = document.getElementById("numeroCuotas11").value;
     this.numeroConvenio = document.getElementById("numeroConvenio11").value;
-    this.importeFraccionado = document.getElementById("importeFraccionado11").value;
-
+  
     
  
 

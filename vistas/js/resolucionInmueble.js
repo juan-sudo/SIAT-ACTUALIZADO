@@ -39,10 +39,8 @@ class ResolucionInmueble {
      //ASIGNADOS
      this.expedientes=null;
      this.numeroExpediente=null;
-     this.monto=null;
-     this.nombrePropietario=null;
-     this.dniPropietario=null;
-     this.numeroExpediente1=null;
+     this.numeroPartida=null;
+ 
   }
 
   //PARA MODAL COACTIVO
@@ -569,13 +567,12 @@ imprimirherecoactivo() {
 
   
 
-      datos.append("numeroExpediente1", resolucionInmueble_.numeroExpediente1);
+   
       datos.append("expediente", resolucionInmueble_.expedientes);
       datos.append("numeroExpediente", resolucionInmueble_.numeroExpediente);
-      datos.append("monto", resolucionInmueble_.monto);
-      datos.append("nombrePropietario", resolucionInmueble_.nombrePropietario);
-      datos.append("dniPropietario", resolucionInmueble_.dniPropietario);
-     
+      datos.append("numeroPartida", resolucionInmueble_.numeroPartida);
+      
+ 
         // Mostrar datos en consola
         for (let pair of datos.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -745,15 +742,11 @@ captureModalData() {
   
 
     // Obtener los valores de los campos que no son de la tabla
-    this.numeroExpediente1 = document.getElementById("numeroExpediente0116").value;
+    this.numeroExpediente = document.getElementById("numeroExpediente0116").value;
     this.expedientes = document.getElementById("expedientes16").value;
-    this.numeroExpediente = document.getElementById("numeroExpediente16").value;
-    this.monto = document.getElementById("monto16").value;
+    this.numeroPartida = document.getElementById("numeroPartida16").value;
     
-    this.nombrePropietario = document.getElementById("nombrePropietario16").value;
-    this.dniPropietario = document.getElementById("dniPropietario16").value;
-
-
+  
 
 
 }

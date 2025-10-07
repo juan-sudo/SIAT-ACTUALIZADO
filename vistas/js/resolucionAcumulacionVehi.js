@@ -1,4 +1,4 @@
-//import { Pisoclass } from './pisos.js';
+//import { Pisoclass } from './pisos.js';----------------------OJO--------
 class ResolucionAculacionVehi {
 
   constructor() {

@@ -39,10 +39,9 @@ class ResolucionMedidaCautelar {
      //ASIGNADOS
      this.expedientes=null;
      this.numeroExpediente=null;
-     this.monto=null;
-     this.nombrePropietario=null;
-     this.dniPropietario=null;
-     this.numeroExpediente1=null;
+     this.diasHabiles=null;
+  
+    
   }
 
   //PARA MODAL COACTIVO
@@ -573,13 +572,12 @@ imprimirherecoactivo() {
 
   
 
-      datos.append("numeroExpediente1", resolucionMedidaCautelar_.numeroExpediente1);
+     
       datos.append("expediente", resolucionMedidaCautelar_.expedientes);
       datos.append("numeroExpediente", resolucionMedidaCautelar_.numeroExpediente);
-      datos.append("monto", resolucionMedidaCautelar_.monto);
-      datos.append("nombrePropietario", resolucionMedidaCautelar_.nombrePropietario);
-      datos.append("dniPropietario", resolucionMedidaCautelar_.dniPropietario);
-     
+      datos.append("diasHabiles", resolucionMedidaCautelar_.diasHabiles);
+  
+
         // Mostrar datos en consola
         for (let pair of datos.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -749,14 +747,16 @@ captureModalData() {
   
 
     // Obtener los valores de los campos que no son de la tabla
-    this.numeroExpediente1 = document.getElementById("numeroExpediente0117").value;
-    this.expedientes = document.getElementById("expedientes17").value;
     this.numeroExpediente = document.getElementById("numeroExpediente17").value;
-    this.monto = document.getElementById("monto17").value;
-    
-    this.nombrePropietario = document.getElementById("nombrePropietario17").value;
-    this.dniPropietario = document.getElementById("dniPropietario17").value;
+    this.expedientes = document.getElementById("expedientes17").value;
+    this.diasHabiles = document.getElementById("dias17").value;
 
+    
+    
+
+    
+    
+   
 
 
 

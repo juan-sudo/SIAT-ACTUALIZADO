@@ -1,4 +1,5 @@
 //import { Pisoclass } from './pisos.js';
+//------------------------------------------------(ANEXO 14)-------------------
 class ResolucionAculacion {
 
   constructor() {
@@ -577,7 +578,7 @@ imprimirherecoactivo() {
         }
 
         // Usar fetch en lugar de $.ajax
-        fetch("./vistas/print/imprimirAcuFraccionamiento.php", {
+        fetch("./vistas/print/imprimirResolucionDos.php", {
             method: "POST",
             body: datos
         })
