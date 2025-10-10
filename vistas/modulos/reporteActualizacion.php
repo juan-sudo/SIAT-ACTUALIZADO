@@ -3,6 +3,8 @@
   <section class="container-fluid panel-medio">
 
     <div class="box table-responsive">
+
+    
       <div class="row">
         <div class="col-md-8">
           <table class="table-container" id="tbConsultaReporteIngresoDiario">

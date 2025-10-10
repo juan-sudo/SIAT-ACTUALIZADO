@@ -110,6 +110,7 @@ $tiem = time();
 				"caja-proveido" => "caja-proveido.php",
 				"arancel-vias" => "arancel-vias.php",
 				"reporte-general" => "reporte-general.php",
+				"reporte-general-area" => "reporte-general-area.php",
 				"consulta-deuda-agua" => "consulta-deuda-agua.php",
 				"lista-contribuyente-agua" => "lista-contribuyente-agua.php",
 				"lista-agua-caja" => "lista-agua-caja.php",
@@ -232,12 +233,25 @@ $tiem = time();
 	<script src="vistas/js/notificacionValores.js" defer></script>
 	<script src="vistas/js/cargoNotificacion.js" defer></script>
 	<script src="vistas/js/resolucionMedidaCautelar.js" defer></script>
+	<script src="vistas/js/reporteGeneralArea.js" defer></script>
+
+	
 
 		<script src="vistas/js/administrarcoactivo.js" defer></script>
 		<script src="vistas/js/administrarordenpago.js" defer></script>
+<!-- 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+
+<!-- Reemplaza la librería xlsx por ExcelJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 	
 	<!-- Incluye SheetJS desde el CDN -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script> -->
 
 	
 	<script>
