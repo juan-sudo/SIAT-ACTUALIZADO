@@ -6,6 +6,44 @@ use PDOException;
 use Exception;
 class ModeloAdministracionOrdenPago {
 
+    //PAGADO
+    
+
+        //GUARDAR NOTIFICAICON DE ORDEN 
+    public static function mdlGuardarEditarPagado($idContribueyentes, $pagado) {
+
+    try {
+        // Quitar los espacios en blanco antes y después de la cadena
+      
+
+        // Consulta SQL para actualizar los datos de expediente_coactivo y estado_coactivo
+        $query = "UPDATE orden_pago_detalle
+                  SET coactivo = :pagado
+                  WHERE Concatenado_idc =:Concatenado_idc";
+
+
+        // Preparar la consulta
+        $stmt = Conexion::conectar()->prepare($query);
+
+        $stmt->bindParam(':pagado', $pagado, PDO::PARAM_STR);
+        
+        $stmt->bindParam(':Concatenado_idc', $idContribueyentes, PDO::PARAM_STR);
+
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+                return "ok";
+        } else {
+                return "error";
+        }
+                $stmt = null;
+
+    } catch (Exception $e) {
+            // Manejo de excepciones
+            return "error";
+    }
+}
+
     //GUARDAR ENVIAR COACTIVO
  
     public static function mdlGuardarEditarEnviarCoactivo($numeroImforme, $estadoCoactivo, $idContribueyentes, $ordencompleta) {
@@ -227,6 +265,37 @@ class ModeloAdministracionOrdenPago {
     } 
 }
 
+
+  //MOSTRAR PARA EDITAR
+ public static function mdlMostrarEditarPagado($idContribueynte) {
+    try {
+        // Consulta SQL utilizando IN para múltiples valores
+        $query = " SELECT * FROM `orden_pago_detalle` 
+                  WHERE  Concatenado_idc=:idcontribueynte
+                   GROUP BY Concatenado_idc
+                
+                  ";  // Corregido el nombre del campo
+
+        // Preparar la consulta
+        $stmt = Conexion::conectar()->prepare($query);
+
+        // Vincular el parámetro con el valor
+        $stmt->bindParam(':idcontribueynte', $idContribueynte, PDO::PARAM_STR); // Especifica el tipo correcto de parámetro
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Retornar todos los resultados como un array asociativo
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // Manejo de errores
+        echo "Error: " . $e->getMessage();
+        return null;
+    } finally {
+        // Liberar recursos, no es necesario asignar null aquí
+        $stmt = null;
+    } 
+}
    //MOSTRAR PARA EDITAR
  public static function mdlMostrarEditarFechaNo($idContribueynte) {
     try {

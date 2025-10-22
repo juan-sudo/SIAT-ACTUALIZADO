@@ -283,7 +283,7 @@ error_reporting(0);
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="staticBackdropLabel">Imprimir Formatos</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Imprimir Formatosv8</h5>
 
       </div>
       <div class="table-responsive modal-body">
@@ -329,21 +329,42 @@ error_reporting(0);
                 </tr>
               </table>
             </div>
+              
+            <div class="row">
+                <div class="col-md-12 text-left">
+                <span class="caption_ ">Seleccionar predios para imprimir    
+                <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="calculo_predio_selectt" data-size="mini" data-width="110">  </span>
+                </div>
 
+            </div>
+           
             <div class="tab-content" id="nav-tabContent">
 
+             
               <div class="tab-pane fade show active" id="list-hr" role="tabpanel" aria-labelledby="list-hr-list">
                 <div class="table-responsive modal-body">
                   <span class="caption_">Lista de Predios HR (Hoja de Resumen)</span>
+                
                   <div class="row divPredio_impuesto">
                     <table class="table-container" width="100%">
 
                       <thead>
+                        <!-- <th></th>
                         <th>Codigo</th>
                         <th>Tipo</th>
                         <th>Direccion</th>
                       
-                        <th>Condicion</th>
+                        <th>Condicion</th> -->
+
+                        <thead>
+                          <th class="text-center">Codigo</th>
+                          <th class="text-center">Tipo</th>
+                          <th class="text-center">Direccion</th>
+                          <th class="text-center">Condicion</th>
+                          <th  class="text-center action-column">Accion</th>
+                        </thead>
+
+
                       </thead>
                       <tbody id="predios_hr">
                         <!-- CONTENIDO DINAMICO DE PREDIOS-->
@@ -553,6 +574,28 @@ error_reporting(0);
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary mostrar_predios_seleccionados_no" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary mostrar_predios_seleccionados">si</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL PARA CUARGAR SI O NO ELÑ CALCULO IMPUESTO -->
+
+
+<!-- MODAL CONFIRMAR LA CALCULO DE PREDIOS SELECCIONADOS -->
+<div class="modal fade" id="modal_seleccion_predio_selectt" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+       
+        </button>
+        <h6 class="modal-title" id="staticBackdropLabel">Seleccionados predios para imprimir formatos HR</h6>
+      </div>
+      <div class="modal-body">
+        <h7>Estas Seguro de seleccionar predios ?</h7>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary mostrar_predios_seleccionados_noo" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary mostrar_predios_seleccionadoss">si</button>
       </div>
     </div>
   </div>

@@ -35,6 +35,20 @@ class AjaxReporte
         echo $respuesta_json;    
       }
 
+        public function ajaxMostrar_reporte_tributaria_arbitrio_impuesto()
+      {
+        $fechaInicio=$_POST['fechaInicio'];
+        $fechaFin=$_POST['fechaFin'];
+      
+  
+        $respuesta = ControladorReporteGeneralArea::ctrMostrar_reporte_tributaria_arbitro_predial($fechaInicio,$fechaFin );
+        $respuesta_json = json_encode($respuesta);
+        header('Content-Type: application/json');
+        echo $respuesta_json;    
+      }
+
+
+      
 
     //total de agua potable
      public function ajaxMostrar_reporte_general_agua()
@@ -71,6 +85,14 @@ if (isset($_POST['reporte_general_tributaria'])) {
 if (isset($_POST['reporte_tributaria_proveido'])) {
   $mostrar_cuadre = new AjaxReporte();
   $mostrar_cuadre->ajaxMostrar_reporte_tributaria_proveidos();
+}
+
+// REPORTE DE INPUESTO Y ARBITRIOS
+if (isset($_POST['reporte_tributaria_arbiImp'])) {
+  $mostrar_cuadre = new AjaxReporte();
+  $mostrar_cuadre->ajaxMostrar_reporte_tributaria_arbitrio_impuesto();
+
+
 }
 
 

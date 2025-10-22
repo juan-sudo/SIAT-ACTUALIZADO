@@ -37,13 +37,18 @@ $pdf->AddPage('P','A4');
 $carpeta=$_POST['carpeta'];
 $propietarios_=$_POST['propietarios']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 $anio=$_POST['anio'];
-$predio_select="si";
+
+$predio_select=$_POST['predio_select'];
+$idPredios=$_POST['idPredios'];
+
 $propietarios = ModeloEstadoCuenta::mdlPropietarios_pdf($propietarios_);
 $configuracion = ControladorConfiguracion::ctrConfiguracion();
-$predio =ModeloImprimirFormato::mdlListarPredio_HR($propietarios_,$anio);
-$determinacion =ModeloCalcular::mdlMostrar_calculo_impuesto($propietarios_,"condicion",$anio,$predio_select);
 $estado_cuenta =ModeloEstadoCuenta::mdlEstadoCuenta_pdf($propietarios_,'null',"pdf",$anio,'006');
-$estado__cuenta_total =ModeloEstadoCuenta::mdlEstadoCuenta_Total($propietarios_,$anio,'006');
+
+$predio =ModeloImprimirFormato::mdlListarPredio_HRR($propietarios_,$anio,$predio_select,$idPredios);
+$determinacion =ModeloCalcular::mdlMostrar_calculo_impuestoo($propietarios_,$anio,$predio_select,$idPredios );
+$estado__cuenta_total =ModeloEstadoCuenta::mdlEstadoCuenta_Totalt($propietarios_,$anio,'006', $predio_select,$idPredios );
+
 // Inicio de la tabla HTML
 $pdf->SetCreator($configuracion['Nombre_Empresa']);
 $pdf->SetAuthor('GRUPO HANCCO');

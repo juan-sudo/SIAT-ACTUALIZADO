@@ -13,6 +13,9 @@ class ModeloReporteGeneralArea
        public static function mdlMostrar_reporte_general_tributaria($fechaInicio, $fechaFin)
 {
    
+          $fechaInicioDatetime = $fechaInicio . ' 00:00:00';
+        $fechaFinDatetime   = date('Y-m-d 00:00:00', strtotime($fechaFin . ' +1 day')); // sumar 1 día
+
     try {
         $stmt = Conexion::conectar()->prepare("SELECT SUM(Total_Pagar) AS suma_total 
             FROM ingresos_tributos 
@@ -22,8 +25,8 @@ class ModeloReporteGeneralArea
         ");
 
         // Vinculamos los parámetros
-        $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
-        $stmt->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+         $stmt->bindParam(":fechaInicio", $fechaInicioDatetime, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin", $fechaFinDatetime, PDO::PARAM_STR);
 
         $stmt->execute();
 
@@ -38,11 +41,50 @@ class ModeloReporteGeneralArea
     }
 }
 
-   //total tribuitario
+    //total tribuitario ARBITRIO Y IMPUETSO PREDIAL
+ 
+    public static function mdlMostrar_reporte_general_arbitrio_predial($fechaInicio, $fechaFin)
+    {
 
-   public static function mdlMostrar_reporte_general_proveidos($fechaInicio, $fechaFin, $especieValorada, $idArea)
+          $fechaInicioDatetime = $fechaInicio . ' 00:00:00';
+        $fechaFinDatetime   = date('Y-m-d 00:00:00', strtotime($fechaFin . ' +1 day')); // sumar 1 día
+
+        try {
+            $sql = "SELECT 
+                        Tipo_Tributo,
+                        SUM(Total_Pagar) AS suma_total
+                    FROM ingresos_tributos
+                    WHERE 
+                        Estado = 'P'
+                        AND Cierre = 1
+                        AND Tipo_Tributo IN ('006', '742')
+                        AND Fecha_Pago BETWEEN :fechaInicio AND :fechaFin
+                    GROUP BY Tipo_Tributo
+                    ORDER BY Tipo_Tributo";
+
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->bindParam(":fechaInicio", $fechaInicioDatetime, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin", $fechaFinDatetime, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en mdlMostrar_reporte_general_arbitrio_predial: " . $e->getMessage());
+            return [];
+        }
+    }
+
+
+
+
+
+public static function mdlMostrar_reporte_general_proveidos($fechaInicio, $fechaFin, $especieValorada, $idArea)
 {
     try {
+        // 🔹 0. Ajustar fechas para DATETIME
+        $fechaInicioDatetime = $fechaInicio . ' 00:00:00';
+        $fechaFinDatetime   = date('Y-m-d 00:00:00', strtotime($fechaFin . ' +1 day')); // sumar 1 día
+
         // 🔹 1. Convertir la cadena en array y limpiar espacios
         $ids = array_map('trim', explode(',', $especieValorada));
 
@@ -50,28 +92,27 @@ class ModeloReporteGeneralArea
         $placeholders = implode(',', array_map(fn($i) => ":id{$i}", array_keys($ids)));
 
         // 🔹 3. Armar la consulta
-        $sql = "
-            SELECT 
-                ie.Id_Especie_Valorada, 
-                ev.Nombre_Especie,
-                SUM(ie.Valor_Total) AS valor_total
-            FROM ingresos_especies_valoradas ie
-            INNER JOIN especie_valorada ev 
-                ON ie.Id_Especie_Valorada = ev.Id_Especie_Valorada
-            WHERE 
-                ie.Estado = 'P'
-                AND ie.Cierre = 1
-                AND ev.Id_Area = :idArea
-                AND ie.Id_Especie_Valorada IN ($placeholders)
-                AND Fecha_Pago BETWEEN DATE(:fechaInicio) AND DATE(:fechaFin)
-            GROUP BY ie.Id_Especie_Valorada, ev.Nombre_Especie
-        ";
+        $sql = "SELECT 
+                    ie.Id_Especie_Valorada, 
+                    ev.Nombre_Especie,
+                    SUM(ie.Valor_Total) AS valor_total
+                FROM ingresos_especies_valoradas ie
+                INNER JOIN especie_valorada ev 
+                    ON ie.Id_Especie_Valorada = ev.Id_Especie_Valorada
+                WHERE 
+                    ie.Estado = 'P'
+                    AND ie.Cierre = 1
+                    AND ev.Id_Area = :idArea
+                    AND ie.Id_Especie_Valorada IN ($placeholders)
+                    AND ie.Fecha_Pago >= :fechaInicio
+                    AND ie.Fecha_Pago <  :fechaFin
+                GROUP BY ie.Id_Especie_Valorada, ev.Nombre_Especie";
 
         $stmt = Conexion::conectar()->prepare($sql);
 
         // 🔹 4. Enlazar los parámetros normales
-        $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
-        $stmt->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaInicio", $fechaInicioDatetime, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaFin", $fechaFinDatetime, PDO::PARAM_STR);
         $stmt->bindParam(":idArea", $idArea, PDO::PARAM_INT);
 
         // 🔹 5. Enlazar cada ID por separado
@@ -89,6 +130,58 @@ class ModeloReporteGeneralArea
         return [];
     }
 }
+
+
+   //total tribuitario
+
+//    public static function mdlMostrar_reporte_general_proveidos($fechaInicio, $fechaFin, $especieValorada, $idArea)
+// {
+//     try {
+//         // 🔹 1. Convertir la cadena en array y limpiar espacios
+//         $ids = array_map('trim', explode(',', $especieValorada));
+
+//         // 🔹 2. Generar placeholders dinámicos :id0, :id1, etc.
+//         $placeholders = implode(',', array_map(fn($i) => ":id{$i}", array_keys($ids)));
+
+//         // 🔹 3. Armar la consulta
+//         $sql = "SELECT 
+//                 ie.Id_Especie_Valorada, 
+//                 ev.Nombre_Especie,
+//                 SUM(ie.Valor_Total) AS valor_total
+//             FROM ingresos_especies_valoradas ie
+//             INNER JOIN especie_valorada ev 
+//                 ON ie.Id_Especie_Valorada = ev.Id_Especie_Valorada
+//             WHERE 
+//                 ie.Estado = 'P'
+//                 AND ie.Cierre = 1
+//                 AND ev.Id_Area = :idArea
+//                 AND ie.Id_Especie_Valorada IN ($placeholders)
+//                 AND Fecha_Pago BETWEEN DATE(:fechaInicio) AND DATE(:fechaFin)
+//             GROUP BY ie.Id_Especie_Valorada, ev.Nombre_Especie
+//         ";
+
+//         $stmt = Conexion::conectar()->prepare($sql);
+
+//         // 🔹 4. Enlazar los parámetros normales
+//         $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+//         $stmt->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+//         $stmt->bindParam(":idArea", $idArea, PDO::PARAM_INT);
+
+//         // 🔹 5. Enlazar cada ID por separado
+//         foreach ($ids as $i => $id) {
+//             $stmt->bindValue(":id{$i}", (int)$id, PDO::PARAM_INT);
+//         }
+
+//         // 🔹 6. Ejecutar y retornar
+//         $stmt->execute();
+//         $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//         return $resultado;
+//     } catch (PDOException $e) {
+//         error_log("Error en mdlMostrar_reporte_general_proveidos: " . $e->getMessage());
+//         return [];
+//     }
+// }
 
 //        public static function mdlMostrar_reporte_general_proveidos($fechaInicio, $fechaFin, $especieValorada,$idArea)
 // {

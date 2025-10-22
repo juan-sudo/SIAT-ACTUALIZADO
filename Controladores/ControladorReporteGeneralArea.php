@@ -26,6 +26,19 @@ class ControladorReporteGeneralArea
 		return $respuesta;
 		
 	}
+		//total tribuitario provedidos
+	public static function ctrMostrar_reporte_tributaria_arbitro_predial($fechaInicio,$fechaFin)
+	{
+		$respuesta = ModeloReporteGeneralArea::mdlMostrar_reporte_general_arbitrio_predial($fechaInicio,$fechaFin);
+
+		return $respuesta;
+
+	
+		
+		
+	}
+
+	
 
 	//total agua potable
 	public static function ctrMostrar_reporte_general_agua($fechaInicio,$fechaFin)

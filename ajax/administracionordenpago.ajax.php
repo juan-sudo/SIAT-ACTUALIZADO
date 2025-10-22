@@ -66,6 +66,18 @@ class AjaxAdministracionOrdenPago
   
     }
 
+    //MOSTRAR PARA PAGADO
+    public function AjaxEditarMoatrarPagado() 
+    {   
+        $idContribueynte = isset($_POST['idContribueynte']) ? $_POST['idContribueynte'] : '';
+    
+        // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+        $respuesta = ControladorAdministracionOrdenPago::ctrMostrarEditarPagado($idContribueynte);
+    
+        echo $respuesta;
+  
+    }
+
     public function AjaxEditarMoatrarEnviarCoactivo() 
     {   
     $idContribueynte = isset($_POST['idContribueynte']) ? $_POST['idContribueynte'] : '';
@@ -82,14 +94,31 @@ class AjaxAdministracionOrdenPago
     public function AjaxGuardarMoatrarOrdenPago() 
     {   
 
-    $idContribueyentes = isset($_POST['idContribueyentes']) ? $_POST['idContribueyentes'] : '';
-    $fechaNotificacion = isset($_POST['fechaNotificacion']) ? $_POST['fechaNotificacion'] : '';
-   
-    // Llamamos al controlador para obtener las notificaciones con filtros y paginación
-    $respuesta = ControladorAdministracionOrdenPago::ctrGuardarEditarNotficiacionFecha($idContribueyentes, $fechaNotificacion);
- 
-    echo $respuesta;
-  
+            $idContribueyentes = isset($_POST['idContribueyentes']) ? $_POST['idContribueyentes'] : '';
+            $fechaNotificacion = isset($_POST['fechaNotificacion']) ? $_POST['fechaNotificacion'] : '';
+        
+            // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+            $respuesta = ControladorAdministracionOrdenPago::ctrGuardarEditarNotficiacionFecha($idContribueyentes, $fechaNotificacion);
+        
+            echo $respuesta;
+        
+    
+    }
+
+    
+
+    //GUARDAR PAGADO
+     public function AjaxGuardarMoatrarOrdenPagoPagado() 
+    {   
+
+            $idContribueyentes = isset($_POST['idContribueyentes']) ? $_POST['idContribueyentes'] : '';
+            $pagado = isset($_POST['pagado']) ? $_POST['pagado'] : '';
+        
+            // Llamamos al controlador para obtener las notificaciones con filtros y paginación
+            $respuesta = ControladorAdministracionOrdenPago::ctrGuardarEditarPagado($idContribueyentes, $pagado);
+        
+            echo $respuesta;
+        
     
     }
 
@@ -144,6 +173,13 @@ if (isset($_POST['editar_notificacion'])) {
 }
 
 
+//MOSTRARA PAGADO
+if (isset($_POST['editar_pagado'])) {
+    $objlistapaginaa = new AjaxAdministracionOrdenPago();
+    $objlistapaginaa->AjaxEditarMoatrarPagado();
+}
+
+
 
 
 // //GUARDAR FECHA COTIZACION
@@ -151,6 +187,15 @@ if (isset($_POST['guardar_orden_fecha_no'])) {
     $objlistapaginaa = new AjaxAdministracionOrdenPago();
     $objlistapaginaa->AjaxGuardarMoatrarOrdenPago();
 }
+
+
+
+//PAGADO ORDEN 
+if (isset($_POST['guardar_orden_pagado'])) {
+    $objlistapaginaa = new AjaxAdministracionOrdenPago();
+    $objlistapaginaa->AjaxGuardarMoatrarOrdenPagoPagado();
+}
+
 
 //VER ENVIAR A COACTIVO
 if (isset($_POST['editar_enviar_coactivo'])) {

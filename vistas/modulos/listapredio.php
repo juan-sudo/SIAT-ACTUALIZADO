@@ -188,6 +188,7 @@ $idArray = array_filter($idArray);
             <div class="row divDetallePredio">
               <div class="col-mod-12">
                 <span class="caption_">Predios del Contribuyente</span>
+                
                 <div class="row pull-right">
                   <input type="hidden" id="perfilOculto_p" value="<?php echo $_SESSION['perfil'] ?>">
 

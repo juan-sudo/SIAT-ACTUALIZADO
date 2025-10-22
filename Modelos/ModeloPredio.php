@@ -1719,25 +1719,31 @@ private static function generateRowHTMLHistorial($value, $key)
 			GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor) . " ORDER BY p.predio_UR");
 			$stmt->execute();
 		}
+		
 		$campos = $stmt->fetchall();
 		$content = "";
 		if ($stmt->rowCount() > 0) {
 			foreach ($campos as $key => $value) {
-				$content .= '<tr id="fila" id_catastro="' . $value['catastro'] . '"  id_tipo="' . $value['tipo_ru'] . '" id_predio="' . $value['id_predio'] . '">';
-				$content .= '<td class="text-center" id_predio=' . $value['id_predio'] . '>' . $value['id_predio'] . '</td> 
-				<td class="text-center"  id="id_predio_p" >' . $value['tipo_ru'] . '</td>
-				<td>' . $value['direccion_completo'] . '</td>      
-				<td class="text-center" id="id_regimen_p" >' . $value['regimen'] . '</td>
 
+				$content .= '<tr id="fila" id_catastro="' . $value['catastro'] . '"  id_tipo="' . $value['tipo_ru'] . '" id_predio="' . $value['id_predio'] . '">';
 				
-				<td  id_predio_select="' . $value['id_predio'] . '" class="text-center action-column">
-				
-				<input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="select_predio_calcular" data-size="mini"    data-id="' . $value['id_predio'] . '" >
-				
-				</td>';
+			
+				$content .= '<td class="text-center" id_predio=' . $value['id_predio'] . '>' . $value['id_predio'] . '</td> 
+					<td class="text-center"  id="id_predio_p" >' . $value['tipo_ru'] . '</td>
+					<td>' . $value['direccion_completo'] . '</td>     
+					
+					<td class="text-center" id="id_regimen_p" >' . $value['regimen'] . '</td>
+
+					
+					<td  id_predio_select="' . $value['id_predio'] . '" class="text-center action-column">
+					
+					<input type="checkbox" class="check_predio" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="select_predio_calcular" data-size="mini"    data-id="' . $value['id_predio'] . '" >
+					
+					</td>';
 				
 				
 				$content .= '</tr>';
+
 			}
 		} else {
 			$content .= "<tr id_catastro='nulo'><td colspan='5' style='text-align:center;'>No registra predio(s)</td></tr>";

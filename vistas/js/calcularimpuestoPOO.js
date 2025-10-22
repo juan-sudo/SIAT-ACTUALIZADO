@@ -354,6 +354,10 @@ class ImpuestoCalculator {
         }
       },
     });
+
+
+
+
     // MOSTRAR PREDIOS DEL CALCULO
     $.ajax({
       url: "ajax/predio.ajax.php",
@@ -379,6 +383,9 @@ class ImpuestoCalculator {
       },
     });
   }
+
+
+  
   tablapisos() {
     var divContainer = document.getElementById("tablapisos");
     this.html =
@@ -687,10 +694,51 @@ $(document).on("click", ".mostrar_predios_seleccionados", function () {
   //$('#calculo_predio_select').prop('checked', false).change();
   $("#modal_seleccion_predio_select").modal("hide");
   if ($("#calculo_predio_select").is(':checked')) {
+    console.log("entro aquiiiiiiii");
     $('.action-column').show();
 } else {
     $('.action-column').hide();
 }
+});
+
+
+
+//PARA PREDIOS
+$(document).on("click", "#calculo_predio_selectt", function () {
+
+  if ($(this).is(':checked')) {
+
+  $("#modal_seleccion_predio_selectt").modal("show");
+  }
+  else{
+    $('.action-column').hide();
+  }
+  
+});
+
+$(document).on("click", ".mostrar_predios_seleccionados_noo", function () {
+  $("#modal_seleccion_predio_selectt").modal("hide");
+  $(".action-column").hide();  // ✅ oculta la columna de checkboxes secundarios
+});
+
+
+
+$(document).on("click", ".mostrar_predios_seleccionadoss", function () {
+  $("#modal_seleccion_predio_selectt").modal("hide");
+
+  // console.log("-----------aqui---");
+  //  $(".action-column").show();
+   $(".action-column").show();
+
+  // ✅ Usamos el ID correcto del checkbox que controla la visibilidad
+  // if ($("#select_predio_calcular").is(":checked")) {
+  //   console.log("entro aquiiiiiiii");
+  //   $(".action-column").show();
+  // } else {
+  //   $(".action-column").hide();
+  // }
+
+  
 });
 
 $(document).on("click", ".boton_calcular_no", function () {
@@ -702,6 +750,8 @@ $(document).on("click", ".boton_calcular_no", function () {
    
 }
 });
+
+
 
 $(document).on('change', '#select_predio_calcular', function() {
 
@@ -719,7 +769,10 @@ $(document).on('change', '#select_predio_calcular', function() {
       // impuestoCalculator.Id_Regimen_Afecto.push(regimenAfecto);
       // impuestoCalculator.tipo_predio.push(tipoPredio);
 
+
     }
+
+    
   } else {
     // Si el checkbox se deselecciona, remueve el id del array
     impuestoCalculator.predios_seleccionados = impuestoCalculator.predios_seleccionados.filter(item => item !== idPredio);

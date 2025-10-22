@@ -1285,6 +1285,92 @@ public static function mdlEstadoCuenta_Orden_pdf_historial($datosH)
 		$stmt = null;
 	}
 
+
+public static function mdlEstadoCuenta_Totalt($propietarios, $anio, $tipo_tributo , $predio_select,$idPredios)
+{
+
+    if ($predio_select == "si") {
+
+        //ID PREDIOS
+
+        // 1️⃣ Validar y convertir IDs de predios
+			$idsArrayRaw = array_filter(explode(',', $idPredios), 'is_numeric');
+			$idsArray = array_map('intval', $idsArrayRaw);
+
+			if (empty($idsArray)) {
+				return []; // Si no hay IDs válidos, devolver vacío
+			}
+
+			// 2️⃣ Crear placeholders nombrados dinámicamente (:idPredio0, :idPredio1, ...)
+			$placeholders = [];
+			foreach ($idsArray as $index => $idValue) {
+				$placeholders[] = ":idPredio{$index}";
+			}
+			$placeholdersStr = implode(',', $placeholders);
+
+
+            //CONCATENADO ID
+            $valoresSeparadosPorComa = explode(',', $propietarios);
+            sort($valoresSeparadosPorComa);
+            $ids = implode("-", $valoresSeparadosPorComa); //CONVIERTE EN UN STRING 
+
+            $conexion = Conexion::conectar();
+            $stmt = $conexion->prepare("SELECT sum(Importe) as importe,
+                                            sum(Gasto_Emision) as gasto_emision,
+                                            sum(Saldo) as saldo , 
+                                            sum(Total_Aplicar) as total_aplicar
+                                        FROM estado_cuenta_corriente  
+                                        WHERE Concatenado_idc = :ids 
+                                        AND Anio = :anio 
+                                        AND Tipo_Tributo = :tipo_tributo 
+                                    ORDER BY Tipo_Tributo, Anio, Codigo_Catastral, Periodo");
+
+            $stmt->bindValue(':ids', $ids);
+            $stmt->bindValue(':anio', $anio, PDO::PARAM_INT);
+            $stmt->bindValue(':tipo_tributo', $tipo_tributo, PDO::PARAM_INT);
+
+            $stmt->execute();
+            $resultado = $stmt->fetchAll();
+            
+            $stmt = null;
+            $conexion = null;
+
+            return $resultado;
+    }
+    else{
+
+           $valoresSeparadosPorComa = explode(',', $propietarios);
+            sort($valoresSeparadosPorComa);
+            $ids = implode("-", $valoresSeparadosPorComa); //CONVIERTE EN UN STRING 
+
+            $conexion = Conexion::conectar();
+            $stmt = $conexion->prepare("SELECT sum(Importe) as importe,
+                                            sum(Gasto_Emision) as gasto_emision,
+                                            sum(Saldo) as saldo , 
+                                            sum(Total_Aplicar) as total_aplicar
+                                        FROM estado_cuenta_corriente  
+                                        WHERE Concatenado_idc = :ids 
+                                        AND Anio = :anio 
+                                        AND Tipo_Tributo = :tipo_tributo 
+                                    ORDER BY Tipo_Tributo, Anio, Codigo_Catastral, Periodo");
+
+            $stmt->bindValue(':ids', $ids);
+            $stmt->bindValue(':anio', $anio, PDO::PARAM_INT);
+            $stmt->bindValue(':tipo_tributo', $tipo_tributo, PDO::PARAM_INT);
+
+            $stmt->execute();
+            $resultado = $stmt->fetchAll();
+            
+            $stmt = null;
+            $conexion = null;
+
+            return $resultado;
+
+
+
+    }
+}
+
 	public static function mdlEstadoCuenta_Total($propietarios, $anio, $tipo_tributo)
 {
     $valoresSeparadosPorComa = explode(',', $propietarios);

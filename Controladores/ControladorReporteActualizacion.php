@@ -38,13 +38,15 @@ class ControladorReporteActualizacion
             // Generamos el HTML de la fila con el estado procesado y el fondo de color y padding
             $html .= '
                 <tr>
-					<td class="text-center">'.$cont++.'</td>
+					
                     <td class="text-center">' . $value['Codigo_Carpeta'] . '</td>
                     <td class="text-center"><span style="' . $fondo . '">' . $estado . '</span></td>
                     <td class="text-center">' . $completado_oficina   . '</td>
                     <td class="text-center">' . $completado_campo . '</td>
+                    <td class="text-center">' . $value['observacion_pendiente'] . '</td>
+                     <td class="text-center">' . $value['observacion_progreso'] . '</td>
                     <td class="text-center">' . $value['fecha_act'] . '</td>
-                    <td class="text-center">' . $value['fecha_re'] . '</td>
+                   
                     <td class="text-center">' . $value['usuario'] . '</td>
                 </tr>';
                 $totalFilas++; // Incrementamos el contador de filas

@@ -24,6 +24,7 @@
                           <option value="100">David jalixto huasco</option>
                           <option value="99">Jhon ordaya hancco</option>
                             <option value="102">Bertha incho marca</option>
+                             <option value="NULL">Sin resposable</option>
                       <!-- Puedes añadir más opciones según sea necesario -->
                   </select>
               </td>
@@ -52,25 +53,26 @@
       </div>
     </div>
 
-
   </section>
   <!-- seccion de la Id-->
   <section class="container-fluid panel-medio">
     <div class="row">
-      <div class="col-md-12 table-responsive cierre_div">
-        <div class="divReport_finan">
-          <table class="table-container miprimeratabla_cierre" id="tbReporteIngresosDiarios">
-            <caption>Reporte de Ingresos Ingresos Diarios</caption>
+      <div class="col-md-12  ">
+        <div class="actualizacion_div">
+          <table class="table" id="tbReporteIngresosDiarios">
+           
             <thead>
               <tr>
-                <th class="text-center">#</th>
-                 <th class="text-center">Codigo Carpeta</th>
-                <th class="text-center">Estado</th>
-                <th class="text-center">En oficina</th>
-                <th class="text-center">En campo</th>
-                <th class="text-center">Fecha Registro</th>
-                <th class="text-center">Fecha Actualización</th>
-                <th class="text-center">Actualizado Por</th>
+              
+                 <th class="text-center" style="width:5%;">Codigo Carpeta</th>
+                  <th class="text-center" style="width:8%;">Estado</th>
+                  <th class="text-center" style="width:4%;">Oficina</th>
+                  <th class="text-center" style="width:4%;">Campo</th>
+                  <th class="text-center" style="width:30%;">Obs. pendiente</th>
+                  <th class="text-center" style="width:30%;">Obs. progreso</th>
+                 
+                  <th class="text-center" style="width:8%;">Fecha Actualización</th>
+                  <th class="text-center" style="width:9%;">Responsable</th>
               </tr>
             </thead>
             <tbody id="bodyReporteActualizacion">

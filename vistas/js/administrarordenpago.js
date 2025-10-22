@@ -272,7 +272,41 @@ class AdministracionOrdenPago {
     });
   }
 
+  //MOSTRAR PARA PAGADO
+   MostrarAdministracionOrdenPagado(idContribueynte){
+
+    let datos = new FormData();
+
+    datos.append("idContribueynte", idContribueynte);  // Agregar filtro de nombre
+    datos.append("editar_pagado", "editar_pagado");
+   
+    $.ajax({
+      type: "POST", 
+      url: "ajax/administracionordenpago.ajax.php",
+       data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+      success: function (respuesta) {
+
+        console.log(respuesta);
+
+         if (typeof respuesta === "string") {
+            respuesta = JSON.parse(respuesta);
+            }
+
+           if (respuesta.data && respuesta.data.length > 0) {
+
+                var estado = respuesta.coactivo;
+                 
+                // Llenar los campos del modal
+                $('#pagadoOrdenPago').val(estado);  
+            }
+      },
+    });
+  }
   
+
   //GUARDAR Y EDITAR FECHA DE ORDEN DE PAGO
    GuardarAdministracionCoactivoFecha(fechaNotificacion){
 
@@ -332,6 +366,129 @@ class AdministracionOrdenPago {
 
   }
 
+
+  //GUARDAR ORDEN PAGO
+    GuardarAdministracionPagadoOrden(pagado){
+
+    console.log("paaaa actual", pagado);
+
+    let datos = new FormData();
+
+    datos.append("idContribueyentes",this.idcontribuyente);
+    datos.append("pagado",pagado);
+    datos.append("guardar_orden_pagado", "guardar_orden_fecha_no");
+
+       for (let pair of datos.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+   
+    $.ajax({
+      type: "POST", 
+      url: "ajax/administracionordenpago.ajax.php",
+       data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+      success: function (respuesta) {
+          if (typeof respuesta === "string") {
+            respuesta = JSON.parse(respuesta);
+            }
+
+        
+          if (respuesta.status === "ok") { // Si la respuesta es exitosa
+            $("#modalEditarUsuario").modal("hide");  // Cierra el modal de edición
+            $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
+            $("#respuestaAjax_srm").html(respuesta.message);  // Muestra el mensaje de éxito en el área de respuesta
+          
+          administracionOrdenPago_.lista_orden_pago('', '','',1);
+
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide();  // Esconde el mensaje de respuesta después de 5 segundos
+            }, 5000);
+
+           $("#modalEditarPagadoOrden").modal("hide");
+
+
+          }
+          else {
+            $("#respuestaAjax_srm").show();  // Si hay error, muestra el mensaje de error
+            $("#respuestaAjax_srm").html(respuesta.message);
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide();  // Esconde el mensaje de error después de 4 segundos
+            }, 4000);
+          }
+
+        
+
+      },
+    });
+
+  }
+
+
+  //MOSFRAR Y GUARDAR PAGADO ORDEN DE PAGO
+
+   GuardarAdministracionPagado(fechaNotificacion){
+
+    console.log("paaaa actual", fechaNotificacion);
+
+    let datos = new FormData();
+
+    datos.append("idContribueyentes",this.idcontribuyente);
+    datos.append("fechaNotificacion",fechaNotificacion);
+    datos.append("guardar_orden_fecha_no", "guardar_orden_fecha_no");
+
+       for (let pair of datos.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+   
+    $.ajax({
+      type: "POST", 
+      url: "ajax/administracionordenpago.ajax.php",
+       data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+      success: function (respuesta) {
+          if (typeof respuesta === "string") {
+            respuesta = JSON.parse(respuesta);
+            }
+
+        
+          if (respuesta.status === "ok") { // Si la respuesta es exitosa
+            $("#modalEditarUsuario").modal("hide");  // Cierra el modal de edición
+            $("#respuestaAjax_srm").show();  // Muestra el área de respuesta
+            $("#respuestaAjax_srm").html(respuesta.message);  // Muestra el mensaje de éxito en el área de respuesta
+          
+          administracionOrdenPago_.lista_orden_pago('', '','',pagina_numero);
+
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide();  // Esconde el mensaje de respuesta después de 5 segundos
+            }, 5000);
+
+           $("#modalEditarPagadoOrden").modal("hide");
+
+
+          }
+          else {
+            $("#respuestaAjax_srm").show();  // Si hay error, muestra el mensaje de error
+            $("#respuestaAjax_srm").html(respuesta.message);
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide();  // Esconde el mensaje de error después de 4 segundos
+            }, 4000);
+          }
+
+        
+
+      },
+    });
+
+  }
+  //
+
+
   //GUARDAR Y EDITAR FECHA DE ORDEN DE PAGO
    GuardarAdministracionEnviarCoactivo(numeroImforme,estadoCoactivo , ordencompleta){
 
@@ -347,7 +504,7 @@ class AdministracionOrdenPago {
     datos.append("guardar_orden_en_coactivo", "guardar_orden_en_coactivo");
 
        for (let pair of datos.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
+        console.log(pair[0] + ': ' + pair[1]);modalEditarFechaNotificacion
     }
 
    
@@ -478,12 +635,36 @@ $(document).on("click", ".btnEditarAdministracionOrdenPagoFe", function () {
 
 });
 
+
+// VER PAGADO
+$(document).on("click", ".btnEditarAdministracionPagado", function () {
+   const cocatenadoid = $(this).data("idcoactivo");
+
+    console.log("para editar -----------", cocatenadoid);
+
+    administracionOrdenPago_.idcontribuyente = cocatenadoid;
+    administracionOrdenPago_.MostrarAdministracionOrdenPagado(administracionOrdenPago_.idcontribuyente);
+
+});
+
+
  
 //GUARDAR FECHA DE NOTIFICACION DE ORDEN DE PAGO
 $(document).on("click", ".btnGuadarOrdenPagoFecha", function () {
     var fechaNotificacion = $('#fechaNotificacionOrd').val(); // usar el id correcto
     administracionOrdenPago_.GuardarAdministracionCoactivoFecha(fechaNotificacion);
 });
+
+
+//GUARDAR ORDEN DE PAGO
+$(document).on("click", ".btnGuadarOrdenPagadoOrden", function () {
+    var ordenPago = $('#pagadoOrdenPago').val(); // usar el id correcto
+    administracionOrdenPago_.GuardarAdministracionPagadoOrden(ordenPago);
+});
+
+
+
+
 
 
 // VER ENVIAR A COACTIVO

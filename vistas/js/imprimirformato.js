@@ -5,17 +5,51 @@ class ImprimirFormato {
       // Puedes inicializar propiedades aquí si es necesario
     }
      imprimirHR() {
+
       let datos = new FormData();
+
+      let predio_select;
+      let idPredioss;
+
+        // Capturar todos los checkboxes seleccionados
+      let seleccionados = [];
+
+      document.querySelectorAll('.check_predio:checked').forEach(chk => {
+          seleccionados.push(chk.getAttribute('data-id'));
+      });
+
+      
+
+      if(seleccionados.length>0){
+          predio_select="si";
+          idPredioss = seleccionados.join(',');
+    
+       
+      }
+      else{
+
+         predio_select="no";
+    
+      }
+
+
       var id = predio.id_propietario;
       const valorModificado = id.replace(/-/g, ',');
       var anio = impuestoCalculator.selectnum_arbitrio;
-      
+
+       datos.append("predio_select", predio_select);
+        datos.append("idPredios", idPredioss);
+
+
       datos.append("carpeta", predio.carpeta);
       datos.append("propietarios", valorModificado);
       datos.append("anio", anio);
-      datos.append("predio_select", "no");
+
+
       console.log("imprimir id contribuyente hr:" + valorModificado);
       console.log("imprimir id contribuyente hr:" + anio);
+
+      console.log("id de predios selecionados:" + idPredioss);
 
       $.ajax({
           url: "./vistas/print/imprimirHR.php",
@@ -147,10 +181,14 @@ class ImprimirFormato {
   miInstanciaImprimir.inicializarPestanas();
   //Generar el pdf despues de confirmar en el popup hr
   $(document).on("click", ".print_formato_hr", function () {
+
     $('#modalImprimirFormato_hr_si_no').modal('hide');
+
     miInstanciaImprimir.imprimirHR();
+
     //$("#Modalimprimir_HR").modal("show");
 });
+
  //Generar el pdf despues de confirmar en el popup dj
 $(document).on("click", ".print_formato_dj", function () {
   $('#modalImprimirFormato_dj_si_no').modal('hide');

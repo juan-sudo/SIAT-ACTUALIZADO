@@ -4708,8 +4708,7 @@ class ModeloCalcular
 	// }
 	
 
-
-
+	//ANTIGUA
 	public static function mdlMostrar_calculo_impuesto($datos, $condicion, $anio_formato,$formato)
 	{
 		$pdo = Conexion::conectar();
@@ -4848,9 +4847,7 @@ class ModeloCalcular
 				$base_imponible += $row['base_imponible'];
 			}
 			
-			// $base = $stmt->fetch(PDO::FETCH_ASSOC);
-		    //  $base_imponible= $base['base_imponible'];
-
+			
 
 
 	}
@@ -4905,6 +4902,521 @@ class ModeloCalcular
 		$resultados['base_imponible'] = $base_imponible;
 		return $resultados;
 	}
+
+
+	//NUEVO AVANZADO
+
+	public static function mdlMostrar_calculo_impuestoo($datos,  $anio_formato,$predio_select, $idPredios)
+	{
+
+				// var_dump($predio_select);
+				// var_dump($idPredios);
+				// exit();
+
+					$pdo = Conexion::conectar();
+					$resultados = array();
+					$valor = explode(',', $datos);
+					$anio_ = $anio_formato;
+					//$predio_s="no";
+				
+					// if ($condicion == "nulo") {
+					// 	$valor = explode('-', $datos['contribuyente']);
+					// 	$anio_ = $datos['anio'];
+
+					// } else {
+						
+					// }
+
+
+					// if($predio_select=="si"){
+					// 	$predio_s="si";
+
+					// }else{
+					// 	$predio_s=$datos["predios_s"];
+					// }
+
+
+
+				if($predio_select=="no"){ //condiciono si solo quiere calcular predios seleccionados
+
+					if (count($valor) === 1) {
+						// Consulta para un solo contribuyente
+
+						$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio
+												FROM 
+													predio p 
+													
+													INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+													INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+													WHERE pro.Id_Contribuyente = :id 
+												AND an.NomAnio = $anio_
+												AND p.ID_Predio NOT IN (
+													SELECT Id_Predio FROM Propietario 
+													WHERE ID_Contribuyente <>:id 
+													AND Baja='1'
+												)and pro.Baja='1'");
+												$stmt->bindParam(":id", $valor[0]);
+						$stmt->execute();
+						$total_predio= $stmt->rowCount();
+
+						$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio_afecto
+												FROM 
+													predio p 
+													INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+													INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+													WHERE pro.Id_Contribuyente = :id
+												AND an.NomAnio = $anio_
+												AND p.ID_Predio NOT IN (
+													SELECT Id_Predio FROM Propietario 
+													WHERE ID_Contribuyente <>:id 
+													AND Baja='1'
+												)and pro.Baja='1' AND p.Id_Regimen_Afecto in (2,4)");
+												$stmt->bindParam(":id", $valor[0]);
+						$stmt->execute();
+						$total_predio_afecto= $stmt->rowCount();
+
+						$stmt = $pdo->prepare("SELECT p.Valor_Predio_Aplicar as base_imponible
+												FROM 
+													predio p 
+													INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+													INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+													WHERE pro.Id_Contribuyente = :id
+												AND an.NomAnio = $anio_
+												AND p.ID_Predio NOT IN (
+													SELECT Id_Predio FROM Propietario 
+													WHERE ID_Contribuyente <>:id 
+													AND Baja='1'
+												)and pro.Baja='1' AND p.Id_Regimen_Afecto in (2,4)");
+												$stmt->bindParam(":id", $valor[0]);
+						$stmt->execute();
+						$base_imponible = 0;
+						while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+							$base_imponible += $row['base_imponible'];
+						}
+
+					} else {
+						// Consulta para varios contribuyentes
+						$ids = implode(",", $valor);
+						//capturando el total de predios
+						$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio
+												FROM 
+													predio p 
+													
+													INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+													INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+													WHERE pro.Id_Contribuyente IN ($ids) and an.NomAnio=$anio_  AND pro.Baja='1' 
+													GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor));
+						$stmt->execute();
+						$total_predio= $stmt->rowCount();
+
+						$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio_afecto
+												FROM 
+													predio p 
+													INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+													INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+													WHERE pro.Id_Contribuyente IN ($ids) and an.NomAnio=$anio_  AND pro.Baja='1' 
+													AND Id_Regimen_Afecto in (2,4)
+													GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor));
+						$stmt->execute();
+						$total_predio_afecto= $stmt->rowCount();
+
+						$stmt = $pdo->prepare("SELECT p.Valor_Predio_Aplicar as base_imponible
+												FROM 
+													predio p 
+													INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+													INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+													WHERE pro.Id_Contribuyente IN ($ids) and an.NomAnio=$anio_  AND pro.Baja='1' 
+													AND Id_Regimen_Afecto in (2,4)
+													GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor));
+						$stmt->execute();
+						$base_imponible = 0;
+						while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+							$base_imponible += $row['base_imponible'];
+						}
+
+					}
+				}
+
+				else if ($predio_select == "si") {
+
+				// Convertir IDs separados por coma a array numérico
+				 // 1) Convertir y validar IDs
+					$idsArrayRaw = array_filter(explode(',', $idPredios), 'is_numeric');
+					$idsArray = array_map('intval', $idsArrayRaw);
+
+				
+					// Crear placeholders nombrados (:idPredio0, :idPredio1, ...)
+					$placeholders = [];
+					foreach ($idsArray as $index => $idValue) {
+						$placeholders[] = ":idPredio{$index}";
+					}
+					$placeholdersStr = implode(',', $placeholders);
+
+					// ✅ Para un solo contribuyente
+					if (count($valor) === 1) {
+
+						// --- 1️⃣ Total de predios ---
+						$sql = "SELECT p.Id_Predio AS id_predio
+								FROM predio p
+								INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+								INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+								WHERE pro.Id_Contribuyente = :id 
+								AND p.Id_Predio IN ($placeholdersStr)
+								AND an.NomAnio = :anio
+								AND p.ID_Predio NOT IN (
+									SELECT Id_Predio FROM Propietario 
+									WHERE ID_Contribuyente <> :id 
+									AND Baja='1'
+								)
+								AND pro.Baja='1'";
+
+						$stmt = $pdo->prepare($sql);
+						$stmt->bindParam(":id", $valor[0], PDO::PARAM_INT);
+						$stmt->bindParam(":anio", $anio_, PDO::PARAM_INT);
+						foreach ($idsArray as $index => $idValue) {
+							$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+						}
+						$stmt->execute();
+						$total_predio = $stmt->rowCount();
+
+						// --- 2️⃣ Total de predios afectos ---
+						$sql = "SELECT p.Id_Predio AS id_predio_afecto
+								FROM predio p
+								INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+								INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+								WHERE pro.Id_Contribuyente = :id
+								AND p.Id_Predio IN ($placeholdersStr)
+								AND an.NomAnio = :anio
+								AND p.ID_Predio NOT IN (
+									SELECT Id_Predio FROM Propietario 
+									WHERE ID_Contribuyente <> :id 
+									AND Baja='1'
+								)
+								AND pro.Baja='1'
+								AND p.Id_Regimen_Afecto IN (2,4)";
+
+						$stmt = $pdo->prepare($sql);
+						$stmt->bindParam(":id", $valor[0], PDO::PARAM_INT);
+						$stmt->bindParam(":anio", $anio_, PDO::PARAM_INT);
+						foreach ($idsArray as $index => $idValue) {
+							$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+						}
+						$stmt->execute();
+						$total_predio_afecto = $stmt->rowCount();
+
+						// --- 3️⃣ Base imponible ---
+						$sql = "SELECT p.Valor_Predio_Aplicar AS base_imponible
+								FROM predio p
+								INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+								INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+								WHERE pro.Id_Contribuyente = :id
+								AND p.Id_Predio IN ($placeholdersStr)
+								AND an.NomAnio = :anio
+								AND p.ID_Predio NOT IN (
+									SELECT Id_Predio FROM Propietario 
+									WHERE ID_Contribuyente <> :id 
+									AND Baja='1'
+								)
+								AND pro.Baja='1'
+								AND p.Id_Regimen_Afecto IN (2,4)";
+
+						$stmt = $pdo->prepare($sql);
+						$stmt->bindParam(":id", $valor[0], PDO::PARAM_INT);
+						$stmt->bindParam(":anio", $anio_, PDO::PARAM_INT);
+						foreach ($idsArray as $index => $idValue) {
+							$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+						}
+						$stmt->execute();
+						$base_imponible = 0;
+						while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+							$base_imponible += $row['base_imponible'];
+						}
+
+					} else {
+						// ✅ Para varios contribuyentes
+						$idsContribuyentes = implode(",", array_map('intval', $valor));
+
+						// --- 1️⃣ Total predios ---
+						$sql = "SELECT p.Id_Predio AS id_predio
+								FROM predio p
+								INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+								INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+								WHERE pro.Id_Contribuyente IN ($idsContribuyentes)
+								AND p.Id_Predio IN ($placeholdersStr)
+								AND an.NomAnio = :anio
+								AND pro.Baja='1'
+								GROUP BY p.ID_Predio
+								HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor);
+
+						$stmt = $pdo->prepare($sql);
+						$stmt->bindParam(":anio", $anio_, PDO::PARAM_INT);
+						foreach ($idsArray as $index => $idValue) {
+							$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+						}
+						$stmt->execute();
+						$total_predio = $stmt->rowCount();
+
+						// --- 2️⃣ Total predios afectos ---
+						$sql = "SELECT p.Id_Predio AS id_predio_afecto
+								FROM predio p
+								INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+								INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+								WHERE pro.Id_Contribuyente IN ($idsContribuyentes)
+								AND p.Id_Predio IN ($placeholdersStr)
+								AND an.NomAnio = :anio
+								AND pro.Baja='1'
+								AND p.Id_Regimen_Afecto IN (2,4)
+								GROUP BY p.ID_Predio
+								HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor);
+
+						$stmt = $pdo->prepare($sql);
+						$stmt->bindParam(":anio", $anio_, PDO::PARAM_INT);
+						foreach ($idsArray as $index => $idValue) {
+							$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+						}
+						$stmt->execute();
+						$total_predio_afecto = $stmt->rowCount();
+
+						// --- 3️⃣ Base imponible ---
+						$sql = "SELECT p.Valor_Predio_Aplicar AS base_imponible
+								FROM predio p
+								INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+								INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+								WHERE pro.Id_Contribuyente IN ($idsContribuyentes)
+								AND p.Id_Predio IN ($placeholdersStr)
+								AND an.NomAnio = :anio
+								AND pro.Baja='1'
+								AND p.Id_Regimen_Afecto IN (2,4)
+								GROUP BY p.ID_Predio
+								HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor);
+
+						$stmt = $pdo->prepare($sql);
+						$stmt->bindParam(":anio", $anio_, PDO::PARAM_INT);
+						foreach ($idsArray as $index => $idValue) {
+							$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+						}
+						$stmt->execute();
+						$base_imponible = 0;
+						while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+							$base_imponible += $row['base_imponible'];
+						}
+					}
+				
+			}
+
+
+
+				// else if($predio_select=="si"){
+				// 	$idsArray = array_filter(explode(',', $idPredios), 'is_numeric');
+				// 	$placeholders = implode(',', array_fill(0, count($idsArray), '?'));
+
+				// 	  if (count($idsArray) > 0) {
+				// 		// crear placeholders nombrados dinámicamente (:id0, :id1, etc.)
+				// 		$placeholders = [];
+				// 		foreach ($idsArray as $index => $idValue) {
+				// 			$placeholders[] = ":idPredio{$index}";
+				// 		}
+				// 		$placeholdersStr = implode(',', $placeholders);
+
+				// 	if (count($valor) === 1) {
+				// 		// Consulta para un solo contribuyente
+
+				// 		$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio
+				// 								FROM 
+				// 									predio p 
+													
+				// 									INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+				// 									INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+				// 									WHERE pro.Id_Contribuyente = :id 
+				// 									AND p.Id_Predio 
+				// 									IN ($placeholdersStr)
+				// 								AND an.NomAnio = $anio_
+				// 								AND p.ID_Predio NOT IN (
+				// 									SELECT Id_Predio FROM Propietario 
+				// 									WHERE ID_Contribuyente <>:id 
+				// 									AND Baja='1'
+				// 								)and pro.Baja='1'");
+				// 								$stmt->bindParam(":id", $valor[0]);
+				// 		$stmt->execute();
+				// 		$total_predio= $stmt->rowCount();
+
+				// 		$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio_afecto
+				// 								FROM 
+				// 									predio p 
+				// 									INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+				// 									INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+				// 									WHERE pro.Id_Contribuyente = :id
+				// 									AND p.Id_Predio 
+				// 									IN ($placeholdersStr)
+				// 								AND an.NomAnio = $anio_
+				// 								AND p.ID_Predio NOT IN (
+				// 									SELECT Id_Predio FROM Propietario 
+				// 									WHERE ID_Contribuyente <>:id 
+				// 									AND Baja='1'
+				// 								)and pro.Baja='1' AND p.Id_Regimen_Afecto in (2,4)");
+				// 								$stmt->bindParam(":id", $valor[0]);
+				// 		$stmt->execute();
+				// 		$total_predio_afecto= $stmt->rowCount();
+
+				// 		$stmt = $pdo->prepare("SELECT p.Valor_Predio_Aplicar as base_imponible
+				// 								FROM 
+				// 									predio p 
+				// 									INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+				// 									INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+				// 									WHERE pro.Id_Contribuyente = :id
+				// 									AND p.Id_Predio 
+				// 									IN ($placeholdersStr)
+				// 								AND an.NomAnio = $anio_
+				// 								AND p.ID_Predio NOT IN (
+				// 									SELECT Id_Predio FROM Propietario 
+				// 									WHERE ID_Contribuyente <>:id 
+				// 									AND Baja='1'
+				// 								)and pro.Baja='1' AND p.Id_Regimen_Afecto in (2,4)");
+				// 								$stmt->bindParam(":id", $valor[0]);
+				// 		$stmt->execute();
+				// 		$base_imponible = 0;
+				// 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				// 			$base_imponible += $row['base_imponible'];
+				// 		}
+
+				// 	} else {
+				// 		// Consulta para varios contribuyentes
+				// 		$ids = implode(",", $valor);
+				// 		//capturando el total de predios
+				// 		$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio
+				// 								FROM 
+				// 									predio p 
+													
+				// 									INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+				// 									INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+				// 									WHERE pro.Id_Contribuyente IN ($ids) 
+				// 									AND p.Id_Predio 
+				// 									IN ($placeholdersStr)
+				// 									and an.NomAnio=$anio_  
+				// 									AND pro.Baja='1' 
+				// 									GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor));
+				// 		$stmt->execute();
+				// 		$total_predio= $stmt->rowCount();
+
+				// 		$stmt = $pdo->prepare("SELECT p.Id_Predio as id_predio_afecto
+				// 								FROM 
+				// 									predio p 
+				// 									INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+				// 									INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+				// 									WHERE pro.Id_Contribuyente IN ($ids) 
+				// 									AND p.Id_Predio 
+				// 									IN ($placeholdersStr)
+				// 									and an.NomAnio=$anio_ 
+				// 									 AND pro.Baja='1' 
+				// 									AND Id_Regimen_Afecto in (2,4)
+				// 									GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor));
+				// 		$stmt->execute();
+				// 		$total_predio_afecto= $stmt->rowCount();
+
+				// 		$stmt = $pdo->prepare("SELECT p.Valor_Predio_Aplicar as base_imponible
+				// 								FROM 
+				// 									predio p 
+				// 									INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+				// 									INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+				// 									WHERE pro.Id_Contribuyente IN ($ids) 
+				// 									and an.NomAnio=$anio_  
+				// 									AND p.Id_Predio 
+				// 									IN ($placeholdersStr)
+				// 									AND pro.Baja='1' 
+				// 									AND Id_Regimen_Afecto in (2,4)
+				// 									GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor));
+				// 		$stmt->execute();
+				// 		$base_imponible = 0;
+				// 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				// 			$base_imponible += $row['base_imponible'];
+				// 		}
+
+				// 	}
+				// }
+					
+
+				// }
+	
+
+				else{
+					$id_predios_seleccionados = explode(',', $datos["predios_seleccionados"]);
+				// $id_predios_seleccionados=$datos["predios_seleccionados"];
+					$total_predio=count($id_predios_seleccionados);
+					$total_predio_afecto=count($id_predios_seleccionados);
+					$predios_seleccionados_str = implode(',', $id_predios_seleccionados);
+					$stmt = $pdo->prepare("SELECT sum(p.Valor_Predio_Aplicar) as base_imponible
+												FROM 
+													predio p 
+													INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
+													WHERE p.Id_Predio in ($predios_seleccionados_str)
+													AND Id_Regimen_Afecto in (2,4);");
+						$stmt->execute();
+
+
+						$base_imponible = 0;
+						while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+							$base_imponible += $row['base_imponible'];
+						}
+						
+						// $base = $stmt->fetch(PDO::FETCH_ASSOC);
+						//  $base_imponible= $base['base_imponible'];
+
+
+
+				}
+	
+		// Obtener UIT
+		$stmt = $pdo->prepare("SELECT u.uit as uit 
+								FROM uit u 
+								INNER JOIN anio a ON u.Id_Anio=a.Id_Anio 
+								WHERE a.NomAnio=$anio_");
+		$stmt->execute();
+		$uit = $stmt->fetch(PDO::FETCH_ASSOC);
+		$resultados['uit'] = $uit['uit'];
+	
+		// Calcular impuesto
+		$impuesto_anual = 0;
+		if ($base_imponible <= ($uit['uit'] * 3)) {
+			
+			$impuesto_anual = ($uit['uit'] * 3) * 0.002;
+
+
+		} elseif ($base_imponible > ($uit['uit'] * 3) AND $base_imponible <= ($uit['uit'] * 15)) {
+			$impuesto_anual = $base_imponible * 0.002;
+		}   
+		
+		elseif ($base_imponible > ($uit['uit'] * 15) AND $base_imponible <= ($uit['uit'] * 60)) {
+			$impuesto_anual = ($uit['uit'] * 15 * 0.002) + (($base_imponible - ($uit['uit'] * 15)) * 0.006);
+		} 
+		
+		else {
+			$impuesto_anual = ($uit['uit'] * 15 * 0.002) + (($uit['uit'] * 60 - $uit['uit'] * 15) * 0.006) + (($base_imponible - $uit['uit'] * 60) * 0.01);
+		}
+		
+		$impuesto_trimestral = $impuesto_anual / 4;
+		$resultados['impuesto_anual'] = round($impuesto_anual, 2);
+		$resultados['impuesto_trimestral'] = round($impuesto_trimestral, 2);
+	
+		// Obtener gasto de emisión
+		$stmt = $pdo->prepare("SELECT * from gastos_emision;");
+		$stmt->execute();
+		$gasto = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+		$total_gasto_emision = $gasto['Gasto_Emision'];
+		$i = 1;
+		while ($i < $total_predio) {
+			$total_gasto_emision += $gasto['Incremento'];
+			$i++;
+		}
+		$resultados['gasto_emision'] = $total_gasto_emision;
+		$resultados['total_pagar'] = $total_gasto_emision + round($impuesto_anual, 2);
+		$resultados['total_predio'] = $total_predio;
+		$resultados['total_predio_afecto'] = $total_predio_afecto;
+		$resultados['base_imponible'] = $base_imponible;
+		return $resultados;
+	}
+
+
 	
 
 	//mostrar cuotas de vencimiento de arbitrios LA

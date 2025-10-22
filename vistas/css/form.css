@@ -337,6 +337,10 @@ tr.seleccionada {
   height: 65vh !important;
   overflow: auto;
 }
+.divReport_finann {
+  height: 75vh !important;
+  overflow: auto;
+}
 .cierre_div{
   background-color: white;
 }
@@ -2699,3 +2703,14 @@ color: white;
     background-color: green !important; /* Color verde para el fondo */
     color: white; /* Opcional: cambia el color del texto a blanco para mejor visibilidad */
 }
+
+
+
+
+.actualizacion_div {
+  max-height: 75vh; /* o el alto que desees */
+  overflow-y: auto;
+  position: relative;
+}
+
+

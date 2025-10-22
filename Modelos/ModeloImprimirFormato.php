@@ -8,7 +8,8 @@ use PDO;
 
 class ModeloImprimirFormato
 {
-public static function mdlListarPredio_HR($propietario,$anio)
+
+	public static function mdlListarPredio_HR($propietario,$anio)
 	{
         $valor = explode(',', $propietario);
 		$pdo =  Conexion::conectar();
@@ -64,6 +65,184 @@ public static function mdlListarPredio_HR($propietario,$anio)
 		$campos = $stmt->fetchall();
 		return $campos;
 	}
+
+
+
+
+public static function mdlListarPredio_HRR($propietario,$anio,$predio_select,$idPredios)
+	{
+        $valor = explode(',', $propietario);
+		$pdo =  Conexion::conectar();
+
+
+
+	if ($predio_select == "si") {
+
+			// 1️⃣ Validar y convertir IDs de predios
+			$idsArrayRaw = array_filter(explode(',', $idPredios), 'is_numeric');
+			$idsArray = array_map('intval', $idsArrayRaw);
+
+			if (empty($idsArray)) {
+				return []; // Si no hay IDs válidos, devolver vacío
+			}
+
+			// 2️⃣ Crear placeholders nombrados dinámicamente (:idPredio0, :idPredio1, ...)
+			$placeholders = [];
+			foreach ($idsArray as $index => $idValue) {
+				$placeholders[] = ":idPredio{$index}";
+			}
+			$placeholdersStr = implode(',', $placeholders);
+
+			// 3️⃣ Conexión PDO
+			$pdo = Conexion::conectar();
+
+			// 4️⃣ Si hay un solo contribuyente
+			if (count($valor) === 1) {
+				$stmt = $pdo->prepare("
+					SELECT 
+						p.predio_UR AS tipo_ru, 
+						p.Direccion_completo AS direccion_completo,
+						IF(p.predio_UR = 'U', ca.Codigo_Catastral, car.Codigo_Catastral) AS catastro,
+						p.Area_Terreno AS a_terreno,
+						p.Area_Construccion AS a_construccion,
+						p.Valor_Inaf_Exo AS inafecto,
+						p.Valor_Predio AS v_predio,
+						p.Valor_Predio_Aplicar AS v_predio_aplicar
+					FROM 
+						predio p  
+						LEFT JOIN catastro ca ON p.predio_UR = 'U' AND ca.Id_Catastro = p.Id_Catastro 
+						LEFT JOIN catastro_rural car ON p.predio_UR = 'R' AND car.Id_Catastro_Rural = p.Id_Catastro_Rural 
+						INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+						INNER JOIN anio an ON an.Id_Anio = p.Id_Anio 
+					WHERE 
+						pro.Id_Contribuyente = :id 
+						AND an.NomAnio = :anio
+						AND p.Id_Predio IN ($placeholdersStr)
+						AND p.ID_Predio NOT IN (
+							SELECT ID_Predio FROM Propietario 
+							WHERE ID_Contribuyente <> :id AND baja = '1'
+						)
+						AND pro.Baja = '1'
+				");
+
+				// Bind de contribuyente y año
+				$stmt->bindValue(':id', (int)$valor[0], PDO::PARAM_INT);
+				$stmt->bindValue(':anio', (int)$anio, PDO::PARAM_INT);
+
+				// Bind de cada predio dinámico
+				foreach ($idsArray as $index => $idValue) {
+					$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+				}
+
+				$stmt->execute();
+				} 
+				// 5️⃣ Si hay varios contribuyentes
+				else {
+					$ids = implode(",", array_map('intval', $valor)); // Asegura que sean números
+
+					$stmt = $pdo->prepare("
+						SELECT 
+							p.predio_UR AS tipo_ru, 
+							IF(p.predio_UR = 'U', ca.Codigo_Catastral, car.Codigo_Catastral) AS catastro,
+							p.Direccion_completo AS direccion_completo,
+							p.Area_Terreno AS a_terreno,
+							p.Area_Construccion AS a_construccion,
+							p.Valor_Inaf_Exo AS inafecto,
+							p.Valor_Predio AS v_predio,
+							p.Valor_Predio_Aplicar AS v_predio_aplicar
+						FROM 
+							predio p  
+							LEFT JOIN catastro ca ON p.predio_UR = 'U' AND ca.Id_Catastro = p.Id_Catastro 
+							LEFT JOIN catastro_rural car ON p.predio_UR = 'R' AND car.Id_Catastro_Rural = p.Id_Catastro_Rural 
+							INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+							INNER JOIN anio an ON an.Id_Anio = p.Id_Anio  
+						WHERE 
+							pro.Id_Contribuyente IN ($ids)
+							AND pro.baja = '1'
+							AND p.Id_Predio IN ($placeholdersStr)
+							AND an.NomAnio = :anio
+						GROUP BY 
+							p.ID_Predio 
+						HAVING 
+							COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor) . "
+					");
+
+					// Bind del año
+					$stmt->bindValue(':anio', (int)$anio, PDO::PARAM_INT);
+
+					// Bind de cada predio dinámico
+					foreach ($idsArray as $index => $idValue) {
+						$stmt->bindValue(":idPredio{$index}", $idValue, PDO::PARAM_INT);
+					}
+
+					$stmt->execute();
+				}
+
+				// 6️⃣ Devolver resultados
+				$campos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $campos;
+			}
+
+	else{
+		if (count($valor) === 1) {
+			// Cuando $valor tiene un solo valor
+			$stmt = $pdo->prepare("SELECT 
+			p.predio_UR as tipo_ru, 
+			p.Direccion_completo as direccion_completo,
+			IF(p.predio_UR = 'U', ca.Codigo_Catastral, car.Codigo_Catastral) as catastro,
+			p.Area_Terreno as a_terreno,
+			p.Area_Construccion as a_construccion,
+			p.Valor_Inaf_Exo as inafecto,
+			p.Valor_Predio as v_predio,
+			p.Valor_Predio_Aplicar as v_predio_aplicar
+		   FROM 
+			predio p  
+			 LEFT JOIN catastro ca ON p.predio_UR = 'U' AND ca.Id_Catastro = p.Id_Catastro 
+             LEFT JOIN catastro_rural car ON p.predio_UR = 'R' AND car.Id_Catastro_Rural = p.Id_Catastro_Rural 
+			INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+			INNER JOIN anio an ON an.Id_Anio = p.Id_Anio 
+					WHERE 
+						pro.Id_Contribuyente =:id AND an.NomAnio =$anio 
+						AND p.ID_Predio NOT IN 
+						     (SELECT ID_Predio FROM Propietario 
+							  WHERE ID_Contribuyente <>:id AND baja='1') and pro.Baja='1'");
+						$stmt->bindParam(":id", $valor[0]);
+						$stmt->execute();
+		} else {
+            //$ids = implode("-", $propietario);//CONVIERTE EN UN STRING
+			// Cuando $valor tiene más de un valor
+			$ids = implode(",", $valor); // Convierte el array en una cadena de IDs separados por comas
+			$stmt = $pdo->prepare("SELECT 
+			                       p.predio_UR as tipo_ru, 
+								   IF(p.predio_UR = 'U', ca.Codigo_Catastral, car.Codigo_Catastral) as catastro,
+									p.Direccion_completo as direccion_completo,
+									p.Area_Terreno as a_terreno,
+									p.Area_Construccion as a_construccion,
+									p.Valor_Inaf_Exo as inafecto,
+									p.Valor_Predio as v_predio,
+									p.Valor_Predio_Aplicar as v_predio_aplicar
+								FROM 
+									predio p  
+									LEFT JOIN catastro ca ON p.predio_UR = 'U' AND ca.Id_Catastro = p.Id_Catastro 
+                                    LEFT JOIN catastro_rural car ON p.predio_UR = 'R' AND car.Id_Catastro_Rural = p.Id_Catastro_Rural 
+									INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
+									INNER JOIN anio an ON an.Id_Anio = p.Id_Anio  
+								   WHERE pro.Id_Contribuyente IN ($propietario) and pro.baja='1'
+								   and an.NomAnio=$anio  
+								   GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($valor)
+								    );
+			$stmt->execute();
+		}
+		$campos = $stmt->fetchall();
+		return $campos;
+	
+
+	}
+
+}
+
+
+
 	public static function mdlListarPredio_DJ($propietario,$anio,$id_predio,$tipopredio)
 	{
         $valor = explode(',', $propietario);

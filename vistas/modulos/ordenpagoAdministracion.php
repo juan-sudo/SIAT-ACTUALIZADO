@@ -96,6 +96,8 @@ use Controladores\ControladorNotificacion;
 </div>
 
 
+
+
 <!-- MODAL EDITAR FECHA DE NOTIFICAICON ORDEN PAGO -->
 <div id="modalEditarFechaNotificacion" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -134,6 +136,54 @@ use Controladores\ControladorNotificacion;
     </div>
 </div>
 <!-- MODAL DE RECONEXION FIN -->
+
+
+<!-- MODAL EDITAR FECHA DE NOTIFICAICON ORDEN PAGO -->
+<div id="modalEditarPagadoOrden" class="modal fade modal-forms fullscreen-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditarNotificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->  
+            <div class="modal-header" style="background-color: #3c8dbc; color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <h4 class="modal-title">Archivar orden de pago</h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-12">
+                     <div class="form-group">
+                    <label for="pagadoOrdenPago">Estado orden</label>
+                    <select name="pagadoOrdenPago" id="pagadoOrdenPago">
+
+                      <option value="" selected> Selecionar</option>
+                      <option value="2">Pagado</option>
+                    </select>
+
+                  
+                </div>
+
+                </div>
+               
+              </div>
+                
+            </div>
+
+            <!-- Modal Footer (puedes agregar botones aquí si lo deseas) -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary btnGuadarOrdenPagadoOrden">Guardar cambios</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- MODAL DE RECONEXION FIN -->
+
+
 
 
 <!-- MODAL EDITAR ADMINISTRACION COACTIVO -->

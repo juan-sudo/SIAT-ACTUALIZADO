@@ -124,6 +124,7 @@ $tiem = time();
 				"reporte-actualizacion" => "reporteActualizacion.php",
 				"buscar-orden-pago" => "buscar-orden-pago.php",
 				"extorno" => "extorno.php",
+				"calculo-agua" => "calculoAgua.php",
 				"reimprimir" => "reimprimir.php",
 				"multa-administrativa" => "multa-administrativa.php",
 				"administrarCoactivo" => "administrarCoactivo.php",
@@ -234,7 +235,8 @@ $tiem = time();
 	<script src="vistas/js/cargoNotificacion.js" defer></script>
 	<script src="vistas/js/resolucionMedidaCautelar.js" defer></script>
 	<script src="vistas/js/reporteGeneralArea.js" defer></script>
-
+	<script src="vistas/js/calculoAguaGeneral.js" defer></script>
+	
 	
 
 		<script src="vistas/js/administrarcoactivo.js" defer></script>

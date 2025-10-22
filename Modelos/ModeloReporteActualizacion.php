@@ -9,6 +9,7 @@ class ModeloReporteActualizacion
 {
  public static function mdlMostrar_actualizacion_carpeta($id , $estado)
     {
+        
         try {
 
             if($id == " " && $estado == " "){
@@ -21,8 +22,10 @@ class ModeloReporteActualizacion
                         ca.Estado_progreso, 
                         pr.completado_oficina,
                         pr.completado_campo,
-                        pr.fecha_registro AS fecha_act,  
-                        ca.Fecha_Registro AS fecha_re,
+                        DATE(pr.fecha_registro)AS fecha_act,  
+                      
+                        pr.observacion_pendiente,
+                        pr.observacion_progreso,
                         us.usuario 
                     FROM carpeta ca
                     LEFT JOIN progreso pr ON ca.Id_Carpeta = pr.Id_Carpeta
@@ -53,67 +56,144 @@ class ModeloReporteActualizacion
 
 
             }else if($id !== " " && $estado !== " "){
-                 // Creamos la conexión
-            $conn = Conexion::conectar();
 
-            // Comenzamos con la consulta base sin filtros
-            $sql = "SELECT 
-                        ca.Codigo_Carpeta, 
-                        ca.Estado_progreso, 
-                        pr.completado_oficina,
-                        pr.completado_campo,
-                        pr.fecha_registro AS fecha_act,  
-                        ca.Fecha_Registro AS fecha_re,
-                        us.usuario 
-                    FROM carpeta ca
-                    LEFT JOIN progreso pr ON ca.Id_Carpeta = pr.Id_Carpeta
-                    LEFT JOIN usuarios us ON pr.id_usuario = us.id";
+                if($id!=="NULL"){
+                    // Creamos la conexión
+                        $conn = Conexion::conectar();
 
-            // Creamos una variable para almacenar las condiciones
-            $conditions = [];
+                        // Comenzamos con la consulta base sin filtros
+                        $sql = "SELECT 
+                                    ca.Codigo_Carpeta, 
+                                    ca.Estado_progreso, 
+                                    pr.completado_oficina,
+                                    pr.completado_campo,
+                                    pr.fecha_registro AS fecha_act,  
+                            
+                                    pr.observacion_pendiente,
+                                    pr.observacion_progreso,
+                                    us.usuario 
+                                FROM carpeta ca
+                                LEFT JOIN progreso pr ON ca.Id_Carpeta = pr.Id_Carpeta
+                                LEFT JOIN usuarios us ON pr.id_usuario = us.id";
 
-            // Limpiar el valor de $estado, eliminando espacios en blanco al principio y final
-            $estado = trim($estado);
+                        // Creamos una variable para almacenar las condiciones
+                        $conditions = [];
 
-            // Agregar filtros solo si los parámetros no están vacíos
-            if ($id !== '') {
-                $conditions[] = "pr.id_usuario = :id_usuario";
-            }
-            if ($estado !== '') {
-                $conditions[] = "ca.Estado_progreso = :progreso";
-            }
+                        // Limpiar el valor de $estado, eliminando espacios en blanco al principio y final
+                        $estado = trim($estado);
 
-            // Si hay condiciones, agregamos WHERE al SQL
-            if (!empty($conditions)) {
-                $sql .= " WHERE " . implode(" AND ", $conditions);
-            }
+                        // Agregar filtros solo si los parámetros no están vacíos
+                        if ($id !== '') {
+                            $conditions[] = "pr.id_usuario = :id_usuario";
+                        }
+                        if ($estado !== '') {
+                            $conditions[] = "ca.Estado_progreso = :progreso";
+                        }
 
-            // Preparamos la sentencia
-            $stmt = $conn->prepare($sql);
+                        // Si hay condiciones, agregamos WHERE al SQL
+                        if (!empty($conditions)) {
+                            $sql .= " WHERE " . implode(" AND ", $conditions);
+                        }
 
-            // Bind los parámetros solo si no están vacíos
-            if ($id !== '') {
-                $stmt->bindValue(':id_usuario', $id, PDO::PARAM_INT);
-            }
-            if ($estado !== '') {
-                $stmt->bindParam(":progreso", $estado, PDO::PARAM_STR);
-            }
+                        // Preparamos la sentencia
+                        $stmt = $conn->prepare($sql);
 
-            // Ejecutamos la consulta
-            $stmt->execute();
+                        // Bind los parámetros solo si no están vacíos
+                        if ($id !== '') {
+                            $stmt->bindValue(':id_usuario', $id, PDO::PARAM_INT);
+                        }
+                        if ($estado !== '') {
+                            $stmt->bindParam(":progreso", $estado, PDO::PARAM_STR);
+                        }
 
-            // Obtenemos los resultados
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        // Ejecutamos la consulta
+                        $stmt->execute();
 
-            // Verificar si la consulta devolvió resultados
-            if (empty($result)) {
-                echo "No se encontraron resultados.<br>";
-            }
+                        // Obtenemos los resultados
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Cerramos la conexión
-            $stmt = null;
+                        // Verificar si la consulta devolvió resultados
+                        if (empty($result)) {
+                            echo "No se encontraron resultados.<br>";
+                        }
 
-            return $result;
+
+
+                        // Cerramos la conexión
+                        $stmt = null;
+
+                        return $result;
+
+
+
+
+                }else{
+                     // Creamos la conexión
+                        $conn = Conexion::conectar();
+
+                        // Comenzamos con la consulta base sin filtros
+                        $sql = "SELECT 
+                                    ca.Codigo_Carpeta, 
+                                    ca.Estado_progreso, 
+                                    pr.completado_oficina,
+                                    pr.completado_campo,
+                                    pr.fecha_registro AS fecha_act,  
+                            
+                                    pr.observacion_pendiente,
+                                    pr.observacion_progreso,
+                                    us.usuario 
+                                FROM carpeta ca
+                                LEFT JOIN progreso pr ON ca.Id_Carpeta = pr.Id_Carpeta
+                                LEFT JOIN usuarios us ON pr.id_usuario = us.id";
+
+                        // Creamos una variable para almacenar las condiciones
+                        $conditions = [];
+
+                        // Limpiar el valor de $estado, eliminando espacios en blanco al principio y final
+                        $estado = trim($estado);
+
+                        // Agregar filtros solo si los parámetros no están vacíos
+                        if ($id !== '') {
+                            $conditions[] = "pr.id_usuario  IS NULL";
+                        }
+                        if ($estado !== '') {
+                            $conditions[] = "ca.Estado_progreso = :progreso";
+                        }
+
+                        // Si hay condiciones, agregamos WHERE al SQL
+                        if (!empty($conditions)) {
+                            $sql .= " WHERE " . implode(" AND ", $conditions);
+                        }
+
+                        // Preparamos la sentencia
+                        $stmt = $conn->prepare($sql);
+
+                      
+                        if ($estado !== '') {
+                            $stmt->bindParam(":progreso", $estado, PDO::PARAM_STR);
+                        }
+
+                        // Ejecutamos la consulta
+                        $stmt->execute();
+
+                        // Obtenemos los resultados
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        // Verificar si la consulta devolvió resultados
+                        if (empty($result)) {
+                            echo "No se encontraron resultados.<br>";
+                        }
+
+
+
+                        // Cerramos la conexión
+                        $stmt = null;
+
+                        return $result;
+
+
+                }
+                
 
             }
             else if($estado !== " "){
@@ -127,7 +207,9 @@ class ModeloReporteActualizacion
                         pr.completado_oficina,
                         pr.completado_campo,
                         pr.fecha_registro AS fecha_act,  
-                        ca.Fecha_Registro AS fecha_re,
+                       
+                        pr.observacion_pendiente,
+                        pr.observacion_progreso,
                         us.usuario 
                     FROM carpeta ca
                     LEFT JOIN progreso pr ON ca.Id_Carpeta = pr.Id_Carpeta
@@ -185,7 +267,9 @@ class ModeloReporteActualizacion
                         pr.completado_oficina,
                         pr.completado_campo,
                         pr.fecha_registro AS fecha_act,  
-                        ca.Fecha_Registro AS fecha_re,
+                       
+                        pr.observacion_pendiente,
+                        pr.observacion_progreso,
                         us.usuario 
                     FROM carpeta ca
                     LEFT JOIN progreso pr ON ca.Id_Carpeta = pr.Id_Carpeta

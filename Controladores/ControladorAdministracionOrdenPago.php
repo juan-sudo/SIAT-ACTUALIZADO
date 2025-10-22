@@ -40,6 +40,40 @@ class ControladorAdministracionOrdenPago
     }
 
 
+    
+
+        //GUARDAR NOTIFICACION FECHA
+    public static function ctrGuardarEditarPagado($idContribueyentes, $pagado) 
+    {
+    
+            // Llamamos al modelo y pasamos los filtros y la paginación
+            $respuesta = ModeloAdministracionOrdenPago::mdlGuardarEditarPagado($idContribueyentes, $pagado);
+
+        
+            if ($respuesta == 'ok') {
+                    echo json_encode([
+                        "status" => "ok",
+                        "message" => '<div class="alert success">
+                        <input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true" class="letra">×</span>
+                        </button><p class="inner"><strong class="letra">Exito!</strong> 
+                        <span class="letra">El expediente se registro de manera correcta</span></p></div>'
+                    ]);
+                } else {
+                    echo json_encode([
+                        "status" => "error",
+                        "message" => '<div class="alert warning">
+                        <input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true" class="letra">×</span>
+                        </button><p class="inner"><strong class="letra">Exito!</strong> 
+                        <span class="letra">Algo salio mal comunicate con el Administrador</span></p></div>'
+                    ]);
+                }
+        
+ 
+    }
+
+
     //GUARDAR NOTIFICACION FECHA
     public static function ctrGuardarEditarNotficiacionFecha($idContribueyentes, $fechaNotificacion) 
     {
@@ -120,6 +154,17 @@ class ControladorAdministracionOrdenPago
     echo json_encode(array('data' => $respuesta));
  
     }
+
+       public static function ctrMostrarEditarPagado($idContribueynte) 
+{
+    // Llamamos al modelo y pasamos los filtros y la paginación
+    $respuesta = ModeloAdministracionOrdenPago::mdlMostrarEditarPagado($idContribueynte);
+
+    echo json_encode(array('data' => $respuesta));
+ 
+    }
+
+    
 
         public static function ctrMostrarEditarEnviarCoactivo($idContribueynte) 
 {
@@ -247,9 +292,23 @@ class ControladorAdministracionOrdenPago
             }
 
 
-           $coactivo = '<span style="padding: 6px 12px; border-radius: 4px; font-weight: bold; background: ' . 
-            ($row['coactivo'] ? '#c7271c; color: #ffffff' : '#fff3cd; color: #856404') . 
-            '">' . ($row['coactivo'] ? "Coactivo" : "Pendiente") . '</span>';
+           switch ($row['coactivo']) {
+                case 1:
+                    $color = '#c7271c; color: #ffffff';
+                    $texto = 'Coactivo';
+                    break;
+                case 2:
+                    $color = '#6ecc10; color: #ffffff';
+                    $texto = 'Pagado';
+                    break;
+                default:
+                    $color = '#fff3cd; color: #856404';
+                    $texto = 'Pendiente';
+                    break;
+            }
+            
+            $coactivo = '<span style="padding: 6px 12px; border-radius: 4px; font-weight: bold; background: ' .
+                        $color . '">' . $texto . '</span>';
 
             //enerar la fila de la tabla sin utilizar arrays para agrupar
             $tabla .= '<tr >
@@ -285,6 +344,14 @@ class ControladorAdministracionOrdenPago
                                         data-toggle="modal" data-target="#modalEditarFechaNotificacion"
                                         title="Pago por años coactivo">
                                     <i class="fas fa-calendar"></i>
+
+                                </button>
+
+                                 <button class="btn btn-danger btn-sm btnEditarAdministracionPagado" 
+                                        data-idcoactivo="'.$row['Concatenado_idc'].'" 
+                                        data-toggle="modal" data-target="#modalEditarPagadoOrden"
+                                        title="Pago por años coactivo">
+                                    <i class="fas fa-archive"></i>
 
                                 </button>
 

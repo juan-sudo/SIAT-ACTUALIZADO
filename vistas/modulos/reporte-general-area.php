@@ -95,6 +95,42 @@
 
  
 
+<section class="container-fluid my-4">
+  <div class="row ">
+    <!-- 🟢 Gráfico de Ingresos Tributarios -->
+    <div class="col-lg-6 col-md-6">
+   <div class="div-background col-md-8 text-center ">
+        
+
+        <h6 class="fw-bold mb-3 text-primary">Ingresos Tributarios</h6>
+       
+          <canvas id="myChartAdmTri" ></canvas>
+
+
+        </div>
+      </div>
+    
+
+    <!-- 🟣 Gráfico de Impuesto Predial + Arbitrios -->
+    <div class="col-lg-6 col-md-6">
+      <div class="div-background col-md-8 text-center  ">
+        
+
+    
+        <h6 class="fw-bold mb-3 text-success">Impuesto Predial + Arbitrios</h6>
+  
+          <canvas id="myChartAdmTriImp"></canvas>
+      
+      
+    </div>
+
+    </div>
+    
+  </div>
+</section>
+
+
+
  <section class="container-fluid panel-medio">
 
 
@@ -103,30 +139,23 @@
 
     <div class="col">
       <!-- Gráfico de Ingreso -->
-      <div class="table-responsive col-md-3 div-background text-center d-flex align-items-center justify-content-center">
-       
-
-        <div class="col">
-          <canvas id="myChartAdmTri"></canvas>
-        </div>
-
-        <div class="col text-center d-flex align-items-center">
-          <h4 id="totalAdmTri" class="text-center fw-bold mt-2"></h4>
-        </div>
-
-
-      </div>
-
-      <!-- Gráfico de Ingreso de Proveídos -->
+    
+      <!-- GRAFICO DE PROVEIDOS -->
       <div class="div-background col-md-9 text-center d-flex align-items-center justify-content-center">
         
         <div class="col">
           <canvas id="myChartAdmTriProveido" ></canvas>
         </div>
 
-        <div class="col text-center d-flex align-items-center">
-          <h4 id="totalAdmTriPro" class="text-center fw-bold mt-2"></h4>
+          <div class="col d-flex justify-content-center mt-3">
+        <div class="card shadow-sm border-0 rounded-4" style="max-width: 320px; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+         
+        <div class="card-body text-center">
+           
+            <h4 id="totalAdmTriPro" class="fw-bold text-primary mb-0"></h4>
+          </div>
         </div>
+      </div>
 
         
       </div>
@@ -178,78 +207,7 @@
 
 
 
-        <!-- 🔹 Gerencia de Administración Tributaria -->
-        <!-- <section class="container-fluid panel-medio">
-          
-
-          <div class="row">
-            <div class="col">
-              <div class="table-responsive col-md-3 div-background text-center d-flex align-items-center justify-content-cente">
-
-               <div class="col">
-                      <p class="fs-4 fw-bold text-dark" style="font-size: 17px; color: #000000; font-weight: bold;">Ingreso</p>
-                </div>
-
-                <div class="col">
-                     <canvas id="myChartAdmTri" ></canvas>
-                </div>
-
-               
-                <div class="col text-center d-flex align-items-center ">
-                     <h4 id="totalAdmTri" class="text-center fw-bold mt-2 "></h4>
-
-                  </div>
-
-              </div>
-
-               <div class="div-background col-md-9 text-center d-flex align-items-center justify-content-center">
-                    <div class="col">
-                      <p class="fs-4 fw-bold text-dark" style="font-size: 17px; color: #000000; font-weight: bold;">Ingreso de Proveídos</p>
-                  </div>
-                  <div class="col">
-                     <canvas id="myChartAdmTriProveido" class="me-3"></canvas>
-
-                  </div>
-                  <div class="col text-center d-flex align-items-center ">
-                     <h4 id="totalAdmTriPro" class="text-center fw-bold mt-2 "></h4>
-
-                  </div>
-
-                <div class="col" style="display: flex; justify-content: flex-end; align-items: center;">
-                  <button class="btn btn-outline-primary d-flex align-items-center" onclick="descargarPDF()">
-                      <img src="./vistas/img/iconos/excel.svg" 
-                          class="me-2"
-                          style="width: 20px; height: 20px;">
-                      Exportar en PDF
-                  </button>
-                </div>                     
-
-
-                </p>
-            </div>
-
-            </div>
-          </div>
-
-
-        </section> -->
-
-        <!-- 🔹 Gerencia de Servicios Básicos -->
-        <!-- <section class="container-fluid panel-medio">
-          <div class="box">
-            <h6>Gerencia de servicios básicos</h6>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <div class="table-responsive col-md-4 div-background">
-                <p>Ingreso de Gerencia de Servicio Básico</p>
-                <canvas id="myChartAgua" width="400" height="200"></canvas>
-                <p id="totalAgua" class="text-center fw-bold mt-2"></p>
-              </div>
-            </div>
-          </div>
-        </section> -->
+       
    </div> 
 
 </div>
